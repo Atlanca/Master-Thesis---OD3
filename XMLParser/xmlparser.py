@@ -16,6 +16,19 @@ class XmlTitle:
     self.end= None
     self.currentText = ""
 
+class XmlContent:
+  def __init__(self, xmlTitle):
+    self.xmlTitle = xmlTitle
+    self.content = None
+    
+class XmlIndexTitle:
+  def __init__(self, title, pageNumber):
+    self.title = title
+    self.childrenTitles = None
+    self.pageNumber = pageNumber
+
+#This class is used to parse the xml document
+#The constructor requires an input document
 class XmlParser():
   def __init__(self, xmldoc):      
     self.root = ET.parse(xmldoc).getroot()
@@ -56,7 +69,6 @@ class XmlParser():
     currentTitle = XmlTitle(title)
     for content in self.contents:
       #If content tag is 'text', then we get the text and restructure it
-      #Otherwise just return an empty char
       if content.tag == "text": 
         line = self.restructureText(self.getNestedText(content) )
       else:
@@ -64,31 +76,74 @@ class XmlParser():
         
       #If we have a text, try to find the title
       if line != '':
-        print(content.attrib["top"], repr(line))
+        print(self.parent_map[content].attrib["number"], content.attrib["top"], repr(line))
         
-        #If the line is the title, fill currentTitle and return it
+        #If the line is the title, we are done. Fill currentTitle and return it
         if line == currentTitle.title: 
           currentTitle.start = content
           currentTitle.end = content
           currentTitle.currentText = line
           return currentTitle
         
-        #Otherwise we need to see if the title is fragmented into multiple lines
+        #We also try to assemble the title, from the assumption that the
+        #title may be fragmented into multiple lines. 
         if title.startswith(line):
           currentTitle.start = content
           currentTitle.currentText = currentTitle.currentText + line
           title = title[len(line):].strip()
         else:
+        #This can be more effective. Now it clears too many times
           currentTitle.clear()
           title = currentTitle.title
-          
+        
+        #If we have successfully assembled the title, return the title
         if currentTitle.currentText == currentTitle.title:
           currentTitle.end = content
           return currentTitle
 
-  #Index can be found from page 8-10 
-  def parseIndex(self, indexPages):
-    for content in self.contents:
-      if content.attrib == 'text':
-        pass
+  def getContentByTitle(self, title):
+    content = XmlContent(self.getTitle(title))
+    
+    
+  #Input the index pages, outputs a list of titles 
+  #In this case index pages are 8-10 (SnowflakeThesis.xml)
+  def parseIndex(self, pageStart, pageEnd):
+    indexContent = [content for indexPage in self.pages[pageStart:pageEnd] for content in indexPage]
+    prevLineTop = 0
+    prevLine = ''
+    titles = []
+    for content in indexContent:
+      if content.tag == "text":
+        line = self.restructureText(self.getNestedText(content))
+        if line != '':
+          #If content is on the same line as the previous one,
+          #merge them. Otherwise reset prevLine
+          if content.attrib["top"] == prevLineTop:
+            prevLine = prevLine + ' ' + line
+           # print(prevLine)
+            
+          elif prevLine is not '':
+            
+            #Try to match the title and pagenumber. If either of them is missing
+            #then we know it's not an index element so we dont add it to our titles list
+            pageNbrMatch = re.compile('([\d]+)$')
+           
+            title = re.sub('[\d]+$', '', prevLine).strip()
+            pageNumber = pageNbrMatch.search(prevLine.strip())
+            prevLine = line
+            
+            if title is not '' and pageNumber is not None:
+              indexTitle = XmlIndexTitle(title, pageNumber.group())
+              titles.append(indexTitle) 
+          
+          else:
+            prevLine = line
+            
+          prevLineTop = content.attrib["top"]
+          
+    for title in titles:
+      print(title.title, title.pageNumber)
+    return titles
 
+    
+    
