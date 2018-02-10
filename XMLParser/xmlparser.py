@@ -41,7 +41,6 @@ class XmlParser():
     newStr = text
     newStr = newStr.replace("\n", '')
     newStr = newStr.replace("\xa0", '')
-    newStr = newStr.lower()
     newStr = newStr.replace("\t", '')
     newStr = re.sub('[\.]{2,}','',newStr)
     newStr = re.sub(' +', ' ', newStr)
@@ -54,14 +53,13 @@ class XmlParser():
   #If the element is of type text but we cannot access it directly
   #we try to access the text within its childrens. 
   def getNestedText(self, xmlElement):
-    if xmlElement.text is None:
-      string = ""
-      for element in xmlElement:
-        string = string + self.getNestedText(element)
-      return string
-    else:
-      return xmlElement.text
+    iterator = xmlElement.itertext()
+    text = ''
+    
+    for e in iterator:
+      text += e
       
+    return text
   #Returns an XmlTitle object
   #The title might be divided into multiple lines
   #If so, read all lines and return an XmlTitle object containing
@@ -71,7 +69,7 @@ class XmlParser():
     for content in self.contents:
       #If content tag is 'text', then we get the text and restructure it
       if content.tag == "text": 
-        line = self.restructureText(self.getNestedText(content))
+        line = self.restructureText(self.getNestedText(content)).lower()
       else:
         line = ''
         
@@ -88,7 +86,9 @@ class XmlParser():
         #We also try to assemble the title, from the assumption that the
         #title may be fragmented into multiple lines. 
         if title.startswith(line):
-          currentTitle.start = content
+          if currentTitle.start == None: 
+            currentTitle.start = content
+            
           currentText = currentText + line
           title = title[len(line):]
         else:
@@ -130,7 +130,7 @@ class XmlParser():
     for i in range(0,len(indexContent)):
       content = indexContent[i]
       if content.tag == "text":
-        line = self.restructureText(self.getNestedText(content))
+        line = self.restructureText(self.getNestedText(content)).lower()
         if line != '':
           #If content is on the same line as the previous one,
           #merge them. Otherwise reset prevLine
@@ -188,11 +188,84 @@ class XmlParser():
   #2. Constructs all titles (with reference to the exact location in the xml document)
   #3. Creates a hierarchy of the titles based on their numbering
   #Pages 8-10 are index in this case
-  def getAllTitles(self, indexStartPage, indexEndPage):
+  def getTitles(self, indexStartPage, indexEndPage):
     indexTitles = self.parseIndex(indexStartPage, indexEndPage)
     xmlTitles = [self.getTitle(title.title) for title in indexTitles]
     xmlTitles = self.createTitleHierarchy(xmlTitles)
     return xmlTitles
-        
-        
-        
+  
+  #Returns all xml elements between two chapters. 
+  #Or if endTitle is not defined, between one chapter and the end of the document
+  def getChapterContent(self, startTitle, endTitle = None):
+    pageStart = int(self.parent_map[startTitle.start].attrib["number"])
+ 
+    if endTitle is not None:
+      pageEnd  = int(self.parent_map[endTitle.start].attrib["number"])
+      pages = self.pages[pageStart-1:pageEnd]
+    else:
+      pages = self.pages[pageStart-1:]
+    pageContent = [content for page in pages for content in page]
+    chapterContent = []
+    belongsToChapter = False
+    
+    for content in pageContent:
+      if content == startTitle.start:
+        belongsToChapter = True
+        chapterContent.append(content)
+      elif endTitle is not None and content == endTitle.start:
+        belongsToChapter = False
+      elif belongsToChapter:
+        chapterContent.append(content)
+
+    #for val in chapterContent:
+      #print(self.getNestedText(val))
+    return chapterContent
+  
+  #This is almsot the same as restructureText().
+  #Will have to see what kind of merges we can do later.
+  def restructureToReadable(self, text):
+    if text is None: return ''
+    newStr = text
+    newStr = newStr.replace("◆", '\n')
+    newStr = newStr.replace("\xa0", '')
+    newStr = newStr.replace("➔", '\n')
+    newStr = newStr.replace("\t", '')
+    newStr = re.sub('[\.]{2,}','',newStr)
+    newStr = re.sub(' +', ' ', newStr)
+    newStr = re.sub('‐', '', newStr)
+    newStr = re.sub('\xad', '', newStr)
+    if newStr is ' ': newStr = '\n'
+    return newStr
+  
+  def xmlToString(self, chapterContent):
+    restructuredTexts = [] 
+    previousContent = None
+    for content in chapterContent:
+      rText = self.restructureToReadable(self.getNestedText(content))
+      #Checks the difference in the vertical position of the texts
+      #if the difference is higher than 30, we know that the texts are 
+      #of two different paragraphs
+      if previousContent is not None and previousContent.tag == "text" and content.tag == "text":
+        topDiff = int(content.attrib["top"]) - int(previousContent.attrib["top"])
+        if topDiff > 30:
+          print(topDiff)
+          rText = '\n\n' + rText
+          
+      if content.tag == "text" and int(content.attrib["top"]) > 1088:
+        rText = ''
+        restructuredTexts[-1] = re.sub('[\n]+$', '', restructuredTexts[-1])
+      #Once done with the processing, add the current line into a list 
+      #containing all other lines
+      if rText:
+        restructuredTexts.append(rText)
+      previousContent = content
+    
+    #Here we merge the list into a single string
+    textString = ''
+    for text in restructuredTexts:
+      textString += text
+   
+    textString = re.sub('(\n ){3,}', '\n\n', textString)
+    textString = re.sub('[\n]{3,}', '\n\n', textString)
+    return textString
+      
