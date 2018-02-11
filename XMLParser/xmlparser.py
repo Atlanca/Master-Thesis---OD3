@@ -1,6 +1,18 @@
 import xml.etree.ElementTree as ET
 import re
 
+#Author: Alex Tao
+
+#NOTES: Right now this module is works specifically only for 
+#SnowflakeThesis.xml. However, we may be able to generalize 
+#this software in the future.
+
+#Problems so far
+#1. We are creating chapter titles from index, the problem is that not all
+#   chapters are included in the index. Perhaps we have to look at the structure
+#   of the chapter numbering instead...
+#2. Images are not linked to paragraphs or titles so far
+
 #An object that contains a title of the PDF.
 #It is wrapped in an object since titles may be represented by
 #multiple lines in the xml document.
@@ -14,6 +26,12 @@ class XmlTitle:
   def clear(self):
     self.start = None
     self.end= None
+
+class XmlParagraph:
+  def __init__(self, xmlTitle, paragraph):
+    self.paragraph = paragraph
+    self.xmlTitle = xmlTitle
+    
 
 class XmlContent:
   def __init__(self, xmlTitle):
@@ -179,17 +197,24 @@ class XmlParser():
     return mainChapters
 
   def printNestedTitles(self, titles):
-    for title in titles:
-      print(title.title)
+    flattenedList = flattenNestedTitles(titles)
+    for e in flattenedList:
+      print(e.title)
+  
+  def flattenNestedTitles(self, titles):
+   flattenedList = []
+   for title in titles:
+      flattenedList.append(title)
       if title.children:
-        self.printNestedTitles(title.children)
+        flattenedList = flattenedList + self.flattenNestedTitles(title.children)
+   return flattenedList
   
   #1. Gathers all the chapters from the index page
   #2. Constructs all titles (with reference to the exact location in the xml document)
   #3. Creates a hierarchy of the titles based on their numbering
   #Pages 8-10 are index in this case
-  def getTitles(self, indexStartPage, indexEndPage):
-    indexTitles = self.parseIndex(indexStartPage, indexEndPage)
+  def getTitles(self, indexPageStart, indexPageEnd):
+    indexTitles = self.parseIndex(indexPageStart, indexPageEnd)
     xmlTitles = [self.getTitle(title.title) for title in indexTitles]
     xmlTitles = self.createTitleHierarchy(xmlTitles)
     return xmlTitles
@@ -209,16 +234,14 @@ class XmlParser():
     belongsToChapter = False
     
     for content in pageContent:
-      if content == startTitle.start:
+      if content == startTitle.end:
         belongsToChapter = True
-        chapterContent.append(content)
+        #chapterContent.append(content)
       elif endTitle is not None and content == endTitle.start:
         belongsToChapter = False
       elif belongsToChapter:
         chapterContent.append(content)
 
-    #for val in chapterContent:
-      #print(self.getNestedText(val))
     return chapterContent
   
   #This is almsot the same as restructureText().
@@ -240,6 +263,9 @@ class XmlParser():
   def xmlToString(self, chapterContent):
     restructuredTexts = [] 
     previousContent = None
+    lineDiff = 30
+    pageNumberTopPos = 1088
+    
     for content in chapterContent:
       rText = self.restructureToReadable(self.getNestedText(content))
       #Checks the difference in the vertical position of the texts
@@ -247,11 +273,10 @@ class XmlParser():
       #of two different paragraphs
       if previousContent is not None and previousContent.tag == "text" and content.tag == "text":
         topDiff = int(content.attrib["top"]) - int(previousContent.attrib["top"])
-        if topDiff > 30:
-          print(topDiff)
+        if topDiff > lineDiff:
           rText = '\n\n' + rText
           
-      if content.tag == "text" and int(content.attrib["top"]) > 1088:
+      if content.tag == "text" and int(content.attrib["top"]) > pageNumberTopPos:
         rText = ''
         restructuredTexts[-1] = re.sub('[\n]+$', '', restructuredTexts[-1])
       #Once done with the processing, add the current line into a list 
@@ -268,4 +293,35 @@ class XmlParser():
     textString = re.sub('(\n ){3,}', '\n\n', textString)
     textString = re.sub('[\n]{3,}', '\n\n', textString)
     return textString
-      
+  
+  #Creates an xmlParagraph given a chapter title and the next chapter
+  #If no next chapter is given, then it assumes that the title ends at the
+  #end of the document.
+  def createXmlParagraph(self, chapterTitle, nextChapterTitle = None):
+    if nextChapterTitle is None:
+      chapterContent = self.getChapterContent(chapterTitle)
+    else:
+      chapterContent = self.getChapterContent(chapterTitle, nextChapterTitle)
+    
+    chapterString = self.xmlToString(chapterContent)
+    paragraphs = re.split('[\n]{2,}', chapterString)
+    xmlParagraphs = [XmlParagraph(chapterTitle, paragraph) for paragraph in paragraphs if paragraph]
+   
+    return xmlParagraphs   
+  
+  #Refactors all texts into xmlParagraphs
+  def refactorAllText(self, indexPageStart, indexPageEnd):
+    flattenedChapterTitles = self.flattenNestedTitles(self.getTitles(indexPageStart, indexPageEnd))
+    previousTitle = None
+    xmlParagraphList = []
+    
+    for chapterTitle in flattenedChapterTitles:
+      if previousTitle:
+        xmlParagraphList += self.createXmlParagraph(previousTitle, chapterTitle)
+      previousTitle = chapterTitle
+    
+    xmlParagraphList += self.createXmlParagraph(previousTitle)
+    
+    return xmlParagraphList
+    
+    
