@@ -12,6 +12,7 @@ import re
 #   chapters are included in the index. Perhaps we have to look at the structure
 #   of the chapter numbering instead...
 #2. Images are not linked to paragraphs or titles so far
+#3. Texts that have weird structure is not correctly processed (such as the appendix sections)
 
 #An object that contains a title of the PDF.
 #It is wrapped in an object since titles may be represented by
@@ -43,6 +44,27 @@ class XmlIndexTitle:
     self.title = title
     self.childrenTitles = None
     self.pageNumber = pageNumber
+
+class XmlDocument:
+  def __init__(self, paragraphs, freeText):
+    self.paragraphs = paragraphs
+    self.titles = []
+    for paragraph in paragraphs:
+      if paragraph.xmlTitle not in self.titles:
+        self.titles.append(paragraph.xmlTitle)
+    self.titleParentMap = {c:p for p in self.titles for c in p.children}
+    self.freeText = freeText
+  
+  def getRelatedTitles(self, title):
+    parentMapKeys = []
+    for key in self.titleParentMap:
+      parentMapKeys.append(key)
+    relatedTitles = [title]
+    if title in parentMapKeys:
+      relatedTitles += self.getRelatedTitles(self.titleParentMap[title])
+    relatedTitles.append(title)
+    return relatedTitles
+        
     
 #This class is used to parse the xml document
 #The constructor requires an input document
@@ -305,7 +327,7 @@ class XmlParser():
     
     chapterString = self.xmlToString(chapterContent)
     paragraphs = re.split('[\n]{2,}', chapterString)
-    xmlParagraphs = [XmlParagraph(chapterTitle, paragraph) for paragraph in paragraphs if paragraph]
+    xmlParagraphs = [XmlParagraph(chapterTitle, paragraph) for paragraph in paragraphs if paragraph.strip()]
    
     return xmlParagraphs   
   
@@ -314,14 +336,26 @@ class XmlParser():
     flattenedChapterTitles = self.flattenNestedTitles(self.getTitles(indexPageStart, indexPageEnd))
     previousTitle = None
     xmlParagraphList = []
+    xmlFreeText = ''
     
     for chapterTitle in flattenedChapterTitles:
       if previousTitle:
-        xmlParagraphList += self.createXmlParagraph(previousTitle, chapterTitle)
+        chapterParagraphs = self.createXmlParagraph(previousTitle, chapterTitle)
+        xmlParagraphList += chapterParagraphs
+        xmlFreeText += chapterTitle.title + '\n'
+        for cp in chapterParagraphs:
+            xmlFreeText += cp.paragraph + '\n\n'
       previousTitle = chapterTitle
     
     xmlParagraphList += self.createXmlParagraph(previousTitle)
     
-    return xmlParagraphList
+    return XmlDocument(xmlParagraphList, xmlFreeText)
+  
+  import sys
     
-    
+  def printReadable(self, xmlParagraphList):
+    i = 0
+    for paragraph in xmlParagraphList:
+      i = i + 1
+      text = (paragraph.xmlTitle.title + ', p' + str(i) + ': ' + paragraph.paragraph + '\n').encode("utf-8", "ignore")
+      print(text)
