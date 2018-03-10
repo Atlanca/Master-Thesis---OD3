@@ -29,11 +29,12 @@ class XmlTitle:
     self.end= None
 
 class XmlParagraph:
-  def __init__(self, xmlTitle, paragraph):
+  def __init__(self, xmlTitle, paragraph, page, id):
     self.paragraph = paragraph
     self.xmlTitle = xmlTitle
+    self.page = page
+    self.id = id
     
-
 class XmlContent:
   def __init__(self, xmlTitle):
     self.xmlTitle = xmlTitle
@@ -62,7 +63,6 @@ class XmlDocument:
     relatedTitles = [title]
     if title in parentMapKeys:
       relatedTitles += self.getRelatedTitles(self.titleParentMap[title])
-    relatedTitles.append(title)
     return relatedTitles
         
     
@@ -74,6 +74,7 @@ class XmlParser():
     self.pages = [page for page in self.root]
     self.contents = [content for page in self.pages for content in page]
     self.parent_map = {c:p for p in self.pages for c in p}
+    self.paragraphId = 0
 
   #Restructures the text
   def restructureText(self, text):
@@ -327,8 +328,14 @@ class XmlParser():
     
     chapterString = self.xmlToString(chapterContent)
     paragraphs = re.split('[\n]{2,}', chapterString)
-    xmlParagraphs = [XmlParagraph(chapterTitle, paragraph) for paragraph in paragraphs if paragraph.strip()]
-   
+    page = int(self.parent_map[chapterTitle.start].attrib['number'])
+    xmlParagraphs = []
+    
+    for paragraph in paragraphs:
+      if paragraph.strip():
+        self.paragraphId += 1
+        xmlParagraphs.append(XmlParagraph(chapterTitle, paragraph, page, self.paragraphId))
+        
     return xmlParagraphs   
   
   #Refactors all texts into xmlParagraphs
