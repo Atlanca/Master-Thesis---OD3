@@ -107,6 +107,7 @@ class XmlParser():
   #the start xml element and the end xml element
   def getTitle(self, title):
     currentTitle = XmlTitle(title)
+    currentText = ""
     for content in self.contents:
       #If content tag is 'text', then we get the text and restructure it
       if content.tag == "text": 
@@ -219,11 +220,6 @@ class XmlParser():
     
     return mainChapters
 
-  def printNestedTitles(self, titles):
-    flattenedList = flattenNestedTitles(titles)
-    for e in flattenedList:
-      print(e.title)
-  
   def flattenNestedTitles(self, titles):
    flattenedList = []
    for title in titles:
@@ -231,6 +227,11 @@ class XmlParser():
       if title.children:
         flattenedList = flattenedList + self.flattenNestedTitles(title.children)
    return flattenedList
+
+  def printNestedTitles(self, titles):
+    flattenedList = self.flattenNestedTitles(titles)
+    for e in flattenedList:
+      print(e.title)
   
   #1. Gathers all the chapters from the index page
   #2. Constructs all titles (with reference to the exact location in the xml document)

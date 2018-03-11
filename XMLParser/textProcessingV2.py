@@ -6,11 +6,11 @@ import os
 import re
 
 import logging
-logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+logging.basic_config(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 document_start = 11
 document_end = 500
-parser = xmlparser.XmlParser("snowflakethesis.xml")
-document = parser.refactorAllText(7,10)
+parser = xmlparserV2._xml_parser("snowflakethesis.xml")
+document = parser.refactor_all_text(7,10)
 doc_paragraphs = []
 mode = 0
 min_sent_len_paragraph = 1
@@ -26,17 +26,18 @@ for paragraph in document.paragraphs:
 #else create them
 if (os.path.exists('snowflakethesisa.dict') and os.path.exists('snowflakethesisa.mm')):
   dictionary = corpora.Dictionary.load('snowflakethesis.dict')
-  corpus = corpora.MmCorpus('snowflakethesis.mm')
+  corpus = corpora._mm_corpus('snowflakethesis.mm')
   print('Used saved files')
 
 else:
   text = ""
+  prev_title = ""
   tokenized_paragraphs = []
 
   #Tokenize paragraphs 
   for paragraph in doc_paragraphs:
     if(paragraph.page):
-      related_titles = document.getRelatedTitles(paragraph.xmlTitle)
+      related_titles = document.get_related_titles(paragraph.xml_title)
       text = ""
       
       #If mode is set to 1, we add titles to each paragraph
@@ -58,26 +59,26 @@ else:
   dictionary = corpora.Dictionary(bigram_tokenized_paragraphs)
   dictionary.save('snowflakethesis.dict')
   corpus = [dictionary.doc2bow(paragraph) for paragraph in bigram_tokenized_paragraphs]
-  corpora.MmCorpus.serialize('snowflakethesis.mm', corpus)
+  corpora._mm_corpus.serialize('snowflakethesis.mm', corpus)
   
   print("Created files")
 
 #1. Initialize corpus
-tfidf = models.TfidfModel(corpus)
+tfidf = models._tfidf_model(corpus)
 corpus_tfidf = tfidf[corpus]
 
 #2. Use LSI
 chunk_size = 200
 power_iters = 5
 
-lsi = models.LsiModel(corpus_tfidf, id2word=dictionary, chunksize = chunk_size, power_iters=power_iters)
+lsi = models._lsi_model(corpus_tfidf, id2word=dictionary, chunksize = chunk_size, power_iters=power_iters)
 corpus_lsi = lsi[corpus_tfidf]
 
 #Create index
 if os.path.exists('snowflakethesisa.index'):
-  index = similarities.MatrixSimilarity.load('snowflakethesis.index')
+  index = similarities._matrix_similarity.load('snowflakethesis.index')
 else:
-  index = similarities.MatrixSimilarity(lsi[corpus])
+  index = similarities._matrix_similarity(lsi[corpus])
   index.save('snowflakethesis.index')
 
 #Input query
@@ -125,7 +126,7 @@ while query != 'exit':
     #Sort the 10 paragraphs by their id (used to know which order the paragraphs are found in the text)
     #And print, also print the words from the query that were found in the dictionary
     for (s,p) in sorted(found_paragraphs, key=lambda p:p[-1].id):   
-      print(str(s) + ': ' + p.xmlTitle.title + ', id: ' + str(p.id)+ ', page: ' + str(p.page) + '\n' + p.paragraph + '\n\n')
+      print(str(s) + ': ' + p.xml_title.title + ', id: ' + str(p.id)+ ', page: ' + str(p.page) + '\n' + p.paragraph + '\n\n')
     for word_id, exist in vec_bow:
       print(dictionary[word_id])
 
