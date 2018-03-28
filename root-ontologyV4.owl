@@ -1087,6 +1087,28 @@
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#add_address -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#add_address">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#FunctionalRequirement"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#manage_account"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a registered customer, I want to add a postal address to my address book, so that I can select it as shipping or billing address when placing an order.</Description>
+        <Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</Priority>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#add_address_to_address_book -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#add_address_to_address_book">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UserStory"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When an address is requested to be added to the address book in the user profile page, add the selected address in the address book and display the updated user profile.
+
+When the address is invalid, show a bad request error message and pre-fill the form.</Description>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#add_item_to_cart -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#add_item_to_cart">
@@ -1095,6 +1117,19 @@
         <performedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#customer"/>
         <Description>As a customer, I want to add a particular product to the shopping cart, so that I can buy it with the next order.</Description>
         <Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</Priority>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#add_item_to_cart_user_story -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#add_item_to_cart_user_story">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UserStory"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When a product is requested to be added to the shopping cart, add the selected variant in the cart and display the updated cart content.
+
+When the product is already in the cart, the quantity will be updated with the addition.
+
+When the selected product does not exist, show a bad request error message.</Description>
     </owl:NamedIndividual>
     
 
@@ -1170,6 +1205,17 @@ These technical problems can be considered a too expensive price to pay in order
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UseCase"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_3.7_browse_catalog"/>
         <Description>Figure 3.7 displays the sequence diagram for the browse catalog top-level use case, one of the many possible success scenarios. In this case the user will usually go to the home page, select a 40 category and then filter or sort the products until he eventually finds one of interest. Then he will probably ask for the details of the product and next he will add it to the shopping cart.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#change_password -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#change_password">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#FunctionalRequirement"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#manage_account"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a registered customer, I want to change my current password to another one of my choice.</Description>
+        <Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</Priority>
     </owl:NamedIndividual>
     
 
@@ -1285,6 +1331,69 @@ These technical problems can be considered a too expensive price to pay in order
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#display_products">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Feature"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#do_log_in -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#do_log_in">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UserStory"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When logging in a user is requested, sign in with the user and display the user profile.
+
+When invalid credentials provided, show an unauthorized error message and pre-fill form.
+
+When user already logged in, display the user profile.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#do_log_out -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#do_log_out">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UserStory"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When logging out a user is requested, sign out the user and display the last visited page.
+
+When user already logged out, display the last visited page.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#do_sign_up -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#do_sign_up">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UserStory"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When signing up a new user is requested, register the user and display the user profile.
+
+When user already registered, show a bad request error message and pre-fill form.
+
+When invalid data provided, show a bad request error message and pre-fill the form.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#edit_user_data -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#edit_user_data">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UserStory"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the user data is requested to be updated, edit data and display updated user profile.
+
+When invalid data provided, show a bad request error message and pre-fill the form.
+
+When the user is not logged in, show an unauthorized error message and display login.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#edit_user_password -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#edit_user_password">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UserStory"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the user password is requested to be updated, change password and display user profile.
+
+When invalid current password provided, show a bad request error message.
+
+When the user is not logged in, show an unauthorized error message and display login.</Description>
     </owl:NamedIndividual>
     
 
@@ -1415,6 +1524,58 @@ These technical problems can be considered a too expensive price to pay in order
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#filter_products_by_color -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#filter_products_by_color">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UserStory"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When a color filtering is requested in any product list page, the chosen color will be displayed, as well as all products from the previous list whose main color matches the selected color.
+
+When more than one color is selected at once, products whose main color matches any of the selected colors will be displayed.
+
+When no products found, show an informative message.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#filter_products_by_price -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#filter_products_by_price">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UserStory"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When a price range filtering is requested in any product list page, the chosen price range will be displayed, as well as all products from the previous list (discarding any previous price filtering) whose price falls within the range.
+
+When minimum and maximum price are swapped, recover exchanging them.
+
+When invalid price provided, dismiss the price filter request.
+
+When no products found, show an informative message.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#finish_checkout -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#finish_checkout">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UserStory"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the checkout process is requested to finish, display success message and all order details (i.e. cart content, price details, shipping and billing options).
+
+When invalid data provided, show a bad request error message and pre-fill the forms.
+
+When the shopping cart is empty, display the last visited page.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#list_home_products -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#list_home_products">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UserStory"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the home page is requested, display all products of the shop.
+
+When no products found, show an informative message.</Description>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#list_orders -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#list_orders">
@@ -1436,6 +1597,41 @@ These technical problems can be considered a too expensive price to pay in order
         <performedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#customer"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to list all products of the shop.</Description>
         <Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</Priority>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#list_products_from_category -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#list_products_from_category">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UserStory"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When a category is requested, the chosen category will be indicated and its immediate children categories will be displayed, as well as all products belonging to that category or any descendant category.
+
+When the selected category does not exist, show a not found error message.
+
+When no products found, show an informative message.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#log_in -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#log_in">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#FunctionalRequirement"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#manage_account"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As an anonymous customer, I want to log in with an existing customer account, so that I take advantage of the benefits of being a registered customer.</Description>
+        <Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</Priority>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#log_out -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#log_out">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#FunctionalRequirement"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#manage_account"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a registered customer, I want to logout from my customer account, so that nobody else can use it from the same machine.</Description>
+        <Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</Priority>
     </owl:NamedIndividual>
     
 
@@ -1532,6 +1728,50 @@ These technical problems can be considered a too expensive price to pay in order
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#recover_password -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#recover_password">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#FunctionalRequirement"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#manage_account"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As an anonymous customer, I want to be able to recover my password, so that I can log in with my account when I forget my current password.</Description>
+        <Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">7</Priority>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#recover_password_user_story -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#recover_password_user_story">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UserStory"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the user password is requested to be recovered, send email to the address provided with a temporary link to the recovery page, where the user can insert a new password.
+
+When the email provided does not exist, show a bad request error message and pre-fill form.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#remove_address -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#remove_address">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#FunctionalRequirement"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#manage_account"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a registered customer, I want to remove a particular postal address from my address book, so that I cannot longer select it when placing an order.</Description>
+        <Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</Priority>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#remove_address_from_address_book -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#remove_address_from_address_book">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UserStory"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When an address is requested to be removed in the user profile page, remove the address from the address book and display the updated user profile.
+
+When the address does not exist in the address book, show a bad request error message.</Description>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#remove_item_from_cart -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#remove_item_from_cart">
@@ -1540,6 +1780,17 @@ These technical problems can be considered a too expensive price to pay in order
         <performedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#customer"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to remove a particular item from the shopping cart, so that I do not buy it with the next order</Description>
         <Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</Priority>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#remove_item_from_cart_user_story -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#remove_item_from_cart_user_story">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UserStory"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When a product from the shopping cart is requested to be removed in the cart detail page, remove the item from the cart and display the updated cart content.
+
+When the item does not exist in the cart, show a bad request error message.</Description>
     </owl:NamedIndividual>
     
 
@@ -1585,6 +1836,63 @@ These technical problems can be considered a too expensive price to pay in order
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#show_cart_detail -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#show_cart_detail">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UserStory"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the shopping cart is requested, display the cart contents and the price details.
+
+When the shopping cart is empty, show an informative message.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#show_product_detail -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#show_product_detail">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UserStory"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When a product is requested, the chosen product will be displayed with all its information and pictures, as well as all the possible variants of that product.
+
+When the selected product does not exist, show a not found error message.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#show_product_variant_detail -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#show_product_variant_detail">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UserStory"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When a product variant is requested, the chosen product variant will be displayed with all its information and pictures, as well as all other possible variants of that product.
+
+When the selected product variant does not exist, display the default variant instead.
+
+When the selected product does not exist, show a not found error message.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#show_user_profile -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#show_user_profile">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UserStory"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the user profile is requested, display the user data, change password and address book forms, as well as the list of orders from the user.
+
+When the user is not logged in, show an unauthorized error message and display login.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#sign_up -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#sign_up">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#FunctionalRequirement"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#manage_account"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As an anonymous customer, I want to sign up a new customer account, so that I can place orders more easily and take advantage of many other benefits.</Description>
+        <Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</Priority>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#sort_by_name -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#sort_by_name">
@@ -1619,6 +1927,17 @@ These technical problems can be considered a too expensive price to pay in order
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#start_checkout -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#start_checkout">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UserStory"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the checkout process is requested to start, display an order summary (i.e. cart content and price details) and the corresponding shipping and billing forms.
+
+When the shopping cart is empty, display the last visited page.</Description>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#thin_client_MVC -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#thin_client_MVC">
@@ -1642,6 +1961,41 @@ The specific MVC design of the current system is shown in Figure 4.2 below. One 
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#update_account -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#update_account">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#FunctionalRequirement"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#manage_account"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a registered customer, I want to update my personal data such as the email address used.</Description>
+        <Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">6</Priority>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#update_address -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#update_address">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#FunctionalRequirement"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#manage_account"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a registered customer, I want to update the data of a particular postal address from my address book, so that it corresponds to my current situation.</Description>
+        <Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">6</Priority>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#update_address_in_address_book -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#update_address_in_address_book">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UserStory"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When an address is requested to be updated in the user profile page, replace the previous address with the new provided and display the updated user profile.
+
+When the address does not exist in the address book, add it to the address book.
+
+When the address is invalid, show a bad request error message and pre-fill the form.</Description>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#update_item_in_cart -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#update_item_in_cart">
@@ -1650,6 +2004,19 @@ The specific MVC design of the current system is shown in Figure 4.2 below. One 
         <performedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#customer"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to change the number of units of a particular item in the shopping cart, so that I can buy a different quantity of the product with the next order</Description>
         <Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">6</Priority>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#update_item_in_cart_user_story -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#update_item_in_cart_user_story">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UserStory"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the quantity of an item in the shopping cart is requested to be updated in the cart detail page, replace the previous quantity with the new one provided and display the updated cart content.
+
+When the item does not exist in the cart, show a bad request error message.
+
+When the new quantity is invalid, show a bad request error message.</Description>
     </owl:NamedIndividual>
     
 
