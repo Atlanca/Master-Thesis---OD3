@@ -13,7 +13,7 @@ parser = xmlparser.XmlParser("snowflakethesis.xml")
 document = parser.refactorAllText(7,10)
 doc_paragraphs = []
 mode = 0
-min_sent_len_paragraph = 1
+min_sent_len_paragraph = 0
 
 
 #We only want to work with paragraphs that have more than two sentences
@@ -101,7 +101,6 @@ while query != 'exit':
     tokenized_query = []
     for phrase in split_query:
       tokenized = nlp.tokenize(phrase) 
-      print(tokenized)
       if tokenized_query:
         tokenized_query[-1] = tokenized_query[-1] + '_' + tokenized[0]
         tokenized = tokenized[1:]
@@ -129,6 +128,6 @@ while query != 'exit':
     for word_id, exist in vec_bow:
       print(dictionary[word_id])
 
-    print(query)
+    #print(query)
     print(tokenized_query)
 
