@@ -1249,6 +1249,33 @@ These technical problems can be considered a too expensive price to pay in order
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#classentity_1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#classentity_1">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ClassEntity"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Forms"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#classentity_2 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#classentity_2">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ClassEntity"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#CartForms"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#classentity_3 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#classentity_3">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ClassEntity"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#AddressForms"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_1 -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_1">
