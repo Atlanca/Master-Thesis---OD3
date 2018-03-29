@@ -51,8 +51,7 @@ class InformationRetriever:
                 val = (self.getNameOfURI(item['predicate']['value']), self.getNameOfURI(item['object']['value']))
                 
                 relationsList.append(val)
-
-                
+                      
         return relationsList
         
     def getTypeOfIndividual(self, individual):       
@@ -79,35 +78,6 @@ class InformationRetriever:
             
         return result
                 
-
-        
-    # def getSpecificEntityRelations(self, subject, predicate, object):
-        # #Get all relations from entity
-        # queryRF = "PREFIX base:<http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#> "\
-				# "PREFIX owl: <http://www.w3.org/2002/07/owl#> " \
-                # "SELECT * WHERE {{ "\
-				# "?predicate a base:{predicate} ."\
-                # "?object a  base:{object} ."\
-                # "base:{subject} ?predicate ?object "\
-                # "}}"
-				
-		
-        # #Format strings
-        # queryRF = queryRF.format(subject = individual, object = entity)
-
-        # queryResultRF = self.queryManager.query(queryRF)
-
-        # relationsList = []
-
-        # if queryResultRF.status_code == 200:
-            # results = queryResultRF.json()['results']['bindings']
-            # for item in results:
-                # val = (self.getNameOfURI(item['predicate']['value']), self.getNameOfURI(item['object']['value']))
-                # relationsList.append(val)
-
-                
-        # return relationsList
-		
     def getDataProperties(self, individual):
         #Get the data properties of the entity
         query = "PREFIX base:<http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#> "\
@@ -128,11 +98,8 @@ class InformationRetriever:
             for item in results:
                 val = (self.getNameOfURI(item['predicate']['value']), self.getNameOfURI(item['object']['value']))
                 properties.append(val)
-
-                
+                      
         return properties	
-        
-
         
     def explainFeatureRole(self, feature):
         featureCompriseOfRelations = self.getRelations(feature, pred="compriseOf")
@@ -141,7 +108,6 @@ class InformationRetriever:
         requirementDataProperties = []
         diagramDataProperties = []
         useCaseDataProperties = []
-        
         
         for fr in featureCompriseOfRelations:
             req = fr[1]
@@ -163,8 +129,6 @@ class InformationRetriever:
             targetIndividuals += self.findLeafIndividual(si[1], predicate, objectType)
         return targetIndividuals
 
-
-
     def explainFeatureImplementation(self, feature):
         featureClassPackages = self.getRelations(sub=feature, pred="realizedBy", objType="ClassPackage")
         
@@ -174,8 +138,6 @@ class InformationRetriever:
 
         return  featureClasses
             
-        
-
 def finePrint(relations):    
     d = ""
     for r in relations:

@@ -967,6 +967,20 @@
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_model_package -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_model_package">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ClassPackage"/>
+        <compriseOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#MiniCart"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_package_1"/>
+        <provides rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#purchase_products"/>
+        <Description>Due to the design of the system, the client side has also some important elements from the Model component. Although the separation between Model and Controller is not properly defined in the client side, mainly because of the simplicity of the business logic located there, there are also some client-side classes that are dedicated mainly to processing and validation purposes (see Figure 4.35).
+
+On the one hand there are some classes in charge of different elements that are affected by multiple operations throughout the web-shop, such as the mini cart and the pricing detail of a cart. Aside from the methods to control the behavior of the elements, there are methods that allow to replace the page component data with some JSON data fetched from the server. On the other hand there is a Form class that gives support to all forms of the system, by validating, displaying messages, marking invalid fields and managing AJAX calls when submitting.</Description>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ControllerHelper -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ControllerHelper">
@@ -974,6 +988,7 @@
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.33_web_application_server_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#web_application_server_model_package_1"/>
         <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+        <Description>The Model component is also containing different helpers, where some particular logic of this web-shop is located. The ControllerHelper is composed of methods that allows to abstract some common logic that is used in the Controller component (i.e. logic to handle and display messages and errors) or data coming from SPHERE.IO requiring some previous manipulation before it is used (i.e. get default category of a product or get address book of the current customer).</Description>
     </owl:NamedIndividual>
     
 
@@ -1003,6 +1018,9 @@
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ClassPackage"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.33_web_application_server_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#web_application_server_model_package_1"/>
+        <Description>Lastly, there are a group of classes related to the web forms and the payment information received by the system (see Figure 4.34). They handle all the server-side validation for every parameter and may also provide helpful getters and setters to easily convert model data into form data, and vice versa (e.g. an Address class instance would be converted into the appropriate form fields street, city, country, etc.)
+
+These form classes also host the methods generating the different content that must be sent back to the client in relation to the result of the form submission. For example, when updating a line item from the cart, a success response contains a message for the user and all the shopping cart related information. This related information is generated with some other methods located in the forms as well, that convert a model class instance into JSON data.</Description>
     </owl:NamedIndividual>
     
 
@@ -1022,6 +1040,7 @@
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.33_web_application_server_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#web_application_server_model_package_1"/>
         <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+        <Description>The system also requires a class to send emails through any email system of preference. The Mail class will cover this functionality, as long as the SMTP17 details of the email system are provided. Given that Heroku does not provide an internal SMTP server, the deployed version of this project will need to use an external server like Mailjet, a cloud emailing platform that offers several features that may be of interest for potential clients.</Description>
     </owl:NamedIndividual>
     
 
@@ -1053,6 +1072,7 @@
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.33_web_application_server_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#web_application_server_model_package_1"/>
         <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+        <Description>There is also a Payment class, a small library that will help to communicate with the Optile API, that requires the messages to be sent using XML. As explained before (see section 4.2.1.2), Optile needs to be implemented in an incremental way, reason why the library can effortless cover all five levels of integration, thus allowing developers to easily switch to the level it fits best for them.</Description>
     </owl:NamedIndividual>
     
 
@@ -1067,6 +1087,24 @@
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#SPHERE.IO_development_team -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#SPHERE.IO_development_team">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Stakeholder"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">On the other hand, the development team is in charge of designing and implementing the platform that the template is using. Their primary need towards the template is to verify that their implementation is adjusting to both developers and clients needs. They might create temporal limitations on the template design, but at the same time any suggestion may be quickly adopted with no need to change the web-shop requirements.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#SPHERE.IO_product_owner -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#SPHERE.IO_product_owner">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Stakeholder"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Inside the company there are two major stakeholders: the SPHERE.IO product owners and the developer team. The product owners need a final product where all the platform features are implemented in order to measure the actual progress of the project. This product also allows them to have a sample web-shop to show to potential clients in meetings and conferences even before the platform is released.</Description>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Sphere -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Sphere">
@@ -1074,6 +1112,7 @@
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.33_web_application_server_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#web_application_server_model_package_1"/>
         <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+        <Description>As described at the beginning of the section System Logical Architectural 4.2, the logic of the model component is largely located in the SPHERE.IO Play SDK, which contains all the commerce logic and allows to access all data stored in the e-commerce backend. The Sphere class shown in the diagram below (Figure 4.33) is precisely the entry point for SPHERE.IO.</Description>
     </owl:NamedIndividual>
     
 
@@ -1083,6 +1122,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ViewHelper">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ClassEntity"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.33_web_application_server_model_component"/>
+        <Description>On the other hand, the View Helper is a common design pattern that allows to separate logic that otherwise needs to be integrated in the template, in this project applied with the ViewHelper class. Although templates in Play Framework enables to use all the potential of the programming language Scala, it is a good practice to keep complex logic out of the templates. All this logic is then placed in these helper classes and called from the views as necessary.</Description>
     </owl:NamedIndividual>
     
 
@@ -1249,33 +1289,6 @@ These technical problems can be considered a too expensive price to pay in order
     
 
 
-    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#classentity_1 -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#classentity_1">
-        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ClassEntity"/>
-        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Forms"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#classentity_2 -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#classentity_2">
-        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ClassEntity"/>
-        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#CartForms"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#classentity_3 -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#classentity_3">
-        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ClassEntity"/>
-        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#AddressForms"/>
-    </owl:NamedIndividual>
-    
-
-
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_1 -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_1">
@@ -1307,6 +1320,15 @@ These technical problems can be considered a too expensive price to pay in order
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Package"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.2_logical_architecture"/>
         <playsRole rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_stakeholder -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_stakeholder">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Stakeholder"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Potential clients of the project, simplified as “clients” from now on, are companies in need of an e-commerce solution, especially those looking for an interface from where to sell goods or services to individuals or other companies. They need a system that satisfies their current requirements and allows them to easily implement future required functionalities. They hire developers, usually working in agencies, to build these tailored applications.</Description>
     </owl:NamedIndividual>
     
 
@@ -1352,6 +1374,7 @@ Improving developer experience is a priority in this project, so CoffeeScript wi
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#customer">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Stakeholder"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">End users or customers7, equally mentioned as “users” and “customers” in this document, are those actors of the system who would buy in the web-shop in case it went live. Even being an hypothetical situation, this template will be used as a bootstrap project so eventually it will become a real web-shop with end users. With no other specific information about these users, it can only be assumed that they need an intuitive layout that allows them to shop with ease in a few clicks.</Description>
     </owl:NamedIndividual>
     
 
@@ -1369,6 +1392,7 @@ Improving developer experience is a priority in this project, so CoffeeScript wi
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#display_products">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Feature"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The use cases for displaying products are shown below in Figure 3.3. The customer can either list a set of products or display a particular product. Further additional functionalities can be applied to the product listing, individually or combined together, in order to alter the list itself (i.e. filtering) or the way the products are listed (i.e. sorting and pagination).</Description>
     </owl:NamedIndividual>
     
 
@@ -1462,11 +1486,29 @@ When the user is not logged in, show an unauthorized error message and display l
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_3.3_display_products -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_3.3_display_products">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Diagram"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Diagram showing the use cases of the display products package.</Description>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_3.4_purchase_products -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_3.4_purchase_products">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Diagram"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Use case diagram showing the use cases of the purchase products package.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_3.5_manage_account -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_3.5_manage_account">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Diagram"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Use case diagram showing the use cases of the manage account package.</Description>
     </owl:NamedIndividual>
     
 
@@ -1512,6 +1554,15 @@ When the user is not logged in, show an unauthorized error message and display l
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.36_web_application_server_view_component">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Diagram"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Overview of the composite views and main template of the server-side View component.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.37_web_application_server_simple_views -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.37_web_application_server_simple_views">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Diagram"/>
+        <Description>Overview of the simple views of the server-side View component.</Description>
     </owl:NamedIndividual>
     
 
@@ -1711,6 +1762,7 @@ When no products found, show an informative message.</Description>
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#manage_account">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Feature"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Finally, for the use cases related to account management (Figure 3.5), a registered customer can manage his address book (i.e. add, update or remove postal addresses) or update his account (i.e. change his personal data or password). He can as well decide to log out from the system and become an anonymous customer. As an anonymous customer, he can sign up a new account or log in with an existing one. In case he cannot remember his credentials, he will be given the option to recover his password.</Description>
     </owl:NamedIndividual>
     
 
@@ -2137,6 +2189,15 @@ When the new quantity is invalid, show a bad request error message.</Description
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#user_stakeholder -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#user_stakeholder">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Stakeholder"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Potential users of the template are precisely developers, who need to implement a web-shop or a similar application. They might have to decide whether to develop a web-shop based on SPHERE.IO Play SDK. They may want to use the template as a live documentation of how to use the system or directly use it as a bootstrap project on which to build their own web-shop. They need to easily understand the sample code and quickly identify those lines of code with shop logic coming from SPHERE.IO. Code quality and correct use of technologies may be important for them.</Description>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#web_application_server_model_package_1 -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#web_application_server_model_package_1">
@@ -2166,7 +2227,11 @@ When the new quantity is invalid, show a bad request error message.</Description
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#web_application_server_view_package_1">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Package"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.36_web_application_server_view_component"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.37_web_application_server_simple_views"/>
         <playsRole rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_view_1"/>
+        <Description>The View component is formed of several templates that are directly called by the Controller component, as seen in the internal design diagrams of the system. All these templates are making use of a main template file that provides a common HTML structure to all the pages, such as the basic contents and imports of scripts and stylesheets. They achieve this by importing the main template, following the design pattern called View Composition (Figure 4.36).
+
+Just as in the previous example, the composite views are importing the contents of many other simple views, like the helpers and forms displayed in Figure 4.37. Both types of templates are usually offering components that are repeated throughout all client pages, although sometimes the separation is only intended to extract large pieces of meaningful HTML content from the composite views, as it is usually the case of the form templates. Unlike forms and helpers, mail templates are not meant for view composition, but are directly used to generate the HTML body of the emails sent by the system.</Description>
     </owl:NamedIndividual>
     
 
@@ -2177,6 +2242,9 @@ When the new quantity is invalid, show a bad request error message.</Description
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Package"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.39_web_application_server_contoller_component"/>
         <playsRole rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_controller_1"/>
+        <Description>Play Framework is applying the Front Controller and Application Controller design patterns to split the Controller logic between the common logic, located in the Front Controller, and the one specific for each request, called Application Controller. The Front Controller is mainly formed by the RoutingSystem, which is in charge of receiving, analyzing and dispatching every request to the appropriate application controller.
+
+All application controllers of the system are shown in Figure 4.39, along with some classes that are used as filters. These filters intercept the application controller invocation and allows to execute code before and after the action is invoked. Filters are applied as a chain of filters to any desired controller action, although for simplicity the diagram is not specifying which particular actions are using the filter. A typical filter example is the Authorization class, that verifies the customer is correctly identified to the system before accessing a restricted functionality, otherwise it redirects the user to the login screen.</Description>
     </owl:NamedIndividual>
     
 
