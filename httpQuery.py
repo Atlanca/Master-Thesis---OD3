@@ -24,7 +24,8 @@ class InformationRetriever:
     # useInversePred determines whether to use the given predicate or to use the inverse of it.
     # always returns a tuple in the following format: (predicate, object)
     def getRelations(self, sub, pred="", objType="", useInversePred=False):
-        
+        originalPred = pred
+        originalObjType = objType
         # 1. Starts with building up the query depending on input parameters
         query = "PREFIX base:<http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#> "\
                "PREFIX owl: <http://www.w3.org/2002/07/owl#> " \
@@ -57,7 +58,6 @@ class InformationRetriever:
 
         if queryResult.status_code == 200:
             results = queryResult.json()['results']['bindings']
-            
             for item in results:
                 val = (self.getNameOfURI(item['predicate']['value']), self.getNameOfURI(item['object']['value']))
                 relationsList.append(val)
@@ -86,10 +86,13 @@ class InformationRetriever:
         queryResult = self.queryManager.query(query)
         result = ""
 
-        if queryResult.status_code == 200:      
+        if queryResult.status_code == 200:     
             results = queryResult.json()['results']['bindings']
-            result = self.getNameOfURI(results[0]['directType']['value'])
-            
+            if results:
+                result = self.getNameOfURI(results[0]['directType']['value'])
+            else:
+                errorText = "The input individual {ind} does not exist in the ontology".format(ind=individual)
+                raise BaseException(errorText)
         return result
 
     # getDataProperties queries the server for data properties of given individual
@@ -113,8 +116,7 @@ class InformationRetriever:
             results = queryResult.json()['results']['bindings']
             for item in results:
                 val = (self.getNameOfURI(item['predicate']['value']), self.getNameOfURI(item['object']['value']))
-                properties.append(val)
-                      
+                properties.append(val)     
         return properties	
 
     #-----------------------------------------------------------------------------------------
@@ -146,7 +148,7 @@ class InformationRetriever:
         return subjectURI
 
     #-----------------------------------------------------------------------------------------
-    # 2.1 OTHER HELPER METHODS
+    # 2.2 OTHER HELPER METHODS
     #-----------------------------------------------------------------------------------------   
 
     # findLeafIndividual() recursively finds and returns all leaf individuals of type "objectType"
@@ -287,6 +289,8 @@ class InformationRetriever:
         for item in tmpList:
             intersectingFeatures[item[1]].append(item[0]['individualObject'])
  
+        for item in intersectingFeatures:
+            intersectingFeatures[item] = list(set(intersectingFeatures[item]))
         return intersectingFeatures
 
     #-----------------------------------------------------------------------------------------
@@ -412,5 +416,5 @@ print(ir.relationsByArchitecturalRole("CartForms"))
 print("\n\nRelations by diagram: web_application_server_package_1")
 print(ir.relationsByDiagram("web_application_server_package_1"))
 
-print("\n\nIntersecting features of: CartForms, AddressForms, test1 and AddressForms")
-print(ir.findIntersectingFeatures(['CartForms', 'AddressForms', 'test1', 'AddressForms']))
+print("\n\nIntersecting features of: CartForms, AddressForms and AddressForms")
+print(ir.findIntersectingFeatures(['CartForms', 'AddressForms', 'AddressForms']))
