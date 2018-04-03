@@ -1276,6 +1276,9 @@ These technical problems can be considered a too expensive price to pay in order
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Decision"/>
         <causedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#choice_three_tier_client_server_1"/>
         <causedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#choice_use_SPHERE"/>
+        <compriseOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_fat_client"/>
+        <compriseOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_mix_client"/>
+        <compriseOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_thin_client"/>
         <resultsIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#fat_client_MVC"/>
         <resultsIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#thin_client_MVC"/>
     </owl:NamedIndividual>
@@ -1295,6 +1298,8 @@ These technical problems can be considered a too expensive price to pay in order
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#choice_use_SPHERE">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Decision"/>
+        <compriseOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_use_SPHERE"/>
+        <resultsIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#sphere.io"/>
     </owl:NamedIndividual>
     
 
@@ -1982,6 +1987,8 @@ When the item does not exist in the cart, show a bad request error message.</Des
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_model_1">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Role"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#fat_client_MVC"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#thin_client_MVC"/>
     </owl:NamedIndividual>
     
 
@@ -2087,6 +2094,7 @@ When the user is not logged in, show an unauthorized error message and display l
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#sphere.io">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Technology"/>
+        <resultOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#choice_use_SPHERE"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SPHERE.IO is a cloud-based commerce platform, aimed to unify e-commerce data in a single place where any kind of external system can access this information. These external systems are typically web-shops but can actually be any type of application, even those not related to e-commerce. SPHERE.IO provides a platform to store and process all this data according to commerce business rules, while at the same time offers several ways to access it.
 
 The primary entry point to the backend is provided by a RESTful API, that offers an interface for programmatic access to the data and associated functionality. The API services are using JSON to communicate, always over HTTPS, with previous authorization using OAuth2. Although it is actually the core of the platform, its direct use might be tedious for slightly complex applications. That is the reason why it is recommended to use client libraries and SDKs to communicate with the API, and so improving the development experience.

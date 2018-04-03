@@ -3,6 +3,13 @@ import json
 import re
 import pprint
 
+# TODO: Rationale does not take alternatives into account.
+# TODO: Some repeated code. Refactor
+# TODO: Comment the last three methods
+# TODO: Test with working reasoner
+# TODO: Find out how to explain how the technology is used in the system
+# TODO: Perhaps find a way to explain the system based on the relations of the objects
+
 class SparqlQueryManager:
     def __init__(self, url):
         self.url = url
@@ -23,6 +30,21 @@ class InformationRetriever:
     # getRelations() returns all predicates from the given subject to an object in a list.
     # useInversePred determines whether to use the given predicate or to use the inverse of it.
     # always returns a tuple in the following format: (predicate, object)
+    def getIndividualsByType(self, inputType):
+        query = "PREFIX base:<http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#> "\
+                "PREFIX owl: <http://www.w3.org/2002/07/owl#> "\
+                "SELECT * WHERE {{?individual a base:{t} }}"
+        query = query.format(t=inputType)
+        queryResult = self.queryManager.query(query)
+        individuals = []
+
+        if queryResult.status_code == 200:
+            results = queryResult.json()['results']['bindings']
+            for item in results:
+                individuals.append(self.getNameOfURI(item['individual']['value']))
+        return individuals
+                
+    
     def getRelations(self, sub, pred="", objType="", useInversePred=False):
         originalPred = pred
         originalObjType = objType
@@ -235,22 +257,22 @@ class InformationRetriever:
                 relations += (self.recursiveRelationsBy(ec[1], pred, objectType))
         return relations
 
-    # recursiveEncapsulation() finds the nested structures from the given list of "architectureFragments"
+    # recursiveEncapsulation() finds the nested structures from the given "architectureFragment"
     # to objects of the given "objectType" via the given predicate "pred". 
     # Returns a list of dictionaries representing this nested structures
-    def recursiveEncapsulation(self, architectureFragments, pred, objectType = ""):
-        relations = []
-        for af in architectureFragments:
-            endObjects = self.getRelations(af, pred, objectType)
-            if endObjects:
-                ds = self.doubleStructure(af)
-                ds['parent'] = [self.doubleStructure(eo[1]) for eo in endObjects]
-                relations.append(ds)
-            else:
-                encapsulatingComponents = [r[1] for r in self.getRelations(af, 'partOf')]
-                ds = self.doubleStructure(af)
-                ds['parent'] = self.recursiveEncapsulation(encapsulatingComponents, pred)
-                relations.append(ds)
+    def recursiveEncapsulation(self, architectureFragment, pred, objectType = ""):
+        
+        endObjects = self.getRelations(architectureFragment, pred, objectType)
+        ds = self.doubleStructure(architectureFragment)
+        ds['parent'] = []
+        if endObjects:
+            ds['parent'] = [self.doubleStructure(eo[1]) for eo in endObjects]
+            relations = (ds)
+        else:
+            encapsulatingComponents = [r[1] for r in self.getRelations(architectureFragment, 'partOf')]
+            for ec in encapsulatingComponents:
+                ds['parent'].append(self.recursiveEncapsulation(ec, pred))
+                relations = (ds)
         return relations
 
     # getLeafParentHelper() is used to loop through the recursive structure returned by
@@ -273,7 +295,9 @@ class InformationRetriever:
     # which components are related to the same objects. 
     def findIntersectingEntities(self, architectureFragments, pred, objType):
         featureList = []
-        pathToFeature = self.recursiveEncapsulation(architectureFragments, pred, objType)
+        pathToFeature = []
+        for af in architectureFragments:
+            pathToFeature.append(self.recursiveEncapsulation(af, pred, objType))
         for item in pathToFeature:
             value = self.doubleStructure(item['individualObject'])
             value['relatedEntities'] = []
@@ -292,6 +316,19 @@ class InformationRetriever:
         for item in intersectingFeatures:
             intersectingFeatures[item] = list(set(intersectingFeatures[item]))
         return intersectingFeatures
+
+    #A helper method for locationInArchitecture
+    def addLeafToRecursiveStructure(self, structure, key):
+        keys = list(structure.keys())
+        if key in keys:
+            for s in structure[key]:
+                self.addLeafToRecursiveStructure(s, key)
+        else:
+            structure[key] = []
+            leaves = self.getRelations(structure['individualObject'], pred='partOf', objType='ArchitecturalPattern')
+            for leaf in leaves:
+                structure[key].append(self.doubleStructure(leaf))
+        return structure
 
     #-----------------------------------------------------------------------------------------
     # METHODS THAT ANSWERS THE QUESTIONS
@@ -382,6 +419,53 @@ class InformationRetriever:
     def findIntersectingNonFunctionalRequirements(self, architectureFragments):
         return self.findIntersectingEntities(architectureFragments, 'satisfies', 'Non-functionalRequirement')
 
+    # From any architectural fragment
+    def getArchitecture(self, architectureFragment):
+        role = self.recursiveEncapsulation(architectureFragment, 'playsRole', 'Role')
+        leafParents = self.getLeafParentHelper(role)
+        relations = []
+        for lp in leafParents:
+            relations += [r[1] for r in self.getRelations(lp, pred='partOf', objType='ArchitecturalPattern')]
+        return [self.tripleDescription(r) for r in relations]
+    
+    def locationInArchitecture(self, architectureFragment):
+        role = self.recursiveEncapsulation(architectureFragment, 'playsRole', 'Role')
+        test = self.addLeafToRecursiveStructure(role, 'parent')
+        return test
+
+    def rationaleOfArchitecture(self, architecture):
+        decisionsList = []
+        if self.getTypeOfIndividual(architecture) == 'ArchitecturalPattern':
+            decisions = self.getRelations(architecture, pred='resultOf', objType='Decision')
+            for d in decisions:
+                rationale = self.getRelations(d[1], pred='compriseOf')
+                rationaleList = []
+                for r in rationale:
+                    item = self.tripleDescription(r[1])
+                    rationaleList.append(item)
+                ds = self.doubleStructure(d[1])
+                ds['rationale'] = rationaleList
+                decisionsList.append(ds)
+        return decisionsList
+
+    def getAllTechnologies(self):
+        return self.getIndividualsByType('Technology')
+
+    def getRationaleOfTechnology(self, technology):
+        technologyList = []
+        if self.getTypeOfIndividual(technology) == 'Technology':
+            decisions = self.getRelations(technology, pred='resultOf', objType='Decision')
+            for d in decisions:
+                rationale = self.getRelations(d[1], pred='compriseOf')
+                rationale += self.getRelations(d[1], pred='resultsIn')
+                rationaleList = []
+                for r in rationale:
+                    item = self.tripleDescription(r[1])
+                    rationaleList.append(item)
+                ds = self.doubleStructure(d[1])
+                ds['rationale'] = rationaleList
+                technologyList.append(ds)
+        return technologyList
 #-----------------------------------------------------------------------------------------
 # MAIN CLASS USED FOR TESTING
 #-----------------------------------------------------------------------------------------
@@ -418,3 +502,15 @@ print(ir.relationsByDiagram("web_application_server_package_1"))
 
 print("\n\nIntersecting features of: CartForms, AddressForms and AddressForms")
 print(ir.findIntersectingFeatures(['CartForms', 'AddressForms', 'AddressForms']))
+
+print("\n\nThe explanation of architecture that encapsulates \'Forms\'")
+print(ir.getArchitecture('Forms'))
+
+print("\n\nHow \'Forms\' are located in the architecture")
+print(ir.locationInArchitecture('Forms'))
+
+print("\n\nAll technologies used in the system: ")
+print(ir.getAllTechnologies())
+
+print("\n\nRationale of technology: ")
+print(ir.getRationaleOfTechnology('sphere.io'))
