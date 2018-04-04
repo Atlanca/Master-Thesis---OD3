@@ -316,6 +316,14 @@
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#IsChosen -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#IsChosen">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Priority -->
 
     <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Priority">
@@ -343,7 +351,7 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#resultOf"/>
                 <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
-                <owl:onClass rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Decision"/>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DesignOption"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">An architectural pattern is a common technique used to solve recurring archititectural design problems.</dc:description>
@@ -391,7 +399,7 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#partOf"/>
-                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Decision"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DesignOption"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -495,9 +503,9 @@
     
 
 
-    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Decision -->
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DesignOption -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Decision">
+    <owl:Class rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DesignOption">
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#dependsOn"/>
@@ -506,15 +514,9 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#hasAlternative"/>
-                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DesignAlternative"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#causes"/>
                 <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
-                <owl:onClass rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Decision"/>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DesignOption"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -529,6 +531,13 @@
                 <owl:onProperty rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#compriseOf"/>
                 <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
                 <owl:onClass rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Constraint"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#isAlternativeOf"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DesignOption"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -539,35 +548,6 @@
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Decisions are choices that are made in a system.</dc:description>
-    </owl:Class>
-    
-
-
-    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DesignAlternative -->
-
-    <owl:Class rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DesignAlternative">
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#compriseOf"/>
-                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
-                <owl:onClass rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Argument"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#compriseOf"/>
-                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
-                <owl:onClass rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Assumption"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#compriseOf"/>
-                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
-                <owl:onClass rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Constraint"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Design alternatives are alternative choices to a decision made in a system.</dc:description>
     </owl:Class>
     
 
@@ -794,7 +774,7 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#dependsOn"/>
-                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Decision"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DesignOption"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -869,11 +849,12 @@
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Technology -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Technology">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DesignOption"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#resultOf"/>
                 <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
-                <owl:onClass rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Decision"/>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DesignOption"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -1208,6 +1189,14 @@ These technical problems can be considered a too expensive price to pay in order
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Argument"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_thin_client -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_thin_client">
@@ -1263,11 +1252,12 @@ These technical problems can be considered a too expensive price to pay in order
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#choice_mixed_client_MVC_1 -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#choice_mixed_client_MVC_1">
-        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Decision"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DesignOption"/>
         <causedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#choice_three_tier_client_server_1"/>
         <causedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#choice_use_SPHERE"/>
         <resultsIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#fat_client_MVC"/>
         <resultsIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#thin_client_MVC"/>
+        <IsChosen rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</IsChosen>
     </owl:NamedIndividual>
     
 
@@ -1275,8 +1265,9 @@ These technical problems can be considered a too expensive price to pay in order
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#choice_three_tier_client_server_1 -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#choice_three_tier_client_server_1">
-        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Decision"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DesignOption"/>
         <causedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#choice_use_SPHERE"/>
+        <IsChosen rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</IsChosen>
     </owl:NamedIndividual>
     
 
@@ -1284,7 +1275,8 @@ These technical problems can be considered a too expensive price to pay in order
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#choice_use_SPHERE -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#choice_use_SPHERE">
-        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Decision"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DesignOption"/>
+        <IsChosen rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</IsChosen>
     </owl:NamedIndividual>
     
 
@@ -1348,6 +1340,7 @@ These technical problems can be considered a too expensive price to pay in order
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CoffeeScript is a programming language that compiles into JavaScript, adding syntactic sugar to greatly improve the developer experience. The new syntax provides a better readability of the code and helps developers to write complex scripts much more easily. The increased readability of the code goes along with a decreased number of lines compared to the same code in JavaScript, around one third fewer lines. Another interesting feature is an additional syntax to use JavaScript’s native prototyping as a class-based system, making object-oriented programming with JavaScript less complex, particularly when it comes to inheritance.
 
 Improving developer experience is a priority in this project, so CoffeeScript will contribute to make client-side code easier to understand and modify. It will also be considerably helpful with the development of the JavaScript code, which is pretty complex due to the logical design of the system. Therefore its use is very appropriate, especially since a CoffeeScript compiler comes included in Play Framework.</Description>
+        <IsChosen rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</IsChosen>
     </owl:NamedIndividual>
     
 
@@ -1663,6 +1656,7 @@ When the shopping cart is empty, display the last visited page.</Description>
 On the contrary Handlebars templates are compiled, allowing to define helpers to reuse code for presentation. It also comes with built-in helpers to control the default flow of the template, such as loops or conditional statements. Handlebars comes also with better support for paths to access the data. In short, this solution makes easier to implement templates than Mustache while still keeping logic separated from presentation.
 
 There is another project, Dust.js, with the same strong points as Handlebars and with useful additional features like template composition. Apparently is a better choice but the project has been abandoned for two years, maybe the reason why Handlebars has the largest community. During the last year LinkedIn has been contributing actively to a separated Dust.js project that the company is using for its website [Bas12]. Regardless it has been considered that Handlebars is a safer option, since the additional features are not indispensable for this project.</Description>
+        <IsChosen rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</IsChosen>
     </owl:NamedIndividual>
     
 
@@ -1672,6 +1666,7 @@ There is another project, Dust.js, with the same strong points as Handlebars and
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#jquery">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Technology"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">jQuery is a very powerful and fast JavaScript library that allows to easily do DOM scripting (i.e. HTML elements manipulation and event handling), perform animations and simplify the use of AJAX programming; altogether very necessary in this project. The main alternatives, such as MooTools or YUI Library, are also very satisfactory solutions in the mentioned areas, with no significant differences. The final choice of jQuery has been mainly determined by the fact that it has the largest community amongst the options.</Description>
+        <IsChosen rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</IsChosen>
     </owl:NamedIndividual>
     
 
@@ -1683,6 +1678,7 @@ There is another project, Dust.js, with the same strong points as Handlebars and
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Similarly to CoffeeScript, LESS is a language that compiles into CSS. But unlike CoffeeScript, LESS does not modify the syntax of CSS, but only extends it with dynamic behavior, such as variables, operations and functions. This makes LESS very easy to learn and converts a simple CSS-based file into a powerful dynamic stylesheet.
 
 LESS will allow to better organize the stylesheet of the web-shop, thus facilitating a swift development, fast edition and easy understanding of its code. Although there are other CSS preprocessors like the popular Sass, the provided functionalities are quite similar and Play Framework already comes with a native support of the LESS compiler.</Description>
+        <IsChosen rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</IsChosen>
     </owl:NamedIndividual>
     
 
@@ -1802,6 +1798,7 @@ The first level is the universal redirect, where the customer is completely redi
 In opposite to traditional payment platforms, the successful integration of Optile will attest that this web-shop supports a wide range of payment methods and providers, as well as multiple different ways of integration. It is also a good choice for developers, who will have a system with several online payment methods already implemented. Optile first integration can become a little bit tedious, but its flexibility will be profitable for this project.
 
 A valid alternative is Paymill, a popular payment solution which characteristics are completely opposed to Optile: the integration is very fast and easy, but the payment providers offered are limited to credit card and direct debit. Also the customer is never redirected to the payment server, yet there is no need to be PCI compliant. The reason is that the payment form is never submitted, but its data is sent to the payment server via a JavaScript library, returning a token in exchange that the system can use to charge the customer from the server side. Nevertheless the selected solution is Optile, because its implementation will benefit more the project than Paymill.</Description>
+        <IsChosen rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</IsChosen>
     </owl:NamedIndividual>
     
 
@@ -1851,6 +1848,7 @@ A valid alternative is Paymill, a popular payment solution which characteristics
 This second version of Play uses Scala in its web template system. Projects in Play are built and deployed with SBT, a build tool for Scala and Java projects, allowing developers to choose between these two programming languages in order to implement the logic of their web applications. Despite this, currently SPHERE.IO Play SDK is supported only in Java projects.
 
 Play follows the MVC logical architectural pattern and is completely RESTful, which means amongst other things that is stateless, unlike other Java frameworks. It was also designed to support full asynchronous HTTP programming, to serve long-lived requests without tying up other threads. Play also includes the Jackson library to manipulate JSON data and native support for the software testing frameworks JUnit and Selenium. Moreover it also has a compiler for CoffeeScript and LESS, two programming languages that compile into JavaScript and CSS respectively.</Description>
+        <IsChosen rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</IsChosen>
     </owl:NamedIndividual>
     
 
@@ -1942,6 +1940,15 @@ When the address does not exist in the address book, show a bad request error me
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When a product from the shopping cart is requested to be removed in the cart detail page, remove the item from the cart and display the updated cart content.
 
 When the item does not exist in the cart, show a bad request error message.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Technology"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Scala is a object-functional programming language that runs on JVM and is compatible with Java scripts.</Description>
     </owl:NamedIndividual>
     
 
@@ -2081,6 +2088,7 @@ The SPHERE.IO team chose Java as the first programming language to have a client
 A command-line interface (CLI) is also available, especially aimed for managing SPHERE.IO user accounts and projects from a command-line shell. It is also necessary to use the CLI in order to manipulate and query data in batches or for automated jobs, such as importingproducts into SPHERE.IO. As opposed to the API, the CLI is not using OAuth2 since all operations are done under a user account.
 
 So far all the tools for accessing and managing the backend data were focused on developers, but merchants have also the possibility to view and update the data using a web application called Merchant Center. Besides that, merchants can also export and import data between SPHERE.IO and other external systems using elastic.io as an integration platform.</Description>
+        <IsChosen rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</IsChosen>
     </owl:NamedIndividual>
     
 
@@ -2257,49 +2265,6 @@ All application controllers of the system are shown in Figure 4.39, along with s
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    <rdf:Description>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ArchitecturalPattern"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ArchitectureFragment"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Argument"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Assumption"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ClassRoleStereotype"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Constraint"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Decision"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DesignAlternative"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Diagram"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Feature"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Requirement"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Role"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Stakeholder"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Technology"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Testcases"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UseCase"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UserStory"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ArchitecturalPattern"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ArchitectureFragment"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Argument"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Assumption"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Constraint"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Decision"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DesignAlternative"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Diagram"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Feature"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Requirement"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Role"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Stakeholder"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Testcases"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UseCase"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UserStory"/>
-        </owl:members>
-    </rdf:Description>
     <rdf:Description>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
