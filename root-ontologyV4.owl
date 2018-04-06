@@ -948,20 +948,6 @@
     
 
 
-    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_model_package -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_model_package">
-        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ClassPackage"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#MiniCart"/>
-        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_package_1"/>
-        <provides rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#purchase_products"/>
-        <Description>Due to the design of the system, the client side has also some important elements from the Model component. Although the separation between Model and Controller is not properly defined in the client side, mainly because of the simplicity of the business logic located there, there are also some client-side classes that are dedicated mainly to processing and validation purposes (see Figure 4.35).
-
-On the one hand there are some classes in charge of different elements that are affected by multiple operations throughout the web-shop, such as the mini cart and the pricing detail of a cart. Aside from the methods to control the behavior of the elements, there are methods that allow to replace the page component data with some JSON data fetched from the server. On the other hand there is a Form class that gives support to all forms of the system, by validating, displaying messages, marking invalid fields and managing AJAX calls when submitting.</Description>
-    </owl:NamedIndividual>
-    
-
-
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ControllerHelper -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ControllerHelper">
@@ -1165,6 +1151,24 @@ When the selected product does not exist, show a bad request error message.</Des
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_coffeescript -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_coffeescript">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Argument"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Improving developer experience is a priority in this project, so CoffeeScript will contribute to make client-side code easier to understand and modify. It will also be considerably helpful with the development of the JavaScript code, which is pretty complex due to the logical design of the system. Therefore its use is very appropriate, especially since a CoffeeScript compiler comes included in Play Framework.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_dust.js -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_dust.js">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Argument"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">There is another project, Dust.js, with the same strong points as Handlebars and with useful additional features like template composition. Apparently is a better choice but the project has been abandoned for two years, maybe the reason why Handlebars has the largest community. During the last year LinkedIn has been contributing actively to a separated Dust.js project that the company is using for its website [Bas12]. Regardless it has been considered that Handlebars is a safer option, since the additional features are not indispensable for this project.</Description>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_fat_client -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_fat_client">
@@ -1179,6 +1183,51 @@ These technical problems can be considered a too expensive price to pay in order
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_handlbars -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_handlbars">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Argument"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">On the contrary Handlebars templates are compiled, allowing to define helpers to reuse code for presentation. It also comes with built-in helpers to control the default flow of the template, such as loops or conditional statements. Handlebars comes also with better support for paths to access the data. In short, this solution makes easier to implement templates than Mustache while still keeping logic separated from presentation.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_html5_json -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_html5_json">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Argument"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The server is using HTML5 and JSON files to send information to the client.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_java -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_java">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Argument"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The SPHERE.IO team chose Java as the first programming language to have a client library due to its versatility. This library is open source, as it is intended to be improved or used as a reference to build other libraries by the developer community. In order to provide a better environment to build websites, a SDK was built on top of the client library: the SPHERE.IO Play SDK. It allowed to adapt the Java client library to the processes and structure of the Play Framework.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_jquery -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_jquery">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Argument"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">jQuery is a very powerful and fast JavaScript library that allows to easily do DOM scripting (i.e. HTML elements manipulation and event handling), perform animations and simplify the use of AJAX programming; altogether very necessary in this project. The main alternatives, such as MooTools or YUI Library, are also very satisfactory solutions in the mentioned areas, with no significant differences. The final choice of jQuery has been mainly determined by the fact that it has the largest community amongst the options.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_less_css -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_less_css">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Argument"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">LESS will allow to better organize the stylesheet of the web-shop, thus facilitating a swift development, fast edition and easy understanding of its code. Although there are other CSS preprocessors like the popular Sass, the provided functionalities are quite similar and Play Framework already comes with a native support of the LESS compiler.</Description>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_mix_client -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_mix_client">
@@ -1189,10 +1238,50 @@ These technical problems can be considered a too expensive price to pay in order
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_optile -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_optile">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Argument"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">In opposite to traditional payment platforms, the successful integration of Optile will attest that this web-shop supports a wide range of payment methods and providers, as well as multiple different ways of integration. It is also a good choice for developers, who will have a system with several online payment methods already implemented. Optile first integration can become a little bit tedious, but its flexibility will be profitable for this project.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_paymill -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_paymill">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Argument"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A valid alternative is Paymill, a popular payment solution which characteristics are completely opposed to Optile: the integration is very fast and easy, but the payment providers offered are limited to credit card and direct debit. Also the customer is never redirected to the payment server, yet there is no need to be PCI compliant. The reason is that the payment form is never submitted, but its data is sent to the payment server via a JavaScript library, returning a token in exchange that the system can use to charge the customer from the server side. Nevertheless the selected solution is Optile, because its implementation will benefit more the project than Paymill.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_play_framework -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_play_framework">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Argument"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The use of Play Framework comes as a requirement to test the suitability of SPHERE.IO Play SDK, which was build to create web-shops using this specific framework. Play is an open source web application framework that was first released in 2007 and written in Java. In 2012 a second release was announced, with a core completely rewritten in Scala. This is precisely the version that SPHERE.IO Play SDK works with.</Description>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_scala -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_scala">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Argument"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_sphere.io -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_sphere.io">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Argument"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The SPHERE.IO team chose Java as the first programming language to have a client library due to its versatility. This library is open source, as it is intended to be improved or used as a reference to build other libraries by the developer community. In order to provide a better environment to build websites, a SDK was built on top of the client library: the SPHERE.IO Play SDK. It allowed to adapt the Java client library to the processes and structure of the Play Framework.
+
+A command-line interface (CLI) is also available, especially aimed for managing SPHERE.IO user accounts and projects from a command-line shell. It is also necessary to use the CLI in order to manipulate and query data in batches or for automated jobs, such as importingproducts into SPHERE.IO. As opposed to the API, the CLI is not using OAuth2 since all operations are done under a user account.
+
+So far all the tools for accessing and managing the backend data were focused on developers, but merchants have also the possibility to view and update the data using a web application called Merchant Center. Besides that, merchants can also export and import data between SPHERE.IO and other external systems using elastic.io as an integration platform.</Description>
     </owl:NamedIndividual>
     
 
@@ -1298,6 +1387,15 @@ These technical problems can be considered a too expensive price to pay in order
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_controller_package_1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_controller_package_1">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Package"/>
+        <playsRole rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_controller_1"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_model_1 -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_model_1">
@@ -1306,10 +1404,24 @@ These technical problems can be considered a too expensive price to pay in order
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_model_package_1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_model_package_1">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Package"/>
+        <compriseOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#MiniCart"/>
+        <playsRole rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_model_1"/>
+        <provides rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#purchase_products"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_package_1 -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_package_1">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Package"/>
+        <compriseOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_controller_package_1"/>
+        <compriseOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_model_package_1"/>
+        <compriseOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_view_package_1"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.2_logical_architecture"/>
         <playsRole rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_1"/>
     </owl:NamedIndividual>
@@ -1333,31 +1445,41 @@ These technical problems can be considered a too expensive price to pay in order
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_view_package_1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_view_package_1">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Package"/>
+        <playsRole rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_view_1"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#coffeScript -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#coffeScript">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Technology"/>
-        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CoffeeScript is a programming language that compiles into JavaScript, adding syntactic sugar to greatly improve the developer experience. The new syntax provides a better readability of the code and helps developers to write complex scripts much more easily. The increased readability of the code goes along with a decreased number of lines compared to the same code in JavaScript, around one third fewer lines. Another interesting feature is an additional syntax to use JavaScript’s native prototyping as a class-based system, making object-oriented programming with JavaScript less complex, particularly when it comes to inheritance.
-
-Improving developer experience is a priority in this project, so CoffeeScript will contribute to make client-side code easier to understand and modify. It will also be considerably helpful with the development of the JavaScript code, which is pretty complex due to the logical design of the system. Therefore its use is very appropriate, especially since a CoffeeScript compiler comes included in Play Framework.</Description>
+        <compriseOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_coffeescript"/>
+        <resultsIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#web_application_server_package_1"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CoffeeScript is a programming language that compiles into JavaScript, adding syntactic sugar to greatly improve the developer experience. The new syntax provides a better readability of the code and helps developers to write complex scripts much more easily. The increased readability of the code goes along with a decreased number of lines compared to the same code in JavaScript, around one third fewer lines. Another interesting feature is an additional syntax to use JavaScript’s native prototyping as a class-based system, making object-oriented programming with JavaScript less complex, particularly when it comes to inheritance.</Description>
         <IsChosen rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</IsChosen>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#const_SPHERE -->
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#constraint_SPHERE -->
 
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#const_SPHERE">
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#constraint_SPHERE">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Constraint"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#choice_use_SPHERE"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#const_SPHERE_MVC -->
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#constraint_play_framework_MVC -->
 
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#const_SPHERE_MVC">
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#constraint_play_framework_MVC">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Constraint"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#play_framework"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The logical architecture of the system is designed after the MVC (Model-View-Controller) architectural pattern, which is widely used in web applications design. Its use in this project is required, since MVC is the architecture pattern followed by Play Framework, the web framework on which SPHERE.IO Play SDK has been developed.</Description>
     </owl:NamedIndividual>
     
@@ -1423,6 +1545,17 @@ When user already logged out, display the last visited page.</Description>
 When user already registered, show a bad request error message and pre-fill form.
 
 When invalid data provided, show a bad request error message and pre-fill the form.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#dust.js -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#dust.js">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Technology"/>
+        <compriseOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_dust.js"/>
+        <isAlternativeOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#handlebars"/>
+        <IsChosen rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</IsChosen>
     </owl:NamedIndividual>
     
 
@@ -1651,12 +1784,31 @@ When the shopping cart is empty, display the last visited page.</Description>
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#handlebars">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Technology"/>
-        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Handlebars is the web template system used in this project to manage client-side templates. It is a JavaScript implementation of the platform-independent Mustache project, that allows to render input data in a template using a very clean syntax. Mustache has a so-called logic-lesstemplate syntax because there are no explicit control flow statements, all needed logic comes exclusively from the data in the form of booleans, arrays or lambdas.
-
-On the contrary Handlebars templates are compiled, allowing to define helpers to reuse code for presentation. It also comes with built-in helpers to control the default flow of the template, such as loops or conditional statements. Handlebars comes also with better support for paths to access the data. In short, this solution makes easier to implement templates than Mustache while still keeping logic separated from presentation.
-
-There is another project, Dust.js, with the same strong points as Handlebars and with useful additional features like template composition. Apparently is a better choice but the project has been abandoned for two years, maybe the reason why Handlebars has the largest community. During the last year LinkedIn has been contributing actively to a separated Dust.js project that the company is using for its website [Bas12]. Regardless it has been considered that Handlebars is a safer option, since the additional features are not indispensable for this project.</Description>
+        <compriseOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_handlbars"/>
+        <resultsIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_view_package_1"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Handlebars is the web template system used in this project to manage client-side templates. It is a JavaScript implementation of the platform-independent Mustache project, that allows to render input data in a template using a very clean syntax. Mustache has a so-called logic-lesstemplate syntax because there are no explicit control flow statements, all needed logic comes exclusively from the data in the form of booleans, arrays or lambdas.</Description>
         <IsChosen rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</IsChosen>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#html5 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#html5">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Technology"/>
+        <causedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#choice_three_tier_client_server_1"/>
+        <compriseOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_html5_json"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#java -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#java">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Technology"/>
+        <compriseOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_java"/>
+        <resultsIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#web_application_server_model_package_1"/>
+        <resultsIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#web_applicaton_server_controller_package_1"/>
     </owl:NamedIndividual>
     
 
@@ -1665,8 +1817,20 @@ There is another project, Dust.js, with the same strong points as Handlebars and
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#jquery">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Technology"/>
-        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">jQuery is a very powerful and fast JavaScript library that allows to easily do DOM scripting (i.e. HTML elements manipulation and event handling), perform animations and simplify the use of AJAX programming; altogether very necessary in this project. The main alternatives, such as MooTools or YUI Library, are also very satisfactory solutions in the mentioned areas, with no significant differences. The final choice of jQuery has been mainly determined by the fact that it has the largest community amongst the options.</Description>
+        <compriseOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_jquery"/>
+        <resultsIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_controller_package_1"/>
+        <resultsIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_model_package_1"/>
         <IsChosen rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</IsChosen>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#json -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#json">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Technology"/>
+        <causedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#choice_three_tier_client_server_1"/>
+        <compriseOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_html5_json"/>
     </owl:NamedIndividual>
     
 
@@ -1675,9 +1839,9 @@ There is another project, Dust.js, with the same strong points as Handlebars and
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#less_css">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Technology"/>
-        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Similarly to CoffeeScript, LESS is a language that compiles into CSS. But unlike CoffeeScript, LESS does not modify the syntax of CSS, but only extends it with dynamic behavior, such as variables, operations and functions. This makes LESS very easy to learn and converts a simple CSS-based file into a powerful dynamic stylesheet.
-
-LESS will allow to better organize the stylesheet of the web-shop, thus facilitating a swift development, fast edition and easy understanding of its code. Although there are other CSS preprocessors like the popular Sass, the provided functionalities are quite similar and Play Framework already comes with a native support of the LESS compiler.</Description>
+        <compriseOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_less_css"/>
+        <resultsIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#web_application_server_package_1"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Similarly to CoffeeScript, LESS is a language that compiles into CSS. But unlike CoffeeScript, LESS does not modify the syntax of CSS, but only extends it with dynamic behavior, such as variables, operations and functions. This makes LESS very easy to learn and converts a simple CSS-based file into a powerful dynamic stylesheet.</Description>
         <IsChosen rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</IsChosen>
     </owl:NamedIndividual>
     
@@ -1791,13 +1955,11 @@ When no products found, show an informative message.</Description>
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#optile">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Technology"/>
+        <compriseOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_optile"/>
+        <resultsIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#web_application_server_model_package_1"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Optile is a payment platform that allows to access a set of heterogeneous payment methods and providers (e.g. credit cards, direct debit, PayPal) under a common interface. Once the web-shop has the platform integrated, the set of payment options can be extended or reduced without any extra implementation effort. Optile has five different main levels of integration: redirected, hosted, half-native and native with and without PCI. These are implemented one on top of the other without losing the previous implementation, that way one can go back to lower levels very easily.
 
-The first level is the universal redirect, where the customer is completely redirected to the payment platform and there he enters his payment data. In the second level that form is hosted in the system via a HTML frame or JavaScript. With the third level the system is in charge of querying the platform about the payment options and display them, but once the user selects one he is redirected to the platform to provide the payment data. The fourth level displays both payment options and forms, taking care of submitting the forms to the platform. The last level requires the system to be PCI compliant, because it gathers the payment data and queries the platform to charge the customer with the provided data.
-
-In opposite to traditional payment platforms, the successful integration of Optile will attest that this web-shop supports a wide range of payment methods and providers, as well as multiple different ways of integration. It is also a good choice for developers, who will have a system with several online payment methods already implemented. Optile first integration can become a little bit tedious, but its flexibility will be profitable for this project.
-
-A valid alternative is Paymill, a popular payment solution which characteristics are completely opposed to Optile: the integration is very fast and easy, but the payment providers offered are limited to credit card and direct debit. Also the customer is never redirected to the payment server, yet there is no need to be PCI compliant. The reason is that the payment form is never submitted, but its data is sent to the payment server via a JavaScript library, returning a token in exchange that the system can use to charge the customer from the server side. Nevertheless the selected solution is Optile, because its implementation will benefit more the project than Paymill.</Description>
+The first level is the universal redirect, where the customer is completely redirected to the payment platform and there he enters his payment data. In the second level that form is hosted in the system via a HTML frame or JavaScript. With the third level the system is in charge of querying the platform about the payment options and display them, but once the user selects one he is redirected to the platform to provide the payment data. The fourth level displays both payment options and forms, taking care of submitting the forms to the platform. The last level requires the system to be PCI compliant, because it gathers the payment data and queries the platform to charge the customer with the provided data.</Description>
         <IsChosen rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</IsChosen>
     </owl:NamedIndividual>
     
@@ -1827,6 +1989,17 @@ A valid alternative is Paymill, a popular payment solution which characteristics
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#paymill -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#paymill">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Technology"/>
+        <compriseOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_paymill"/>
+        <isAlternativeOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#optile"/>
+        <IsChosen rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</IsChosen>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#place_order -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#place_order">
@@ -1843,9 +2016,9 @@ A valid alternative is Paymill, a popular payment solution which characteristics
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#play_framework">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Technology"/>
-        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The use of Play Framework comes as a requirement to test the suitability of SPHERE.IO Play SDK, which was build to create web-shops using this specific framework. Play is an open source web application framework that was first released in 2007 and written in Java. In 2012 a second release was announced, with a core completely rewritten in Scala. This is precisely the version that SPHERE.IO Play SDK works with.
-
-This second version of Play uses Scala in its web template system. Projects in Play are built and deployed with SBT, a build tool for Scala and Java projects, allowing developers to choose between these two programming languages in order to implement the logic of their web applications. Despite this, currently SPHERE.IO Play SDK is supported only in Java projects.
+        <compriseOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_play_framework"/>
+        <resultsIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#web_application_server_package_1"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This second version of Play uses Scala in its web template system. Projects in Play are built and deployed with SBT, a build tool for Scala and Java projects, allowing developers to choose between these two programming languages in order to implement the logic of their web applications. Despite this, currently SPHERE.IO Play SDK is supported only in Java projects.
 
 Play follows the MVC logical architectural pattern and is completely RESTful, which means amongst other things that is stateless, unlike other Java frameworks. It was also designed to support full asynchronous HTTP programming, to serve long-lived requests without tying up other threads. Play also includes the Jackson library to manipulate JSON data and native support for the software testing frameworks JUnit and Selenium. Moreover it also has a compiler for CoffeeScript and LESS, two programming languages that compile into JavaScript and CSS respectively.</Description>
         <IsChosen rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</IsChosen>
@@ -1948,7 +2121,11 @@ When the item does not exist in the cart, show a bad request error message.</Des
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#scala">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Technology"/>
+        <causedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#play_framework"/>
+        <compriseOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_scala"/>
+        <resultsIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#web_application_server_view_package_1"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Scala is a object-functional programming language that runs on JVM and is compatible with Java scripts.</Description>
+        <IsChosen rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</IsChosen>
     </owl:NamedIndividual>
     
 
@@ -2079,15 +2256,11 @@ When the user is not logged in, show an unauthorized error message and display l
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#sphere.io">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Technology"/>
+        <compriseOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_sphere.io"/>
+        <resultsIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#web_application_server_model_package_1"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SPHERE.IO is a cloud-based commerce platform, aimed to unify e-commerce data in a single place where any kind of external system can access this information. These external systems are typically web-shops but can actually be any type of application, even those not related to e-commerce. SPHERE.IO provides a platform to store and process all this data according to commerce business rules, while at the same time offers several ways to access it.
 
-The primary entry point to the backend is provided by a RESTful API, that offers an interface for programmatic access to the data and associated functionality. The API services are using JSON to communicate, always over HTTPS, with previous authorization using OAuth2. Although it is actually the core of the platform, its direct use might be tedious for slightly complex applications. That is the reason why it is recommended to use client libraries and SDKs to communicate with the API, and so improving the development experience.
-
-The SPHERE.IO team chose Java as the first programming language to have a client library due to its versatility. This library is open source, as it is intended to be improved or used as a reference to build other libraries by the developer community. In order to provide a better environment to build websites, a SDK was built on top of the client library: the SPHERE.IO Play SDK. It allowed to adapt the Java client library to the processes and structure of the Play Framework.
-
-A command-line interface (CLI) is also available, especially aimed for managing SPHERE.IO user accounts and projects from a command-line shell. It is also necessary to use the CLI in order to manipulate and query data in batches or for automated jobs, such as importingproducts into SPHERE.IO. As opposed to the API, the CLI is not using OAuth2 since all operations are done under a user account.
-
-So far all the tools for accessing and managing the backend data were focused on developers, but merchants have also the possibility to view and update the data using a web application called Merchant Center. Besides that, merchants can also export and import data between SPHERE.IO and other external systems using elastic.io as an integration platform.</Description>
+The primary entry point to the backend is provided by a RESTful API, that offers an interface for programmatic access to the data and associated functionality. The API services are using JSON to communicate, always over HTTPS, with previous authorization using OAuth2. Although it is actually the core of the platform, its direct use might be tedious for slightly complex applications. That is the reason why it is recommended to use client libraries and SDKs to communicate with the API, and so improving the development experience.</Description>
         <IsChosen rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</IsChosen>
     </owl:NamedIndividual>
     

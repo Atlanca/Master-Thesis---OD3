@@ -28,7 +28,6 @@ WHERE {{ \
 
     relationsResult = list(graph.query(relationsQuery))
     for r in relationsResult:
-        print(r)
-   
+        print(r)   
 testa("partOf")
 #getAllRelations("choice_three_tier_client_server_1")

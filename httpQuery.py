@@ -402,8 +402,8 @@ class InformationRetriever:
     def relationsByFunctionalRequirement(self, architectureFragment):
         return self.recursiveRelationsBy(architectureFragment, 'satisfies', 'FunctionalRequirement')
 
-    def relationsByDecision(self, architectureFragment):
-        return self.recursiveRelationsBy(architectureFragment, "resultOf", "Decision")
+    def relationsByDesignOption(self, architectureFragment):
+        return self.recursiveRelationsBy(architectureFragment, "resultOf", "DesignOption")
 
     def relationsByDiagram(self, architectureFragment):
         return self.relationsBy(architectureFragment, pred="modeledIn")
@@ -436,7 +436,7 @@ class InformationRetriever:
     def rationaleOfArchitecture(self, architecture):
         decisionsList = []
         if self.getTypeOfIndividual(architecture) == 'ArchitecturalPattern':
-            decisions = self.getRelations(architecture, pred='resultOf', objType='Decision')
+            decisions = self.getRelations(architecture, pred='resultOf', objType='DesignOption')
             for d in decisions:
                 rationale = self.getRelations(d[1], pred='compriseOf')
                 rationaleList = []
@@ -454,18 +454,25 @@ class InformationRetriever:
     def getRationaleOfTechnology(self, technology):
         technologyList = []
         if self.getTypeOfIndividual(technology) == 'Technology':
-            decisions = self.getRelations(technology, pred='resultOf', objType='Decision')
+            decisions = self.getRelations(technology, pred='compriseOf')
             for d in decisions:
-                rationale = self.getRelations(d[1], pred='compriseOf')
-                rationale += self.getRelations(d[1], pred='resultsIn')
-                rationaleList = []
-                for r in rationale:
-                    item = self.tripleDescription(r[1])
-                    rationaleList.append(item)
-                ds = self.doubleStructure(d[1])
-                ds['rationale'] = rationaleList
-                technologyList.append(ds)
+               ds = self.doubleStructure(d[1])
+               ds['rationale'] = self.getDataProperties(d[1])
+               technologyList.append(ds)
         return technologyList
+
+    def getDescriptionOfTechnology(self, technology):
+        if self.getTypeOfIndividual(technology) == 'Technology':
+            return self.tripleDescription(technology)
+
+    def getArchitectureByTechnology(self, technology):
+        if self.getTypeOfIndividual(technology) == 'Technology':
+            arch = self.getRelations(technology, pred='resultsIn')
+            ds = self.doubleStructure(technology)
+            ds['relatedComponents'] = [a[1] for a in arch]
+            return ds
+        return None
+
 #-----------------------------------------------------------------------------------------
 # MAIN CLASS USED FOR TESTING
 #-----------------------------------------------------------------------------------------
@@ -486,7 +493,7 @@ def finePrint(relations):
 
 ir = InformationRetriever('')
 print("\n\nFeature role: purchase_products")
-print(ir.explainFeatureRole("purchase_products"))
+print(ir.explainFeatureRole("purchase_products")['Requirement'])
 
 print("\n\nRelated implementation classes: purchase_products")
 print(ir.relatedImplementationClasses("purchase_products"))
@@ -512,5 +519,11 @@ print(ir.locationInArchitecture('Forms'))
 print("\n\nAll technologies used in the system: ")
 print(ir.getAllTechnologies())
 
-print("\n\nRationale of technology: ")
+print("\n\nRationale of technology, sphere.io: ")
 print(ir.getRationaleOfTechnology('sphere.io'))
+
+print("\n\nDescription of sphere.io")
+print(ir.getDescriptionOfTechnology('sphere.io'))
+
+print("\n\nGet architecture by sphere.io")
+print(ir.getArchitectureByTechnology('sphere.io'))
