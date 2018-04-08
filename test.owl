@@ -1998,6 +1998,7 @@ When the item does not exist in the cart, show a bad request error message.</Des
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Role"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#fat_client_MVC"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#thin_client_MVC"/>
+        <roleImplementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#web_application_server_model_package_1"/>
     </owl:NamedIndividual>
     
 
@@ -2284,6 +2285,7 @@ When the new quantity is invalid, show a bad request error message.</Description
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#web_application_server_model_package_1">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Package"/>
+        <compriseOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Forms"/>
         <compriseOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ViewHelper"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.33_web_application_server_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#web_application_server_package_1"/>
