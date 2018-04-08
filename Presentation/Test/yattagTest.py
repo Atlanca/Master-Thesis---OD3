@@ -3,8 +3,9 @@ import httpQuery
 import json
 
 class htmlBuilder:
-    def __init__(self, featureRoleData):
+    def __init__(self, featureRoleData, relImpClassesData):
         self.featureRoleData = featureRoleData
+        self.relImpClassesData = relImpClassesData
         self.hideButtonId = 0
 
     # ---------------------------------------------------------------------------------
@@ -33,7 +34,7 @@ class htmlBuilder:
     def explanationView(self):
         doc, tag, text, line = Doc().ttl()
         doc.asis(self.tabViewTitle('explanation', '', [self.featureRoleExplanation('feature role', self.featureRoleData), 
-                                                #self.relatedImplementationClassesExplanation('rel1', self.featureRoleData),
+                                                self.relatedImplementationClassesExplanation('rel1', self.relImpClassesData),
                                                 #self.relatedImplementationClassesExplanation('rel2', title='Relations by architectural role'),
                                                 #self.relatedImplementationClassesExplanation('rel3', title='Relations by diagram'),
                                                 #self.relatedImplementationClassesExplanation('rel4', title='Intersecting features'),
@@ -49,9 +50,9 @@ class htmlBuilder:
             with tag('div', klass="w3-container w3-margin-top w3-margin-bottom"):
                 with tag('div', klass="w3-border"):
                     with tag('div', klass="w3-white w3-padding", style="height:700px;"):
-                        line('svg', '', width="700", style="height:100%;width:100%;")
-                        line('script', '', src="relationGraph.js")
-                        line('script','document.getElementById("explanation").style.display = "none";')
+                        line('svg', '', id="featureRoleGraph", width="700", style="height:100%;width:100%;")
+                        line('script', '', src="featureRoleGraph.js")
+                        line('script','document.getElementById("explanation").style.display = "block";')
                     with tag('div', klass="w3-center w3-sand w3-padding"):
                         doc.asis('Relationship diagram showing entites related to feature role')
            
@@ -69,17 +70,17 @@ class htmlBuilder:
 
         resultDict = {}
         for r in resultList:
-            if r['type'] not in resultDict.keys():
-                resultDict[r['type']] = []
-            resultDict[r['type']].append(r)
+            if r[1]['type'] not in resultDict.keys():
+                resultDict[r[1]['type']] = []
+            resultDict[r[1]['type']].append(r)
 
         self.hideButtonId += 1
         doc.asis(self.explanationTitle(title, id, self.hideButtonId))
-        with tag('div', id=id, style="display:none"):
+        with tag('div', id=id, style="display:block"):
             with tag('div', klass="w3-container w3-margin-top w3-margin-bottom"):
                 with tag('div', klass="w3-border"):
                     with tag('div', klass="w3-white w3-padding", style="height:700px;"):
-                        line('svg', '', width="700", style="height:100%;width:100%;")
+                        line('svg', '', id="relationGraph", width="700", style="height:100%;width:100%;")
                         line('script', '', src="relationGraph.js")
                         line('script','document.getElementById("explanation").style.display = "none";')
                     with tag('div', klass="w3-center w3-sand w3-padding"):
@@ -91,11 +92,11 @@ class htmlBuilder:
     def recursiveSectionRowDictFactory(self, dataDict, resultList):
         print(dataDict)
         resultList.append(dataDict)
-        if 'children' in dataDict.keys():
-            for d in dataDict['children']:
+        if 'children' in dataDict[1].keys():
+            for d in dataDict[1]['children']:
                 self.recursiveSectionRowDictFactory(d, resultList)
-        if 'implClasses' in dataDict.keys():
-            for i in dataDict['implClasses']:
+        if 'implClasses' in dataDict[1].keys():
+            for i in dataDict[1]['implClasses']:
                 self.recursiveSectionRowDictFactory(i, resultList)
 
     def relationsByArchitecturalRoleExplanation(self):
@@ -135,10 +136,10 @@ class htmlBuilder:
 
         for column in columnList:
             counter += 1
-            if 'dataTypeProperties' in column.keys():
-                clist.append(self.sectionColumnItem(column['object'], column['dataTypeProperties'], True))
+            if 'dataTypeProperties' in column[1].keys():
+                clist.append(self.sectionColumnItem(column[1]['object'], column[1]['dataTypeProperties'], True))
             else:
-                clist.append(self.sectionColumnItem(column['object'], marginRight = True))
+                clist.append(self.sectionColumnItem(column[1]['object'], marginRight = True))
             if counter%rowSize == 0:
                 rlist.append(self.sectionRow(clist))
                 clist.clear()
@@ -298,18 +299,18 @@ class htmlBuilder:
         file.close()
 
 ir = httpQuery.InformationRetriever('')
-role = ir.explainFeatureRole('purchase_products')
-# role = ir.relatedImplementationClasses("purchase_products")
+roleData = ir.explainFeatureRole('purchase_products')
+#relImpClassesData = ir.relatedImplementationClasses("purchase_products")
+relImpClassesData = ir.relationsByArchitecturalRole("CartForms")
 #role = ir.explainFeatureImplementation("purchase_products")
 # role = ir.relationsByDiagram("web_application_server_package_1")
 
 #Dump data into json
 f = open('featureRoleData.js', 'w') 
 f.truncate(0)
-f.write("featureRoleData = " + json.dumps(role))
+f.write("featureRoleData = " + json.dumps(roleData))
+f.write("; relImpClassesData = " + json.dumps(relImpClassesData))
 f.close()
 
-test = htmlBuilder(role)
-
-
+test = htmlBuilder(roleData, relImpClassesData)
 test.main()

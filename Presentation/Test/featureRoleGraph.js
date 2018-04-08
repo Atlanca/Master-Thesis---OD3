@@ -1,5 +1,5 @@
 // Create the input graph
-var g = new dagreD3.graphlib.Graph().setGraph({rankdir: "LR"})
+var g = new dagreD3.graphlib.Graph().setGraph({rankdir: "RL"})
   .setDefaultEdgeLabel(function() { return {}; });
 
 //Here we"re setting nodeclass, which is used by our custom drawNodes function
@@ -38,10 +38,8 @@ function getColor(){
   return CSS_COLOR_NAMES[color_count++]
 }
 
-var roleExplanation = true
-
 var datalist = []
-entitiesToList(relImpClassesData, datalist)
+entitiesToList(featureRoleData, datalist)
 
 typeColor = {}
 datalist.forEach(function(d){
@@ -52,38 +50,71 @@ for (key in typeColor){
 }
 
 var states = {}
+  
+for (var key in featureRoleData){
+  states[key] = {
+    id: "node_" + key,
+    class: "box",
+    style: "fill: #70b8ff",
+    title: ""
+  }
+  
+  typeColor = {}
+  featureRoleData[key].forEach(function(e){
+    typeColor[e[1]['type']] = ''
+  })
 
-datalist.forEach(function(item){
-  description = "<p>Type : " + item[1]['type'] +"</p>"
-  if ('dataTypeProperties' in item[1]){
-    item[1]['dataTypeProperties'].forEach(function(d){
-      description += "<p>" + d[0] + " : " + d[1].substring(0,200) + "...</p>"
-    })
+  for (type in typeColor) {
+    typeColor[type] = getColor()
   }
 
-  states[item[1]['object']] = {
-    id: "node_" + item[1]['object'],
-    class: "box",
-    style: "fill: " + typeColor[item[1]['type']],
-    title: description}
-})
+  featureRoleData[key].forEach(function(e){
+    description = ""
+    e[1]['dataTypeProperties'].forEach(function(data) {
+      
+      text = data[1].substring(0,100)
+      if (text.length < data[1].length) {
+        text += "..."
+      }
 
-// Add states to the graph, set labels, and style
+      description += "<p>"+data[0]+": "+text+"</p>"
+    })
+
+    states[e[1]['object']] = {
+      id: "node_" + e[1]['object'],
+      title: description,
+      style: "fill: " + typeColor[e[1]['type']]
+
+    }
+    
+  })
+}
+
+//Add states to the graph, set labels, and style
 Object.keys(states).forEach(function(state) {
-  var value = states[state];
-  value.label = state;
-  value.rx = value.ry = 5;
-  g.setNode(state, value);
+var value = states[state];
+value.label = state;
+value.rx = value.ry = 5;
+g.setNode(state, value);
 });
 
-// Set up the edges
-recursiveAddEdges(relImpClassesData)
+//Set up the edges
+
+for(var key in featureRoleData) {
+if (key != "Feature") {
+    g.setEdge(key, 'purchase_products', {curve: d3.curveBasis})
+}
+
+featureRoleData[key].forEach(function(e) {
+    g.setEdge(e[1]['object'], key, {curve: d3.curveBasis, arrowheadStyle: 'fill: #fff'})
+})
+}
 
 // Create the renderer
 var render = new dagreD3.render();
 
 // Set up an SVG group so that we can translate the final graph.
-var svg = d3.select("#relationGraph"),
+var svg = d3.select("#featureRoleGraph"),
     inner = svg.append("g");
 
 // Set up zoom support

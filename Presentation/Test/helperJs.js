@@ -1,6 +1,6 @@
 function hideView(viewId, buttonId) {
     if(document.getElementById(viewId).style.display == 'none'){
-        document.getElementById(viewId).style.display= 'block'
+        document.getElementById(viewId).style.display = 'block'
         document.getElementById(buttonId).innerHTML = "hide"
     }else{
         document.getElementById(viewId).style.display= 'none'

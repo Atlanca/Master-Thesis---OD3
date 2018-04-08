@@ -148,23 +148,23 @@ class InformationRetriever:
     #-----------------------------------------------------------------------------------------
     # 2.1 METHODS FOR STRUCTURING DATA
     #-----------------------------------------------------------------------------------------   
-    def tripleStructure(self, subjectURI):
+    def tripleStructure(self, subjectPredicate, subjectURI):
         implementationClasses = []
         for id in self.getRelations(subjectURI, 'realizedBy', 'ImplementationClass'):
             implementationClasses.append(id[1])
  
-        return {'type': self.getTypeOfIndividual(subjectURI), 
+        return (subjectPredicate, {'type': self.getTypeOfIndividual(subjectURI), 
                 'object': subjectURI, 
-                'implClasses': implementationClasses}
+                'implClasses': implementationClasses})
  
-    def tripleDescription(self, subjectURI):
-        return {'type': self.getTypeOfIndividual(subjectURI), 
+    def tripleDescription(self, subjectPredicate, subjectURI):
+        return (subjectPredicate, {'type': self.getTypeOfIndividual(subjectURI), 
                 'object': subjectURI, 
-                'dataTypeProperties': self.getDataProperties(subjectURI)}
+                'dataTypeProperties': self.getDataProperties(subjectURI)})
 
-    def doubleStructure(self, subjectURI):
-        return {'type': self.getTypeOfIndividual(subjectURI), 
-                'object': subjectURI}
+    def doubleStructure(self, subjectPredicate, subjectURI):
+        return (subjectPredicate, {'type': self.getTypeOfIndividual(subjectURI), 
+                'object': subjectURI})
 
     def uriStructure(self, subjectURI):
         return subjectURI
@@ -203,14 +203,14 @@ class InformationRetriever:
         descriptions = []
 
         for ti in targetIndividuals:
-            descriptions.append(returnStructureFunc(ti[1]))
+                descriptions.append(returnStructureFunc(ti[0], ti[1]))
 
         subjectTypeIndidviduals = self.getRelations(sub=subject, pred=predicate, objType=self.getTypeOfIndividual(subject))
          
         for si in subjectTypeIndidviduals:    
-            slist = returnStructureFunc(si[1])
+            slist = returnStructureFunc(si[0], si[1])
             if hierarchy:   
-                slist['children'] = (self.getRecursive(returnStructureFunc, si[1], predicate, objectType, hierarchy))
+                slist[1]['children'] = self.getRecursive(returnStructureFunc, si[1], predicate, objectType, hierarchy)
             else:
                 descriptions += self.getRecursive(returnStructureFunc, si[1], predicate, objectType, hierarchy)
             descriptions.append(slist)
@@ -243,14 +243,14 @@ class InformationRetriever:
         endObjects = self.getRelations(architectureFragment, pred, objectType)
         relations = []
         if endObjects:
-            relations = [self.tripleDescription(eo[1]) for eo in endObjects]
+            relations = [self.tripleDescription(eo[0], eo[1]) for eo in endObjects]
             for r in relations:
-                directChildren = self.getRelations(r['object'], pred=pred, useInversePred=True)
-                r['children'] = []
+                directChildren = self.getRelations(r[1]['object'], pred=pred, useInversePred=True)
+                r[1]['children'] = []
                 for dc in directChildren:
-                    ds = self.doubleStructure(dc[1])
-                    ds['children'] = self.getRecursive(self.tripleDescription, dc[1], 'compriseOf', 'ClassEntity', hierarchy=True)
-                    r['children'].append(ds)
+                    ds = self.doubleStructure(dc[0], dc[1])
+                    ds[1]['children'] = self.getRecursive(self.tripleDescription, dc[1], 'compriseOf', 'ClassEntity', hierarchy=True)
+                    r[1]['children'].append(ds)
         else: 
             encapsulatingComponents = self.getRelations(architectureFragment, 'partOf')
             for ec in encapsulatingComponents:
@@ -263,21 +263,23 @@ class InformationRetriever:
     def recursiveEncapsulation(self, architectureFragment, pred, objectType = ""):
         
         endObjects = self.getRelations(architectureFragment, pred, objectType)
-        ds = self.doubleStructure(architectureFragment)
-        ds['parent'] = []
+        ds = self.doubleStructure(None, architectureFragment)
+        ds[1]['parent'] = []
         if endObjects:
-            ds['parent'] = [self.doubleStructure(eo[1]) for eo in endObjects]
+            ds[1]['parent'] = [self.doubleStructure(eo[0], eo[1]) for eo in endObjects]
             relations = (ds)
         else:
             encapsulatingComponents = [r[1] for r in self.getRelations(architectureFragment, 'partOf')]
             for ec in encapsulatingComponents:
-                ds['parent'].append(self.recursiveEncapsulation(ec, pred))
+                ds[1]['parent'].append(self.recursiveEncapsulation(ec, pred))
                 relations = (ds)
         return relations
 
     # getLeafParentHelper() is used to loop through the recursive structure returned by
     # recursiveEncapsulation() to get the leaf parent objects.
     def getLeafParentHelper(self, structure):
+        if isinstance(structure, tuple):
+            structure = structure[1]
         if 'parent' in list(structure.keys()):
             leaves = []
             for p in structure['parent']:
@@ -299,19 +301,19 @@ class InformationRetriever:
         for af in architectureFragments:
             pathToFeature.append(self.recursiveEncapsulation(af, pred, objType))
         for item in pathToFeature:
-            value = self.doubleStructure(item['object'])
-            value['relatedEntities'] = []
-            value['relatedEntities'] += self.getLeafParentHelper(item)
+            value = self.doubleStructure(None, item[1]['object'])
+            value[1]['relatedEntities'] = []
+            value[1]['relatedEntities'] += self.getLeafParentHelper(item[1])
             featureList.append(value)
         
         intersectingFeatures = {}
-        tmpList = [(i,j) for i in featureList for j in i['relatedEntities']]
+        tmpList = [(i,j) for i in featureList for j in i[1]['relatedEntities']]
 
         for item in tmpList:
             intersectingFeatures[item[1]] = []
         
         for item in tmpList:
-            intersectingFeatures[item[1]].append(item[0]['object'])
+            intersectingFeatures[item[1]].append(item[0][1]['object'])
  
         for item in intersectingFeatures:
             intersectingFeatures[item] = list(set(intersectingFeatures[item]))
@@ -319,15 +321,15 @@ class InformationRetriever:
 
     #A helper method for locationInArchitecture
     def addLeafToRecursiveStructure(self, structure, key):
-        keys = list(structure.keys())
+        keys = list(structure[1].keys())
         if key in keys:
-            for s in structure[key]:
+            for s in structure[1][key]:
                 self.addLeafToRecursiveStructure(s, key)
         else:
-            structure[key] = []
-            leaves = self.getRelations(structure['object'], pred='partOf', objType='ArchitecturalPattern')
+            structure[1][key] = []
+            leaves = self.getRelations(structure[1]['object'], pred='partOf', objType='ArchitecturalPattern')
             for leaf in leaves:
-                structure[key].append(self.doubleStructure(leaf))
+                structure[1][key].append(self.doubleStructure('partOf', leaf))
         return structure
 
     #-----------------------------------------------------------------------------------------
@@ -338,21 +340,19 @@ class InformationRetriever:
     def explainFeatureRole(self, feature):
         featureCompriseOfRelations = self.getRelations(feature, pred="compriseOf")
         featureModeledInRelations = self.getRelations(feature, pred="modeledIn")
-        featureDataProperties = [self.tripleDescription(feature)]
+        featureDataProperties = [self.tripleDescription(None, feature)]
         requirementDataProperties = []
         diagramDataProperties = []
         useCaseDataProperties = []
         
         for fr in featureCompriseOfRelations:
-            req = fr[1]
-            requirementDataProperties.append(self.tripleDescription(req))                        
-            for rr in self.getRelations(req, pred="partOf", objType="UseCase"):
-                useCase = rr[1]
-                if(self.tripleDescription(useCase) not in useCaseDataProperties):
-                    useCaseDataProperties.append(self.tripleDescription(useCase))
+            requirementDataProperties.append(self.tripleDescription(fr[0], fr[1]))                        
+            for rr in self.getRelations(fr[1], pred="partOf", objType="UseCase"):
+                if(self.tripleDescription(rr[0], rr[1]) not in useCaseDataProperties):
+                    useCaseDataProperties.append(self.tripleDescription(rr[0], rr[1]))
                         
         for fmr in featureModeledInRelations:
-            diagramDataProperties.append(self.tripleDescription(fmr[1]))
+            diagramDataProperties.append(self.tripleDescription(fmr[0], fmr[1]))
             
         return {'Feature': featureDataProperties, 
                 'Requirement': requirementDataProperties, 
@@ -364,13 +364,16 @@ class InformationRetriever:
         featureClassPackages = self.getRelations(sub=feature, pred="realizedBy", objType="ClassPackage")
         featureClasses = []
         for fp in featureClassPackages:
-            featureClasses.append(self.tripleDescription(fp[1]))
+            featureClasses.append(self.tripleDescription(fp[0], fp[1]))
             featureClasses += self.getRecursive(self.tripleDescription, fp[1], "compriseOf", "ClassEntity")
         return  featureClasses
 
     # Shows all implementation classes related to given feature
     def relatedImplementationClasses(self, feature):
         featureClassPackages = self.getRelations(sub=feature, pred="realizedBy", objType="ClassPackage")
+        featureDs = self.doubleStructure(None, feature)
+        featureDs[1]['implClasses'] = []
+        featureDs[1]['children'] = []
         featureArchitecture = []
 
         implementationClasses = []
@@ -378,10 +381,11 @@ class InformationRetriever:
             implementationClasses.append(ic[1])
 
         for fcp in featureClassPackages:
-            featureArchitecture.append({'type': self.getTypeOfIndividual(fcp[1]),
-                                        'object': fcp[1], 
-                                        'implClasses': implementationClasses,
-                                        'children': self.getRecursive(self.tripleStructure, fcp[1], "compriseOf", "ClassEntity", True)})
+            ds = self.doubleStructure(fcp[0], fcp[1])
+            ds[1]['implClasses'] = implementationClasses
+            ds[1]['children'] = self.getRecursive(self.tripleStructure, fcp[1], 'compriseOf', "ClassEntity", True)
+            featureDs[1]['children'].append(ds)
+        featureArchitecture.append(featureDs)
         return featureArchitecture
 
     # The methods below finds all architecture fragments that are related to
@@ -424,8 +428,8 @@ class InformationRetriever:
         leafParents = self.getLeafParentHelper(role)
         relations = []
         for lp in leafParents:
-            relations += [r[1] for r in self.getRelations(lp, pred='partOf', objType='ArchitecturalPattern')]
-        return [self.tripleDescription(r) for r in relations]
+            relations += self.getRelations(lp, pred='partOf', objType='ArchitecturalPattern')
+        return [self.tripleDescription(r[0], r[1]) for r in relations]
     
     def locationInArchitecture(self, architectureFragment):
         role = self.recursiveEncapsulation(architectureFragment, 'playsRole', 'Role')
@@ -440,10 +444,10 @@ class InformationRetriever:
                 rationale = self.getRelations(d[1], pred='compriseOf')
                 rationaleList = []
                 for r in rationale:
-                    item = self.tripleDescription(r[1])
+                    item = self.tripleDescription(r[0], r[1])
                     rationaleList.append(item)
-                ds = self.doubleStructure(d[1])
-                ds['rationale'] = rationaleList
+                ds = self.doubleStructure(d[0], d[1])
+                ds[1]['rationale'] = rationaleList
                 decisionsList.append(ds)
         return decisionsList
 
@@ -455,20 +459,20 @@ class InformationRetriever:
         if self.getTypeOfIndividual(technology) == 'Technology':
             decisions = self.getRelations(technology, pred='compriseOf')
             for d in decisions:
-               ds = self.doubleStructure(d[1])
-               ds['rationale'] = self.getDataProperties(d[1])
+               ds = self.doubleStructure(d[0], d[1])
+               ds[1]['rationale'] = self.getDataProperties(d[1])
                technologyList.append(ds)
         return technologyList
 
     def getDescriptionOfTechnology(self, technology):
         if self.getTypeOfIndividual(technology) == 'Technology':
-            return self.tripleDescription(technology)
+            return self.tripleDescription(None, technology)
 
     def getArchitectureByTechnology(self, technology):
         if self.getTypeOfIndividual(technology) == 'Technology':
             arch = self.getRelations(technology, pred='resultsIn')
-            ds = self.doubleStructure(technology)
-            ds['relatedComponents'] = [a[1] for a in arch]
+            ds = self.doubleStructure(None, technology)
+            ds[1]['relatedComponents'] = [self.doubleStructure(a[0], a[1]) for a in arch]
             return ds
         return None
 
