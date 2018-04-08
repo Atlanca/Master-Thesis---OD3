@@ -249,7 +249,9 @@ class InformationRetriever:
                 r[1]['children'] = []
                 for dc in directChildren:
                     ds = self.doubleStructure(dc[0], dc[1])
-                    ds[1]['children'] = self.getRecursive(self.tripleDescription, dc[1], 'compriseOf', hierarchy=True)
+                    ds[1]['children'] = self.getRecursive(self.tripleDescription, dc[1], 'compriseOf', 'ClassEntity', hierarchy=True)
+                    ds[1]['children'] += self.getRecursive(self.tripleDescription, dc[1], 'compriseOf', 'ClassPackage', hierarchy=True)
+                    ds[1]['children'] += self.getRecursive(self.tripleDescription, dc[1], 'compriseOf', 'Package', hierarchy=True)
                     r[1]['children'].append(ds)
         else: 
             encapsulatingComponents = self.getRelations(architectureFragment, 'partOf')
