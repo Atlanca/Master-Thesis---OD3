@@ -9,6 +9,7 @@
         <script src="https://d3js.org/d3.v5.min.js"></script>
         <script src="https://dagrejs.github.io/project/dagre-d3/latest/dagre-d3.js"></script>
         <script src="https://unpkg.com/tippy.js@2.5.0/dist/tippy.all.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.amd.js"></script>
 </head>
 <style>
     html { overflow-y: scroll; }   
@@ -156,7 +157,7 @@
                     <div class="w3-khaki w3-padding">
                         <h4>FEATURES</h4>
                     </div>
-                    <div id="purchase_products" class="w3-row w3-margin" style="display:flex;">
+                    <div class="w3-margin" style="display:flex;">
                         <div id="figure_3.4_purchase_products" class="w3-border w3-white w3-margin-right" style="flex:1;width:100px;">
                             <div class="w3-container w3-sand">
                                 <h5>figure_3.4_purchase_products</h5>
@@ -167,7 +168,7 @@
                                 <p>Description: Use case diagram showing the use cases of the purchase products package.</p>
                             </div>
                         </div>
-                        <div class="w3-border w3-white" style="flex:1;width:100px;">
+                        <div id="purchase_products" class="w3-border w3-white" style="flex:1;width:100px;">
                             <div class="w3-container w3-sand">
                                 <h5>purchase_products</h5>
                             </div>
