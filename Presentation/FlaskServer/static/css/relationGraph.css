@@ -1,0 +1,42 @@
+body {
+    font: 300 14px 'Helvetica Neue', Helvetica;
+  }
+
+.clusters rect {
+  fill: #9741b1;
+  stroke: #9741b1;
+  stroke-width: 1.5px;
+  fill-opacity: 0.75;
+}
+
+.node rect {
+stroke: #333;
+fill: #fef;
+}
+
+.edgePath path {
+stroke: #333;
+fill: #333;
+stroke-width: 1.5px;
+}
+
+.arrowhead {
+    stroke: #333;
+    fill: white;
+    stroke-width: 1.5px;
+   }
+
+text {
+  font-weight: 300;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serf;
+  font-size: 12px;
+  color: green;
+}
+
+.cluster text {
+  font-size: 16px
+}
+
+.node text {
+  pointer-events: none;
+}

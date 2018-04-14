@@ -1,0 +1,27 @@
+.clusters rect {
+  fill: #9741b1;
+  stroke: #9741b1;
+  stroke-width: 1.5px;
+  fill-opacity: 0.25;
+}
+
+.clusters text {
+ color: #9741b1;
+}
+
+text {
+  font-weight: 300;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serf;
+  font-size: 14px;
+}
+
+.node rect {
+  stroke: #999;
+  fill: #fff;
+  stroke-width: 1.5px;
+}
+
+.edgePath path {
+  stroke: #333;
+  stroke-width: 1.5px;
+}
