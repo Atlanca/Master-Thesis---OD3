@@ -784,6 +784,14 @@
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalStereotype -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalStereotype">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalClassFragment"/>
+    </owl:Class>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalStructure -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalStructure">
@@ -1056,9 +1064,17 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Address">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalClass"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_add-address-template"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_billing-address-template"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_shipping-address-template"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_update-address-template"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Addresses"/>
         <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_AddressForms"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_setAddressForm.scala"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_3.10_class_diagram_of_the_system"/>
         <satisfies rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#add_address"/>
+        <satisfies rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#remove_address"/>
+        <satisfies rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#update_address"/>
     </owl:NamedIndividual>
     
 
@@ -1076,6 +1092,11 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Cart">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalClass"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Controller_Cart"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_CartNoEmpty"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Carts"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_CartForms"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_carts.scala"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_3.10_class_diagram_of_the_system"/>
     </owl:NamedIndividual>
     
@@ -1085,7 +1106,78 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Category">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalClass"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Categories"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_categories.scala"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_3.10_class_diagram_of_the_system"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Controller_Cart -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Controller_Cart">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.40_client_controller_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#javaScript_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Controller_Checkout -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Controller_Checkout">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.40_client_controller_component"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Controller_Customer -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Controller_Customer">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.40_client_controller_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#javaScript_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Controller_Login -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Controller_Login">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.40_client_controller_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#javaScript_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Controller_Product -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Controller_Product">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.40_client_controller_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#javaScript_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Controller_ProductList -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Controller_ProductList">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.40_client_controller_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#javaScript_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Controller_ProductThumbnail -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Controller_ProductThumbnail">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.40_client_controller_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#javaScript_stereotype"/>
     </owl:NamedIndividual>
     
 
@@ -1094,14 +1186,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_Form">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
-        <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_error.scala.html"/>
-        <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_logIn.scala.html"/>
-        <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_recoverPassword.scala.html"/>
-        <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_resetPassword.scala.html"/>
-        <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_setAddress.scala.html"/>
-        <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_signUp.scala.html"/>
-        <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_updateCustomer.scala.html"/>
-        <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_updatePassword.scala.html"/>
+        <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_lib-form.coffee"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Figure_4.35_client_side_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_model_package_1"/>
         <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#javaScript_stereotype"/>
@@ -1113,7 +1198,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_MiniCart">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
-        <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_miniCart.scala.html"/>
+        <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_mini-cart.coffee"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Figure_4.35_client_side_model_component"/>
         <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#javaScript_stereotype"/>
     </owl:NamedIndividual>
@@ -1124,7 +1209,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_OrderSummary">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
-        <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_orderSummary.scala.html"/>
+        <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_order-summary.coffee"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Figure_4.35_client_side_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_model_package_1"/>
         <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#javaScript_stereotype"/>
@@ -1132,92 +1217,129 @@
     
 
 
-    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_error.scala.html -->
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_lib-form.coffee -->
 
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_error.scala.html">
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_lib-form.coffee">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
-        <Path>git\sphere-snowflake\app\views\form\error.scala.html</Path>
+        <Path>assets/javascripts/demo/lib-form.coffee</Path>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_logIn.scala.html -->
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_mini-cart.coffee -->
 
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_logIn.scala.html">
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_mini-cart.coffee">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
-        <Path>views/form/logIn.scala.html</Path>
+        <Path>assets/javascripts/demo/mini-cart.coffee</Path>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_miniCart.scala.html -->
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_order-summary.coffee -->
 
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_miniCart.scala.html">
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_order-summary.coffee">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
-        <Path>views/helper/miniCart.scala.html</Path>
+        <Path>assets/javascripts/demo/order-summary.coffee</Path>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_orderSummary.scala.html -->
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_add-address-template -->
 
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_orderSummary.scala.html">
-        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
-        <Path>views/helper/orderSummary.scala.html</Path>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_add-address-template">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.38_client_side_view_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_page_stereotype"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_recoverPassword.scala.html -->
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_billing-address-template -->
 
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_recoverPassword.scala.html">
-        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
-        <Path>views/form/recoverPassword.scala.html</Path>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_billing-address-template">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.38_client_side_view_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_page_stereotype"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_resetPassword.scala.html -->
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_billing-method-tempalte -->
 
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_resetPassword.scala.html">
-        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
-        <Path>views/form/resetPassword.scala.html</Path>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_billing-method-tempalte">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.38_client_side_view_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_page_stereotype"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_setAddress.scala.html -->
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_cart-item-template -->
 
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_setAddress.scala.html">
-        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
-        <Path>views/form/setAddress.scala.html</Path>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_cart-item-template">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.38_client_side_view_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_page_stereotype"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_signUp.scala.html -->
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_mini-cart-template -->
 
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_signUp.scala.html">
-        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
-        <Path>views/form/signUp.scala.html</Path>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_mini-cart-template">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.38_client_side_view_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_page_stereotype"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_updateCustomer.scala.html -->
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_order-summary-template -->
 
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_updateCustomer.scala.html">
-        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
-        <Path>views/form/updateCustomer.scala.html</Path>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_order-summary-template">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.38_client_side_view_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_page_stereotype"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_updatePassword.scala.html -->
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_product-list-template -->
 
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_updatePassword.scala.html">
-        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
-        <Path>views/form/updatePassword.scala.html</Path>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_product-list-template">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.38_client_side_view_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_shipping-address-template -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_shipping-address-template">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.38_client_side_view_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_update-address-template -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_update-address-template">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.38_client_side_view_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Cllient_View_shipping-method-template -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Cllient_View_shipping-method-template">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.38_client_side_view_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_page_stereotype"/>
     </owl:NamedIndividual>
     
 
@@ -1226,6 +1348,10 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Customer">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalClass"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Controller_Customer"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Customers"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_CustomerForms"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_customers.scala"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_3.10_class_diagram_of_the_system"/>
     </owl:NamedIndividual>
     
@@ -1243,7 +1369,6 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Figure_4.35_client_side_model_component">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Diagram"/>
-        <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_orderSummary.scala.html"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Overview of the client-side Model component
 Due to the design of the system, the client side has also some important elements from the Model component. Although the separation between Model and Controller is not properly defined in the client side, mainly because of the simplicity of the business logic located there, there are also some client-side classes that are dedicated mainly to processing and validation purposes (see Figure 4.35).
 
@@ -1265,6 +1390,12 @@ On the one hand there are some classes in charge of different elements that are 
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Order">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalClass"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_OrderSummary"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_order-summary-template"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_order.scala"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_orderList.scala"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_orderSummary.scala"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_orders.scala"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_3.10_class_diagram_of_the_system"/>
     </owl:NamedIndividual>
     
@@ -1274,6 +1405,15 @@ On the one hand there are some classes in charge of different elements that are 
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Product">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalClass"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Controller_Product"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Controller_ProductList"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Controller_ProductThumbnail"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_product-list-template"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Products"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_productList.scala"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_productPager.scala"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_productThumbnail.scala"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_products.scala"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_3.10_class_diagram_of_the_system"/>
     </owl:NamedIndividual>
     
@@ -1305,12 +1445,33 @@ On the one hand there are some classes in charge of different elements that are 
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Addresses -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Addresses">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.39_web_application_server_contoller_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Addresses.java -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Addresses.java">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Addresses"/>
         <FileExtention rdf:datatype="http://www.w3.org/2001/XMLSchema#string">java</FileExtention>
         <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">git\sphere-snowflake\app\controllers\Addresses.java</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Ajax -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Ajax">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.39_web_application_server_contoller_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
     </owl:NamedIndividual>
     
 
@@ -1324,11 +1485,72 @@ On the one hand there are some classes in charge of different elements that are 
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Authorization -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Authorization">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.39_web_application_server_contoller_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Authorization.java -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Authorization.java">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Authorization"/>
+        <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">controllers.actions.Authorization</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_CartNoEmpty -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_CartNoEmpty">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.39_web_application_server_contoller_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_CartNotEmpty.java -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_CartNotEmpty.java">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_CartNoEmpty"/>
+        <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">controllers.actions.CartNotEmpty</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Carts -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Carts">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.39_web_application_server_contoller_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Carts.java -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Carts.java">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Carts"/>
         <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">git\sphere-snowflake\app\controllers\Carts.java</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Categories -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Categories">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.39_web_application_server_contoller_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
     </owl:NamedIndividual>
     
 
@@ -1337,7 +1559,38 @@ On the one hand there are some classes in charge of different elements that are 
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Categories.java">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Categories"/>
         <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">git\sphere-snowflake\app\controllers\Carts.java</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Checkouts -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Checkouts">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.39_web_application_server_contoller_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Checkouts.java -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Checkouts.java">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Checkouts"/>
+        <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">git\sphere-snowflake\app\controllers\Carts.java</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Customers -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Customers">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.39_web_application_server_contoller_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
     </owl:NamedIndividual>
     
 
@@ -1346,7 +1599,28 @@ On the one hand there are some classes in charge of different elements that are 
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Customers.java">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Customers"/>
         <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">git\sphere-snowflake\app\controllers\Carts.java</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_FormHandler.java -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_FormHandler.java">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Ajax"/>
+        <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">controllers.actions.FormHandler</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Login -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Login">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.39_web_application_server_contoller_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
     </owl:NamedIndividual>
     
 
@@ -1355,7 +1629,18 @@ On the one hand there are some classes in charge of different elements that are 
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Login.java">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Login"/>
         <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">git\sphere-snowflake\app\controllers\Carts.java</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Products -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Products">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.39_web_application_server_contoller_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
     </owl:NamedIndividual>
     
 
@@ -1364,7 +1649,38 @@ On the one hand there are some classes in charge of different elements that are 
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Products.java">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Products"/>
         <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">git\sphere-snowflake\app\controllers\Carts.java</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_RoutingSystem -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_RoutingSystem">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.39_web_application_server_contoller_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_SaveContext -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_SaveContext">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.39_web_application_server_contoller_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_SaveContext.java -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_SaveContext.java">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_SaveContext"/>
+        <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">controllers.actions.SaveContext</Path>
     </owl:NamedIndividual>
     
 
@@ -1418,6 +1734,7 @@ On the one hand there are some classes in charge of different elements that are 
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.34_web_application_server_form_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_Forms"/>
         <provides rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#manage_account"/>
+        <satisfies rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#add_address_to_address_book"/>
     </owl:NamedIndividual>
     
 
@@ -1471,6 +1788,7 @@ On the one hand there are some classes in charge of different elements that are 
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_DoCheckout.java">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_Payment"/>
         <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">git\sphere-snowflake\app\forms\checkoutForm\DoCheckout.java</Path>
     </owl:NamedIndividual>
     
@@ -1541,11 +1859,20 @@ These form classes also host the methods generating the different content that m
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_Login">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
-        <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Login.java"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.34_web_application_server_form_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_CustomerForms"/>
         <satisfies rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#log_in"/>
         <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_Login.java -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_Login.java">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_Login"/>
+        <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">forms.customerForm.LogIn</Path>
     </owl:NamedIndividual>
     
 
@@ -1706,7 +2033,7 @@ These form classes also host the methods generating the different content that m
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_ResetPassword">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
-        <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_RecoverPassword.java"/>
+        <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_ResetPassword.java"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.34_web_application_server_form_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_PasswordForms"/>
         <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
@@ -1727,10 +2054,19 @@ These form classes also host the methods generating the different content that m
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_SetAddress">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
-        <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Sever_Model_SetAddress.java"/>
+        <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_SetAddress.java"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.34_web_application_server_form_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_AddressForms"/>
         <satisfies rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#update_address"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_SetAddress.java -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_SetAddress.java">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">git\sphere-snowflake\app\forms\addressForm\SetAddress.java</Path>
     </owl:NamedIndividual>
     
 
@@ -1748,7 +2084,7 @@ These form classes also host the methods generating the different content that m
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_SignUp">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
-        <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Login.java"/>
+        <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_SignUp.java"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.34_web_application_server_form_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_CustomerForms"/>
         <satisfies rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#sign_up"/>
@@ -1882,20 +2218,660 @@ These form classes also host the methods generating the different content that m
     
 
 
-    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Sever_Controller_Checkouts.java -->
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Forms -->
 
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Sever_Controller_Checkouts.java">
-        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
-        <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">git\sphere-snowflake\app\controllers\Carts.java</Path>
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Forms">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClassPackage"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.37_web_application_server_simple_views"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_view_1"/>
     </owl:NamedIndividual>
     
 
 
-    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Sever_Model_SetAddress.java -->
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Helpers -->
 
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Sever_Model_SetAddress.java">
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Helpers">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClassPackage"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.37_web_application_server_simple_views"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_view_1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Mails -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Mails">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClassPackage"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.37_web_application_server_simple_views"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_view_1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Main.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Main.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.36_web_application_server_view_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_breadcrumb.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_breadcrumb.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.37_web_application_server_simple_views"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Helpers"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_breadcrumb.scala.html -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_breadcrumb.scala.html">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
-        <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">git\sphere-snowflake\app\forms\addressForm\SetAddress.java</Path>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_breadcrumb.scala"/>
+        <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">views/helper/breadcrumb.scala.html</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_carts.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_carts.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.36_web_application_server_view_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_carts.scala.html -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_carts.scala.html">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_carts.scala"/>
+        <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">views/carts.scala.html</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_categories.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_categories.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.36_web_application_server_view_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_categories.scala.html -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_categories.scala.html">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_categories.scala"/>
+        <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">views/categories.scala.html</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_checkouts.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_checkouts.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.36_web_application_server_view_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_checkouts.scala.html -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_checkouts.scala.html">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_checkouts.scala"/>
+        <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">views/checkouts.scala.html</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_customers.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_customers.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.36_web_application_server_view_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_customers.scala.html -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_customers.scala.html">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_customers.scala"/>
+        <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">views/customers.scala.html</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_error.scala.html -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_error.scala.html">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_errorForm.scala"/>
+        <Path>git\sphere-snowflake\app\views\form\error.scala.html</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_errorForm.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_errorForm.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Forms"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_forgetPassword.scala.html -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_forgetPassword.scala.html">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_forgotPasswordMail.scala"/>
+        <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">views/mail/forgetPassword.scala.html</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_forgotPasswordMail.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_forgotPasswordMail.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.37_web_application_server_simple_views"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Mails"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_home.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_home.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.36_web_application_server_view_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_home.scala.html -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_home.scala.html">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_home.scala"/>
+        <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">views/home.scala.html</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_jumpToTop.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_jumpToTop.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.37_web_application_server_simple_views"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Helpers"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_jumpToTop.scala.html -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_jumpToTop.scala.html">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_jumpToTop.scala"/>
+        <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">views/helper/jumpToTop.scala.html</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_logIn.scala.html -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_logIn.scala.html">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_loginForm.scala"/>
+        <Path>views/form/logIn.scala.html</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_login.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_login.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.36_web_application_server_view_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_login.scala.html -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_login.scala.html">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_login.scala"/>
+        <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">views/login.scala.html</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_loginForm.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_loginForm.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.37_web_application_server_simple_views"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Forms"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_main.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_main.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.36_web_application_server_view_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_main.scala.html -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_main.scala.html">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_main.scala.html"/>
+        <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">views/main.scala.html</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_mainNavigation.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_mainNavigation.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.37_web_application_server_simple_views"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Helpers"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_miniCart.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_miniCart.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.37_web_application_server_simple_views"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Helpers"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_miniCart.scala.html -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_miniCart.scala.html">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_miniCart.scala"/>
+        <Path>views/helper/miniCart.scala.html</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_order.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_order.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.37_web_application_server_simple_views"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Helpers"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_order.scala.html -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_order.scala.html">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_order.scala"/>
+        <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">views/helper/order.scala.html</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_orderList.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_orderList.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.37_web_application_server_simple_views"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Helpers"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_orderList.scala.html -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_orderList.scala.html">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_orderList.scala"/>
+        <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">views/helper/orderList.scala.html</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_orderSummary.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_orderSummary.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.37_web_application_server_simple_views"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Helpers"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_orderSummary.scala.html -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_orderSummary.scala.html">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_orderSummary.scala"/>
+        <Path>views/helper/orderSummary.scala.html</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_orders.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_orders.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.36_web_application_server_view_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_orders.scala.html -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_orders.scala.html">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_orders.scala"/>
+        <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">views/orders.scala.html</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_prodcutList.scala.html -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_prodcutList.scala.html">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_productList.scala"/>
+        <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">views/helper/productList.scala.html</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_productList.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_productList.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.37_web_application_server_simple_views"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Helpers"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_productPager.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_productPager.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.37_web_application_server_simple_views"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Helpers"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_productThumbnail.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_productThumbnail.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.37_web_application_server_simple_views"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Helpers"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_products.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_products.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.36_web_application_server_view_component"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_products.scala.html -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_products.scala.html">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_products.scala"/>
+        <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">views/products.scala.html</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_recoverPassword.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_recoverPassword.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.37_web_application_server_simple_views"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Forms"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_recoverPassword.scala.html -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_recoverPassword.scala.html">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_recoverPassword.scala"/>
+        <Path>views/form/recoverPassword.scala.html</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_resetPassword.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_resetPassword.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.37_web_application_server_simple_views"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Forms"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_resetPassword.scala.html -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_resetPassword.scala.html">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_resetPassword.scala"/>
+        <Path>views/form/resetPassword.scala.html</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_searchBox.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_searchBox.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_searchBox.scala.html"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_searchBox.scala.html -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_searchBox.scala.html">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">views/helper/searchBox.scala.html</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_setAddress.scala.html -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_setAddress.scala.html">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_setAddressForm.scala"/>
+        <Path>views/form/setAddress.scala.html</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_setAddressForm.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_setAddressForm.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.37_web_application_server_simple_views"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Forms"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_setShippingForm.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_setShippingForm.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.37_web_application_server_simple_views"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Forms"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_signUp.scala.html -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_signUp.scala.html">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_signUpForm.scala"/>
+        <Path>views/form/signUp.scala.html</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_signUpForm.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_signUpForm.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.37_web_application_server_simple_views"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Forms"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_topNavigation.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_topNavigation.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.37_web_application_server_simple_views"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Helpers"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_topNavigation.scala.html -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_topNavigation.scala.html">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_topNavigation.scala"/>
+        <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">views/helper/topNavigation.scala.html</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_updateCustomer.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_updateCustomer.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.37_web_application_server_simple_views"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Forms"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_updateCustomer.scala.html -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_updateCustomer.scala.html">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_updateCustomer.scala"/>
+        <Path>views/form/updateCustomer.scala.html</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_updatePassword.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_updatePassword.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.37_web_application_server_simple_views"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Forms"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_updatePassword.scala.html -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_updatePassword.scala.html">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_updatePassword.scala"/>
+        <Path>views/form/updatePassword.scala.html</Path>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_verifyAccount.scala -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_verifyAccount.scala">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_Helpers"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_verifyAccount.scala.html -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_verifyAccount.scala.html">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_verifyAccount.scala"/>
+        <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">views/mail/verifyAccount.scala.html</Path>
     </owl:NamedIndividual>
     
 
@@ -1904,6 +2880,9 @@ These form classes also host the methods generating the different content that m
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Shipping">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalClass"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_shipping-address-template"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_SetShoppingMethod.java"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_setShippingForm.scala"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_3.10_class_diagram_of_the_system"/>
     </owl:NamedIndividual>
     
@@ -1923,6 +2902,161 @@ These form classes also host the methods generating the different content that m
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#TaxCategory">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalClass"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_3.10_class_diagram_of_the_system"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UI_AddToCart -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UI_AddToCart">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalClass"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_products.scala"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.15_browse_catalog_screens"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#form_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UI_AddressBookSection -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UI_AddressBookSection">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.24_check_order_screens"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#screen_compartment_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UI_CartDetail -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UI_CartDetail">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalClass"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_carts.scala"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.18_checkout_sequence"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.19_checkout_screens"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#screen_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UI_CheckoutPage -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UI_CheckoutPage">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalClass"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_checkouts.scala"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.18_checkout_sequence"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.19_checkout_screens"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#screen_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UI_FilterProducts -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UI_FilterProducts">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalClass"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_searchBox.scala"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.15_browse_catalog_screens"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.19_checkout_screens"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#form_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UI_ListProducts -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UI_ListProducts">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalClass"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_product-list-template"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_productList.scala"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.14_browse_catalog_sequence"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.15_browse_catalog_screens"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#screen_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UI_MiniCart -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UI_MiniCart">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalClass"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_mini-cart-template"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_miniCart.scala"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.15_browse_catalog_screens"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#screen_compartment_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UI_OrderSection -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UI_OrderSection">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalClass"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_order.scala"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_orders.scala.html"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.24_check_order_screens"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#screen_compartment_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UI_OrderSummary -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UI_OrderSummary">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalClass"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_order-summary-template"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_orderSummary.scala"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.18_checkout_sequence"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.19_checkout_screens"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#screen_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UI_ProductsDetail -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UI_ProductsDetail">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalClass"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_products.scala"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.14_browse_catalog_sequence"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.15_browse_catalog_screens"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#screen_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UI_SetAddress -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UI_SetAddress">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalClass"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_add-address-template"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_setAddressForm.scala"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.19_checkout_screens"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.24_check_order_screens"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#form_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UI_SetShipping -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UI_SetShipping">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalClass"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_View_shipping-address-template"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_setShippingForm.scala"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.19_checkout_screens"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#form_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UI_UpdateLineItem -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#UI_UpdateLineItem">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalClass"/>
+        <designedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_View_carts.scala"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.19_checkout_screens"/>
+        <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#form_stereotype"/>
     </owl:NamedIndividual>
     
 
@@ -2286,6 +3420,14 @@ So far all the tools for accessing and managing the backend data were focused on
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_page_stereotype -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_page_stereotype">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_stakeholder -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_stakeholder">
@@ -2517,6 +3659,76 @@ Products, addresses and shipping methods can change or disappear over time, but 
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.14_browse_catalog_sequence -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.14_browse_catalog_sequence">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Diagram"/>
+        <Description>Below,  Figure  4.14  and  Figure  4.15  presents  the  storyboard  sequence  and  the  navigational 
+paths, respectively, of the screens just described. In the storyboard sequence it is shown how 
+the  same  interactions  defined  in  the  sequence  diagrams  of  the  specification  are  performed 
+through the different screens. This connections are also captured in the following navigational 
+paths diagram.</Description>
+        <owl:topDataProperty>Figure 4.14: Storyboard sequence of the browse catalog top-level use case.</owl:topDataProperty>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.15_browse_catalog_screens -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.15_browse_catalog_screens">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Diagram"/>
+        <Description>The resulting screens and navigational path diagram, besides the connections between screens, 
+shows the detailed content of each screen. The screen for listing products displays the selected 
+filtering options and contains a single form to change them. It also has the name of the current 
+category and the list of matching products, with their different variants for color and size. This 
+screen has an option to add a product to the cart, while the product detail page has a form to 
+let the user specify the quantity of items he wants to add. Both screens renders the category 
+tree so that the customer can list all products from a particular category at any moment.</Description>
+        <owl:topDataProperty>Figure 4.15: Screens and navigational paths of the browse catalog top-level use case.</owl:topDataProperty>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.18_checkout_sequence -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.18_checkout_sequence">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Diagram"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">For this design it was considered a good idea to display all the steps throughout the page as 
+sections that can be expanded, so that the user modifies them (see Figure 4.17). Once edited, 
+the  section  closes  again  and  displays  a  summary  with  the  selected  options.  Every  change 
+automatically updates the pricing details that are always shown at the bottom of the page. As a 
+way  of  guiding  the  customer  through  the  checkout  process,  the  user  can  only  open  new 
+sections sequentially. Also when a form is still not available due to missing requirements (e.g. 
+shipping method cannot be displayed until shipping address is set) a message will be shown 
+instead until the requirements are met. 
+The checkout is divided into three steps: first a cart summary, to verify the items are correct; 
+second the shipping information, to determine where and how the goods are being delivered; 
+and third the billing information, to select the way the products are being paid. Both shipping and billing sections have on the left side a form to set the postal address and on the right side 
+the shipping and payment options, respectively. When the customer is logged in, his address 
+book will appear on the right side, allowing him to select one of his addresses, which data will 
+then be copied to the corresponding address form.
+
+The storyboard sequence from Figure 4.18 is showing how this checkout process is distributed 
+with the presented screens.</Description>
+        <owl:topDataProperty rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.18: Storyboard sequence of the checkout top-level use case.</owl:topDataProperty>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.19_checkout_screens -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.19_checkout_screens">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Diagram"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Below in Figure 4.19, the screens and navigational paths diagram 
+expose that all screens have almost the same data, such as a set of line items and some pricing 
+details,  while  the  checkout  page  and  the  order  summary  have  also  a  billing  and  shipping address, all them with different multiplicities. The cart has forms to update line items, as many 
+as line items are in the cart. The checkout is also composed of different forms, one for each 
+element that the customer must fill, to allow saving each element individually.</Description>
+        <owl:topDataProperty rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.19: Screens and navigational paths of the checkout top-level use case.</owl:topDataProperty>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.1_deployment -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.1_deployment">
@@ -2524,6 +3736,30 @@ Products, addresses and shipping methods can change or disappear over time, but 
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.1: Diagram of the physical architecture of the system.
 Figure 4.1 illustrates the physical architecture of the system. As appears in the diagram, any request to a Heroku deployed web application is first processed by one of the many platform’s reverse proxies. The reverse proxy forwards the request to a HTTP cache layer, which returns the page if it is cached, otherwise forwards the request to the corresponding web application [Rob11]. 
 The communication between the web application and the SPHERE.IO backend is always held with HTTPS as a requirement of the e-commerce platform. Instead, the protocol of the requests between the client and the web server are decision of the developer. For this project 49 the most reasonable option would be to use HTTPS whenever customer data is being transferred. This is typically the case of the checkout process, as well as any time the customer is logged in.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.23_check_order_sequence -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.23_check_order_sequence">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Diagram"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Again,  the  specification  sequence  diagram  is  adapted  to  the  given  design,  illustrating  the 
+different screens that participate in every interaction in the check order top-level use case (see 
+Figure 4.23).</Description>
+        <owl:topDataProperty rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.23: Storyboard sequence of the check order top-level use case.</owl:topDataProperty>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.24_check_order_screens -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.24_check_order_screens">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Diagram"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.24 below shows the screens and navigational paths diagram, displaying 
+every screen component that belong to the customer profile screen, each with its own data and 
+forms.</Description>
+        <owl:topDataProperty rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.24: Screens and navigational paths of the check order top-level use case.</owl:topDataProperty>
     </owl:NamedIndividual>
     
 
@@ -2573,11 +3809,37 @@ The communication between the web application and the SPHERE.IO backend is alway
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.38_client_side_view_component -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.38_client_side_view_component">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Diagram"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As  explained  earlier  (see  section  4.2.1.7),  the  system  is  using  Handlebars  templates  on  the 
+client side in order to generate updated content. Below all necessary templates for the system 
+are  displayed  (see  Figure  4.38),  which  belong  on  the  one  hand  to  the  mini  cart  and  pricing 
+details components, and on the other hand to the use cases for product pagination, checkout 
+and address management.</Description>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.39_web_application_server_contoller_component -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.39_web_application_server_contoller_component">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Diagram"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Overview of the controllers and filters of the server-side Controller component.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.40_client_controller_component -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.40_client_controller_component">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Diagram"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure  4.40  shows  the  files  of  the  Controller  component  on  the  client  side.  These  files  are 
+dedicated  to  handle  some  of  the  events  triggered  by  the  user  (e.g.  form  submission  or  page 
+scrolling) in a specific page or component. The same files host other presentation logic used by 
+the handlers, as well as methods to load new components from JSON data fetched from the 
+server.</Description>
     </owl:NamedIndividual>
     
 
@@ -2656,6 +3918,14 @@ When no products found, show an informative message.</Description>
 When invalid data provided, show a bad request error message and pre-fill the forms.
 
 When the shopping cart is empty, display the last visited page.</Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#form_stereotype -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#form_stereotype">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalStereotype"/>
     </owl:NamedIndividual>
     
 
@@ -3036,6 +4306,22 @@ When the item does not exist in the cart, show a bad request error message.</Des
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#screen_compartment_stereotype -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#screen_compartment_stereotype">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalStereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#screen_stereotype -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#screen_stereotype">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#LogicalStereotype"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_1 -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_1">
@@ -3308,8 +4594,6 @@ When the new quantity is invalid, show a bad request error message.</Description
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#web_application_server_model_package_1">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Package"/>
         <compriseOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_ViewHelper"/>
-        <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_DoCheckout.java"/>
-        <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_SetShoppingMethod.java"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.33_web_application_server_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#web_application_server_package_1"/>
         <playsRole rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_model_1"/>
