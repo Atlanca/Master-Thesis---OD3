@@ -305,19 +305,20 @@ class htmlBuilder:
                     line('h4', 'Type')
                 line('p', qs[1]['type'])
 
-            # for dataTypeProperty in qs[1]['dataTypeProperties']:
-            #     with tag('div', klass='w3-border w3-border-orange w3-container w3-light-grey w3-margin-bottom', style=''):
-            #         with tag('div', klass='w3-border-bottom w3-border-orange'):
-            #             line('h4', dataTypeProperty[0])
-            #         line('p', dataTypeProperty[1])
+            for dataTypeProperty in qs[1]['dataTypeProperties']:
+                with tag('div', klass='w3-border w3-border-orange w3-container w3-light-grey w3-margin-bottom', style=''):
+                    with tag('div', klass='w3-border-bottom w3-border-orange'):
+                        line('h4', dataTypeProperty[0])
+                    line('p', dataTypeProperty[1])
             
-            #     with tag('div', klass='w3-border w3-border-orange w3-container w3-light-grey w3-margin-bottom', style=''):
-            #         with tag('div', klass='w3-border-bottom w3-border-orange'):
-            #             line('h4', 'Rationale')
-            #         for rationale in qs[1]['rationale']:
-            #             line('h5', rationale)
-            #             for r in self.ir.getDataProperties(rationale):
-
+            with tag('div', klass='w3-border w3-border-orange w3-container w3-light-grey w3-margin-bottom', style=''):
+                with tag('div', klass='w3-border-bottom w3-border-orange'):
+                    line('h4', 'Rationale')
+                for rationale in qs[1]['rationale']:
+                    line('h5', self.ir.getTypeOfIndividual(rationale))
+                    for r in self.ir.getDataProperties(rationale):
+                        line('p', r[0])
+                        line('p', r[1])
 
             for diagram in qs[1]['diagrams']:
                 with tag('div', klass='w3-border w3-border-orange w3-container w3-light-grey w3-margin-bottom', style=''):

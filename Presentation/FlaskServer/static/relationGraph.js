@@ -67,7 +67,7 @@ function relationGenerateGraph(svgId, testdata){
                          '#FCA41A', '#DFDCE3', '#0375B4', '#007849', '#C0B283', 
                          '#EEAA7B', '#6D7993'];
   var views = {'Logical' : ['Package'],
-              'Development' : ['ClassEntity', 'ClassPackage'],
+              'Development' : ['DevelopmentClass', 'DevelopmentClassPackage'],
               'Rationale' : ['Technology']
             }
   var ontology = {'Architecture' : ['Logical', 'Development', 'ClassPackage', 'Role', 'ArchitecturalPattern'],
