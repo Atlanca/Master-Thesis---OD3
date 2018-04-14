@@ -244,7 +244,7 @@ class InformationRetriever:
             leaves += self.findLeafIndividual(si[1], predicate, objectType)
         return leaves
 
-    # getRecursive() recursively looks for all related objects in a nested structure (such as ClassPackage)
+    # getRecursive() recursively looks for all related objects in a nested structure (such as DevelopmentClassPackage)
     # returns all nested objects of the same type as the given subject and all objects of type
     # objectType. 
     # Parameters:
@@ -419,16 +419,16 @@ class InformationRetriever:
 
     # Explains the implementation of a feature
     def explainFeatureImplementation(self, feature):
-        featureClassPackages = self.getRelations(sub=feature, pred="realizedBy", objType="ClassPackage")
+        featureDevelopmentClassPackages = self.getRelations(sub=feature, pred="realizedBy", objType="DevelopmentClassPackage")
         featureClasses = []
-        for fp in featureClassPackages:
+        for fp in featureDevelopmentClassPackages:
             featureClasses.append(self.tripleDescription(fp[0], fp[1]))
-            featureClasses += self.getRecursive(self.tripleDescription, fp[1], "compriseOf", "ClassEntity")
+            featureClasses += self.getRecursive(self.tripleDescription, fp[1], "compriseOf", "DevelopmentClassEntity")
         return  featureClasses
 
     # Shows all implementation classes related to given feature
     def relatedImplementationClasses(self, feature):
-        featureClassPackages = self.getRelations(sub=feature, pred="realizedBy", objType="ClassPackage")
+        featureDevelopmentClassPackages = self.getRelations(sub=feature, pred="realizedBy", objType="DevelopmentClassPackage")
         featureDs = self.doubleStructure(None, feature)
         featureDs[1]['implClasses'] = []
         featureDs[1]['children'] = []
@@ -438,10 +438,10 @@ class InformationRetriever:
         for ic in self.getRelations(feature, 'realizedBy', 'ImplementationClass'):
             implementationClasses.append(ic[1])
 
-        for fcp in featureClassPackages:
+        for fcp in featureDevelopmentClassPackages:
             ds = self.doubleStructure(fcp[0], fcp[1])
             ds[1]['implClasses'] = implementationClasses
-            ds[1]['children'] = self.getRecursive(self.tripleStructure, fcp[1], 'compriseOf', "ClassEntity", True)
+            ds[1]['children'] = self.getRecursive(self.tripleStructure, fcp[1], 'compriseOf', "DevelopmentClassEntity", True)
             featureDs[1]['children'].append(ds)
         featureArchitecture.append(featureDs)
         return featureArchitecture
