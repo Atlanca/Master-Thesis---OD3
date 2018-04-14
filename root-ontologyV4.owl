@@ -1374,6 +1374,7 @@ On the one hand there are some classes in charge of different elements that are 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_AddAddress">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
         <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_AddAddress.java"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.34_web_application_server_form_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_AddressForms"/>
         <satisfies rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#add_address"/>
     </owl:NamedIndividual>
@@ -1394,6 +1395,7 @@ On the one hand there are some classes in charge of different elements that are 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_AddToCart">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
         <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_AddToCart.java"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.34_web_application_server_form_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_CartForms"/>
         <satisfies rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#add_item_to_cart"/>
     </owl:NamedIndividual>
@@ -1501,6 +1503,7 @@ These form classes also host the methods generating the different content that m
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_ListAddress">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
         <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_ListAddress.java"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.34_web_application_server_form_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_AddressForms"/>
         <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
     </owl:NamedIndividual>
@@ -1539,6 +1542,7 @@ These form classes also host the methods generating the different content that m
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_Login">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
         <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Login.java"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.34_web_application_server_form_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_CustomerForms"/>
         <satisfies rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#log_in"/>
         <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
@@ -1564,6 +1568,7 @@ These form classes also host the methods generating the different content that m
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_ManageCart">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
         <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_ListCart.java"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.34_web_application_server_form_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_CartForms"/>
     </owl:NamedIndividual>
     
@@ -1607,6 +1612,7 @@ These form classes also host the methods generating the different content that m
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_PaymentNetwork">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.34_web_application_server_form_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_PaymentForms"/>
         <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
     </owl:NamedIndividual>
@@ -1617,6 +1623,7 @@ These form classes also host the methods generating the different content that m
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_PaymentNotification">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.34_web_application_server_form_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_PaymentForms"/>
         <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
     </owl:NamedIndividual>
@@ -1637,6 +1644,7 @@ These form classes also host the methods generating the different content that m
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_RecoverPassword">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
         <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_RecoverPassword.java"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.34_web_application_server_form_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_PasswordForms"/>
         <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
     </owl:NamedIndividual>
@@ -1657,6 +1665,7 @@ These form classes also host the methods generating the different content that m
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_RemoveAddress">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
         <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_RemoveAddress.java"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.34_web_application_server_form_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_AddressForms"/>
         <satisfies rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#remove_address"/>
     </owl:NamedIndividual>
@@ -1677,6 +1686,7 @@ These form classes also host the methods generating the different content that m
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_RemoveFromCart">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
         <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_RemoveFromCart.java"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.34_web_application_server_form_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_CartForms"/>
         <satisfies rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#remove_item_from_cart"/>
     </owl:NamedIndividual>
@@ -1697,6 +1707,7 @@ These form classes also host the methods generating the different content that m
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_ResetPassword">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
         <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_RecoverPassword.java"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.34_web_application_server_form_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_PasswordForms"/>
         <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
     </owl:NamedIndividual>
@@ -1717,6 +1728,7 @@ These form classes also host the methods generating the different content that m
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_SetAddress">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
         <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Sever_Model_SetAddress.java"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.34_web_application_server_form_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_AddressForms"/>
         <satisfies rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#update_address"/>
     </owl:NamedIndividual>
@@ -1737,6 +1749,7 @@ These form classes also host the methods generating the different content that m
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_SignUp">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
         <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Controller_Login.java"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.34_web_application_server_form_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_CustomerForms"/>
         <satisfies rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#sign_up"/>
         <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
@@ -1770,6 +1783,7 @@ These form classes also host the methods generating the different content that m
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_UpdateAddress">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
         <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_UpdateAddress.java"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.34_web_application_server_form_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_AddressForms"/>
         <satisfies rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#update_address"/>
     </owl:NamedIndividual>
@@ -1790,6 +1804,7 @@ These form classes also host the methods generating the different content that m
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_UpdateCart">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
         <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_UpdateCart.java"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.34_web_application_server_form_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_CartForms"/>
         <satisfies rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#update_item_in_cart"/>
     </owl:NamedIndividual>
@@ -1810,6 +1825,7 @@ These form classes also host the methods generating the different content that m
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_UpdateCustomer">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
         <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_UpdateCustomer.java"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.34_web_application_server_form_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_CustomerForms"/>
         <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
     </owl:NamedIndividual>
@@ -1830,6 +1846,7 @@ These form classes also host the methods generating the different content that m
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_UpdatePassword">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#DevelopmentClass"/>
         <implementedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_UpdatePassword.java"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.34_web_application_server_form_model_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Server_Model_PasswordForms"/>
         <taggedBy rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#server_page_stereotype"/>
     </owl:NamedIndividual>
