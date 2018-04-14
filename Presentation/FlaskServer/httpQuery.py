@@ -18,7 +18,7 @@ class SparqlQueryManager:
         return requests.post(self.url, data = {'query': query})
 
 class InformationRetriever:
-    def __init__(self, url):
+    def __init__(self, url=None):
         self.queryManager = SparqlQueryManager('http://localhost:3030/Thesis/query')
     def getNameOfURI(self, uri):
         return (re.sub(".+#", '', uri))	
@@ -27,9 +27,51 @@ class InformationRetriever:
     # 1. BASIC QUERY HELPER METHODS
     #-----------------------------------------------------------------------------------------
 
-    # getRelations() returns all predicates from the given subject to an object in a list.
-    # useInversePred determines whether to use the given predicate or to use the inverse of it.
-    # always returns a tuple in the following format: (predicate, object)
+    def getAllInverses(self):
+        query = "PREFIX base:<http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#> "\
+        "PREFIX owl: <http://www.w3.org/2002/07/owl#> "\
+        "SELECT DISTINCT ?pred1 ?pred2 WHERE {{?pred a owl:ObjectProperty . ?pred1 owl:inverseOf ?pred2}}"
+        queryResult = self.queryManager.query(query)
+        predicatePairs = []
+
+        if queryResult.status_code == 200:
+            results = queryResult.json()['results']['bindings']
+            for item in results:
+                predicatePairs.append((self.getNameOfURI(item['pred1']['value']), 
+                                self.getNameOfURI(item['pred2']['value']),
+                                ))
+        return predicatePairs
+
+    def getAllObjectsAndRelations(self):
+        query = "PREFIX base:<http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#> "\
+        "PREFIX owl: <http://www.w3.org/2002/07/owl#> "\
+        "SELECT ?sub ?pred ?obj WHERE {{?pred a owl:ObjectProperty . ?sub ?pred ?obj}}"
+        queryResult = self.queryManager.query(query)
+        individuals = []
+
+        if queryResult.status_code == 200:
+            results = queryResult.json()['results']['bindings']
+            for item in results:
+                if("http://www.w3.org/2002/07/owl#" not in item['pred']['value']):
+                    individuals.append((self.getNameOfURI(item['sub']['value']), 
+                                    self.getNameOfURI(item['pred']['value']),
+                                    self.getNameOfURI(item['obj']['value'])
+                                    ))
+        return individuals
+    
+    def getAllObjects(self):
+        query = "PREFIX base:<http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#> "\
+        "PREFIX owl: <http://www.w3.org/2002/07/owl#> "\
+        "SELECT DISTINCT ?sub WHERE {{?sub a owl:Thing . ?sub ?pred ?obj}}"
+        queryResult = self.queryManager.query(query)
+        individuals = []
+
+        if queryResult.status_code == 200:
+            results = queryResult.json()['results']['bindings']
+            for item in results:
+                individuals.append(self.getNameOfURI(item['sub']['value']))
+        return individuals
+
     def getIndividualsByType(self, inputType):
         query = "PREFIX base:<http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#> "\
                 "PREFIX owl: <http://www.w3.org/2002/07/owl#> "\
@@ -44,7 +86,9 @@ class InformationRetriever:
                 individuals.append(self.getNameOfURI(item['individual']['value']))
         return individuals
                 
-    
+    # getRelations() returns all predicates from the given subject to an object in a list.
+    # useInversePred determines whether to use the given predicate or to use the inverse of it.
+    # always returns a tuple in the following format: (predicate, object)
     def getRelations(self, sub, pred="", objType="", useInversePred=False):
         originalPred = pred
         originalObjType = objType
@@ -148,6 +192,19 @@ class InformationRetriever:
     #-----------------------------------------------------------------------------------------
     # 2.1 METHODS FOR STRUCTURING DATA
     #-----------------------------------------------------------------------------------------   
+    def pentaStructure(self, subjectPredicate, subjectURI):
+        diagrams = []
+        rationale = []
+        for diagram in self.getRelations(subjectURI, 'modeledIn', 'Diagram'):
+            diagrams.append(diagram[1])
+        for r in self.getRelations(subjectURI, 'basedOn'):
+            rationale.append(r[1])
+        td = self.tripleDescription(subjectPredicate, subjectURI)
+        td[1]['diagrams'] = diagrams
+        td[1]['rationale'] = rationale
+        print(td)
+        return td 
+    
     def tripleStructure(self, subjectPredicate, subjectURI):
         implementationClasses = []
         for id in self.getRelations(subjectURI, 'realizedBy', 'ImplementationClass'):
@@ -249,7 +306,7 @@ class InformationRetriever:
                 directChildren = self.getRelations(r[1]['object'], pred=pred, useInversePred=True)
                 r[1]['children'] = []
                 for dc in directChildren:
-                    ds = self.doubleStructure(dc[0], dc[1])
+                    ds = self.tripleDescription(dc[0], dc[1])
                     ds[1]['children'] = self.getRecursive(self.tripleDescription, dc[1], 'compriseOf', hierarchy=True)
                     r[1]['children'].append(ds)
         else: 
@@ -481,53 +538,29 @@ class InformationRetriever:
 # MAIN CLASS USED FOR TESTING
 #-----------------------------------------------------------------------------------------
 
-# def finePrint(relations):    
-#     d = ""
-#     for r in relations:
-#         if("Description" in r[0]):
-#             d = r
-#         elif("NamedIndividual" not in r[1]):
-#             print(re.sub(".+#", '', r[0]) + ', ' + re.sub(".+#", '', r[1])) 
-#     if d != "":
-#         print(re.sub(".+#", '', d[0]) + ', ' + re.sub(".+#", '', d[1]))
-
-#inp = ""
-#while(inp != "exit"):
-#inp = input("Input object to query: ")
-
 # ir = InformationRetriever('')
-# print("\n\nFeature role: purchase_products")
-# print(ir.explainFeatureRole("purchase_products"))
 
-# print("\n\nRelated implementation classes: purchase_products")
-# print(ir.relatedImplementationClasses("purchase_products"))
+# objectStructure = []
+# objects = ir.getAllObjects()
+# for obj in objects:
+#     objStructure = {'type':ir.getTypeOfIndividual(obj), 
+#                     'object': obj, 
+#                     'dataTypeProperties': ir.getDataProperties(obj)
+#                     }
+#     objectStructure.append(objStructure)
 
-# print("\n\nExplanation of implementation classes: purchase_products")
-# print(ir.explainFeatureImplementation("purchase_products"))
+# allInverseRelations = ir.getAllInverses()
 
-# print("\n\nRelations by architectural role: CartForms")
-# print(ir.relationsByArchitecturalRole("CartForms"))
+# inverses = []
+# for relation in allInverseRelations:
+#     if(relation[1] not in inverses):
+#         inverses.append(relation[0])
 
-# print("\n\nRelations by diagram: web_application_server_package_1")
-# print(ir.relationsByDiagram("web_application_server_package_1"))
+# relations = ir.getAllObjectsAndRelations()
 
-# print("\n\nIntersecting features of: CartForms, AddressForms and AddressForms")
-# print(ir.findIntersectingFeatures(['CartForms', 'AddressForms', 'AddressForms']))
-
-# print("\n\nThe explanation of architecture that encapsulates \'Forms\'")
-# print(ir.getArchitecture('Forms'))
-
-# print("\n\nHow \'Forms\' are located in the architecture")
-# print(ir.locationInArchitecture('Forms'))
-
-# print("\n\nAll technologies used in the system: ")
-# print(ir.getAllTechnologies())
-
-# print("\n\nRationale of technology, sphere.io: ")
-# print(ir.getRationaleOfTechnology('sphere.io'))
-
-# print("\n\nDescription of sphere.io")
-# print(ir.getDescriptionOfTechnology('sphere.io'))
-
-# print("\n\nGet architecture by sphere.io")
-# print(ir.getArchitectureByTechnology('sphere.io'))
+# f = open('explanationData.js', 'w') 
+# f.truncate(0)
+# f.write("allObjects = " + json.dumps(objectStructure))
+# f.write("; allRelations = " + json.dumps(relations))
+# f.write("; allInverseRelations = " + json.dumps(inverses))
+# f.close()
