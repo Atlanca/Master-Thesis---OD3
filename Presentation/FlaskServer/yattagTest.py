@@ -365,20 +365,24 @@ class htmlBuilder:
             
             with tag('body'):
 
-                # Build up the tabs
-                with tag('div', klass="w3-bar w3-light-grey"):
-                    doc.asis(self.tabs('Search','search'))
-                    doc.asis(self.tabs('Explanation','explanation'))
-                    doc.asis(self.tabs('History', 'history'))
                 #The design of the outmost container component
                 with tag('div', style="display:flex"):
 
-                    with tag('div', klass="w3-col s8 w3-light-grey", style="flex: 2;"):
-                        
+                    with tag('div', klass="w3-light-grey", style="flex: 2;"):
+                        # Build up the tabs
+                        with tag('div', klass="w3-bar w3-light-grey"):
+                            doc.asis(self.tabs('Search','search'))
+                            doc.asis(self.tabs('Explanation','explanation'))
+                            doc.asis(self.tabs('History', 'history'))
+                                
                         # All tab views
                         doc.asis(self.searchView())
                         doc.asis(self.explanationView())
 
-                    line('div','', id='sideDescription', klass="w3-col s4 w3-amber w3-card-4 w3-border-left w3-border-orange", style="flex:1")
+                    with tag('div', klass="w3-amber w3-card-4 w3-border-left w3-border-orange", style="flex:1"):
+                        with tag('div', klass="w3-bar w3-light-grey"):
+                            doc.asis(self.tabs('Full explanation','fullExplanation'))
+                            doc.asis(self.tabs('Selected component','component'))
+                        line('div','', id='sideDescription')
                         
         return doc.getvalue()

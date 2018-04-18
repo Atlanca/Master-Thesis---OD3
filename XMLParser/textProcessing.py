@@ -51,9 +51,6 @@ else:
   bigram = Phrases(tokenized_paragraphs, min_count=2, threshold=10)
   bigram_tokenized_paragraphs = list(bigram[tokenized_paragraphs])
   
-  #trigram = Phrases(bigram_tokenized_paragraphs, min_count=5, threshold=20)
-  #bigram_tokenized_paragraphs = list(trigram[bigram_tokenized_paragraphs])
-  
   #Create dictionary and save
   dictionary = corpora.Dictionary(bigram_tokenized_paragraphs)
   dictionary.save('snowflakethesis.dict')
@@ -64,6 +61,10 @@ else:
 
 #1. Initialize corpus
 tfidf = models.TfidfModel(corpus)
+
+test = dictionary.doc2bow(bigram_tokenized_paragraphs[1])
+print("HERE I AM: " + str(tfidf[test]))
+
 corpus_tfidf = tfidf[corpus]
 
 #2. Use LSI
