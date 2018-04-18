@@ -301,6 +301,14 @@
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Caption -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Caption">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Description -->
 
     <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Description">
@@ -1221,6 +1229,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_lib-form.coffee">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#ImplementationClass"/>
+        <implements rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Client_Model_Form"/>
         <Path>assets/javascripts/demo/lib-form.coffee</Path>
     </owl:NamedIndividual>
     
@@ -3454,6 +3463,16 @@ So far all the tools for accessing and managing the backend data were focused on
     
 
 
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#cloudbees -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#cloudbees">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Technology"/>
+        <isAlternativeOf rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#heroku"/>
+        <IsChosen rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</IsChosen>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#coffeScript -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#coffeScript">
@@ -3663,12 +3682,12 @@ Products, addresses and shipping methods can change or disappear over time, but 
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.14_browse_catalog_sequence">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Diagram"/>
+        <Caption rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.14: Storyboard sequence of the browse catalog top-level use case.</Caption>
         <Description>Below,  Figure  4.14  and  Figure  4.15  presents  the  storyboard  sequence  and  the  navigational 
 paths, respectively, of the screens just described. In the storyboard sequence it is shown how 
 the  same  interactions  defined  in  the  sequence  diagrams  of  the  specification  are  performed 
 through the different screens. This connections are also captured in the following navigational 
 paths diagram.</Description>
-        <owl:topDataProperty>Figure 4.14: Storyboard sequence of the browse catalog top-level use case.</owl:topDataProperty>
     </owl:NamedIndividual>
     
 
@@ -3677,6 +3696,7 @@ paths diagram.</Description>
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.15_browse_catalog_screens">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Diagram"/>
+        <Caption rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.15: Screens and navigational paths of the browse catalog top-level use case.</Caption>
         <Description>The resulting screens and navigational path diagram, besides the connections between screens, 
 shows the detailed content of each screen. The screen for listing products displays the selected 
 filtering options and contains a single form to change them. It also has the name of the current 
@@ -3684,7 +3704,6 @@ category and the list of matching products, with their different variants for co
 screen has an option to add a product to the cart, while the product detail page has a form to 
 let the user specify the quantity of items he wants to add. Both screens renders the category 
 tree so that the customer can list all products from a particular category at any moment.</Description>
-        <owl:topDataProperty>Figure 4.15: Screens and navigational paths of the browse catalog top-level use case.</owl:topDataProperty>
     </owl:NamedIndividual>
     
 
@@ -3693,6 +3712,7 @@ tree so that the customer can list all products from a particular category at an
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.18_checkout_sequence">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Diagram"/>
+        <Caption rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.18: Storyboard sequence of the checkout top-level use case.</Caption>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">For this design it was considered a good idea to display all the steps throughout the page as 
 sections that can be expanded, so that the user modifies them (see Figure 4.17). Once edited, 
 the  section  closes  again  and  displays  a  summary  with  the  selected  options.  Every  change 
@@ -3710,7 +3730,6 @@ then be copied to the corresponding address form.
 
 The storyboard sequence from Figure 4.18 is showing how this checkout process is distributed 
 with the presented screens.</Description>
-        <owl:topDataProperty rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.18: Storyboard sequence of the checkout top-level use case.</owl:topDataProperty>
     </owl:NamedIndividual>
     
 
@@ -3719,12 +3738,12 @@ with the presented screens.</Description>
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.19_checkout_screens">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Diagram"/>
+        <Caption rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.19: Screens and navigational paths of the checkout top-level use case.</Caption>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Below in Figure 4.19, the screens and navigational paths diagram 
 expose that all screens have almost the same data, such as a set of line items and some pricing 
 details,  while  the  checkout  page  and  the  order  summary  have  also  a  billing  and  shipping address, all them with different multiplicities. The cart has forms to update line items, as many 
 as line items are in the cart. The checkout is also composed of different forms, one for each 
 element that the customer must fill, to allow saving each element individually.</Description>
-        <owl:topDataProperty rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.19: Screens and navigational paths of the checkout top-level use case.</owl:topDataProperty>
     </owl:NamedIndividual>
     
 
@@ -3744,10 +3763,8 @@ The communication between the web application and the SPHERE.IO backend is alway
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.23_check_order_sequence">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Diagram"/>
-        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Again,  the  specification  sequence  diagram  is  adapted  to  the  given  design,  illustrating  the 
-different screens that participate in every interaction in the check order top-level use case (see 
-Figure 4.23).</Description>
-        <owl:topDataProperty rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.23: Storyboard sequence of the check order top-level use case.</owl:topDataProperty>
+        <Caption rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.23: Storyboard sequence of the check order top-level use case.</Caption>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Again,  the  specification  sequence  diagram  is  adapted  to  the  given  design,  illustrating  the different screens that participate in every interaction in the check order top-level use case (see Figure 4.23).</Description>
     </owl:NamedIndividual>
     
 
@@ -3756,10 +3773,10 @@ Figure 4.23).</Description>
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#figure_4.24_check_order_screens">
         <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Diagram"/>
+        <Caption rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.24: Screens and navigational paths of the check order top-level use case.</Caption>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.24 below shows the screens and navigational paths diagram, displaying 
 every screen component that belong to the customer profile screen, each with its own data and 
 forms.</Description>
-        <owl:topDataProperty rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.24: Screens and navigational paths of the check order top-level use case.</owl:topDataProperty>
     </owl:NamedIndividual>
     
 
@@ -3937,6 +3954,15 @@ When the shopping cart is empty, display the last visited page.</Description>
         <basedOn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#arg_handlbars"/>
         <resultsIn rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#client_view_package_1"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Handlebars is the web template system used in this project to manage client-side templates. It is a JavaScript implementation of the platform-independent Mustache project, that allows to render input data in a template using a very clean syntax. Mustache has a so-called logic-lesstemplate syntax because there are no explicit control flow statements, all needed logic comes exclusively from the data in the form of booleans, arrays or lambdas.</Description>
+        <IsChosen rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</IsChosen>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#heroku -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#heroku">
+        <rdf:type rdf:resource="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#Technology"/>
         <IsChosen rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</IsChosen>
     </owl:NamedIndividual>
     
