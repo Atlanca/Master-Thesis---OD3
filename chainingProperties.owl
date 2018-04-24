@@ -1,0 +1,182 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#"
+     xml:base="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#hasFriend -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#hasFriend">
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#hasFriend"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#hasParent -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#hasParent">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#parent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#inherits -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#inherits">
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#hasParent"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#inherits"/>
+        </owl:propertyChainAxiom>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#inheritsHouseIn -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#inheritsHouseIn">
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#inherits"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#locatedIn"/>
+        </owl:propertyChainAxiom>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#locatedIn -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#locatedIn">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#parent -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#parent"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#House -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#House"/>
+    
+
+
+    <!-- http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#Location -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#Location"/>
+    
+
+
+    <!-- http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#Person -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#Person"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#Alex -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#Alex">
+        <rdf:type rdf:resource="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#Person"/>
+        <inherits rdf:resource="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#SwedishHouse"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#Grandfather -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#Grandfather">
+        <rdf:type rdf:resource="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#Person"/>
+        <inherits rdf:resource="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#SwedishHouse"/>
+        <parent rdf:resource="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#Lisa"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#Lisa -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#Lisa">
+        <rdf:type rdf:resource="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#Person"/>
+        <parent rdf:resource="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#Alex"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#Mimmi -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#Mimmi">
+        <rdf:type rdf:resource="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#Person"/>
+        <hasFriend rdf:resource="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#Alex"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#Mustafa -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#Mustafa">
+        <rdf:type rdf:resource="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#Person"/>
+        <hasParent rdf:resource="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#Alex"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#Sweden -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#Sweden">
+        <rdf:type rdf:resource="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#Location"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#SwedishHouse -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#SwedishHouse">
+        <rdf:type rdf:resource="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#House"/>
+        <locatedIn rdf:resource="http://www.semanticweb.org/samsung/ontologies/2018/3/untitled-ontology-51#Sweden"/>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi -->
+
