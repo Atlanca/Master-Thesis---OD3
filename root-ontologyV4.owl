@@ -120,7 +120,9 @@
 
     <!-- http://www.semanticweb.org/ontologies/snowflake#explainedBy -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/snowflake#explainedBy"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/snowflake#explainedBy">
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#explains"/>
+    </owl:ObjectProperty>
     
 
 
@@ -1297,8 +1299,8 @@
         <snowflake:satisfies rdf:resource="http://www.semanticweb.org/ontologies/snowflake#add_address"/>
         <snowflake:satisfies rdf:resource="http://www.semanticweb.org/ontologies/snowflake#remove_address"/>
         <snowflake:satisfies rdf:resource="http://www.semanticweb.org/ontologies/snowflake#update_address"/>
-        <snowflake1:superClassOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake/BillingAddress"/>
-        <snowflake1:superClassOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake/ShippingAddress"/>
+        <snowflake1:superClassOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#BillingAddress"/>
+        <snowflake1:superClassOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#ShippingAddress"/>
     </owl:NamedIndividual>
     
 
@@ -1319,6 +1321,15 @@
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_3.10_class_diagram_of_the_system"/>
         <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Variant"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/snowflake#BillingAddress -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#BillingAddress">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake/LogicalSubClass"/>
+        <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_3.10_class_diagram_of_the_system"/>
     </owl:NamedIndividual>
     
 
@@ -1361,6 +1372,18 @@
         <snowflake:designedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Server_Controller_Categories"/>
         <snowflake:designedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Server_View_categories.scala"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_3.10_class_diagram_of_the_system"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/snowflake#Changeability -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Changeability">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalRequirement"/>
+        <snowflake:categorizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Maintainability"/>
+        <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a developer, I want to be able to perform simple changes on user 
+interface elements of the template in less than 10 minutes.</snowflake:Description>
+        <snowflake:Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</snowflake:Priority>
     </owl:NamedIndividual>
     
 
@@ -1633,6 +1656,14 @@
     
 
 
+    <!-- http://www.semanticweb.org/ontologies/snowflake#Compliance -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Compliance">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalReqCategory"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/ontologies/snowflake#CreateNewCart -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#CreateNewCart">
@@ -1713,6 +1744,28 @@ On the one hand there are some classes in charge of different elements that are 
     
 
 
+    <!-- http://www.semanticweb.org/ontologies/snowflake#Learnability -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Learnability">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalRequirement"/>
+        <snowflake:categorizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Usability"/>
+        <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a developer, I want to learn how the application is structured and how I can modify and extend it to build my own web-shop in less than 8 person-hour .</snowflake:Description>
+        <snowflake:Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</snowflake:Priority>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/snowflake#Likeability -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Likeability">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalRequirement"/>
+        <snowflake:categorizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Usability"/>
+        <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The template should achieve an average of 7 out of 10 points from users when asked of how much do they like it.</snowflake:Description>
+        <snowflake:Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">10</snowflake:Priority>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/ontologies/snowflake#LineItem -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#LineItem">
@@ -1744,6 +1797,14 @@ On the one hand there are some classes in charge of different elements that are 
     
 
 
+    <!-- http://www.semanticweb.org/ontologies/snowflake#Maintainability -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Maintainability">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalReqCategory"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/ontologies/snowflake#Notification_NotifyPayment -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Notification_NotifyPayment">
@@ -1760,6 +1821,18 @@ On the one hand there are some classes in charge of different elements that are 
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalState"/>
         <snowflake:expresses rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Order"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_3.11_cart_order_state_machine"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/snowflake#Operability -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Operability">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalRequirement"/>
+        <snowflake:categorizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Usability"/>
+        <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to learn how to purchase an item for the first time in 
+less than 5 minutes.</snowflake:Description>
+        <snowflake:Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">7</snowflake:Priority>
     </owl:NamedIndividual>
     
 
@@ -1903,6 +1976,17 @@ On the one hand there are some classes in charge of different elements that are 
     
 
 
+    <!-- http://www.semanticweb.org/ontologies/snowflake#PaymentDataCompliance -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#PaymentDataCompliance">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalRequirement"/>
+        <snowflake:categorizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Compliance"/>
+        <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The system must avoid to store or process any payment data.</snowflake:Description>
+        <snowflake:Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</snowflake:Priority>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/ontologies/snowflake#Product -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Product">
@@ -1947,6 +2031,17 @@ On the one hand there are some classes in charge of different elements that are 
     
 
 
+    <!-- http://www.semanticweb.org/ontologies/snowflake#SEO-Friendly -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#SEO-Friendly">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalRequirement"/>
+        <snowflake:categorizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Compliance"/>
+        <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a merchant, I want my web-shop with a SEO-friendly URL structure, so that my web-shop can improve its ranking position in Internet search engines.</snowflake:Description>
+        <snowflake:Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">8</snowflake:Priority>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/ontologies/snowflake#SPHERE.IO_development_team -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#SPHERE.IO_development_team">
@@ -1963,6 +2058,25 @@ On the one hand there are some classes in charge of different elements that are 
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Stakeholder"/>
         <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Inside the company there are two major stakeholders: the SPHERE.IO product owners and the developer team. The product owners need a final product where all the platform features are implemented in order to measure the actual progress of the project. This product also allows them to have a sample web-shop to show to potential clients in meetings and conferences even before the platform is released.</snowflake:Description>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SPHERE.IO product owner</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/snowflake#Security -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Security">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalReqCategory"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/snowflake#SecurityReq -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#SecurityReq">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalRequirement"/>
+        <snowflake:categorizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Security"/>
+        <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The system must block any external attacker from reading or modifying sensitive information.</snowflake:Description>
+        <snowflake:Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">6</snowflake:Priority>
     </owl:NamedIndividual>
     
 
@@ -3446,6 +3560,15 @@ These form classes also host the methods generating the different content that m
     
 
 
+    <!-- http://www.semanticweb.org/ontologies/snowflake#ShippingAddress -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#ShippingAddress">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake/LogicalSubClass"/>
+        <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_3.10_class_diagram_of_the_system"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/ontologies/snowflake#ShippingItem -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#ShippingItem">
@@ -3453,6 +3576,17 @@ These form classes also host the methods generating the different content that m
         <snowflake:compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Shipping"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_3.10_class_diagram_of_the_system"/>
         <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Cart"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/snowflake#Stability -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Stability">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalRequirement"/>
+        <snowflake:categorizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Maintainability"/>
+        <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a developer, I want to be able to safely change the set of data fetched from the platform without affecting the proper functioning of the template, at least in 95% of the cases.</snowflake:Description>
+        <snowflake:Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">6</snowflake:Priority>
     </owl:NamedIndividual>
     
 
@@ -3473,6 +3607,17 @@ These form classes also host the methods generating the different content that m
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
         <snowflake:compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Product"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_3.10_class_diagram_of_the_system"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/snowflake#Testability -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Testability">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalRequirement"/>
+        <snowflake:categorizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Maintainability"/>
+        <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a developer, I want to be able to test any new feature of my web application with unit, integration and acceptance tests, in less than 2 person-hour.</snowflake:Description>
+        <snowflake:Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</snowflake:Priority>
     </owl:NamedIndividual>
     
 
@@ -3737,6 +3882,17 @@ These form classes also host the methods generating the different content that m
     
 
 
+    <!-- http://www.semanticweb.org/ontologies/snowflake#Understandability -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Understandability">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalRequirement"/>
+        <snowflake:categorizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Usability"/>
+        <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a developer, I want to identify and understand a particular business logic code of the template in less than 1 person-hour.</snowflake:Description>
+        <snowflake:Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</snowflake:Priority>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/ontologies/snowflake#UpdateCart -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#UpdateCart">
@@ -3797,6 +3953,24 @@ These form classes also host the methods generating the different content that m
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentLifeLine"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.28_update_item_in_cart_sequence"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_page_stereotype"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/snowflake#Usability -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Usability">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalReqCategory"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/snowflake#User-Friendly -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#User-Friendly">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalRequirement"/>
+        <snowflake:categorizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Usability"/>
+        <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want the web-shop with a human-readable URL structure, so that I can identify the type of content before visiting the web page.</snowflake:Description>
     </owl:NamedIndividual>
     
 
@@ -3923,6 +4097,18 @@ These technical problems can be considered a too expensive price to pay in order
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Argument"/>
         <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">On the contrary Handlebars templates are compiled, allowing to define helpers to reuse code for presentation. It also comes with built-in helpers to control the default flow of the template, such as loops or conditional statements. Handlebars comes also with better support for paths to access the data. In short, this solution makes easier to implement templates than Mustache while still keeping logic separated from presentation.</snowflake:Description>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Handlebars</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/snowflake#arg_heroku_not_cloudbees -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#arg_heroku_not_cloudbees">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Argument"/>
+        <snowflake:basisFor rdf:resource="http://www.semanticweb.org/ontologies/snowflake#heroku"/>
+        <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">At the time the system was designed there were only two cloud platforms with built in support for  deploying  Play  applications:  Heroku  and  Cloudbees;  although  at  the  end  of  2013  the number of services has been doubled and the offer will probably continue to increase in the future.  Both  services  enable  a  simple  automated  deployment  of  the  web  application  to  the platform, which will allow developers to have a working hosted application within minutes. 
+The specific hosting solution used for this project is irrelevant in terms of requirements, given that it is only intended to host the test web-shop for SPHERE.IO, and both platforms promise the same level of quality. In spite of that, it is wise to choose the most likely option the future developers will use, so that it is tested beforehand. While Cloudbees also offers integrated tools to support development of Java projects, Heroku is a much popular alternative with support for several programming languages and a wide range of plugins, thus becoming a preferable option for the project. Unlike SPHERE.IO, Heroku is scalable only under demand.</snowflake:Description>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Heroku vs Cloudbees</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -4088,6 +4274,34 @@ So far all the tools for accessing and managing the backend data were focused on
     
 
 
+    <!-- http://www.semanticweb.org/ontologies/snowflake#check_order -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#check_order">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UseCase"/>
+        <snowflake:compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#list_orders"/>
+        <snowflake:compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#log_in"/>
+        <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_3.9_check_order"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">check order</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/snowflake#checkout -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#checkout">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UseCase"/>
+        <snowflake:compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#add_item_to_cart"/>
+        <snowflake:compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#mini_cart"/>
+        <snowflake:compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#payment"/>
+        <snowflake:compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#place_order"/>
+        <snowflake:compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#remove_item_from_cart"/>
+        <snowflake:compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#update_item_in_cart"/>
+        <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_3.8_checkout"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">checkout</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/ontologies/snowflake#choice_mixed_client_MVC_1 -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#choice_mixed_client_MVC_1">
@@ -4108,7 +4322,7 @@ So far all the tools for accessing and managing the backend data were focused on
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DesignOption"/>
         <snowflake:causedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#choice_use_SPHERE"/>
         <snowflake:IsChosen rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</snowflake:IsChosen>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Choise of three tiers architecture: the client, the web application server adn the data server tier</rdfs:label>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Choise of three tiers architecture: the client, the web application server tier and the data server tier</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -4472,6 +4686,24 @@ Products, addresses and shipping methods can change or disappear over time, but 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#figure_3.7_browse_catalog">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Diagram"/>
         <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Sequence diagram of the browse catalog top-level use case, success scenario.</snowflake:Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/snowflake#figure_3.8_checkout -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#figure_3.8_checkout">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Diagram"/>
+        <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The checkout top-level use case is shown in Figure 3.8. Once the customer has some line items in his shopping cart, the next step is to navigate to the cart page. Here the user can remove or modify his line items until he is ready to start the checkout process. There, after entering all shipping and billing information, the customer will confirm the purchase and the system will request the payment platform to process the payment, displaying the order details in response to the customer.</snowflake:Description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/snowflake#figure_3.9_check_order -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#figure_3.9_check_order">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Diagram"/>
+        <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The last sequence diagram displays the interactions that the customer has to perform in order to check the state of an order (Figure 3.9). This scenario requires the customer to previously sign up to the system and purchase some items as a registered customer. Then at any moment the user can go to the login page and enter the login information to access his customer profile. There he can select to list all his orders and select the one he wants to view in detail.</snowflake:Description>
     </owl:NamedIndividual>
     
 
@@ -4896,7 +5128,7 @@ A description of each chosen technology and the characteristics that influenced 
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Device"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.1_deployment"/>
         <snowflake:playsRole rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_tier_1"/>
-        <snowflake:satisfies rdf:resource="http://www.semanticweb.org/ontologies/snowflake/SecurityReq"/>
+        <snowflake:satisfies rdf:resource="http://www.semanticweb.org/ontologies/snowflake#SecurityReq"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DatabaseServer"/>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">HTTP Cache Layer</rdfs:label>
     </owl:NamedIndividual>
@@ -4909,7 +5141,7 @@ A description of each chosen technology and the characteristics that influenced 
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Device"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.1_deployment"/>
         <snowflake:playsRole rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_tier_1"/>
-        <snowflake:satisfies rdf:resource="http://www.semanticweb.org/ontologies/snowflake/SecurityReq"/>
+        <snowflake:satisfies rdf:resource="http://www.semanticweb.org/ontologies/snowflake#SecurityReq"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#ProxyServer"/>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">HTTP Reserve Proxy</rdfs:label>
     </owl:NamedIndividual>
@@ -5644,236 +5876,6 @@ Just as in the previous example, the composite views are importing the contents 
         <snowflake:Description>Play Framework is applying the Front Controller and Application Controller design patterns to split the Controller logic between the common logic, located in the Front Controller, and the one specific for each request, called Application Controller. The Front Controller is mainly formed by the RoutingSystem, which is in charge of receiving, analyzing and dispatching every request to the appropriate application controller.
 
 All application controllers of the system are shown in Figure 4.39, along with some classes that are used as filters. These filters intercept the application controller invocation and allows to execute code before and after the action is invoked. Filters are applied as a chain of filters to any desired controller action, although for simplicity the diagram is not specifying which particular actions are using the filter. A typical filter example is the Authorization class, that verifies the customer is correctly identified to the system before accessing a restricted functionality, otherwise it redirects the user to the login screen.</snowflake:Description>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/ontologies/snowflake/BillingAddress -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake/BillingAddress">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake/LogicalSubClass"/>
-        <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_3.10_class_diagram_of_the_system"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/ontologies/snowflake/Changeability -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake/Changeability">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalRequirement"/>
-        <snowflake:categorizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake/Maintainability"/>
-        <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a developer, I want to be able to perform simple changes on user 
-interface elements of the template in less than 10 minutes.</snowflake:Description>
-        <snowflake:Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</snowflake:Priority>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/ontologies/snowflake/Compliance -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake/Compliance">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalReqCategory"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/ontologies/snowflake/Learnability -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake/Learnability">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalRequirement"/>
-        <snowflake:categorizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake/Usability"/>
-        <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a developer, I want to learn how the application is structured and how I can modify and extend it to build my own web-shop in less than 8 person-hour .</snowflake:Description>
-        <snowflake:Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</snowflake:Priority>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/ontologies/snowflake/Likeability -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake/Likeability">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalRequirement"/>
-        <snowflake:categorizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake/Usability"/>
-        <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The template should achieve an average of 7 out of 10 points from users when asked of how much do they like it.</snowflake:Description>
-        <snowflake:Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">10</snowflake:Priority>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/ontologies/snowflake/Maintainability -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake/Maintainability">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalReqCategory"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/ontologies/snowflake/Operability -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake/Operability">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalRequirement"/>
-        <snowflake:categorizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake/Usability"/>
-        <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to learn how to purchase an item for the first time in 
-less than 5 minutes.</snowflake:Description>
-        <snowflake:Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">7</snowflake:Priority>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/ontologies/snowflake/PaymentDataCompliance -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake/PaymentDataCompliance">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalRequirement"/>
-        <snowflake:categorizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake/Compliance"/>
-        <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The system must avoid to store or process any payment data.</snowflake:Description>
-        <snowflake:Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</snowflake:Priority>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/ontologies/snowflake/SEO-Friendly -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake/SEO-Friendly">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalRequirement"/>
-        <snowflake:categorizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake/Compliance"/>
-        <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a merchant, I want my web-shop with a SEO-friendly URL structure, so that my web-shop can improve its ranking position in Internet search engines.</snowflake:Description>
-        <snowflake:Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">8</snowflake:Priority>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/ontologies/snowflake/Security -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake/Security">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalReqCategory"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/ontologies/snowflake/SecurityReq -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake/SecurityReq">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalRequirement"/>
-        <snowflake:categorizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake/Security"/>
-        <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The system must block any external attacker from reading or modifying sensitive information.</snowflake:Description>
-        <snowflake:Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">6</snowflake:Priority>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/ontologies/snowflake/ShippingAddress -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake/ShippingAddress">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake/LogicalSubClass"/>
-        <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_3.10_class_diagram_of_the_system"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/ontologies/snowflake/Stability -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake/Stability">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalRequirement"/>
-        <snowflake:categorizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake/Maintainability"/>
-        <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a developer, I want to be able to safely change the set of data fetched from the platform without affecting the proper functioning of the template, at least in 95% of the cases.</snowflake:Description>
-        <snowflake:Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">6</snowflake:Priority>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/ontologies/snowflake/Testability -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake/Testability">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalRequirement"/>
-        <snowflake:categorizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake/Maintainability"/>
-        <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a developer, I want to be able to test any new feature of my web application with unit, integration and acceptance tests, in less than 2 person-hour.</snowflake:Description>
-        <snowflake:Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</snowflake:Priority>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/ontologies/snowflake/Understandability -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake/Understandability">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalRequirement"/>
-        <snowflake:categorizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake/Usability"/>
-        <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a developer, I want to identify and understand a particular business logic code of the template in less than 1 person-hour.</snowflake:Description>
-        <snowflake:Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</snowflake:Priority>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/ontologies/snowflake/Usability -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake/Usability">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalReqCategory"/>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/ontologies/snowflake/User-Friendly -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake/User-Friendly">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalRequirement"/>
-        <snowflake:categorizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake/Usability"/>
-        <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want the web-shop with a human-readable URL structure, so that I can identify the type of content before visiting the web page.</snowflake:Description>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/ontologies/snowflake/arg_heroku_not_cloudbees -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake/arg_heroku_not_cloudbees">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Argument"/>
-        <snowflake:basisFor rdf:resource="http://www.semanticweb.org/ontologies/snowflake#heroku"/>
-        <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">At the time the system was designed there were only two cloud platforms with built in support for  deploying  Play  applications:  Heroku  and  Cloudbees;  although  at  the  end  of  2013  the number of services has been doubled and the offer will probably continue to increase in the future.  Both  services  enable  a  simple  automated  deployment  of  the  web  application  to  the platform, which will allow developers to have a working hosted application within minutes. 
-The specific hosting solution used for this project is irrelevant in terms of requirements, given that it is only intended to host the test web-shop for SPHERE.IO, and both platforms promise the same level of quality. In spite of that, it is wise to choose the most likely option the future developers will use, so that it is tested beforehand. While Cloudbees also offers integrated tools to support development of Java projects, Heroku is a much popular alternative with support for several programming languages and a wide range of plugins, thus becoming a preferable option for the project. Unlike SPHERE.IO, Heroku is scalable only under demand.</snowflake:Description>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Heroku vs Cloudbees</rdfs:label>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/ontologies/snowflake/check_order -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake/check_order">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UseCase"/>
-        <snowflake:compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#list_orders"/>
-        <snowflake:compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#log_in"/>
-        <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake/figure_3.9_check_order"/>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">check order</rdfs:label>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/ontologies/snowflake/checkout -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake/checkout">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UseCase"/>
-        <snowflake:compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#add_item_to_cart"/>
-        <snowflake:compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#mini_cart"/>
-        <snowflake:compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#payment"/>
-        <snowflake:compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#place_order"/>
-        <snowflake:compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#remove_item_from_cart"/>
-        <snowflake:compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#update_item_in_cart"/>
-        <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake/figure_3.8_checkout"/>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">checkout</rdfs:label>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/ontologies/snowflake/figure_3.8_checkout -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake/figure_3.8_checkout">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Diagram"/>
-        <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The checkout top-level use case is shown in Figure 3.8. Once the customer has some line items in his shopping cart, the next step is to navigate to the cart page. Here the user can remove or modify his line items until he is ready to start the checkout process. There, after entering all shipping and billing information, the customer will confirm the purchase and the system will request the payment platform to process the payment, displaying the order details in response to the customer.</snowflake:Description>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/ontologies/snowflake/figure_3.9_check_order -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake/figure_3.9_check_order">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Diagram"/>
-        <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The last sequence diagram displays the interactions that the customer has to perform in order to check the state of an order (Figure 3.9). This scenario requires the customer to previously sign up to the system and purchase some items as a registered customer. Then at any moment the user can go to the login page and enter the login information to access his customer profile. There he can select to list all his orders and select the one he wants to view in detail.</snowflake:Description>
     </owl:NamedIndividual>
     
 
