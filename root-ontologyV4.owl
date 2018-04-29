@@ -10,7 +10,7 @@
      xmlns:untitled-ontology-5="http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:dc="http://purl.org/dc/elements/1.1/">
-    <owl:Ontology rdf:about="http://www.semanticweb.org/ontologies/snowflake/"/>
+    <owl:Ontology rdf:about="http://www.semanticweb.org/ontologies/snowflake#"/>
     
 
 
@@ -1214,6 +1214,69 @@
     
 
 
+    <!-- http://www.semanticweb.org/ontologies/snowflake#UI -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/snowflake#UI">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#ArchitectureFragment"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/snowflake#UIBehavior -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/snowflake#UIBehavior">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UI"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#expresses"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UIStructure"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/snowflake#UIClass -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/snowflake#UIClass">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UIClassFragment"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/snowflake#UIClassFragment -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/snowflake#UIClassFragment">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UIStructure"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/snowflake#UILifeLine -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/snowflake#UILifeLine">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UISequence"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/snowflake#UISequence -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/snowflake#UISequence">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UIBehavior"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/snowflake#UIStructure -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/snowflake#UIStructure">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UI"/>
+    </owl:Class>
+    
+
+
     <!-- http://www.semanticweb.org/ontologies/snowflake#UseCase -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/ontologies/snowflake#UseCase">
@@ -1356,7 +1419,7 @@
     <!-- http://www.semanticweb.org/ontologies/snowflake#CartDetail -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#CartDetail">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalLifeLine"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UILifeLine"/>
         <owl:sameAs rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UI_CartDetail"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.18_checkout_sequence"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#screen_stereotype"/>
@@ -1401,7 +1464,7 @@ interface elements of the template in less than 10 minutes.</snowflake:Descripti
     <!-- http://www.semanticweb.org/ontologies/snowflake#CheckoutPage -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#CheckoutPage">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalLifeLine"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UILifeLine"/>
         <owl:sameAs rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UI_CheckoutPage"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.18_checkout_sequence"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#screen_stereotype"/>
@@ -1716,7 +1779,7 @@ interface elements of the template in less than 10 minutes.</snowflake:Descripti
     <!-- http://www.semanticweb.org/ontologies/snowflake#CustomerPage -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#CustomerPage">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalLifeLine"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UILifeLine"/>
         <owl:sameAs rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UI_CustomerProfile"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.23_check_order_sequence"/>
     </owl:NamedIndividual>
@@ -1779,7 +1842,8 @@ On the one hand there are some classes in charge of different elements that are 
     <!-- http://www.semanticweb.org/ontologies/snowflake#ListProducts -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#ListProducts">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalLifeLine"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UILifeLine"/>
+        <owl:sameAs rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UI_ListProducts"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.14_browse_catalog_sequence"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#screen_stereotype"/>
     </owl:NamedIndividual>
@@ -1789,7 +1853,7 @@ On the one hand there are some classes in charge of different elements that are 
     <!-- http://www.semanticweb.org/ontologies/snowflake#LoginPage -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#LoginPage">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalLifeLine"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UILifeLine"/>
         <owl:sameAs rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UI_LoginPage"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.23_check_order_sequence"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#screen_stereotype"/>
@@ -1857,7 +1921,7 @@ less than 5 minutes.</snowflake:Description>
     <!-- http://www.semanticweb.org/ontologies/snowflake#OrderSummary -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#OrderSummary">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalLifeLine"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UILifeLine"/>
         <owl:sameAs rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UI_OrderSummary"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.18_checkout_sequence"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#screen_stereotype"/>
@@ -2014,7 +2078,7 @@ less than 5 minutes.</snowflake:Description>
     <!-- http://www.semanticweb.org/ontologies/snowflake#ProductDetail -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#ProductDetail">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalLifeLine"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UILifeLine"/>
         <owl:sameAs rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UI_ProductsDetail"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.14_browse_catalog_sequence"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#screen_stereotype"/>
@@ -3625,7 +3689,7 @@ These form classes also host the methods generating the different content that m
     <!-- http://www.semanticweb.org/ontologies/snowflake#UI_AddToCart -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#UI_AddToCart">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UIClass"/>
         <snowflake:designedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Server_View_products.scala"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.15_browse_catalog_screens"/>
         <snowflake:satisfies rdf:resource="http://www.semanticweb.org/ontologies/snowflake#add_item_to_cart"/>
@@ -3637,7 +3701,7 @@ These form classes also host the methods generating the different content that m
     <!-- http://www.semanticweb.org/ontologies/snowflake#UI_AddressBookSection -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#UI_AddressBookSection">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UIClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.24_check_order_screens"/>
         <snowflake:satisfies rdf:resource="http://www.semanticweb.org/ontologies/snowflake#add_address"/>
         <snowflake:satisfies rdf:resource="http://www.semanticweb.org/ontologies/snowflake#remove_address"/>
@@ -3650,7 +3714,7 @@ These form classes also host the methods generating the different content that m
     <!-- http://www.semanticweb.org/ontologies/snowflake#UI_CartDetail -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#UI_CartDetail">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UIClass"/>
         <snowflake:designedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Server_View_carts.scala"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.18_checkout_sequence"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.19_checkout_screens"/>
@@ -3663,7 +3727,7 @@ These form classes also host the methods generating the different content that m
     <!-- http://www.semanticweb.org/ontologies/snowflake#UI_CheckoutPage -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#UI_CheckoutPage">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UIClass"/>
         <snowflake:designedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Server_View_checkouts.scala"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.18_checkout_sequence"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.19_checkout_screens"/>
@@ -3677,7 +3741,7 @@ These form classes also host the methods generating the different content that m
     <!-- http://www.semanticweb.org/ontologies/snowflake#UI_CustomerProfile -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#UI_CustomerProfile">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UIClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.24_check_order_screens"/>
         <snowflake:satisfies rdf:resource="http://www.semanticweb.org/ontologies/snowflake#add_address"/>
         <snowflake:satisfies rdf:resource="http://www.semanticweb.org/ontologies/snowflake#list_orders"/>
@@ -3689,7 +3753,7 @@ These form classes also host the methods generating the different content that m
     <!-- http://www.semanticweb.org/ontologies/snowflake#UI_FilterProducts -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#UI_FilterProducts">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UIClass"/>
         <snowflake:designedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Server_View_searchBox.scala"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.15_browse_catalog_screens"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.19_checkout_screens"/>
@@ -3704,7 +3768,7 @@ These form classes also host the methods generating the different content that m
     <!-- http://www.semanticweb.org/ontologies/snowflake#UI_ForgotPassword -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#UI_ForgotPassword">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UIClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.24_check_order_screens"/>
         <snowflake:satisfies rdf:resource="http://www.semanticweb.org/ontologies/snowflake#recover_password"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#form_stereotype"/>
@@ -3715,8 +3779,7 @@ These form classes also host the methods generating the different content that m
     <!-- http://www.semanticweb.org/ontologies/snowflake#UI_ListProducts -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#UI_ListProducts">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
-        <owl:sameAs rdf:resource="http://www.semanticweb.org/ontologies/snowflake#list_products"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UIClass"/>
         <snowflake:designedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Client_View_product-list-template"/>
         <snowflake:designedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Server_View_productList.scala"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.14_browse_catalog_sequence"/>
@@ -3730,7 +3793,7 @@ These form classes also host the methods generating the different content that m
     <!-- http://www.semanticweb.org/ontologies/snowflake#UI_Login -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#UI_Login">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UIClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.24_check_order_screens"/>
         <snowflake:satisfies rdf:resource="http://www.semanticweb.org/ontologies/snowflake#log_in"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#form_stereotype"/>
@@ -3741,7 +3804,7 @@ These form classes also host the methods generating the different content that m
     <!-- http://www.semanticweb.org/ontologies/snowflake#UI_LoginPage -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#UI_LoginPage">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UIClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.24_check_order_screens"/>
         <snowflake:satisfies rdf:resource="http://www.semanticweb.org/ontologies/snowflake#log_in"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#screen_stereotype"/>
@@ -3752,7 +3815,7 @@ These form classes also host the methods generating the different content that m
     <!-- http://www.semanticweb.org/ontologies/snowflake#UI_MiniCart -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#UI_MiniCart">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UIClass"/>
         <snowflake:designedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Client_View_mini-cart-template"/>
         <snowflake:designedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Server_View_miniCart.scala"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.15_browse_catalog_screens"/>
@@ -3765,7 +3828,7 @@ These form classes also host the methods generating the different content that m
     <!-- http://www.semanticweb.org/ontologies/snowflake#UI_OrderSection -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#UI_OrderSection">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UIClass"/>
         <snowflake:designedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Server_View_order.scala"/>
         <snowflake:designedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Server_View_orders.scala.html"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.24_check_order_screens"/>
@@ -3778,7 +3841,7 @@ These form classes also host the methods generating the different content that m
     <!-- http://www.semanticweb.org/ontologies/snowflake#UI_OrderSummary -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#UI_OrderSummary">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UIClass"/>
         <snowflake:designedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Client_View_order-summary-template"/>
         <snowflake:designedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Server_View_orderSummary.scala"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.18_checkout_sequence"/>
@@ -3792,7 +3855,7 @@ These form classes also host the methods generating the different content that m
     <!-- http://www.semanticweb.org/ontologies/snowflake#UI_PasswordSection -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#UI_PasswordSection">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UIClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.24_check_order_screens"/>
         <snowflake:satisfies rdf:resource="http://www.semanticweb.org/ontologies/snowflake#change_password"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#screen_compartment_stereotype"/>
@@ -3803,7 +3866,7 @@ These form classes also host the methods generating the different content that m
     <!-- http://www.semanticweb.org/ontologies/snowflake#UI_ProductsDetail -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#UI_ProductsDetail">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UIClass"/>
         <snowflake:designedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Server_View_products.scala"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.14_browse_catalog_sequence"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.15_browse_catalog_screens"/>
@@ -3816,7 +3879,7 @@ These form classes also host the methods generating the different content that m
     <!-- http://www.semanticweb.org/ontologies/snowflake#UI_SetAddress -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#UI_SetAddress">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UIClass"/>
         <snowflake:designedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Client_View_add-address-template"/>
         <snowflake:designedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Server_View_setAddressForm.scala"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.19_checkout_screens"/>
@@ -3830,7 +3893,7 @@ These form classes also host the methods generating the different content that m
     <!-- http://www.semanticweb.org/ontologies/snowflake#UI_SetShipping -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#UI_SetShipping">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UIClass"/>
         <snowflake:designedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Client_View_shipping-address-template"/>
         <snowflake:designedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Server_View_setShippingForm.scala"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.19_checkout_screens"/>
@@ -3842,7 +3905,7 @@ These form classes also host the methods generating the different content that m
     <!-- http://www.semanticweb.org/ontologies/snowflake#UI_Signup -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#UI_Signup">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UIClass"/>
         <snowflake:designedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Server_Model_SignUp"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.24_check_order_screens"/>
         <snowflake:satisfies rdf:resource="http://www.semanticweb.org/ontologies/snowflake#sign_up"/>
@@ -3854,7 +3917,7 @@ These form classes also host the methods generating the different content that m
     <!-- http://www.semanticweb.org/ontologies/snowflake#UI_UpdateData -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#UI_UpdateData">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UIClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.24_check_order_screens"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#form_stereotype"/>
     </owl:NamedIndividual>
@@ -3864,7 +3927,7 @@ These form classes also host the methods generating the different content that m
     <!-- http://www.semanticweb.org/ontologies/snowflake#UI_UpdateLineItem -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#UI_UpdateLineItem">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UIClass"/>
         <snowflake:designedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Server_View_carts.scala"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.19_checkout_screens"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#form_stereotype"/>
@@ -3875,7 +3938,7 @@ These form classes also host the methods generating the different content that m
     <!-- http://www.semanticweb.org/ontologies/snowflake#UI_UserDataSection -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#UI_UserDataSection">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UIClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.24_check_order_screens"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#screen_compartment_stereotype"/>
     </owl:NamedIndividual>
