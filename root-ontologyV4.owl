@@ -146,6 +146,20 @@
     
 
 
+    <!-- http://www.semanticweb.org/ontologies/snowflake#generalizedBy -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/snowflake#generalizedBy">
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#generalizes"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/snowflake#generalizes -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/snowflake#generalizes"/>
+    
+
+
     <!-- http://www.semanticweb.org/ontologies/snowflake#hasAlternative -->
 
     <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/snowflake#hasAlternative">
@@ -1318,14 +1332,6 @@
     
 
 
-    <!-- http://www.semanticweb.org/ontologies/snowflake/LogicalSubClass -->
-
-    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/snowflake/LogicalSubClass">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
-    </owl:Class>
-    
-
-
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
@@ -1362,8 +1368,6 @@
         <snowflake:satisfies rdf:resource="http://www.semanticweb.org/ontologies/snowflake#add_address"/>
         <snowflake:satisfies rdf:resource="http://www.semanticweb.org/ontologies/snowflake#remove_address"/>
         <snowflake:satisfies rdf:resource="http://www.semanticweb.org/ontologies/snowflake#update_address"/>
-        <snowflake1:superClassOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#BillingAddress"/>
-        <snowflake1:superClassOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#ShippingAddress"/>
     </owl:NamedIndividual>
     
 
@@ -1391,7 +1395,8 @@
     <!-- http://www.semanticweb.org/ontologies/snowflake#BillingAddress -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#BillingAddress">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake/LogicalSubClass"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
+        <snowflake:generalizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Address"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_3.10_class_diagram_of_the_system"/>
     </owl:NamedIndividual>
     
@@ -3627,7 +3632,8 @@ These form classes also host the methods generating the different content that m
     <!-- http://www.semanticweb.org/ontologies/snowflake#ShippingAddress -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#ShippingAddress">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake/LogicalSubClass"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
+        <snowflake:generalizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Address"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_3.10_class_diagram_of_the_system"/>
     </owl:NamedIndividual>
     
