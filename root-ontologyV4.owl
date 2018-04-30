@@ -1484,6 +1484,7 @@ interface elements of the template in less than 10 minutes.</snowflake:Descripti
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.25_internal_design_browse_catalog"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.27_internal_design_checkout_cart_update_detail"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.40_client_controller_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_controller_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#javaScript_stereotype"/>
     </owl:NamedIndividual>
     
@@ -1495,6 +1496,7 @@ interface elements of the template in less than 10 minutes.</snowflake:Descripti
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.29_internal_design_checkout_process"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.40_client_controller_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_controller_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#javaScript_stereotype"/>
     </owl:NamedIndividual>
     
@@ -1505,6 +1507,7 @@ interface elements of the template in less than 10 minutes.</snowflake:Descripti
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Client_Controller_Customer">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.40_client_controller_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_controller_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#javaScript_stereotype"/>
     </owl:NamedIndividual>
     
@@ -1515,6 +1518,7 @@ interface elements of the template in less than 10 minutes.</snowflake:Descripti
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Client_Controller_Login">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.40_client_controller_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_controller_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#javaScript_stereotype"/>
     </owl:NamedIndividual>
     
@@ -1525,6 +1529,7 @@ interface elements of the template in less than 10 minutes.</snowflake:Descripti
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Client_Controller_Product">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.40_client_controller_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_controller_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#javaScript_stereotype"/>
     </owl:NamedIndividual>
     
@@ -1536,6 +1541,7 @@ interface elements of the template in less than 10 minutes.</snowflake:Descripti
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.25_internal_design_browse_catalog"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.40_client_controller_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_controller_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#javaScript_stereotype"/>
     </owl:NamedIndividual>
     
@@ -1546,6 +1552,7 @@ interface elements of the template in less than 10 minutes.</snowflake:Descripti
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Client_Controller_ProductThumbnail">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.40_client_controller_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_controller_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#javaScript_stereotype"/>
     </owl:NamedIndividual>
     
@@ -1619,6 +1626,7 @@ interface elements of the template in less than 10 minutes.</snowflake:Descripti
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Client_View_add-address-template">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.38_client_side_view_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_view_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -1629,6 +1637,7 @@ interface elements of the template in less than 10 minutes.</snowflake:Descripti
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Client_View_billing-address-template">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.38_client_side_view_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_view_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -1639,6 +1648,7 @@ interface elements of the template in less than 10 minutes.</snowflake:Descripti
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Client_View_billing-method-tempalte">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.38_client_side_view_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_view_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -1649,6 +1659,7 @@ interface elements of the template in less than 10 minutes.</snowflake:Descripti
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Client_View_cart-item-template">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.38_client_side_view_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_view_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -1659,6 +1670,7 @@ interface elements of the template in less than 10 minutes.</snowflake:Descripti
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Client_View_mini-cart-template">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.38_client_side_view_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_view_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -1669,6 +1681,7 @@ interface elements of the template in less than 10 minutes.</snowflake:Descripti
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Client_View_order-summary-template">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.38_client_side_view_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_view_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -1679,6 +1692,7 @@ interface elements of the template in less than 10 minutes.</snowflake:Descripti
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Client_View_product-list-template">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.38_client_side_view_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_view_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -1689,6 +1703,7 @@ interface elements of the template in less than 10 minutes.</snowflake:Descripti
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Client_View_shipping-address-template">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.38_client_side_view_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_view_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -1699,6 +1714,7 @@ interface elements of the template in less than 10 minutes.</snowflake:Descripti
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Client_View_update-address-template">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.38_client_side_view_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_view_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -1709,6 +1725,7 @@ interface elements of the template in less than 10 minutes.</snowflake:Descripti
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Cllient_View_shipping-method-template">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.38_client_side_view_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_view_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -2155,6 +2172,7 @@ less than 5 minutes.</snowflake:Description>
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Server_Controller_Addresses">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.39_web_application_server_contoller_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_applicaton_server_controller_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -2176,6 +2194,7 @@ less than 5 minutes.</snowflake:Description>
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Server_Controller_Ajax">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.39_web_application_server_contoller_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_applicaton_server_controller_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -2195,6 +2214,7 @@ less than 5 minutes.</snowflake:Description>
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Server_Controller_Authorization">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.39_web_application_server_contoller_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_applicaton_server_controller_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -2215,6 +2235,7 @@ less than 5 minutes.</snowflake:Description>
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Server_Controller_CartNoEmpty">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.39_web_application_server_contoller_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_applicaton_server_controller_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -2236,6 +2257,7 @@ less than 5 minutes.</snowflake:Description>
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.25_internal_design_browse_catalog"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.39_web_application_server_contoller_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_applicaton_server_controller_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -2257,6 +2279,7 @@ less than 5 minutes.</snowflake:Description>
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.25_internal_design_browse_catalog"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.39_web_application_server_contoller_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_applicaton_server_controller_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -2277,6 +2300,7 @@ less than 5 minutes.</snowflake:Description>
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Server_Controller_Checkouts">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.39_web_application_server_contoller_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_applicaton_server_controller_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -2297,6 +2321,7 @@ less than 5 minutes.</snowflake:Description>
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Server_Controller_Customers">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.39_web_application_server_contoller_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_applicaton_server_controller_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -2317,6 +2342,7 @@ less than 5 minutes.</snowflake:Description>
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Server_Controller_FormHandler.java">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:implements rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Server_Controller_Ajax"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_applicaton_server_controller_package_1"/>
         <snowflake:Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">controllers.actions.FormHandler</snowflake:Path>
     </owl:NamedIndividual>
     
@@ -2327,6 +2353,7 @@ less than 5 minutes.</snowflake:Description>
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Server_Controller_Login">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.39_web_application_server_contoller_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_applicaton_server_controller_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -2348,6 +2375,7 @@ less than 5 minutes.</snowflake:Description>
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.25_internal_design_browse_catalog"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.39_web_application_server_contoller_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_applicaton_server_controller_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -2368,6 +2396,7 @@ less than 5 minutes.</snowflake:Description>
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Server_Controller_RoutingSystem">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.39_web_application_server_contoller_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_applicaton_server_controller_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -2378,6 +2407,7 @@ less than 5 minutes.</snowflake:Description>
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Server_Controller_SaveContext">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.39_web_application_server_contoller_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_applicaton_server_controller_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -2972,16 +3002,6 @@ These form classes also host the methods generating the different content that m
     
 
 
-    <!-- http://www.semanticweb.org/ontologies/snowflake#Server_View_Main.scala -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Server_View_Main.scala">
-        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
-        <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.36_web_application_server_view_component"/>
-        <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_page_stereotype"/>
-    </owl:NamedIndividual>
-    
-
-
     <!-- http://www.semanticweb.org/ontologies/snowflake#Server_View_breadcrumb.scala -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Server_View_breadcrumb.scala">
@@ -3009,6 +3029,7 @@ These form classes also host the methods generating the different content that m
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.27_internal_design_checkout_cart_update_detail"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.36_web_application_server_view_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_application_server_view_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -3030,6 +3051,7 @@ These form classes also host the methods generating the different content that m
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.25_internal_design_browse_catalog"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.36_web_application_server_view_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_application_server_view_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -3051,6 +3073,7 @@ These form classes also host the methods generating the different content that m
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.29_internal_design_checkout_process"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.36_web_application_server_view_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_application_server_view_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -3071,6 +3094,7 @@ These form classes also host the methods generating the different content that m
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Server_View_customers.scala">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.36_web_application_server_view_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_application_server_view_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -3131,6 +3155,7 @@ These form classes also host the methods generating the different content that m
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Server_View_home.scala">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.36_web_application_server_view_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_application_server_view_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -3182,6 +3207,7 @@ These form classes also host the methods generating the different content that m
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Server_View_login.scala">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.36_web_application_server_view_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_application_server_view_package_1"/>
         <snowflake:satisfies rdf:resource="http://www.semanticweb.org/ontologies/snowflake#log_in"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_page_stereotype"/>
     </owl:NamedIndividual>
@@ -3215,6 +3241,7 @@ These form classes also host the methods generating the different content that m
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Server_View_main.scala">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.36_web_application_server_view_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_application_server_view_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -3333,6 +3360,7 @@ These form classes also host the methods generating the different content that m
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.30_internal_design_checkout_order_creation"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.36_web_application_server_view_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_application_server_view_package_1"/>
         <snowflake:satisfies rdf:resource="http://www.semanticweb.org/ontologies/snowflake#list_orders"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_page_stereotype"/>
     </owl:NamedIndividual>
@@ -3388,7 +3416,7 @@ These form classes also host the methods generating the different content that m
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Server_View_productThumbnail.scala">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.37_web_application_server_simple_views"/>
-        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Server_View_Helpers"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_application_server_view_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_page_stereotype"/>
     </owl:NamedIndividual>
     
@@ -3400,6 +3428,7 @@ These form classes also host the methods generating the different content that m
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.25_internal_design_browse_catalog"/>
         <snowflake:modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.36_web_application_server_view_component"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_application_server_view_package_1"/>
         <snowflake:satisfies rdf:resource="http://www.semanticweb.org/ontologies/snowflake#list_products"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_page_stereotype"/>
     </owl:NamedIndividual>
@@ -3465,6 +3494,7 @@ These form classes also host the methods generating the different content that m
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Server_View_searchBox.scala">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
         <snowflake:implementedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Server_View_searchBox.scala.html"/>
+        <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_application_server_view_package_1"/>
         <snowflake:taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_page_stereotype"/>
     </owl:NamedIndividual>
     
