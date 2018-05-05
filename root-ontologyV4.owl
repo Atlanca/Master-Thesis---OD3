@@ -4647,6 +4647,7 @@ So far all the tools for accessing and managing the backend data were focused on
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#FunctionalRequirement"/>
         <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#display_products"/>
         <snowflake:performedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#customer"/>
+        <snowflake:satisfiedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Category"/>
         <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to be informed of my location inside the category tree via a breadcrumb, so that it can help me to navigate and have a better understanding of the web-shop structure.</snowflake:Description>
         <snowflake:Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">6</snowflake:Priority>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Breadcrumb</rdfs:label>
@@ -5016,6 +5017,7 @@ So far all the tools for accessing and managing the backend data were focused on
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#FunctionalRequirement"/>
         <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#display_products"/>
         <snowflake:performedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#customer"/>
+        <snowflake:satisfiedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Product"/>
         <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to be informed with an informative message when a product list request has no results.</snowflake:Description>
         <snowflake:Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</snowflake:Priority>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Empty list message</rdfs:label>
@@ -5817,6 +5819,8 @@ A description of each chosen technology and the characteristics that influenced 
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#FunctionalRequirement"/>
         <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#display_products"/>
         <snowflake:performedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#customer"/>
+        <snowflake:satisfiedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Category"/>
+        <snowflake:satisfiedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Product"/>
         <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to be informed with an informative message when a category or product I requested cannot be found.</snowflake:Description>
         <snowflake:Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">10</snowflake:Priority>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Not found message</rdfs:label>
@@ -5846,6 +5850,7 @@ The first level is the universal redirect, where the customer is completely redi
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#FunctionalRequirement"/>
         <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#display_products"/>
         <snowflake:performedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#customer"/>
+        <snowflake:satisfiedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Product"/>
         <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The product list needs to be displayed divided into pages and the customer should be given the ability to browse through them.</snowflake:Description>
         <snowflake:Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</snowflake:Priority>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pagination</rdfs:label>
@@ -6159,6 +6164,7 @@ from my address book, so that I cannot longer select it when placing an order.</
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#FunctionalRequirement"/>
         <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#display_products"/>
         <snowflake:performedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#customer"/>
+        <snowflake:satisfiedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Product"/>
         <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to sort the products from the product list by their name in an ascendant or descendant order.</snowflake:Description>
         <snowflake:Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">9</snowflake:Priority>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Sort by name</rdfs:label>
@@ -6172,6 +6178,7 @@ from my address book, so that I cannot longer select it when placing an order.</
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#FunctionalRequirement"/>
         <snowflake:partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#display_products"/>
         <snowflake:performedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#customer"/>
+        <snowflake:satisfiedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Product"/>
         <snowflake:Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to sort the products from the product list by their price in an ascendant or descendant order.</snowflake:Description>
         <snowflake:Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">8</snowflake:Priority>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Sort by price</rdfs:label>
