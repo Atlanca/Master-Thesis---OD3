@@ -1,7 +1,4 @@
-//--------------------------------------------------------------------
 // UNIVERSAL FUNCTIONS
-//--------------------------------------------------------------------
-
 var ONTOLOGY_COLORS = {'Feature': '#af2d2d', 'Requirement': '#cc6a51', 'FunctionalRequirement': '#eeb574', 
                         'NonFunctionalRequirement': '#d17f40',
                         'UseCase': '#ce9d58', 'UserStory': '#b9ad5b', 'Stakeholder': '#e2d15d', 
@@ -51,24 +48,25 @@ function getNameOfUri(string){
     return string
 }
 
-buildGraph(ontologyData)
+// buildDiagram(ontologyData2)
 
-
-//--------------------------------------------------------------------
+//---------------------------------------------------------------
 // MAIN RENDERER FUNCTION
-//--------------------------------------------------------------------
-function buildGraph(ontologyData){
-    // Initialize the input graph
+//---------------------------------------------------------------
+function buildDiagram(ontologyData){
+
+    var ontologyData = ontologyData
+    // Create the input graph
     var g = new dagreD3.graphlib.Graph({compound:true})
     .setGraph({edgesep: 10, ranksep: 100, nodesep: 50, rankdir: 'LR'})
     .setDefaultEdgeLabel(function() { return {}; });
 
-    // Adding clusters
-    ontologyData.entities.forEach(function(e){
-        // Create invisible entity type clusters
-        g.setNode(getNameOfUri(e.type), {style:'fill:none;opacity:0;border:none;stroke:none'})
+    var CSS_COLOR_NAMES = ['#ff5656', '#ff7d56', '#ff9956', '#ffbb56','#ffda56','#fffc56','#d7ff56','#b0ff56','#7dff56','#56ffc1','#56ffeb','#56e5ff','#56bbff','#5680ff','#a256ff','#cf56ff','#f356ff','#ff56cc', '#ff569f']
+    var takenColorId = 5
+    var typeColors = {}
 
-        // Create clusters for architectural views, sets them as parent to entity type clusters
+    ontologyData.entities.forEach(function(e){
+        g.setNode(getNameOfUri(e.type), {style:'fill:none;opacity:0;border:none;stroke:none'})
         views.forEach(function(v){
             e.supertypes.forEach(function(s){
                 if(s.includes(v)){
@@ -79,8 +77,6 @@ function buildGraph(ontologyData){
             }) 
         })
     })
-
-    // Creates entities and sets parent clusters for entity types, views and ontology categories accordingly
     ontologyData.entities.forEach(function(e){
         Object.keys(ontologyCategories).forEach(function(oc){
             e.supertypes.forEach(function(s){
@@ -89,7 +85,6 @@ function buildGraph(ontologyData){
                         if(!g.nodes().includes(oc)){
                             g.setNode(oc, {label: oc, id:oc, style: 'fill:' + ONTOLOGY_COLORS[oc] + ';stroke:' + ONTOLOGY_COLORS[oc], clusterLabelPos: 'top'})
                         }
-                        // Sets parents
                         parent = g.parent(getNameOfUri(e.type))
                         if(parent && parent != oc){
                             g.setParent(parent, oc)
@@ -102,20 +97,17 @@ function buildGraph(ontologyData){
         })
     })
 
-    // Sets parent for entities to relative entity type cluster
     ontologyData.entities.forEach(function(e){ 
         g.setNode(getNameOfUri(e.uri), {id: getNameOfUri(e.uri), label: getNameOfEntity(e), style: 'fill:' + getEntityColor(e)})
         g.setParent(getNameOfUri(e.uri), getNameOfUri(e.type))
     })
 
-    // Create edges for all entities
     ontologyData.relations.forEach(function(r){
         g.setEdge(getNameOfUri(r.source), getNameOfUri(r.target), {class:'in-' + getNameOfUri(r.target) + ' out-' + getNameOfUri(r.source), label: r.name, 
-        style: "stroke-dasharray: 10,10;",
+        style: "stroke-dasharray: 5,5;",
         arrowheadStyle: "fill: #bec6d8; stroke-width:0", curve: d3.curveBasis})
         })
-    
-    // Rounding edges of all entity nodes
+
     g.nodes().forEach(function(v) {
         var node = g.node(v);
         node.rx = 5
@@ -134,18 +126,12 @@ function buildGraph(ontologyData){
     .on("zoom", function() {
     svgGroup.attr("transform", d3.event.transform);
     });
-
-    //Disable double click zoom
     svg.call(zoom).on("dblclick.zoom", null);
 
     // Run the renderer. This is what draws the final graph.
     render(d3.select("svg g"), g);
 
-    // -----------------------------------------------------------------------------------------
-    // Beneath this point, we are adding actions to the rendered graph and making it prettier
-    // -----------------------------------------------------------------------------------------
-
-    // Make ontology layers to be positioned behind everything
+    //Make ontology layers to be positioned behind everything
     Object.keys(ontologyCategories).forEach(function(oc){
         clusters = document.getElementsByClassName('clusters')[0]
         cluster = document.getElementById(oc)
@@ -154,83 +140,35 @@ function buildGraph(ontologyData){
         }
     })
 
-    // Lighten the colors a bit
+    //Lighten the colors a bit
     d3.selectAll('rect').each(function(){
         color = d3.select(this).style('fill')
         recursiveLighten(d3.select(this))
     })
 
-    // Lighten the colors of the clusters
+    // Lighten clusters
     lightenClusters(0.9)
 
-    // Add logic for highlighting relations and entities
+    // Scale the diagram to fit the screen
+    scaleDiagram()
+
+    // Add nodepath highlight logic
     var toggleOn = ''
     selectedNodeColor = {id:'', color:''}
     highlightNodepathsOnclick()
 
-    // Resizing clusters to make them more consistent in size
-    resizeClusters()
+    // Position clusters
+    positionClusters()
 
-    // Give nodes tooltips on hover
+    // Give nodes title and tooltips on hover
     setTitleToNodes()
     tippy('.nodeRect')
 
     // Create dropdown logic for the arrow button beside the node
     setNodeDropdownLogic()
 
-    // Scale the diagram to fit the screen
-    scaleDiagram()
-
     //--------------------------------------------------------------------
-    // BENEATH THIS POINT THERE ARE ONLY HELPER FUNCTIONS
-    //--------------------------------------------------------------------
-
-    //--------------------------------------------------------------------
-    // Helpers for building the graph
-    //--------------------------------------------------------------------
-
-    function getNameOfEntity(entity){
-        if(entity.label){
-            return entity.label
-        }else{
-            return getNameOfUri(entity.uri)
-        }
-    }
-
-    function getPrettyName(string){
-        name = ''
-        for(i in string){
-            if(i > 0 && string[i] == string[i].toUpperCase()){
-                name += ' ' + string[i].toLowerCase()
-            }else if (i == 0 && string[i] == string[i].toLowerCase()){
-                name += string[i].toUpperCase()
-            }else{
-                name += string[i]
-            }
-        }
-        return name
-    }
-
-    function getSubTree(startEntityUri, list, forward){
-        startEntityUri = getNameOfUri(startEntityUri)
-        ontologyData.relations.forEach(function(rel){
-            if(forward) {
-                if(getNameOfUri(rel.source) == startEntityUri){
-                    getSubTree(rel.target, list, true)
-                    list.push(rel)
-                }
-            }else{
-                if(getNameOfUri(rel.target) == startEntityUri){
-                    getSubTree(rel.source, list, false)
-                    list.push(rel)
-                }
-            }
-        })
-        return list
-    }
-
-    //--------------------------------------------------------------------
-    // Helpers for making the graph pretty
+    // HELPERS
     //--------------------------------------------------------------------
 
     function lightenClusters(targetL){
@@ -277,6 +215,53 @@ function buildGraph(ontologyData){
         }
     }
 
+    // Helpers for building the graph
+    function getRandomColor(){
+        takenColorId = (takenColorId+1)%CSS_COLOR_NAMES.length
+        return CSS_COLOR_NAMES[takenColorId]
+    }
+
+    function getNameOfEntity(entity){
+        if(entity.label){
+            return entity.label
+        }else{
+            return getNameOfUri(entity.uri)
+        }
+    }
+
+    function getPrettyName(string){
+        name = ''
+        for(i in string){
+            if(i > 0 && string[i] == string[i].toUpperCase()){
+                name += ' ' + string[i].toLowerCase()
+            }else if (i == 0 && string[i] == string[i].toLowerCase()){
+                name += string[i].toUpperCase()
+            }else{
+                name += string[i]
+            }
+        }
+        return name
+    }
+
+    function getSubTree(startEntityUri, list, forward){
+        startEntityUri = getNameOfUri(startEntityUri)
+        ontologyData.relations.forEach(function(rel){
+            if(forward) {
+                if(getNameOfUri(rel.source) == startEntityUri){
+                    getSubTree(rel.target, list, true)
+                    list.push(rel)
+                }
+            }else{
+                if(getNameOfUri(rel.target) == startEntityUri){
+                    getSubTree(rel.source, list, false)
+                    list.push(rel)
+                }
+            }
+        })
+        return list
+    }
+
+    // Helpers for making the graph pretty
     function setTitleToNodes(){
         ontologyData.entities.forEach(function(e){
             d3.select('#' + getNameOfUri(e.uri))
@@ -330,7 +315,7 @@ function buildGraph(ontologyData){
         .select('path.path')
         .transition()
         .duration(200)
-        .style("stroke-dasharray", "10, 10")
+        .style("stroke-dasharray", "5, 5")
         .duration(200)
         .style("stroke", "#929db5")
 
@@ -342,7 +327,7 @@ function buildGraph(ontologyData){
         .style("fill", "#929db5")  
     }
 
-    function resizeClusters(){
+    function positionClusters(){
         largestYtop = 0
         largestYbot = 0
         
@@ -456,10 +441,7 @@ function buildGraph(ontologyData){
         .attr('ry',50)
     }
 
-    //--------------------------------------------------------------------
-    // Creating the logic for node actions
-    //--------------------------------------------------------------------
-
+    //Creating the logic for node actions
     function highlightNodepathsOnclick(){
         //ADD ACTIONS THE NODE RECTANGLES
         d3.selectAll('.node')
@@ -558,7 +540,7 @@ function buildGraph(ontologyData){
                 this.parentNode.parentNode.appendChild(this.parentNode)
 
                 function hideDropdown(){
-                    d3.selectAll('.drop-down_container')
+                    d3.selectAll('.node_dropdown')
                     .transition()
                     .duration(200)
                     .attr('height', '1')
@@ -580,20 +562,20 @@ function buildGraph(ontologyData){
                     .remove()
                 }
 
-                if(d3.select(this.parentNode).select('.drop-down_container').empty()){
+                if(d3.select(this.parentNode).select('.node_dropdown').empty()){
 
                     hideDropdown()
                     //Create drop-down box
                     d3.select(this.parentNode)
                     .append('rect')
-                    .attr('class', 'drop-down_container')
+                    .attr('class', 'node_dropdown')
                     .attr('x', (nodeWidth/2+nodeHeight/2)+20)
                     .attr('y', -nodeHeight/2)
                     .attr('width', '0')
                     .attr('height', '1')
                     .transition()
                     .duration(200)
-                    .attr('width', '350px')
+                    .attr('width', '160px')
                     .transition()
                     .duration(200)
                     .attr('height', nodeHeight*3)
@@ -619,15 +601,18 @@ function buildGraph(ontologyData){
                         .attr('id', 'drop_down_item' + item_counter)
                         .attr('x', (nodeWidth/2+nodeHeight/2)+20)
                         .attr('y', (-nodeHeight/2 + nodeHeight*item_counter))
-                        .attr('width', '350px')
+                        .attr('width', '160px')
                         .attr('height', nodeHeight)
                         .attr('rx', 5)
                         .attr('ry', 5)
+                        .style('stroke', 'none')
+                        .style('fill', 'gray')
+                        .attr('opacity', '0')
                         .on('mouseover', function(){
                             d3.select(this)
                             .transition()
                             .duration(200)
-                            .style('opacity', '0.5')
+                            .style('opacity', '1')
                         })
                         .on('mouseout', function(){
                             d3.select(this)
@@ -643,9 +628,12 @@ function buildGraph(ontologyData){
                         .insert('text')
                         .attr('class', 'drop-down_item_text')
                         .attr('id', 'drop-down_item_text' + item_counter)
-                        .attr('x', (12.5 + nodeWidth/2+nodeHeight/2)+20)
-                        .attr('y', (10 + nodeHeight*item_counter))
-
+                        .attr('x', (9 + nodeWidth/2+nodeHeight/2)+20)
+                        .attr('y', (6 + nodeHeight*item_counter))
+                        .style('font-size','14px')
+                        .style('fill','white')
+                        .style('stroke','none')
+                        .style('opacity', '0')
                         .transition()
                         .delay(300)
                         .duration(200)
@@ -669,22 +657,28 @@ function buildGraph(ontologyData){
             })
     
             // CREATE SVG ARROW
-            nodeButton = d3.select(this).select('.nodeButton')
-            x = parseFloat(nodeButton.attr('x'))
-            y = parseFloat(nodeButton.attr('y'))
-            width = parseFloat(nodeButton.attr('width'))
-            arrowSize = 8
-            points = (x + width/2) + ',' + 
-                     (y + arrowSize + nodeHeight/2) + ' ' + 
-                     (x + width/2) + ',' +
-                     (y - arrowSize + nodeHeight/2) + ' ' + 
-                     (x + arrowSize + width/2) + ',' + 
-                     (y + nodeHeight/2)
+            x = parseFloat(
+                d3.select(this)
+                .select('.nodeButton')
+                .attr('x'))
+            y = parseFloat(
+                d3.select(this)
+                .select('.nodeButton')
+                .attr('y'))
+            width = parseFloat(
+                d3.select(this)
+                .select('.nodeButton')
+                .attr('width'))
+            points = (x + width/2) + ',' + (y + 5 + nodeHeight/2) + ' ' + (x + width/2) + ',' + (y - 5 + nodeHeight/2) + ' ' + (x + 5 + width/2) + ',' + (y + nodeHeight/2)
         
             d3.select(this)
             .append("polygon")
             .attr('class', 'drop-down_arrow')
             .attr('points', points)
+            .style('fill','#2c4c66')
+            .style('stroke-width', '1px')
+            .style('stroke', '#2c4c66')
+            .style('pointer-events', 'none')
         })
 
     }
@@ -724,7 +718,7 @@ function buildGraph(ontologyData){
         .html(getPopup())
 
         var s = document.createElement('script')
-        s.src = 'popup-graph.js'
+        s.src = 'static/popup-graph.js'
 
         document.getElementById('popup-view').appendChild(s)
 

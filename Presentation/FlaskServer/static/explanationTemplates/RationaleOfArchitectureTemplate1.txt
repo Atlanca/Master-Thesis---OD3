@@ -1,0 +1,13 @@
+The choice to use {mainChoice} is {relationChoiceChoice} {nrChoice} other choices in the system. It {relationChoicePattern} {nrPattern} architectural patterns in the architecture.
+ Additionally, the motivation of the choices are {relationChoiceArgument} {argumentsConstraintsAssumptions}.\n\n
+
+The other choices that causes this design choice:\n
+{designOptions}
+\n\n
+The architectural patterns affected by the choice:\n
+{patterns}
+\n\n
+The panel to the right illustrates how the choice {mainChoice} relates to other choices and the architecture.\n\n
+
+Motivation\n
+This section describes the motivation for the choice. A motivation is based on arguments, constraints and/or assumptions

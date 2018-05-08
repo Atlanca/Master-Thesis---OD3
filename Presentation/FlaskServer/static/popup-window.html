@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="static/joint.min.css">
+    <link rel="stylesheet" href="ClusteringGraphStyle.css">
+    <link rel="stylesheet" href="explanationPageStyle.css">
+<head>
+        <script src="https://d3js.org/d3.v5.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="static/lodash.min.js"></script>
+        <script src="static/backbone-min.js"></script>
+        <script src="static/joint.min.js"></script>
+        <script src="static/joint.layout.Directedgraph.js"></script>
+        <script src="https://dagrejs.github.io/project/dagre-d3/latest/dagre-d3.js"></script>
+        <script src="static/explanationData.js"></script>
+        <script src="https://unpkg.com/tippy.js@2.5.0/dist/tippy.all.min.js"></script>
+        <script type='text/javascript' src='static/tinycolor.js'></script>
+        <script type='text/javascript' src='static/d3-ease.js'></script>
+</head>
+<body>
+    <div class='w3-white' style='opacity:0.2;width:100%;height:100%;position:absolute'>
+    </div>
+    <div class='w3-white w3-border' style='width:1200px;height:700px;bottom:50%;left:50%;position:absolute;transform:translate(-50%,50%)'>
+        <button class='w3-white w3-button w3-border-right w3-border-indigo roundedTopCorners' style='height:5%;float:left;font-size:13px'>Figure 3_10</button>
+        <button class='w3-button w3-border-right w3-border-bottom w3-border-indigo roundedTopCorners' style='height:5%;background-color:#b8dced;float:left;font-size:13px'>Figure_3_4</button>
+        <button class='w3-button w3-border-right w3-border-bottom w3-border-indigo roundedTopCorners' style='height:5%;background-color:#b8dced;float:left;font-size:13px'>Figure_3_2</button>
+
+        <div class='w3-light-blue w3-border-bottom w3-border-indigo' style='width:100%;height:5%;font-size:13px'></div>
+        <div class='w3-white' style='width:65%;height:95%;float:left;position:relative'>
+            <div id ='diagram_image_div' class='w3-white w3-border-right' style='width:100%;height:100%;float:left;position:relative'> 
+                <svg id='diagram_image' height='100%' width='100%'></svg>
+                <script src='popup-graph.js'></script>
+            </div>
+        </div>
+        <div class='w3-container w3-light-gray w3-border-left' style="overflow-y:scroll;width:35%;height:95%;float:left;">
+            <h3 style='color:black'>Figure 3.10: Class diagram of the system</h3>
+            <p>
+                The conceptual model of this project revolves around the cart concept, while all other system elements are there to provide the required information to the cart, as seen in the class diagram below  (Figure  3.10).  Products  are  related  to  carts  as  a  list  of  product  variants,  forming  line items.  Variant  is  a  concept  to  define  the  part  of  the  product  that  contains  the  particular characteristics of it, such as color or size, even having sometimes a different price. Therefore every product has at least one variant, each one with different price or attributes. Similarly, a cart can be associated with one of the shipping methods available in the system, resulting in a shipping item, necessary to manage taxes. 
+            </p> 
+            <p>
+                Both products and shipping methods have  a  particular  tax  category,  that  can  be  variable  for  products  and  fixed  in  the  case  of shipping. When one of these elements are added to the cart, a tax rate is assigned to the item according to this tax category and the shipping address of the cart. As mentioned above carts can have a shipping address, but can have as well a billing address. 
+            </p>
+            <p>
+                A cart can belong to a registered customer, otherwise it is considered to have an anonymous customer. Once the checkout is finished a cart becomes an order, with information about the current payment, shipping and order status. If the customer was not anonymous, this order will be associated with that customer, along with any of his previous orders. Every customer can also have a list of addresses comprising the address book.
+            </p>
+            <p>Products, addresses and shipping methods can change or disappear over time, but the orders associated with them must stay in the system for an indefinite period of time, having exactly 44 the original information. To solve this issue, cart is not related to the original instances, but to instances that were created exclusively for this particular cart as a snapshot of those original instances. </p>
+            <p>While the current cart may optionally have associated information, this information is mandatory in an order instance. For simplicity, the conceptual model only accepts product and shipping prices that do not include taxes. Allowing taxes in prices can be achieved by simply adding a boolean attribute indicating whether the price in question has taxes included or not. So assuming that taxes are not included, the net total price in the cart must be the sum of all the line item prices (i.e. the quantity in each line item multiplied by the corresponding variant price) associated with it, plus the price of the shipping method selected. In order to calculate the gross total price, taxes must be added up to this resulting net price. Taxes are calculated multiplying the price of each shipping or line item by its corresponding tax rate. </p>
+            <p>Lastly when the shipping address is set in the cart, all tax rates from shipping and line items are calculated. Only those products that include a tax category corresponding to the zone (e.g. state, country) of the shipping address can be part of the cart. Missing the tax category means that the price cannot be calculated, thus the product is not available in that zone.</p>
+        
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="ClusteringGraphStyle.css">
+    
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="static/joint.min.css">
+<head>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <style>
+            html, body {
+        font-family: Arial, sans-serif;
+        }
+
+        .title {
+        font-size: 12px;
+        }
+        .canvas {
+        overflow: hidden;
+        }
+        .canvas .wrapper.outer > .background {
+        fill: #000000;
+        }
+        .canvas .wrapper.inner > .background {
+        fill: #CCCCCC;
+        cursor: move;
+        }
+        .canvas .background {
+        fill: #F6F6F6;
+        stroke: #333333;
+        cursor: move;
+        }
+        .canvas .panCanvas {
+        cursor: move;
+        }
+
+        .canvas .minimap .frame {
+        pointer-events: all;
+        }
+        .canvas .minimap .frame .background {
+        stroke: #111111;
+        stroke-width: 4px;
+        fill-opacity: 0.1;
+        fill: #000000;
+        fill: url(#minimapGradient_qwpyza);
+        filter: url(#minimapDropShadow_qwpyza);
+        cursor: move;
+        }
+    </style>
+</head>
+<body>
+    <h5 class="title">Use mousewheel to zoom. Drag image or minimap rectangle to pan.</h5>
+    <div id="canvasqPWKOg" class="canvas"></div>
+    <button id="resetButtonqPWKOg">Reset</button>
+    <script src="static/minimap.js"></script>
+</body>
+</html>

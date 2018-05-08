@@ -3,8 +3,16 @@
 #     def _init_(self):
 #         self.test = 1
     
+def flattenStructure(structure, flattenedList):
+    for item in structure:
+        flattenedList.append(item)
+
+
+
 def generateRationalePatternSummary(structure=None):
     
+
+
     architectureComponents = "{count} {type}" 
     
     summaryText = "This tab describes the {pattern} and the most high level architecture related to it. "\

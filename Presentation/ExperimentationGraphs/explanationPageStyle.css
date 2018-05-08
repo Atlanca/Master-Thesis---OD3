@@ -1,0 +1,104 @@
+.noStyleButton {
+    height:50px;
+    border:none;
+    background:none;
+    margin:0px;
+    padding-left:10px;
+    padding-right:10px
+}
+
+.side-bar-base {
+    min-height:100%;
+    width:inherit;
+    padding-left:16px;
+    padding-right:16px;
+    padding-top:16px;
+    margin:0px
+}
+
+.button1:hover {
+    background-color:#80e5ff;
+
+}
+
+div .roundedTopCorners {
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    color: #2d3b7f;
+}
+
+h4 {
+    color:#70b1ea
+}
+.button1{
+    background-color:#0099ff;
+    position:absolute;
+    top:150px;
+    height:100px;
+    width:10px;
+    padding:0;
+    border:none;
+}
+
+.title {
+    padding-left:0px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+.title:hover {
+    color:#6cd800
+}
+
+h2{
+    font-size:22px;
+    color: #2d3b7f;
+}
+
+h3 {
+    font-size:20px;
+    color:#3d73cc;
+}
+
+h5 {
+    font-size:18px;
+    color:#a0c3d6;
+}
+
+hr{
+    border-color:#a0c3d6;
+    opacity:0;
+    margin: 0px;
+}
+hr.thick{
+    border-color: #3d73cc;
+    border-width: 1px;
+    opacity:1;
+    margin-top: 15px; 
+    margin-bottom: 15px; 
+} 
+
+.popup {
+    z-index : 100;
+}
+
+.info {
+    position:absolute;
+    left:1%;
+    top:9%;
+    width:40px;
+    height:40px;
+    border-radius:20px;
+    padding-left:15.5px;
+    padding-top:7px;
+    color:gray;
+    transition: background-color 0.5s;
+    cursor: pointer;
+    }   
+
+.info:hover {
+    background-color:lightcyan;
+}
+
+.tippy-tooltip {
+    text-align: left;
+}

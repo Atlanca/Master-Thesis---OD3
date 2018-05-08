@@ -1,0 +1,50 @@
+{% extends "baseExplanationTemplate.html" %}
+
+{%block entity_description %}
+
+{%- for section in explanation.sections recursive %}
+  {%- if section in explanation.sections %}
+    <h3 class='{{section.id}} w3-bar-item title' onclick='toggleVisiblityOfDescription("{{section.id}}")' style='padding-left:0'>{{section.title}}&emsp;+</h3>
+    <div class='{{section.id}}' style='max-height:0px;display:none;opacity:0'>
+  {%- else %}
+    <h4 class='{{section.id}} w3-bar-item title' onclick='toggleVisiblityOfDescription("{{section.id}}")' style='padding-left:0'>{{section.title}}&emsp;+</h4>
+    <div class='{{section.id}}' style='max-height:0px;display:none;opacity:0'>
+  {%- endif %}
+
+  {% if section.summary %}
+    <p>{{section.summary|safe}}</p>
+  {% endif %}
+
+  {% for data in section.textContent %}
+    {% if data.0 %}
+      <h5>{{data.0}}</h5>
+    {% endif %}
+    {% if data.1 %}
+      <p>{{data.1|safe}}</p>
+    {% endif %}
+  {% endfor %}
+
+  {% for diagram in section.diagrams %}
+    {% if diagram %}
+    <div class='w3-padding w3-border w3-white' style='width:100%; text-align:center;'>
+      <img class='w3-margin-bottom' src='/{{diagram_file_paths[diagram.uri]}}' style='width:100%'></p>
+      <p>{{diagram.caption}}</p>
+    </div>  
+
+    {% endif %}
+  {% endfor %}
+  
+  {%- if section.children%}
+    {{ loop(section.children) }}
+  {%- endif %}
+  
+  </div>
+
+  {%- if section in explanation.sections %}
+    <hr class='thick'>  
+  {%- else %}
+    <hr>      
+  {%- endif %}
+{%- endfor %}
+
+{%endblock entity_description %}

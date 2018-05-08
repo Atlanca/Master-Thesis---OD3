@@ -1,7 +1,7 @@
-/* Clusters */
 .clusters rect {
+  /* fill: #9741b1; */
   stroke: lightgrey;
-  stroke-dasharray: 20,20;
+  stroke-dasharray: 10,10;
   stroke-width: 3px;
   transition: stroke-width 1s;
   transition: opacity 0.3s;
@@ -9,14 +9,13 @@
 }
 
 .clusters text {
- font-size: 35px;
- opacity: 0.6;
+ font-size: 24px;
+ font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+ opacity:0.6;
  cursor:pointer;
  transition: fill 0.1s;
  transition: opacity 0.3s;
 }
-
-/* Nodes */
 
 .unselected rect {
   stroke-dasharray: 10,10;
@@ -35,6 +34,12 @@
   opacity: 1;
 }
 
+text {
+  font-weight: 300;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serf;
+  font-size: 14px;
+}
+
 .node text {
   pointer-events:none;
 }
@@ -44,45 +49,11 @@
   fill: #fff;
   stroke-width: 1px;
   cursor: pointer;
-  fill-opacity: 1;
+  fill-opacity: 1
 }
 
-/* Edges */
 .edgePath path {
   fill:none; 
   stroke: #929db5; 
   stroke-width: 3px; 
-}
-
-/* General */
-text {
-  font-weight: 300;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serf;
-  font-size: 25px;
-}
-
-/* Dropdown */
-.drop-down_container{
-  stroke: #424242;
-  fill: #424242;
-}
-
-.drop-down_item {
-  stroke: none;
-  fill: gray;
-  opacity: 0;
-}
-
-.drop-down_item_text {
-  font-size: 25px;
-  fill: white;
-  stroke: none;
-  opacity: 0;
-}
-
-.drop-down_arrow {
-  fill:#2c4c66;
-  stroke-width:1px;
-  stroke:#2c4c66;
-  pointer-events:none;
 }

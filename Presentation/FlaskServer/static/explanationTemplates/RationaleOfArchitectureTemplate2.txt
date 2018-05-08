@@ -1,0 +1,11 @@
+This tab describes the Architectural Pattern {pattern} and the most high level architecture related to it.
+The pattern is structured using {sumRoles} pattern component types. These component types 
+has {architectureComponents} directly implementing them. \n \n
+
+Pattern component types: \n
+{componentTypes} \n \n
+
+Development structure fragments: \n
+{architecturalEntities} \n \n
+
+The panel to the left illustrates how the architectural pattern {pattern} relates to the architecture.

@@ -51,13 +51,10 @@ function getNameOfUri(string){
     return string
 }
 
-buildGraph(ontologyData)
-
-
 //--------------------------------------------------------------------
 // MAIN RENDERER FUNCTION
 //--------------------------------------------------------------------
-function buildGraph(ontologyData){
+function buildDiagram(ontologyData){
     // Initialize the input graph
     var g = new dagreD3.graphlib.Graph({compound:true})
     .setGraph({edgesep: 10, ranksep: 100, nodesep: 50, rankdir: 'LR'})
@@ -390,13 +387,24 @@ function buildGraph(ontologyData){
         .select('rect').attr('y', largestYtop - 50)
         .attr('height',largestYbot)
 
+        // Make all clusters a bit larger in height
+        heightDelta = 100
+        d3.selectAll('.cluster').each(function(){
+            cluster = d3.select(this)
+            if(!cluster.empty()){
+                clusterHeight = parseFloat(cluster.select('rect').attr('height'))
+                clusterY = parseFloat(cluster.select('rect').attr('y'))
+                cluster.select('rect')
+                .attr('height', clusterHeight + heightDelta) 
+                .attr('y', clusterY - heightDelta/2) 
+            }
+        })
 
-        //Make ontology category clusters bigger
+        // Make ontology category clusters larger in height in comparison to all other clusters
         Object.keys(ontologyCategories).forEach(function(oc){
             cluster = d3.select('#' + oc)
             heightDelta = 150
             if(!cluster.empty()){
-                console.log(cluster)
                 clusterHeight = parseFloat(cluster.select('rect').attr('height'))
                 clusterY = parseFloat(cluster.select('rect').attr('y'))
                 cluster.select('rect')

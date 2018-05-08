@@ -1,0 +1,20 @@
+<!-- {{question: How is the feature {main_entity} mapped to its implementation?}}
+ -->
+
+<p>
+The feature {main_entity} {rel_feat_req} {nbr_req} functional requirements which are {rel_req_logic} {nbr_logic} 
+logical classes in the logical view of the architecture. These classes are in turn {rel_logic_dev} classes and 
+class packages in the development view of the architecture. The development classes are finally 
+{rel_dev_impl} the source code.
+</p>
+
+<p>
+The left-side panel demonstrates how the feature {main_entity} maps to the implementation 
+classes via the Logical view. Clicking on any entity will highlight the paths to its other related entities. 
+To see all available actions, click the round "i" button at the top left of the panel.
+</p>
+
+<p>
+The subsequent sections contain descriptions of the most significant entities found in this explanation, 
+namely the logical classes, the requirements and the feature {main_entity}.
+</p>

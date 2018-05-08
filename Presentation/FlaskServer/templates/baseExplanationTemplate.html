@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="/static/css/ClusteringGraphStyle.css">
+    <link rel="stylesheet" href="/static/css/explanationPageStyle.css">
+  <head>
+    {% block head %}
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://dagrejs.github.io/project/dagre-d3/latest/dagre-d3.js"></script>
+    <script src="https://unpkg.com/tippy.js@2.5.0/dist/tippy.all.min.js"></script>
+    <script src='/static/libraries/tinycolor.js'></script>
+    <script src="/static/explanationData.js"></script>
+    <script src='/static/explanationPageLogic.js'></script>
+    <script src='/static/baseExplanationView.js'></script>
+    <script src="/{{diagram_path}}"></script>
+    {% endblock head %}
+  </head>
+  <body>
+    <div id="content">
+      <div>
+        <!-- Interactive diagram -->
+        <div class='interactive-diagram-base'>
+            <div class='w3-light-blue interactive-diagram-tab-container'></div>
+            <div class='w3-border info'><b>i</b>
+                <script src='/static/info.js'></script>
+            </div>
+            <div id='interactive_diagram' class='w3-white w3-border'>
+                <svg id='interactive_diagram_svg'></svg>
+                <div id='structure_data' data-content={{structure}}></div>
+                <script>
+                  structure = JSON.parse({{structure | tojson | safe}})
+                  buildDiagram(structure)
+                </script>
+            </div>
+        </div>
+        <!-- Sidebar -->
+        <div id='explanationSidebar'class="w3-sidebar w3-bar-block side-bar"> 
+          <div class='w3-light-blue w3-border-left w3-border-indigo side-bar-toggle'>
+            <div class='side-bar-toggle-button-wrapper'>
+              <button class="w3-large button1" onclick="sidebarToggle('explanationSidebar')"/>
+            </div>
+          </div>
+          <div style='height:1px;width:1%;float:left'></div>
+          <div class='side-bar-base'>
+          <!-- Tabs -->
+          {% for tab_button in tab_buttons %}
+            <button id={{tab_button.id}} class='roundedTopCorners side-bar-tab'>{{ tab_button.name }}</button>    
+          {% endfor %}
+            <script>
+              d3.select('#logical_view_tab').classed('w3-light-grey', true)
+            </script>
+            <div class='w3-light-gray side-bar-content-base'>
+              <!-- Question -->
+              <h2><b>Question:</b> {{explanation.question}}</h2>
+              <hr class='thick'> 
+
+              <!-- Summary -->
+              <h3 class="w3-bar-item title summary" onclick='toggleVisiblityOfDescription("summary")' style='padding-left:0px;'>Summary&emsp;-</h3>
+              <div class='summary' style='max-height:10000px;'>
+              {{explanation.summaryText|safe}}
+              </div>
+              <hr class='thick'>
+
+              <!-- Descriptions of significant entities -->
+              {% block entity_description %}
+              {% endblock entity_description %}
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

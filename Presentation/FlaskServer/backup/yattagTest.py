@@ -292,45 +292,45 @@ class htmlBuilder:
     # Main HTML component
     # -------------------------------------------------------------------------------------
 
-    def createSideDescription(self, individual):
-        doc, tag, text, line = Doc().ttl()
-        qs = self.ir.pentaStructure(None, individual)
-        with tag('div', id='sideDescriptionContent', klass="w3-border-left w3-container", style=''):
-            with tag('div', klass='w3-margin-top', style='height:15%;width:100%;'):
-                with tag('h3', style=""):
-                    text(qs[1]['object'])
-                    line('button', 'X', klass="w3-orange w3-button w3-margin-right", style="padding:0px 15px 0px 15px;position:absolute; right:0")
-            with tag('div', klass='w3-border w3-border-orange w3-container w3-light-grey w3-margin-bottom', style=''):
-                with tag('div', klass='w3-border-bottom w3-border-orange'):
-                    line('h4', 'Type')
-                line('p', qs[1]['type'])
+    # def createSideDescription(self, individual):
+    #     doc, tag, text, line = Doc().ttl()
+    #     qs = self.ir.pentaStructure(None, individual)
+    #     with tag('div', id='sideDescriptionContent', klass="w3-border-left w3-container", style=''):
+    #         with tag('div', klass='w3-margin-top', style='height:15%;width:100%;'):
+    #             with tag('h3', style=""):
+    #                 text(qs[1]['object'])
+    #                 line('button', 'X', klass="w3-orange w3-button w3-margin-right", style="padding:0px 15px 0px 15px;position:absolute; right:0")
+    #         with tag('div', klass='w3-border w3-border-orange w3-container w3-light-grey w3-margin-bottom', style=''):
+    #             with tag('div', klass='w3-border-bottom w3-border-orange'):
+    #                 line('h4', 'Type')
+    #             line('p', qs[1]['type'])
 
-            for dataTypeProperty in qs[1]['dataTypeProperties']:
-                with tag('div', klass='w3-border w3-border-orange w3-container w3-light-grey w3-margin-bottom', style=''):
-                    with tag('div', klass='w3-border-bottom w3-border-orange'):
-                        line('h4', dataTypeProperty[0])
-                    line('p', dataTypeProperty[1])
+    #         for dataTypeProperty in qs[1]['dataTypeProperties']:
+    #             with tag('div', klass='w3-border w3-border-orange w3-container w3-light-grey w3-margin-bottom', style=''):
+    #                 with tag('div', klass='w3-border-bottom w3-border-orange'):
+    #                     line('h4', dataTypeProperty[0])
+    #                 line('p', dataTypeProperty[1])
             
-            with tag('div', klass='w3-border w3-border-orange w3-container w3-light-grey w3-margin-bottom', style=''):
-                with tag('div', klass='w3-border-bottom w3-border-orange'):
-                    line('h4', 'Rationale')
-                for rationale in qs[1]['rationale']:
-                    line('h5', self.ir.getTypeOfIndividual(rationale))
-                    for r in self.ir.getDataProperties(rationale):
-                        line('p', r[0])
-                        line('p', r[1])
+    #         with tag('div', klass='w3-border w3-border-orange w3-container w3-light-grey w3-margin-bottom', style=''):
+    #             with tag('div', klass='w3-border-bottom w3-border-orange'):
+    #                 line('h4', 'Rationale')
+    #             for rationale in qs[1]['rationale']:
+    #                 line('h5', self.ir.getTypeOfIndividual(rationale))
+    #                 for r in self.ir.getDataProperties(rationale):
+    #                     line('p', r[0])
+    #                     line('p', r[1])
 
-            for diagram in qs[1]['diagrams']:
-                with tag('div', klass='w3-border w3-border-orange w3-container w3-light-grey w3-margin-bottom', style=''):
-                    with tag('div', klass='w3-border-bottom w3-border-orange'):
-                        line('h4', 'Diagram')
-                    doc.stag('img', klass="w3-margin-top", src='static/images/'+ self.placeholderImage(diagram) +'.png', style='width:100%')
-                    line('p', diagram)
-                    for d in self.ir.getDataProperties(diagram):
-                        line('p', d[0] + ':')
-                        line('p', d[1])
+    #         for diagram in qs[1]['diagrams']:
+    #             with tag('div', klass='w3-border w3-border-orange w3-container w3-light-grey w3-margin-bottom', style=''):
+    #                 with tag('div', klass='w3-border-bottom w3-border-orange'):
+    #                     line('h4', 'Diagram')
+    #                 doc.stag('img', klass="w3-margin-top", src='static/images/'+ self.placeholderImage(diagram) +'.png', style='width:100%')
+    #                 line('p', diagram)
+    #                 for d in self.ir.getDataProperties(diagram):
+    #                     line('p', d[0] + ':')
+    #                     line('p', d[1])
                 
-        return doc.getvalue()
+    #     return doc.getvalue()
 
     def placeholderImage(self, diagramName):
         print("dname:" + str(diagramName))

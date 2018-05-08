@@ -1,566 +1,856 @@
 import requests
 import json
 import re
-import pprint
 
-# TODO: Rationale does not take alternatives into account.
-# TODO: Some repeated code. Refactor
-# TODO: Comment the last three methods
-# TODO: Test with working reasoner
-# TODO: Find out how to explain how the technology is used in the system
-# TODO: Perhaps find a way to explain the system based on the relations of the objects
+from SPARQLWrapper import SPARQLWrapper, JSON
 
-class SparqlQueryManager:
-    def __init__(self, url):
-        self.url = url
+# A class for ontology entities
+class Entity:
+    def __init__(self, entityUri):
+        self.ir = InformationRetriever()
+        self.uri = entityUri
+        self.label = self.ir.getLabel(entityUri)
+        self.type = self.ir.getTypeOfIndividual(entityUri)
+        self.supertypes = self.ir.getSuperTypes(entityUri)
+        self.dataTypeProperties = self.ir.getDataProperties(entityUri)
+        self.diagrams = []
+        self.baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
 
-    def query(self, query):
-        return requests.post(self.url, data = {'query': query})
+        for diagram in self.ir.getRelations(entityUri, self.baseUri + 'modeledIn', self.baseUri + 'Diagram'):
+            self.diagrams.append(diagram[1])
 
-class InformationRetriever:
-    def __init__(self, url=None):
-        self.queryManager = SparqlQueryManager('http://localhost:3030/Thesis/query')
-    def getNameOfURI(self, uri):
+    def __repr__(self):
+        return "{PythonClass: Entity, Name: " + self.label + ", Type: " + self.type + "}"
+    
+    def toDict(self):
+        return {'uri': self.uri, 'label': self.label, 'type': self.type, 'supertypes': self.supertypes,
+                'dataTypeProperties': self.dataTypeProperties, 'diagrams': self.diagrams}
+
+# A class for ontology relations
+class Relation:
+    def __init__(self, name, source, target):
+        self.name = name
+        self.source = source
+        self.target = target
+    
+    def toDict(self):
+        return {'name': self.name, 'source': self.source, 'target': self.target}
+    
+    def __repr__(self):
+        return  '{PythonClass: Relation, Name: ' + self.name + ', Source: ' + self.source + ', Target: ' + self.target + '}'
+
+# Entity structure should be populated by entities first and then relations.
+# Relations with sources/targets that do not already exist in the structure 
+# will not be added.
+class EntityStructure:
+    def __init__(self):
+        self.ir = InformationRetriever()
+        self.entities = []
+        self.relations = []
+        self.structure = {}
+        self.structure['relations'] = self.relations
+        self.structure['entities'] = self.entities
+
+    def getNameFromUri(self, uri):
         return (re.sub(".+#", '', uri))	
     
+    def addEntity(self, entity):
+        if isinstance(entity, str) and not self.hasEntity(entity):
+            self.entities.append(Entity(entity))
+        
+        elif isinstance(entity, Entity) and not self.hasEntity(entity.uri):
+            self.entities.append(entity)
+    
+    def addAllEntities(self, entityList):
+        if isinstance(entityList, list):
+            for e in entityList:
+                self.addEntity(e)
+
+    def addRelation(self, relation, source=None, target=None):
+        if isinstance(relation, Relation):
+            if self.hasEntity(relation.source) and self.hasEntity(relation.target) and not self.hasRelation(relation):
+                self.relations.append(relation)
+        
+        elif isinstance(relation, str) and source and target: 
+            self.addRelation(Relation(relation, source, target))
+
+    def addOneToManyRelation(self, relationName, source, target):
+        if isinstance(source, list) and isinstance(target, str):
+            for s in source:
+                if isinstance(s, str):
+                    self.addRelation(relationName, s, target)
+        elif isinstance(source, str) and isinstance(target, list):
+            for t in target:
+                if isinstance(t, str):
+                    self.addRelation(relationName, source, t)
+    
+    def addAllRelations(self, relationList):
+        if isinstance(relationList, list):
+            for r in relationList:
+                self.addRelation(r)
+
+    def hasEntity(self, entityUri):
+        for entity in self.entities:
+            if entity.uri == entityUri:
+                return True
+        return False
+    
+    def hasRelation(self, relation):
+        for r in self.relations:
+            if relation.source == r.source and relation.target == r.target and relation.name == r.name:
+                return True
+        return False
+
+    def __repr__(self):
+        output = "{{entities: [{entities}], relations: [{relations}]}}"
+        entitiesStr = ""
+        relationsStr = ""
+        entitiesEnd = len(self.entities)-1
+        relationsEnd = len(self.relations)-1
+
+        for index, entity in enumerate(self.entities):
+            if index < entitiesEnd:
+                entitiesStr += self.getNameFromUri(entity.uri) + ', '
+            else:
+                entitiesStr += self.getNameFromUri(entity.uri)
+
+        for index, relation in enumerate(self.relations):
+            if index < relationsEnd:
+                relationsStr += '(' + self.getNameFromUri(relation.name) + ', ' + self.getNameFromUri(relation.source) + ', ' + self.getNameFromUri(relation.target) + ')' + ', '
+            else:
+                relationsStr += '(' + self.getNameFromUri(relation.name) + ', ' + self.getNameFromUri(relation.source) + ', ' + self.getNameFromUri(relation.target) + ')'
+        return output.format(entities=entitiesStr, relations=relationsStr)
+
+    def toDict(self):
+        returnDict = {}
+        returnDict['entities'] = []
+        returnDict['relations'] = []
+        for e in self.entities:
+            returnDict['entities'].append(e.toDict())
+        for r in self.relations:
+            returnDict['relations'].append(r.toDict())
+        return returnDict
+
+# A class for retrieving data from the ontology. It uses SparQL.
+class InformationRetriever:
+    def __init__(self, url=None):
+        if not url:
+            self.sparql = SPARQLWrapper('http://localhost:3030/Thesis')
+    
+    def query(self, query):
+        self.sparql.setQuery(query)
+        self.sparql.setReturnFormat(JSON)
+        return self.sparql.query().convert()
+
+    def toQueryUri(self, uri):
+        return '<' + uri + '>'
+
     #-----------------------------------------------------------------------------------------
     # 1. BASIC QUERY HELPER METHODS
     #-----------------------------------------------------------------------------------------
 
+    
+    def getSuperTypes(self, subjectUri):
+        subjectUri = self.toQueryUri(subjectUri)
+        query = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"\
+                "SELECT * WHERE {{" \
+                "{subjectUri} rdf:type ?supertype  ."\
+                "FILTER (regex(str(?supertype), 'http://www.semanticweb.org/ontologies/snowflake')) }}"
+        query = query.format(subjectUri=subjectUri)
+        supertypes = []
+
+        try:
+            queryResult = self.query(query)
+            results = queryResult['results']['bindings']
+            if results:
+                for r in results:
+                    supertypes.append(r['supertype']['value'])
+                return supertypes
+        except:      
+            return ''
+
+    def getLabel(self, subjectUri):
+        subjectUri = self.toQueryUri(subjectUri)
+        query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"\
+                "SELECT ?label WHERE {{{subjectUri} rdfs:label ?label}}"
+        query = query.format(subjectUri=subjectUri)
+        
+        try:
+            queryResult = self.query(query)
+            results = queryResult['results']['bindings']
+            if results:
+                return results[0]['label']['value']
+            else:
+                return ''
+        except:      
+            return ''
+
     def getAllInverses(self):
-        query = "PREFIX base:<http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#> "\
-        "PREFIX owl: <http://www.w3.org/2002/07/owl#> "\
-        "SELECT DISTINCT ?pred1 ?pred2 WHERE {{?pred a owl:ObjectProperty . ?pred1 owl:inverseOf ?pred2}}"
-        queryResult = self.queryManager.query(query)
+        query = "PREFIX owl: <http://www.w3.org/2002/07/owl#> "\
+                "SELECT DISTINCT ?pred1 ?pred2 WHERE {{?pred a owl:ObjectProperty . ?pred1 owl:inverseOf ?pred2}}"
+        
         predicatePairs = []
 
-        if queryResult.status_code == 200:
-            results = queryResult.json()['results']['bindings']
+        try:
+            queryResult = self.query(query)
+            results = queryResult['results']['bindings']
             for item in results:
-                predicatePairs.append((self.getNameOfURI(item['pred1']['value']), 
-                                self.getNameOfURI(item['pred2']['value']),
-                                ))
+                predicatePairs.append((item['pred1']['value'], 
+                                item['pred2']['value']))
+        except:
+            pass
         return predicatePairs
 
     def getAllObjectsAndRelations(self):
-        query = "PREFIX base:<http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#> "\
-        "PREFIX owl: <http://www.w3.org/2002/07/owl#> "\
-        "SELECT ?sub ?pred ?obj WHERE {{?pred a owl:ObjectProperty . ?sub ?pred ?obj}}"
-        queryResult = self.queryManager.query(query)
+        query = "PREFIX owl: <http://www.w3.org/2002/07/owl#> "\
+                "SELECT ?sub ?pred ?obj WHERE {{?pred a owl:ObjectProperty . ?sub ?pred ?obj}}"
         individuals = []
 
-        if queryResult.status_code == 200:
-            results = queryResult.json()['results']['bindings']
+        try:
+            queryResult = self.query(query)
+            results = queryResult['results']['bindings']
             for item in results:
                 if("http://www.w3.org/2002/07/owl#" not in item['pred']['value']):
-                    individuals.append((self.getNameOfURI(item['sub']['value']), 
-                                    self.getNameOfURI(item['pred']['value']),
-                                    self.getNameOfURI(item['obj']['value'])
-                                    ))
+                    individuals.append((item['sub']['value'], 
+                                        item['pred']['value'],
+                                        item['obj']['value']))
+        except:
+            pass
         return individuals
     
     def getAllObjects(self):
-        query = "PREFIX base:<http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#> "\
-        "PREFIX owl: <http://www.w3.org/2002/07/owl#> "\
-        "SELECT DISTINCT ?sub WHERE {{?sub a owl:Thing . ?sub ?pred ?obj}}"
-        queryResult = self.queryManager.query(query)
+        query = "PREFIX owl: <http://www.w3.org/2002/07/owl#> "\
+                "SELECT DISTINCT ?sub WHERE {{?sub a owl:Thing . ?sub ?pred ?obj}}"
         individuals = []
 
-        if queryResult.status_code == 200:
-            results = queryResult.json()['results']['bindings']
+        try:
+            queryResult = self.query(query)
+            results = queryResult['results']['bindings']
             for item in results:
-                individuals.append(self.getNameOfURI(item['sub']['value']))
+                individuals.append(item['sub']['value'])
+        except:
+            pass
         return individuals
 
     def getIndividualsByType(self, inputType):
-        query = "PREFIX base:<http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#> "\
-                "PREFIX owl: <http://www.w3.org/2002/07/owl#> "\
-                "SELECT * WHERE {{?individual a base:{t} }}"
+        inputType = self.toQueryUri(inputType)
+        query = "PREFIX owl: <http://www.w3.org/2002/07/owl#> "\
+                "SELECT * WHERE {{?individual a {t} }}"
         query = query.format(t=inputType)
-        queryResult = self.queryManager.query(query)
         individuals = []
 
-        if queryResult.status_code == 200:
-            results = queryResult.json()['results']['bindings']
+        try:
+            queryResult = self.query(query)
+            results = queryResult['results']['bindings']
             for item in results:
-                individuals.append(self.getNameOfURI(item['individual']['value']))
+                individuals.append(item['individual']['value'])
+        except:
+            pass
         return individuals
-                
+
+    def checkRelation(self, sub, obj):
+        query = "PREFIX owl: <http://www.w3.org/2002/07/owl#>"\
+                "SELECT ?pred WHERE {{"\
+                "?pred a owl:ObjectProperty . "\
+                "{sub} ?pred {obj} }}"
+        query = query.format(sub=sub, obj=obj)
+        predicates = []
+        try:
+            queryResult = self.query(query)
+            results = queryResult['results']['bindings']
+            for item in results:
+                predicates.append(item['pred']['value'])
+        except:
+            pass
+        return predicates
+
     # getRelations() returns all predicates from the given subject to an object in a list.
     # useInversePred determines whether to use the given predicate or to use the inverse of it.
     # always returns a tuple in the following format: (predicate, object)
     def getRelations(self, sub, pred="", objType="", useInversePred=False):
-        originalPred = pred
-        originalObjType = objType
         # 1. Starts with building up the query depending on input parameters
-        query = "PREFIX base:<http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#> "\
-               "PREFIX owl: <http://www.w3.org/2002/07/owl#> " \
+        sub = self.toQueryUri(sub)
+        if pred:
+            pred = self.toQueryUri(pred)
+        if objType:
+            objType = self.toQueryUri(objType)
+
+        query ="PREFIX owl: <http://www.w3.org/2002/07/owl#> " \
                "SELECT * WHERE {{ "\
                "{objectType} "\
-               "base:{subject} {predicate} ?object "\
+               "{subject} {predicate} ?object "\
                "{predBind} "\
                "}}"
         predBind = ""
-        b = "base:"
+        b = ""
 
         if pred:
             if useInversePred:
-                b = "^base:"
-                predBind = ". {{SELECT ?predicate WHERE {{?predicate owl:inverseOf base:{predicate} }}}}" 
+                b = "^"
+                predBind = ". {{SELECT ?predicate WHERE {{?predicate owl:inverseOf {predicate} }}}}" 
                 predBind = predBind.format(predicate=pred)
             else:
-                predBind = " . BIND(base:{predicate} AS ?predicate)"
+                predBind = " . BIND({predicate} AS ?predicate)"
                 predBind = predBind.format(predicate = pred)
-            pred = "{base}{predicate}".format(base=b, predicate=pred)
+            pred = "{prefix}{predicate}".format(prefix=b, predicate=pred)
         else:
             pred = "?predicate"
         if objType:
-            objType = "?object a base:{object} . ".format(object=objType)
+            objType = "?object a {object} . ".format(object=objType)
 
         # 2. Queries the server. If success create and return the list of results
         query = query.format(subject = sub, predicate = pred, objectType = objType, predBind = predBind)
-        queryResult = self.queryManager.query(query)
         relationsList = []
 
-        if queryResult.status_code == 200:
-            results = queryResult.json()['results']['bindings']
+        try:
+            queryResult = self.query(query)
+            results = queryResult['results']['bindings']
             for item in results:
-                val = (self.getNameOfURI(item['predicate']['value']), self.getNameOfURI(item['object']['value']))
+                val = (item['predicate']['value'],
+                       item['object']['value'])
                 relationsList.append(val)
-
+        except:
+            pass
         return relationsList
 
     # getTypeOfIndividual() queries the server
     # and returns the type of the given individual.
     def getTypeOfIndividual(self, individual):  
+        individual = self.toQueryUri(individual)
         # 1. Starts with building up the query based on input parameters     
-        query = "PREFIX base:<http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#> "\
-               "PREFIX owl: <http://www.w3.org/2002/07/owl#> " \
-               "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> "\
-               "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> "\
-               "SELECT * {{ "\
-               "base:{ind} rdf:type ?directType . "\
-               "FILTER NOT EXISTS {{ "\
-               "base:{ind} rdf:type ?type . "\
-               "?type rdfs:subClassOf ?directType . "\
-               "FILTER NOT EXISTS {{ ?type owl:equivalentClass ?directType }}}} . "\
-               "FILTER (?directType != owl:NamedIndividual)}}"
+        query = "PREFIX owl: <http://www.w3.org/2002/07/owl#> " \
+                "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> "\
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> "\
+                "SELECT * {{ "\
+                "{ind} rdf:type ?directType . "\
+                "FILTER NOT EXISTS {{ "\
+                "{ind} rdf:type ?type . "\
+                "?type rdfs:subClassOf ?directType . "\
+                "FILTER NOT EXISTS {{ ?type owl:equivalentClass ?directType }}}} . "\
+                "FILTER (?directType != owl:NamedIndividual)}}"
 
         query = query.format(ind = individual)
 
         # 2. Queries the server, builds result and returns
-        queryResult = self.queryManager.query(query)
         result = ""
 
-        if queryResult.status_code == 200:     
-            results = queryResult.json()['results']['bindings']
+        try:  
+            queryResult = self.query(query)
+            results = queryResult['results']['bindings']
             if results:
-                result = self.getNameOfURI(results[0]['directType']['value'])
+                result = results[0]['directType']['value']
             else:
                 errorText = "The input individual {ind} does not exist in the ontology".format(ind=individual)
                 raise BaseException(errorText)
+        except:
+            pass
         return result
 
     # getDataProperties queries the server for data properties of given individual
     # and returns a list of data-type properties of the individual
     def getDataProperties(self, individual):
+        individual = self.toQueryUri(individual)
         # 1. Format query
-        query = "PREFIX base:<http://www.semanticweb.org/mahsaro/ontologies/2018/2/untitled-ontology-5#> "\
-                "PREFIX owl: <http://www.w3.org/2002/07/owl#> " \
+        query = "PREFIX owl: <http://www.w3.org/2002/07/owl#> " \
                 "SELECT * WHERE {{ "\
                 "?predicate a owl:DatatypeProperty ."\
-                "base:{subject} ?predicate ?object "\
+                "{subject} ?predicate ?object "\
                 "}}"
 
         query = query.format(subject = individual)
 
         # 2. Query server, structure results and return list
-        queryResult = self.queryManager.query(query)
         properties = []
 
-        if queryResult.status_code == 200:
-            results = queryResult.json()['results']['bindings']
+        try:
+            queryResult = self.query(query)
+            results = queryResult['results']['bindings']
             for item in results:
-                val = (self.getNameOfURI(item['predicate']['value']), self.getNameOfURI(item['object']['value']))
-                properties.append(val)     
+                val = (item['predicate']['value'], 
+                       item['object']['value'])
+                properties.append(val)   
+        except:
+            pass
         return properties	
 
-    #-----------------------------------------------------------------------------------------
-    # 2. HELPER METHODS
-    #-----------------------------------------------------------------------------------------   
-
-    #-----------------------------------------------------------------------------------------
-    # 2.1 METHODS FOR STRUCTURING DATA
-    #-----------------------------------------------------------------------------------------   
-    def pentaStructure(self, subjectPredicate, subjectURI):
-        diagrams = []
-        rationale = []
-        for diagram in self.getRelations(subjectURI, 'modeledIn', 'Diagram'):
-            diagrams.append(diagram[1])
-        for r in self.getRelations(subjectURI, 'basedOn'):
-            rationale.append(r[1])
-        td = self.tripleDescription(subjectPredicate, subjectURI)
-        td[1]['diagrams'] = diagrams
-        td[1]['rationale'] = rationale
-        print(td)
-        return td 
-    
-    def tripleStructure(self, subjectPredicate, subjectURI):
-        implementationClasses = []
-        for id in self.getRelations(subjectURI, 'realizedBy', 'ImplementationClass'):
-            implementationClasses.append(id[1])
- 
-        return (subjectPredicate, {'type': self.getTypeOfIndividual(subjectURI), 
-                'object': subjectURI, 
-                'implClasses': implementationClasses})
- 
-    def tripleDescription(self, subjectPredicate, subjectURI):
-        return (subjectPredicate, {'type': self.getTypeOfIndividual(subjectURI), 
-                'object': subjectURI, 
-                'dataTypeProperties': self.getDataProperties(subjectURI)})
-
-    def doubleStructure(self, subjectPredicate, subjectURI):
-        return (subjectPredicate, {'type': self.getTypeOfIndividual(subjectURI), 
-                'object': subjectURI})
-
-    def uriStructure(self, subjectURI):
-        return subjectURI
-
-    #-----------------------------------------------------------------------------------------
-    # 2.2 OTHER HELPER METHODS
-    #-----------------------------------------------------------------------------------------   
-
-    # findLeafIndividual() recursively finds and returns all leaf individuals of type "objectType"
-    # in a nested structure. 
-    # Parameters:
-    #   subject: The item we start the search from
-    #   predicate: The predicate relation from the subject to the objectType
-    #   objectType: The type of the leaf object instances
-    def findLeafIndividual(self, subject, predicate, objectType):
-        subjectType = self.getTypeOfIndividual(subject)
-        leaves = self.getRelations(sub=subject, pred=predicate, objType=objectType)  
-        subjectTypeIndidviduals = self.getRelations(sub=subject, pred=predicate, objType=subjectType)
-        for si in subjectTypeIndidviduals:            
-            leaves += self.findLeafIndividual(si[1], predicate, objectType)
-        return leaves
-
-    # getRecursive() recursively looks for all related objects in a nested structure (such as DevelopmentClassPackage)
-    # returns all nested objects of the same type as the given subject and all objects of type
-    # objectType. 
-    # Parameters:
-    #   returnStructureFunc: This is a callback function, used to determine the structure of the output
-    #   subject: The item we start the search from
-    #   predicate: The predicate relation from the subject to the objectType
-    #   objectType: The type of the object instances we are looking for
-    #   hierarchy: If this is set to True, the structure of the return will be a nested list. It will
-    #              contain information about the hierarchy of the components. Otherwise all components
-    #              will be returned in a flat list.
-    def getRecursive(self, returnStructureFunc, subject, predicate, objectType = "", hierarchy = False):
-        targetIndividuals = self.getRelations(sub=subject, pred=predicate, objType=objectType)  
-        descriptions = []
-
-        # for ti in targetIndividuals:
-        #         descriptions.append(returnStructureFunc(ti[0], ti[1]))
-
-        subjectTypeIndidviduals = self.getRelations(sub=subject, pred=predicate)
-        
-        for si in subjectTypeIndidviduals:    
-            slist = returnStructureFunc(si[0], si[1])
-            if hierarchy:   
-                slist[1]['children'] = self.getRecursive(returnStructureFunc, si[1], predicate, objectType, hierarchy)
-            else:
-                descriptions += self.getRecursive(returnStructureFunc, si[1], predicate, objectType, hierarchy)
-            descriptions.append(slist)
-        return descriptions
-   
-    # relationsBy() looks for the direct encapsulating objects of type objectType to an architecture fragment
-    # returns a list of dictionaries which contain the encapsulating object and its child-components
-    # if none is found, an empty list is returned
-    # Parameters:
-    #   architectureFragment: is the item we start from
-    #   pred: is the predicate leading to the encapsulating object
-    #   objectType: is the type of the encapsulating object
-    def relationsBy(self, architectureFragment, pred="", objectType=""):
-        connectedEntities = self.getRelations(sub=architectureFragment, pred=pred, objType=objectType)
-        relations = []
-        for cf in connectedEntities:
-            relations.append({'type': self.getTypeOfIndividual(cf[1]),
-                            'object': cf[1],
-                            'components': [self.doubleStructure(item[0], item[1]) for item in self.getRelations(sub=cf[1], pred=pred, useInversePred=True)]
-                            })
-        return relations
-
-    # recursiveRelationsBy() finds all architecture fragments that are related to the same object of type objectType.
-    # returns a list of nested dictionaries. The dictionaries contain architecture fragments that are related to the same 
-    # object.
-    # Parameters:
-    #   architectureFragment: is the object we start from
-    #   pred: is the predicate leading to the encapsulating entity 
-    #   objectType: is the type of the encapsulating entity
-    def recursiveRelationsBy(self, architectureFragment, pred, objectType):
-        endObjects = self.getRelations(architectureFragment, pred, objectType)
-        relations = []
-        if endObjects:
-            relations = [self.tripleDescription(eo[0], eo[1]) for eo in endObjects]
-            for r in relations:
-                directChildren = self.getRelations(r[1]['object'], pred=pred, useInversePred=True)
-                r[1]['children'] = []
-                for dc in directChildren:
-                    ds = self.tripleDescription(dc[0], dc[1])
-                    ds[1]['children'] = self.getRecursive(self.tripleDescription, dc[1], 'compriseOf', hierarchy=True)
-                    r[1]['children'].append(ds)
-        else: 
-            encapsulatingComponents = self.getRelations(architectureFragment, 'partOf')
-            for ec in encapsulatingComponents:
-                relations += (self.recursiveRelationsBy(ec[1], pred, objectType))
-        return relations
-
-    # recursiveEncapsulation() finds the nested structures from the given "architectureFragment"
-    # to objects of the given "objectType" via the given predicate "pred". 
-    # Returns a list of dictionaries representing this nested structures
-    def recursiveEncapsulation(self, architectureFragment, pred, objectType = ""):
-        
-        endObjects = self.getRelations(architectureFragment, pred, objectType)
-        ds = self.doubleStructure(None, architectureFragment)
-        ds[1]['parent'] = []
-        if endObjects:
-            ds[1]['parent'] = [self.doubleStructure(eo[0], eo[1]) for eo in endObjects]
-            relations = (ds)
+class ExplanationGenerator:
+    def __init__(self, baseUri = ''):
+        self.ir = InformationRetriever()
+        if baseUri:
+            self.baseUri = baseUri
         else:
-            encapsulatingComponents = [r[1] for r in self.getRelations(architectureFragment, 'partOf')]
-            for ec in encapsulatingComponents:
-                ds[1]['parent'].append(self.recursiveEncapsulation(ec, pred))
-                relations = (ds)
-        return relations
-
-    # getLeafParentHelper() is used to loop through the recursive structure returned by
-    # recursiveEncapsulation() to get the leaf parent objects.
-    def getLeafParentHelper(self, structure):
-        if isinstance(structure, tuple):
-            structure = structure[1]
-        if 'parent' in list(structure.keys()):
-            leaves = []
-            for p in structure['parent']:
-                leaf = self.getLeafParentHelper(p)
-                if not isinstance(leaf, str):
-                    leaves += leaf
-                else:
-                    leaves.append(leaf)
-                return leaves
-        else:
-            return structure['object']
-
-    # findIntersectingEntities() finds the objects of "objType" related to
-    # the given "components". Then returns a list of dictionaries which describe
-    # which components are related to the same objects. 
-    def findIntersectingEntities(self, architectureFragments, pred, objType):
-        featureList = []
-        pathToFeature = []
-        for af in architectureFragments:
-            pathToFeature.append(self.recursiveEncapsulation(af, pred, objType))
-        for item in pathToFeature:
-            value = self.doubleStructure(None, item[1]['object'])
-            value[1]['relatedEntities'] = []
-            value[1]['relatedEntities'] += self.getLeafParentHelper(item[1])
-            featureList.append(value)
-        
-        intersectingFeatures = {}
-        tmpList = [(i,j) for i in featureList for j in i[1]['relatedEntities']]
-
-        for item in tmpList:
-            intersectingFeatures[item[1]] = []
-        
-        for item in tmpList:
-            ds = self.doubleStructure(item[0][0], item[0][1]['object'])
-            if ds not in intersectingFeatures[item[1]]:
-                intersectingFeatures[item[1]].append(ds)
-
-        return intersectingFeatures
-
-    #A helper method for locationInArchitecture
-    def addLeafToRecursiveStructure(self, structure, key):
-        keys = list(structure[1].keys())
-        if key in keys:
-            for s in structure[1][key]:
-                self.addLeafToRecursiveStructure(s, key)
-        else:
-            structure[1][key] = []
-            leaves = self.getRelations(structure[1]['object'], pred='partOf', objType='ArchitecturalPattern')
-            for leaf in leaves:
-                structure[1][key].append(self.doubleStructure('partOf', leaf))
-        return structure
-
-    #-----------------------------------------------------------------------------------------
-    # METHODS THAT ANSWERS THE QUESTIONS
-    #-----------------------------------------------------------------------------------------
-
-    # Explains the role of a feature
-    def explainFeatureRole(self, feature):
-        featureCompriseOfRelations = self.getRelations(feature, pred="compriseOf")
-        featureModeledInRelations = self.getRelations(feature, pred="modeledIn")
-        featureDataProperties = [self.tripleDescription(None, feature)]
-        requirementDataProperties = []
-        diagramDataProperties = []
-        useCaseDataProperties = []
-        
-        for fr in featureCompriseOfRelations:
-            requirementDataProperties.append(self.tripleDescription(fr[0], fr[1]))                        
-            for rr in self.getRelations(fr[1], pred="partOf", objType="UseCase"):
-                if(self.tripleDescription(rr[0], rr[1]) not in useCaseDataProperties):
-                    useCaseDataProperties.append(self.tripleDescription(rr[0], rr[1]))
-                        
-        for fmr in featureModeledInRelations:
-            diagramDataProperties.append(self.tripleDescription(fmr[0], fmr[1]))
+            self.baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
+        self.indirectUri = 'http://www.semanticweb.org/ontologies/snowflake/indirect#'
             
-        return {'Feature': featureDataProperties, 
-                'Requirement': requirementDataProperties, 
-                'UseCase': useCaseDataProperties, 
-                'Diagram': diagramDataProperties}
+    def getNameFromUri(self, uri):
+        return (re.sub(".+#", '', uri))	
 
-    # Explains the implementation of a feature
-    def explainFeatureImplementation(self, feature):
-        featureDevelopmentClassPackages = self.getRelations(sub=feature, pred="realizedBy", objType="DevelopmentClassPackage")
-        featureClasses = []
-        for fp in featureDevelopmentClassPackages:
-            featureClasses.append(self.tripleDescription(fp[0], fp[1]))
-            featureClasses += self.getRecursive(self.tripleDescription, fp[1], "compriseOf", "DevelopmentClassEntity")
-        return  featureClasses
+    #WHAT IS THE ROLE OF THIS FEATURE?
+    def getFeatureRole(self, featureUri):
+        es = EntityStructure()
+        es.addEntity(featureUri)
+        requirements = [r[1] for r in self.ir.getRelations(featureUri, self.baseUri + 'compriseOf', self.baseUri+ 'Requirement')]
+        es.addAllEntities(requirements)
 
-    # Shows all implementation classes related to given feature
-    def relatedImplementationClasses(self, feature):
-        featureDevelopmentClassPackages = self.getRelations(sub=feature, pred="realizedBy", objType="DevelopmentClassPackage")
-        featureDs = self.doubleStructure(None, feature)
-        featureDs[1]['implClasses'] = []
-        featureDs[1]['children'] = []
-        featureArchitecture = []
-
-        implementationClasses = []
-        for ic in self.getRelations(feature, 'realizedBy', 'ImplementationClass'):
-            implementationClasses.append(ic[1])
-
-        for fcp in featureDevelopmentClassPackages:
-            ds = self.doubleStructure(fcp[0], fcp[1])
-            ds[1]['implClasses'] = implementationClasses
-            ds[1]['children'] = self.getRecursive(self.tripleStructure, fcp[1], 'compriseOf', "DevelopmentClassEntity", True)
-            featureDs[1]['children'].append(ds)
-        featureArchitecture.append(featureDs)
-        return featureArchitecture
-
-    # The methods below finds all architecture fragments that are related to
-    # the same object as the given architecture fragment.
-    def relationsByFeature(self, architectureFragment):
-        return self.relationsBy(architectureFragment, 'provides', 'Feature')
+        for r in requirements:
+            usecases = [uc[1] for uc in self.ir.getRelations(r, self.baseUri + 'partOf', self.baseUri + 'UseCase')]
+            userstories = [us[1] for us in self.ir.getRelations(r, self.baseUri + 'explainedBy', self.baseUri + 'UserStory')]
+            
+            es.addAllEntities(usecases)
+            es.addAllEntities(userstories)
+            es.addOneToManyRelation(self.baseUri + 'partOf', r, usecases)
+            es.addOneToManyRelation(self.baseUri + 'explainedBy', r, userstories)
+        return es
     
-    def relationsByEncapsulatingComponent(self, architectureFragment):
-        return self.relationsBy(architectureFragment, pred='partOf')
-
-    def relationsByArchitecturalRole(self, architectureFragment):
-        return self.recursiveRelationsBy(architectureFragment, "playsRole", "Role")
+    #WHAT IS THE RATIONALE BEHIND THE CHOICE OF THIS ARCHITECTURE?
+    def getRationaleOfArchitecture(self, architecturalPatternUri):
+        es = EntityStructure()
+        es.addEntity(architecturalPatternUri)
+        for dc in self.ir.getRelations(architecturalPatternUri, self.baseUri + 'resultOf', self.baseUri + 'DesignOption'):
+            es.addEntity(dc[1])
+            es.addRelation('resultOf', architecturalPatternUri, dc[1])
+            for rationale in self.ir.getRelations(dc[1], self.baseUri + 'basedOn'):
+                es.addEntity(rationale[1])
+                es.addRelation('basedOn', dc[1], rationale[1])
+            for causes_dc in self.ir.getRelations(dc[1], self.baseUri + 'causedBy', self.baseUri + 'DesignOption'):
+                es.addEntity(causes_dc[1])
+                es.addRelation('causedBy', dc[1], causes_dc[1])
+                for rationale in self.ir.getRelations(causes_dc[1], self.baseUri + 'basedOn'):
+                    es.addEntity(rationale[1])
+                    es.addRelation('basedOn', causes_dc[1], rationale[1])
+            for pattern in self.ir.getRelations(dc[1], self.baseUri + 'resultsIn', self.baseUri + 'ArchitecturalPattern'):
+                es.addEntity(pattern[1])
+                es.addRelation('resultOf', pattern[1], dc[1])
+        return es
     
-    def relationsByNonFunctionalRequirement(self, architectureFragment):
-        return self.recursiveRelationsBy(architectureFragment, 'satisfies', 'Non-functionalRequirement')
+
+    def getDevelopmentStructureOfArchitecture(self, architecturalPatternUri):
+        es = EntityStructure()
+        es.addEntity(architecturalPatternUri)
+        for role in self.ir.getRelations(architecturalPatternUri, self.baseUri + 'compriseOf', self.baseUri + 'Role'):
+            es.addEntity(role[1])
+            es.addRelation('compriseOf', architecturalPatternUri, role[1])
+            for devStruct in self.ir.getRelations(role[1], self.baseUri + 'roleImplementedBy', self.baseUri + 'DevelopmentStructure'):
+                es.addEntity(devStruct[1])
+                es.addRelation('roleImplementedBy', role[1], devStruct[1])
+        return es
+
+    #WHAT IS THE BEHAVIOR OF THIS FEATURE?
+    def getFunctionalBehaviorOfFeature(self, featureUri):
+        es = EntityStructure()
+        es.addEntity(featureUri)
+        for req in self.ir.getRelations(featureUri, self.baseUri + 'compriseOf', self.baseUri + 'FunctionalRequirement'):
+            es.addEntity(req[1])
+            es.addRelation('compriseOf', featureUri, req[1])
+            for uc in self.ir.getRelations(req[1], self.baseUri + 'partOf', self.baseUri + 'UseCase'):
+                es.addEntity(uc[1])
+                es.addRelation('partOf', req[1], uc[1])
+        return es
     
-    def relationsByFunctionalRequirement(self, architectureFragment):
-        return self.recursiveRelationsBy(architectureFragment, 'satisfies', 'FunctionalRequirement')
+    def getLogicalBehaviorOfFeature(self, featureUri):
+        es = EntityStructure()
+        es.addEntity(featureUri)
+        for logStruct in self.ir.getRelations(featureUri, self.indirectUri + 'indirectProvidedBy', self.baseUri + 'LogicalStructure'):
+            es.addEntity(logStruct[1])
+            es.addRelation('indirectProvidedBy', featureUri, logStruct[1])
+            for logBehavior in self.ir.getRelations(logStruct[1], self.baseUri + 'expressedBy', self.baseUri + 'LogicalBehavior'):
+                es.addEntity(logBehavior[1])
+                es.addRelation('expressedBy', logStruct[1], logBehavior[1])
+                for behaviorDiagram in self.ir.getRelations(logBehavior[1], self.baseUri + 'modeledIn', self.baseUri + 'Diagram'):
+                    es.addEntity(behaviorDiagram[1])
+                    es.addRelation('modeledIn', logBehavior[1], behaviorDiagram[1])
+        return es
 
-    def relationsByDesignOption(self, architectureFragment):
-        return self.recursiveRelationsBy(architectureFragment, "resultOf", "DesignOption")
+    def getDevelopmentBehaviorOfFeature(self, featureUri):
+        es = EntityStructure()
+        es.addEntity(featureUri)
+        for devStruct in self.ir.getRelations(featureUri, self.indirectUri + 'indirectProvidedBy', self.baseUri + 'DevelopmentStructure'):
+            es.addEntity(devStruct[1])
+            es.addRelation('indirectProvidedBy', featureUri, devStruct[1])
+            for devBehavior in self.ir.getRelations(devStruct[1], self.baseUri + 'expressedBy', self.baseUri + 'DevelopmentBehavior'):
+                es.addEntity(devBehavior[1])
+                es.addRelation('expressedBy', devStruct[1], devBehavior[1])
+                for behaviorDiagram in self.ir.getRelations(devBehavior[1], self.baseUri + 'modeledIn', self.baseUri + 'Diagram'):
+                    es.addEntity(behaviorDiagram[1])
+                    es.addRelation('modeledIn', devBehavior[1], behaviorDiagram[1])
+        return es
 
-    def relationsByDiagram(self, architectureFragment):
-        return self.relationsBy(architectureFragment, pred="modeledIn")
+    #SameAs not working correctly, thing about how to solve this.
+    def getUIBehaviorOfFeature(self, featureUri):
+        es = EntityStructure()
+        es.addEntity(featureUri)
+        for UIStruct in self.ir.getRelations(featureUri, self.indirectUri + 'indirectProvidedBy', self.baseUri + 'UIStructure'):
+            es.addEntity(UIStruct[1])
+            es.addRelation('indirectProvidedBy', featureUri, UIStruct[1])
+            for UIBehavior in self.ir.getRelations(UIStruct[1], self.baseUri + 'expressedBy', self.baseUri + 'UIBehavior'):
+                es.addEntity(UIBehavior[1])
+                es.addRelation('expressedBy', UIStruct[1], UIBehavior[1])
+                for behaviorDiagram in self.ir.getRelations(UIBehavior[1], self.baseUri + 'modeledIn', self.baseUri + 'Diagram'):
+                    es.addEntity(behaviorDiagram[1])
+                    es.addRelation('modeledIn', UIBehavior[1], behaviorDiagram[1])
+        return es
 
-    # From a given set of architecture fragments, these methods find
-    # which architecture fragments are related to the same objects
-    def findIntersectingFeatures(self, architectureFragments):
-        return self.findIntersectingEntities(architectureFragments, 'provides', 'Feature')
+    #HOW IS THIS FEATURE MAPPED TO THE IMPLEMENTATION?
+    def getLogicalFeatureToImplementationMap(self, featureUri):
+        #Callbacks: 
+        def callbackImplementedBy(es, s): 
+            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'implementedBy')
+        def callbackCompriseOf(es, s): 
+            self.addRecursiveEntitiesAndRelations(es,s, self.baseUri + 'compriseOf', callback=callbackImplementedBy)
+            callbackImplementedBy(es, s)
+
+        es = EntityStructure()
+        es.addEntity(featureUri)
+        for req in self.ir.getRelations(featureUri, self.baseUri + 'compriseOf', self.baseUri + 'Requirement'):
+            es.addEntity(req[1])
+            es.addRelation('compriseOf', featureUri, req[1])
+            for logStruct in self.ir.getRelations(req[1], self.baseUri + 'satisfiedBy', self.baseUri + 'LogicalStructure'):
+                es.addEntity(logStruct[1])
+                es.addRelation('satisfiedBy', req[1], logStruct[1])
+                self.addRecursiveEntitiesAndRelations(es, logStruct[1], self.baseUri + 'designedBy', callback=callbackCompriseOf)
+        
+        return es
     
-    def findIntersectingFunctionalRequirements(self, architectureFragments):
-        return self.findIntersectingEntities(architectureFragments, 'satisfies', 'FunctionalRequirement')
+    def getImplementationToArchitecturalPatternMap(self, implementationUriList):
+        def callBackArchitecturalPattern(es, s):
+            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'partOf', self.baseUri + 'ArchitecturalPattern')
 
-    def findIntersectingNonFunctionalRequirements(self, architectureFragments):
-        return self.findIntersectingEntities(architectureFragments, 'satisfies', 'Non-functionalRequirement')
+        def callbackPlaysRole(es, s):
+            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'playsRole', self.baseUri + 'Role', callback=callBackArchitecturalPattern)
+        
+        es = EntityStructure()
+        for i in implementationUriList:
+            es.addEntity(i)
+            for devStruct in self.ir.getRelations(i, self.baseUri + 'implements', self.baseUri + 'DevelopmentStructure'):
+                es.addEntity(devStruct[1])
+                es.addRelation('implements' , i, devStruct[1])
+                self.addRecursiveEntitiesAndRelations(es, devStruct[1], self.baseUri + 'partOf', callback=callbackPlaysRole)
+                self.addRecursiveEntitiesAndRelations(es, devStruct[1], self.baseUri + 'playsRole', self.baseUri + 'Role', callback=callBackArchitecturalPattern)
+        return es
 
-    # From any architectural fragment
-    def getArchitecture(self, architectureFragment):
-        role = self.recursiveEncapsulation(architectureFragment, 'playsRole', 'Role')
-        leafParents = self.getLeafParentHelper(role)
-        relations = []
-        for lp in leafParents:
-            relations += self.getRelations(lp, pred='partOf', objType='ArchitecturalPattern')
-        return [self.tripleDescription(r[0], r[1]) for r in relations]
+    #RecursiveAdd
+    def addRecursiveEntitiesAndRelations(self, entityStructure, subjectUri, predicateUri, objectTypeUri='', callback=None):
+        for o in self.ir.getRelations(subjectUri, predicateUri, objectTypeUri):
+            entityStructure.addEntity(o[1])
+            entityStructure.addRelation(self.getNameFromUri(predicateUri), subjectUri, o[1])
+            self.addRecursiveEntitiesAndRelations(entityStructure, o[1], predicateUri, objectTypeUri, callback)
+            if callback:
+                callback(entityStructure, o[1])
+        return entityStructure
+
+
+
     
-    def locationInArchitecture(self, architectureFragment):
-        role = self.recursiveEncapsulation(architectureFragment, 'playsRole', 'Role')
-        test = self.addLeafToRecursiveStructure(role, 'parent')
-        return test
+class Section:
+    def __init__(self, sectionId, sectionTitle, sectionTextContent=None, sectionSummary='', priority=0, sectionDiagrams=None, children=None):
+        self.sectionId = sectionId
+        self.sectionTitle = sectionTitle
+        self.sectionSummary = self.formatToHTML(sectionSummary)
+        if sectionTextContent:
+            self.sectionTextContent = [(value[0], self.formatToHTML(value[1])) for value in sectionTextContent]
+        else:
+            self.sectionTextContent = []
+        if sectionDiagrams:
+            self.sectionDiagrams = sectionDiagrams
+        else:
+            self.sectionDiagrams = []
+        self.priority = priority
+        if children:
+            self.children = children
+        else:
+            self.children = []
+    
+    def formatToHTML(self, text):
+        text = re.sub('(\\n[ ]*)+','</p><p>', text)
+        finalText = '<p>' + text + '</p>'
+        return finalText
 
-    def rationaleOfArchitecture(self, architecture):
-        decisionsList = []
-        if self.getTypeOfIndividual(architecture) == 'ArchitecturalPattern':
-            decisions = self.getRelations(architecture, pred='resultOf', objType='DesignOption')
-            for d in decisions:
-                rationale = self.getRelations(d[1], pred='compriseOf')
-                rationaleList = []
-                for r in rationale:
-                    item = self.tripleDescription(r[0], r[1])
-                    rationaleList.append(item)
-                ds = self.doubleStructure(d[0], d[1])
-                ds[1]['rationale'] = rationaleList
-                decisionsList.append(ds)
-        return decisionsList
+    def addChild(self, child):
+        self.children.append(child)
+        self.children.sort(key=lambda x: x['priority'], reverse=True)
 
-    def getAllTechnologies(self):
-        return self.getIndividualsByType('Technology')
+    def toDict(self):
+        return {'id': self.sectionId, 'title': self.sectionTitle, 
+                'textContent': self.sectionTextContent, 
+                'summary': self.sectionSummary,
+                'diagrams': self.sectionDiagrams,
+                'priority': self.priority,
+                'children': self.children}
 
-    def getRationaleOfTechnology(self, technology):
-        technologyList = []
-        if self.getTypeOfIndividual(technology) == 'Technology':
-            decisions = self.getRelations(technology, pred='compriseOf')
-            for d in decisions:
-               ds = self.doubleStructure(d[0], d[1])
-               ds[1]['rationale'] = self.getDataProperties(d[1])
-               technologyList.append(ds)
-        return technologyList
+class Template:
+    def __init__(self, question, summaryText='', sections=None):
+        self.summaryText = summaryText
+        self.question = question
+        if sections:
+            self.sections = sections
+        else:
+            self.sections = []
+    
+    def addSection(self, section):
+        self.sections.append(section)
+        self.sections.sort(key=lambda x: x['priority'], reverse=True)
+    
+    def toDict(self):
+        return {'question': self.question, 'summaryText': self.summaryText, 'sections': self.sections}
 
-    def getDescriptionOfTechnology(self, technology):
-        if self.getTypeOfIndividual(technology) == 'Technology':
-            return self.tripleDescription(None, technology)
 
-    def getArchitectureByTechnology(self, technology):
-        if self.getTypeOfIndividual(technology) == 'Technology':
-            arch = self.getRelations(technology, pred='resultsIn')
-            ds = self.doubleStructure(None, technology)
-            ds[1]['relatedComponents'] = [self.doubleStructure(a[0], a[1]) for a in arch]
-            return ds
-        return None
+class ExplanationTemplates:
 
-#-----------------------------------------------------------------------------------------
-# MAIN CLASS USED FOR TESTING
-#-----------------------------------------------------------------------------------------
+    def __init__(self):
+        self.baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
+        self.informationRetriever = InformationRetriever()
 
-# ir = InformationRetriever('')
+    def getNameFromUri(self, uri):
+        return (re.sub(".+#", '', uri))	
 
-# objectStructure = []
-# objects = ir.getAllObjects()
-# for obj in objects:
-#     objStructure = {'type':ir.getTypeOfIndividual(obj), 
-#                     'object': obj, 
-#                     'dataTypeProperties': ir.getDataProperties(obj)
-#                     }
-#     objectStructure.append(objStructure)
+    def entitiesToListString(self, entities):
+        entityListString = ''
+        for index, e in enumerate(entities):
+            if index < len(entities) - 1:
+                entityListString +=  self.getNameOfEntity(e) + '\n'
+            else:
+                entityListString += self.getNameOfEntity(e)
+        return entityListString
+    
+    def getNameOfEntity(self, entity):
+        if entity.label:
+            return entity.label
+        else: 
+            return self.getNameFromUri(entity.uri)
 
-# allInverseRelations = ir.getAllInverses()
+    def formatName(self, relationName):
+        nameStr = ''
+        nameStrList = []
+        name = ''
+        for index, s in enumerate(relationName):
+            if s.isupper() and index is not 0:
+                nameStrList.append(name)
+                name = '' + s.lower()
+            else:
+                name += s
+        if name:
+            nameStrList.append(name)
 
-# inverses = []
-# for relation in allInverseRelations:
-#     if(relation[1] not in inverses):
-#         inverses.append(relation[0])
+        for index, s in enumerate(nameStrList):
+            nameStr += s
+            if index < len(nameStrList) - 1:
+                nameStr += ' '
 
-# relations = ir.getAllObjectsAndRelations()
+        return nameStr
+    
+    def formatDiagramName(self, diagramName):
+        diagramName = re.sub('figure_\d+.\d+_','', diagramName)
+        diag_words = diagramName.split('_')
+        first_char = diag_words[0][0]
+        
+        if first_char:
+            diag_words[0] = diag_words[0].replace(first_char, first_char.upper(),1)
+        
+        finalName = ''
+        for index, word in enumerate(diag_words):
+            if(index < len(diag_words) - 1):
+                finalName += word + ' '
+            else:
+                finalName += word
+        print(finalName)
+        return finalName
+    
+    def formatListOfEntities(self, elist):
+        elist = [e for e in elist if e]
+        end = len(elist) - 1
+        entityString = ''
+        for index, item in enumerate(elist):
+            if(item):
+                entityString += str(len(item)) + ' ' + self.formatName(self.getNameFromUri(item[0].type))
+                if len(item) > 1:
+                    entityString += 's'
+                if index < end and index + 1 == end:
+                    entityString += ' and '
+                elif index < end:
+                    entityString += ', '
+        return entityString
+            
 
-# f = open('explanationData.js', 'w') 
-# f.truncate(0)
-# f.write("allObjects = " + json.dumps(objectStructure))
-# f.write("; allRelations = " + json.dumps(relations))
-# f.write("; allInverseRelations = " + json.dumps(inverses))
-# f.close()
+    def openText(self, url):
+        template = ''
+        with open(url, 'r') as myfile:
+            template = myfile.read().replace('\n', '')
+            template = template.replace('\\n', '\n')
+        return template
+
+    def getQuestion(self, summary):
+        firstMatch = re.search('<!--[ ]*{[ ]*question:.*}[ ]*-->', summary)
+        question = firstMatch.group(0)
+        question = re.sub('<!--[ ]*{[ ]*question:[ ]*', '', question)
+        question = re.sub('[ ]*}[ ]*-->', '', question)
+        return question
+
+
+    def createSection(self, structure, id, title, summary='', priority=1):
+        section = Section(id, title, sectionSummary=summary, priority=priority)
+        children = []
+
+        for entity in structure:
+            diagrams = []
+            for diagram in entity.diagrams:
+                caption = self.informationRetriever.getRelations(diagram, self.baseUri + 'Caption')
+                if caption:
+                    caption = caption[0][1]
+
+                diagrams.append({'uri': diagram, 'caption': caption})
+                
+
+            entitySection = Section(self.getNameFromUri(entity.uri), 
+                                    self.getNameOfEntity(entity),
+                                    sectionSummary='This section shortly describes the ' + self.formatName(self.getNameFromUri(entity.type)) + ' ' + self.getNameOfEntity(entity) + '.', 
+                                    sectionTextContent=[(self.getNameFromUri(structure[0]), structure[1]) for structure in entity.dataTypeProperties], 
+                                    sectionDiagrams=diagrams)
+            children.append(self.getNameFromUri(entity.uri))
+            section.addChild(entitySection.toDict())
+        return section
+
+    def getOverviewDiagrams(self, structure, overviewGroup):
+        logical = [l.uri for l in list(filter(lambda e: self.baseUri + overviewGroup in e.supertypes, structure.entities))]
+        diagrams = [d[1] for d in self.informationRetriever.getRelations(sub=logical[0], objType=self.baseUri + 'Diagram')]
+
+        overviewDiagrams = {}
+        for diagram in diagrams:
+            fullDiagramRelations =  self.informationRetriever.getRelations(sub=diagram)
+            diagramRelations = [dr[1] for dr in fullDiagramRelations]
+            if set(logical) < set(diagramRelations):
+                overviewDiagramDescription = [description[1] for description in fullDiagramRelations if '#Description' in description[0]][0]
+                overviewDiagramCaption = [caption[1] for caption in fullDiagramRelations if '#Caption' in caption[0]][0]
+
+                overviewDiagrams[diagram] = {'name': self.formatDiagramName(self.getNameFromUri(diagram)), 'description' : overviewDiagramDescription, 'caption': overviewDiagramCaption}
+        return overviewDiagrams
+
+    # HOW IS THIS FEAURE MAPPED TO THE IMPLEMENTATION?
+    def generateLogicalFeatureImplementationSummary(self, mainEntityUri, structure):
+        
+        # Setup the summary
+        main_entity = [entity for entity in structure.entities if entity.uri == mainEntityUri][0]
+        requirements = list(filter(lambda e: e.type == self.baseUri + 'FunctionalRequirement', structure.entities))
+        logical = list(filter(lambda e: self.baseUri + 'LogicalStructure' in e.supertypes, structure.entities))
+
+        rel_feat_req = 'comprises of'
+        rel_req_logic = 'satisfied by'
+        rel_logic_dev = 'designed by'
+        rel_dev_impl = 'implemented by'
+
+        template = self.openText('static/explanationTemplates/LogicalViewImplementation.txt')
+        summary = template.format(main_entity=self.getNameOfEntity(main_entity), 
+                                    rel_feat_req=rel_feat_req, rel_logic_dev=rel_logic_dev,
+                                    rel_req_logic=rel_req_logic, rel_dev_impl=rel_dev_impl,
+                                    nbr_req=len(requirements), nbr_logic=len(logical))
+
+        question = self.getQuestion(summary)
+        expTemplate = Template(question, summary)
+        
+        #Logical section
+        sectionLogicalOverview = 'This section describes each entity of the Logical view '\
+                                 'that are related to the feature Purchase products.'
+        
+        logicalSection = self.createSection(logical, 'logical_section', 'Logical entities',
+                               summary=sectionLogicalOverview, priority=3)
+
+        overviewDiagrams = self.getOverviewDiagrams(structure, 'LogicalStructure')
+        
+        #TODO: THINK ABOUT WHAT TO DO ABOUT THE DIAGRAMS!
+        overviewIdCounter = 0
+        for key, value in overviewDiagrams.items():
+            dummySection = Section('overview' + str(overviewIdCounter), value['name'], sectionSummary=value['description'], sectionDiagrams=[{'uri': key, 'caption': value['caption']}])
+            overviewIdCounter += 1
+        overviewSectionSummary = 'This section presents and describes diagrams that encapsulate all of the logical entities found in this explanation.'
+        overviewSection = Section('logical_overview', 'Overview', sectionSummary=overviewSectionSummary, priority=99)
+        overviewSection.addChild(dummySection.toDict())
+        logicalSection.addChild(overviewSection.toDict())
+
+        expTemplate.addSection(logicalSection.toDict())
+
+        #Requirements section
+        sectionReqOverview = 'This section describes each functional requirement that '\
+                             'are part of the feature Purchase products.'
+        expTemplate.addSection(self.createSection(requirements, 'requirements_section', 'Requirement entities', 
+                               summary=sectionReqOverview, priority=2).toDict())
+
+        #Feature section
+        sectionFeatureOverview = 'This section describes the feature Purchase Products'
+        expTemplate.addSection(self.createSection([main_entity], 'feature_section', 'Feature',
+                               summary=sectionFeatureOverview, priority=1).toDict())
+       
+        return expTemplate.toDict()
+        
+
+    #WHAT IS THE RATIONALE BEHIND THE CHOICE OF THIS ARCHITECTURE?
+    def generatePatternSummary(self, mainEntityUri, structure):
+        mainEntity = Entity(mainEntityUri)
+        roles = list(filter(lambda e: e.type == self.baseUri + 'Role', structure.entities))
+        devStruct = list(filter(lambda e: self.baseUri + 'DevelopmentStructure' in e.supertypes, structure.entities))
+
+        architectureComponents = str(len(devStruct)) + ' Development structure fragments'
+        roleListString = self.entitiesToListString(roles)
+        devStructListString = self.entitiesToListString(devStruct)
+        
+        template = self.openText('static/explanationTemplates/RationaleOfArchitectureTemplate2.txt')
+        template = template.format(pattern=self.getNameOfEntity(mainEntity), architectureComponents=architectureComponents, sumRoles=len(roles),
+                        componentTypes=roleListString, architecturalEntities=devStructListString)
+
+        return template
+    
+    def generatePatternSummary2(self, mainEntityUri, structure):
+        mainEntity = Entity(mainEntityUri)
+        designOptions = list(filter(lambda e: e.type == self.baseUri + 'DesignOption', structure.entities))
+        patterns = list(filter(lambda e: e.type == self.baseUri + 'ArchitecturalPattern', structure.entities))
+        arguments = list(filter(lambda e: e.type == self.baseUri + 'Argument', structure.entities))
+        constraints = list(filter(lambda e: e.type == self.baseUri + 'Constraint', structure.entities))
+        assumptions = list(filter(lambda e: e.type == self.baseUri + 'Assumption', structure.entities))
+
+        print(arguments)
+
+        relationChoiceChoice = self.formatName('causedBy')
+        relationChoicePattern = self.formatName('resultsIn')
+        relationChoiceArgument = self.formatName('basedOn')
+
+
+        argumentsConstraintsAssumptions = self.formatListOfEntities([arguments, constraints, assumptions])
+
+        designOptionListString = self.entitiesToListString(designOptions)
+        patternsListListString = self.entitiesToListString(patterns)
+
+        template = self.openText('static/explanationTemplates/RationaleOfArchitectureTemplate1.txt')
+        template = template.format(mainChoice=self.getNameOfEntity(mainEntity), relationChoiceChoice=relationChoiceChoice,
+                                     relationChoicePattern=relationChoicePattern, relationChoiceArgument=relationChoiceArgument,
+                                     argumentsConstraintsAssumptions=argumentsConstraintsAssumptions, designOptions=designOptionListString,
+                                     patterns=patternsListListString, nrChoice=len(designOptions), nrPattern=len(patterns))
+        return template
+
+def testing():
+    ir = InformationRetriever()
+    eg = ExplanationGenerator()
+    et = ExplanationTemplates()
+    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
+    # implementation = ir.getIndividualsByType(baseUri + 'ImplementationClass')
+    # es = eg.getLogicalFeatureToImplementationMap(baseUri + 'purchase_products')
+    # exp = et.generateLogicalFeatureImplementationSummary(baseUri + 'purchase_products', es)
+    # es = eg.getImplementationToArchitecturalPatternMap(implementation)
+    #es = eg.getRationaleOfArchitecture(baseUri + 'thin_client_MVC')
+    # print(exp)
+    #s = ir.getSuperTypes(baseUri + 'Server_Model_CartForms')
+    #print(s)
+    #es = None
+    #print(es)
+    #print(et.generatePatternSummary2(baseUri + 'choice_mixed_client_MVC', es))
+    # return es
+    test = [baseUri + 'Cart', baseUri + 'Order']
+    pred = [r[1] for r in ir.getRelations(sub = baseUri + 'figure_3.10_class_diagram_of_the_system')]
+    print(set(test)<set(pred))
+    return None
+
+def writeToFile(inputData):
+    f = open('../ExperimentationGraphs/static/explanationData.js', 'w') 
+    f.truncate(0)
+    f.write("ontologyData = " + json.dumps(inputData))
+    f.close()
+
+testing()
+# writeToFile(data.toDict())
