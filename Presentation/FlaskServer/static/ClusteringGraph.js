@@ -6,19 +6,24 @@ var ONTOLOGY_COLORS = {'Feature': '#af2d2d', 'Requirement': '#cc6a51', 'Function
                         'NonFunctionalRequirement': '#d17f40',
                         'UseCase': '#ce9d58', 'UserStory': '#b9ad5b', 'Stakeholder': '#e2d15d', 
                         'Figure': '#92b177', 'Diagram': '#86af38', 'Sketch': '#c6d65e',
-                        'ArchitecturalPattern': '#79d6e3', 'Role': '#64cfa3', 'ArchitectureFragment': '#6bb496', 
+                        'ArchitecturalPattern': '#779658', 'Role': '#60966b', 'ArchitectureFragment': '#6bb496', 
                         'UI': '#73669b', 'Logical': '#378aba', 'Development': '#308f91',
                         'Physical': '#699677', 'DesignOption': '#b476c4', 'Technology': '#e93b99', 'Argument': '#ffaece', 
                         'Constraint': '#ffaece', 'Assumption': 'ffaece',
                         'Implementation': 'gray', 'ImplementationClass': 'lightgray',
                         'ArchitectureLayer': '#6bb496', 'RequirementLayer': '#af2d2d',
-                        'RationaleLayer': '#b476c4', 'ImplementationLayer': 'gray'}
+                        'RationaleLayer': '#b476c4', 'ImplementationLayer': 'gray', 'ArchitecturalPatternLayer': '#779658'}
+                        
+                        //#90f4ca
+                        //Role #64cfa3
+                        //Arch patt #79d6e3
                         
 var views = ['Development', 'UI', 'Logical', 'Physical'] 
-var ontologyCategories = {'ArchitectureLayer':     ['Role', 'ArchitecturalPattern', 'ArchitectureFragment', 'Development', 'UI', 'Physical', 'Logical'], 
-                          'RequirementLayer':      ['Requirement', 'UserStory', 'UseCase', 'Feature'], 
-                          'RationaleLayer':        ['DesignOption', 'Technology', 'Argument', 'Constraint', 'Assumption'], 
-                          'ImplementationLayer':   ['Implementation']}
+var ontologyCategories = {'ArchitecturalPatternLayer':  ['Role', 'ArchitecturalPattern'],
+                          'ArchitectureLayer':          ['ArchitectureFragment', 'Development', 'UI', 'Physical', 'Logical'], 
+                          'RequirementLayer':           ['Requirement', 'UserStory', 'UseCase', 'Feature'], 
+                          'RationaleLayer':             ['DesignOption', 'Technology', 'Argument', 'Constraint', 'Assumption'], 
+                          'ImplementationLayer':        ['Implementation']}
 
 function getEntityColor(entity){
     if(ONTOLOGY_COLORS[getNameOfUri(entity.type)]){
@@ -54,14 +59,14 @@ function getNameOfUri(string){
 //--------------------------------------------------------------------
 // MAIN RENDERER FUNCTION
 //--------------------------------------------------------------------
-function buildDiagram(ontologyData, view){
+function buildDiagram(structure, view){
     // Initialize the input graph
     var g = new dagreD3.graphlib.Graph({compound:true})
     .setGraph({edgesep: 10, ranksep: 100, nodesep: 50, rankdir: 'LR'})
     .setDefaultEdgeLabel(function() { return {}; });
 
     // Adding clusters
-    ontologyData.entities.forEach(function(e){
+    structure.entities.forEach(function(e){
         // Create invisible entity type clusters
         g.setNode(getNameOfUri(e.type), {style:'fill:none;opacity:0;border:none;stroke:none'})
 
@@ -78,7 +83,7 @@ function buildDiagram(ontologyData, view){
     })
 
     // Creates entities and sets parent clusters for entity types, views and ontology categories accordingly
-    ontologyData.entities.forEach(function(e){
+    structure.entities.forEach(function(e){
         Object.keys(ontologyCategories).forEach(function(oc){
             e.supertypes.forEach(function(s){
                 ontologyCategories[oc].forEach(function(type){
@@ -100,16 +105,26 @@ function buildDiagram(ontologyData, view){
     })
 
     // Sets parent for entities to relative entity type cluster
-    ontologyData.entities.forEach(function(e){ 
-        g.setNode(getNameOfUri(e.uri), {id: getNameOfUri(e.uri), label: getNameOfEntity(e), style: 'fill:' + getEntityColor(e)})
+    structure.entities.forEach(function(e){ 
+        if(e.uri.includes('dummy_')){
+            if(Object.keys(ontologyCategories).includes(e.type)){
+                g.setNode(getNameOfUri(e.uri), {id: getNameOfUri(e.uri), label: getNameOfEntity(e), width: 500, style: 'fill:' + getEntityColor(e)})
+            }else{
+                g.setNode(getNameOfUri(e.uri), {id: getNameOfUri(e.uri), label: getNameOfEntity(e), width: 300, style: 'fill:' + getEntityColor(e)})
+            }
+        }else{
+            g.setNode(getNameOfUri(e.uri), {id: getNameOfUri(e.uri), label: getNameOfEntity(e), style: 'fill:' + getEntityColor(e)})  
+        }
         g.setParent(getNameOfUri(e.uri), getNameOfUri(e.type))
+        
     })
 
     // Create edges for all entities
-    ontologyData.relations.forEach(function(r){
+    structure.relations.forEach(function(r){
         g.setEdge(getNameOfUri(r.source), getNameOfUri(r.target), {class:'in-' + getNameOfUri(r.target) + ' out-' + getNameOfUri(r.source), label: r.name, 
-        style: "stroke-dasharray: 10,10;",
-        arrowheadStyle: "fill: #bec6d8; stroke-width:0", curve: d3.curveBasis})
+        curve: d3.curveBasis})
+        //  style: "stroke-dasharray: 10,10;",
+        // arrowheadStyle: "fill: #bec6d8; stroke-width:0",
         })
     
     // Rounding edges of all entity nodes
@@ -153,9 +168,15 @@ function buildDiagram(ontologyData, view){
     })
 
     // Lighten the colors a bit
-    d3.select('.interactive_diagram.' + view).selectAll('rect').each(function(){
+    console.log(d3.select('.interactive_diagram.' + view).selectAll('rect'))
+    d3.select('.interactive_diagram.' + view)
+    .selectAll('rect')
+    .each(function(){
         color = d3.select(this).style('fill')
-        recursiveLighten(d3.select(this))
+        colorhsl = tinycolor(color).toHsl()
+        colorhsl.l = 0.7
+        d3.select(this).style('fill', tinycolor(colorhsl).toHexString())
+        // recursiveLighten(d3.select(this))
     })
 
     // Lighten the colors of the clusters
@@ -180,6 +201,9 @@ function buildDiagram(ontologyData, view){
 
     // Scale the diagram to fit the screen
     scaleDiagram()
+
+    //Resize dummy and style dummy nodes
+    resizeDummyNodes()
 
     //--------------------------------------------------------------------
     // BENEATH THIS POINT THERE ARE ONLY HELPER FUNCTIONS
@@ -213,7 +237,7 @@ function buildDiagram(ontologyData, view){
 
     function getSubTree(startEntityUri, list, forward){
         startEntityUri = getNameOfUri(startEntityUri)
-        ontologyData.relations.forEach(function(rel){
+        structure.relations.forEach(function(rel){
             if(forward) {
                 if(getNameOfUri(rel.source) == startEntityUri){
                     getSubTree(rel.target, list, true)
@@ -278,8 +302,9 @@ function buildDiagram(ontologyData, view){
     }
 
     function setTitleToNodes(){
-        ontologyData.entities.forEach(function(e){
-            d3.select('#' + getNameOfUri(e.uri))
+        structure.entities.forEach(function(e){
+            d3.select('.interactive_diagram.' + view)
+            .select('#' + getNameOfUri(e.uri))
             .select('.nodeRect')
             .attr('title', formatToolTip(e))
         })
@@ -297,6 +322,7 @@ function buildDiagram(ontologyData, view){
         }
         tooltip='<p><b>Type: </b>' + getPrettyName(getNameOfUri(entity.type)) + '</p>' +
                 '<p><b>Name: </b>' + getNameOfEntity(entity) + '</p>' +
+                '<p><b>URI: </b>' + getNameOfUri(entity.uri) + '</p>' +
                 '<p>' + description + '</p>'
         return tooltip
     }
@@ -311,37 +337,14 @@ function buildDiagram(ontologyData, view){
 
             d3.select('.interactive_diagram.' + view)
             .select(inClass + outClass)
-            .select('path.path')
-            .transition()
-            .duration(250)
-            .style("stroke", "#ff5b5b")
-            .style("stroke-dasharray", "")
-
-            d3.select('.interactive_diagram.' + view)
-            .select(inClass + outClass)
-            .select('marker')
-            .select('path')
-            .transition()
-            .duration(250)
-            .style("fill", "#ff5b5b")    
+            .classed('selected', true)  
         })
     }
 
     function unlightRelations(){
-        d3.select('.interactive_diagram.' + view).selectAll('.edgePath')
-        .select('path.path')
-        .transition()
-        .duration(200)
-        .style("stroke-dasharray", "10, 10")
-        .duration(200)
-        .style("stroke", "#929db5")
-
-        d3.select('.interactive_diagram.' + view).selectAll('.edgePath')
-        .select('marker')
-        .select('path')
-        .transition()
-        .duration(200)
-        .style("fill", "#929db5")  
+        d3.select('.interactive_diagram.' + view)
+        .selectAll('.edgePath')
+        .classed('selected', false)
     }
 
     function resizeClusters(){
@@ -444,7 +447,6 @@ function buildDiagram(ontologyData, view){
         .attr('rx',50)
         .attr('ry',50)
     }
-
     
     function setClusterActions(){
         //Label onclick
@@ -471,6 +473,72 @@ function buildDiagram(ontologyData, view){
                 parent
                 .classed('unselected', false)
                 .classed('selected', true)
+            }
+        })
+    }
+
+    //Resizes and styles dummy nodes 
+    function resizeDummyNodes(){
+        clusterBBox = d3.select('.interactive_diagram.' + view).select('.cluster').node().getBBox()
+        d3.select('.interactive_diagram.' + view)
+        .selectAll('.node')
+        .each(function(){
+            id = d3.select(this).attr('id')
+
+            // Define colors for styling the dummy nodes
+            color = d3.select(this).select('rect.nodeRect').style('fill')
+            
+            fillhsl = tinycolor(color).toHsl()
+            fillhsl.l = 0.9
+           
+            strokehsl = tinycolor(color).toHsl()
+            strokehsl.l = 0.7
+           
+            texthsl = tinycolor(color).toHsl()
+            texthsl.l = 0.5
+
+            if (id.includes('dummy_') ){
+                nodeRect = d3.select(this).select('rect.nodeRect')
+                
+                // Set styling of the dummy nodes
+                nodeRect
+                .attr('rx', 40)
+                .attr('ry', 40)
+                .style('fill', tinycolor(fillhsl).toHexString())
+                .style('stroke', tinycolor(strokehsl).toHexString())
+                
+                d3.select(this)
+                .classed('dummy', true)
+                .select('text')
+                .style('fill', tinycolor(texthsl).toHexString())
+
+                //Center the labels in the clusters
+                labelBBox = d3.select(this).select('.label').select('g').node().getBBox()
+                d3.select(this)
+                .select('.label')
+                .select('g')
+                .attr('transform', 'translate(' + -labelBBox.width/2 + ',0)')
+
+                // Set the height of the clusters
+                // If the type of the dummy is not a ontology category, make it smaller
+                isOntCategory = false
+                structure.entities.forEach(function(e){
+                    if(e.uri.includes(id)){
+                        console.log(e.type)
+                        if(Object.keys(ontologyCategories).includes(e.type)){
+                            isOntCategory = true
+                        }
+                    }
+                })
+
+                if(isOntCategory){
+                    nodeRect.attr('height', clusterBBox.height)
+                    .attr('y', clusterBBox.y)
+                }else{
+                    nodeRect.attr('height', clusterBBox.height - 150)
+                    .attr('y', clusterBBox.y + 75)
+                }
+               
             }
         })
     }
@@ -506,6 +574,10 @@ function buildDiagram(ontologyData, view){
 
     function setNodeDropdownLogic(){
         d3.select('.interactive_diagram.' + view).selectAll('.node').each(function(node){
+            if(d3.select(this).attr('id').includes('dummy_')){
+                return
+            }
+
             //CREATE DROP-DOWN BUTTON FOR NODES
             nodeWidth = parseFloat(
                 d3.select(this)

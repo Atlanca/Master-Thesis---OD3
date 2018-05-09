@@ -36,18 +36,25 @@ def q2_logical(feature):
     
     explanationGenerator = httpQuery.ExplanationGenerator()
     explanationTemplates = httpQuery.ExplanationTemplates()
-    
-    structure = explanationGenerator.getLogicalFeatureToImplementationMap(baseUri + feature)
-    explanation = explanationTemplates.generateLogicalFeatureImplementationSummary(baseUri + feature, structure)
 
-    diagramFilePaths = {diagram: 'static/images/' + diagramUriToFileName(diagram) + '.png' for entity in structure.entities for diagram in set(entity.diagrams)}
+    functionalStructure = explanationGenerator.getFunctionalFeatureToImplementationMap(baseUri + feature)
+
+    logicalStructure = explanationGenerator.getLogicalFeatureToImplementationMap(baseUri + feature)
+    implementationEntityUris = [implementation.uri for implementation in list(filter(lambda x: baseUri + 'ImplementationClass' in x.supertypes, logicalStructure.entities))]
+
+
+    patternStructure = explanationGenerator.getImplementationToArchitecturalPatternMap(implementationEntityUris)
+    explanation = explanationTemplates.generateLogicalFeatureImplementationSummary(baseUri + feature, logicalStructure)
+
+
+    diagramFilePaths = {diagram: 'static/images/' + diagramUriToFileName(diagram) + '.png' for entity in logicalStructure.entities for diagram in set(entity.diagrams)}
     print(diagramFilePaths)
 
     return render_template('childtemplate.html', 
                             diagram_path='static/ClusteringGraph.js', 
                             diagram_file_paths=diagramFilePaths,
-                            entityData = {'functional': {'tab_id':'functional_view_tab', 'tab_name': 'Functional view', 'entity_structure': json.dumps(structure.toDict()), 'explanation': explanation}, 
-                                        'logical': {'tab_id':'logical_view_tab', 'tab_name': 'Logical view', 'entity_structure': json.dumps(structure.toDict()), 'explanation': explanation}, 
-                                        'pattern': {'tab_id':'pattern_view_tab', 'tab_name': 'Pattern view', 'entity_structure': json.dumps(structure.toDict()), 'explanation': explanation}
+                            entityData = {'functional': {'tab_id':'functional_view_tab', 'tab_name': 'Functional view', 'entity_structure': json.dumps(functionalStructure.toDict()), 'explanation': explanation, 'background': '#fff6f4'}, 
+                                        'logical': {'tab_id':'logical_view_tab', 'tab_name': 'Logical view', 'entity_structure': json.dumps(logicalStructure.toDict()), 'explanation': explanation, 'background': '#f4f6ff'}, 
+                                        'pattern': {'tab_id':'pattern_view_tab', 'tab_name': 'Pattern view', 'entity_structure': json.dumps(patternStructure.toDict()), 'explanation': explanation, 'background': '#f4fffc'}
                                         })
                             

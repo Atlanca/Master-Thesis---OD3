@@ -29,9 +29,9 @@
           </div>
           {% for view in entityData %}
             <div class='{{view}} interactive_diagram w3-white w3-border' style='display:block;'>
-              <svg class='{{view}} interactive_diagram_svg'></svg>
+              <svg class='{{view}} interactive_diagram_svg' style='background-color:{{entityData[view].background}};'></svg>
               <script>
-                structure = JSON.parse({{entityData['logical'].entity_structure | tojson | safe}})
+                structure = JSON.parse({{entityData[view].entity_structure | tojson | safe}})
                 buildDiagram(structure, '{{view}}')
               </script>
             </div>

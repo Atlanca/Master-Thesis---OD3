@@ -6,22 +6,50 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 
 # A class for ontology entities
 class Entity:
-    def __init__(self, entityUri):
-        self.ir = InformationRetriever()
-        self.uri = entityUri
-        self.label = self.ir.getLabel(entityUri)
-        self.type = self.ir.getTypeOfIndividual(entityUri)
-        self.supertypes = self.ir.getSuperTypes(entityUri)
-        self.dataTypeProperties = self.ir.getDataProperties(entityUri)
-        self.diagrams = []
-        self.baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
+    def __init__(self, entityUri, baseURI = ''):
+        if baseURI:
+            baseUri = baseURI
+        else:
+            baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
+        ir = InformationRetriever()
 
-        for diagram in self.ir.getRelations(entityUri, self.baseUri + 'modeledIn', self.baseUri + 'Diagram'):
+        self.uri = entityUri
+        self.label = ir.getLabel(entityUri)
+        self.type = ir.getTypeOfIndividual(entityUri)
+        self.supertypes = ir.getSuperTypes(entityUri)
+        self.dataTypeProperties = ir.getDataProperties(entityUri)
+        self.diagrams = []
+
+        for diagram in ir.getRelations(entityUri, baseUri + 'modeledIn', baseUri + 'Diagram'):
             self.diagrams.append(diagram[1])
 
     def __repr__(self):
         return "{PythonClass: Entity, Name: " + self.label + ", Type: " + self.type + "}"
     
+    def toDict(self):
+        return {'uri': self.uri, 'label': self.label, 'type': self.type, 'supertypes': self.supertypes,
+                'dataTypeProperties': self.dataTypeProperties, 'diagrams': self.diagrams}
+
+# Dummy entity
+class DummyEntity(Entity):
+    def __init__(self, id, label='', entityType='', supertypes=None):
+        self.uri = 'dummy_' + id
+        self.label = label
+        if entityType:
+            self.type = entityType
+        else:
+            self.type = self.uri + '_type'
+        self.dataTypeProperties = []
+        self.diagrams = []
+
+        if supertypes:
+            self.supertypes = supertypes
+        else:
+            self.supertypes = []
+        
+        if self.type and self.type not in self.supertypes:
+            self.supertypes.append(self.type)
+
     def toDict(self):
         return {'uri': self.uri, 'label': self.label, 'type': self.type, 'supertypes': self.supertypes,
                 'dataTypeProperties': self.dataTypeProperties, 'diagrams': self.diagrams}
@@ -53,7 +81,7 @@ class EntityStructure:
 
     def getNameFromUri(self, uri):
         return (re.sub(".+#", '', uri))	
-    
+
     def addEntity(self, entity):
         if isinstance(entity, str) and not self.hasEntity(entity):
             self.entities.append(Entity(entity))
@@ -491,6 +519,7 @@ class ExplanationGenerator:
         return es
 
     #HOW IS THIS FEATURE MAPPED TO THE IMPLEMENTATION?
+
     def getLogicalFeatureToImplementationMap(self, featureUri):
         #Callbacks: 
         def callbackImplementedBy(es, s): 
@@ -511,6 +540,51 @@ class ExplanationGenerator:
         
         return es
     
+    def getFunctionalFeatureToImplementationMap(self, featureUri):
+        logical = self.getLogicalFeatureToImplementationMap(featureUri)
+
+        es = EntityStructure()
+
+        architectureFragmentUris = []
+        requirementUris = []
+        for entity in logical.entities:
+            if self.baseUri + 'ArchitectureFragment' in entity.supertypes:
+                architectureFragmentUris.append(entity.uri)
+            elif self.baseUri + 'Requirement' in entity.supertypes:
+                requirementUris.append(entity.uri)
+            else:
+                es.addEntity(entity)
+        
+        architectureEntity = DummyEntity('dummy_architecture_uri', 'ArchitectureLayer', entityType='ArchitectureLayer', supertypes=['ArchitecturePattern'])
+        es.addEntity(architectureEntity)
+
+        for relation in logical.relations:
+            if relation.source not in architectureFragmentUris and relation.target not in architectureFragmentUris:
+                es.addRelation(relation)
+            elif relation.source not in architectureFragmentUris and relation.target in architectureFragmentUris:
+                es.addRelation(relation.name, relation.source, architectureEntity.uri)
+            elif relation.source in architectureFragmentUris and relation.target not in architectureFragmentUris:
+                es.addRelation(relation.name, architectureEntity.uri, relation.target)
+
+        requirementEntity = DummyEntity('dummy_requirement_uri', 'Requirements', entityType='Requirement', supertypes=['Requirement'])
+        es.addEntity(requirementEntity)
+
+        for relation in logical.relations:
+            if relation.source not in requirementUris and relation.target not in requirementUris:
+                es.addRelation(relation)
+            elif relation.source not in requirementUris and relation.target in requirementUris:
+                es.addRelation(relation.name, relation.source, requirementEntity.uri)
+            elif relation.source in requirementUris and relation.target not in requirementUris:
+                es.addRelation(relation.name, requirementEntity.uri, relation.target)
+        
+        for relation in logical.relations:
+            if relation.source in architectureFragmentUris and relation.target in requirementUris:
+                es.addRelation(relation.name, architectureEntity.uri, requirementEntity.uri)
+            if relation.source in requirementUris and relation.target in architectureFragmentUris:
+                es.addRelation(relation.name, requirementEntity.uri, architectureEntity.uri)
+
+        return es
+
     def getImplementationToArchitecturalPatternMap(self, implementationUriList):
         def callBackArchitecturalPattern(es, s):
             self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'partOf', self.baseUri + 'ArchitecturalPattern')
@@ -755,7 +829,6 @@ class ExplanationTemplates:
 
         overviewDiagrams = self.getOverviewDiagrams(structure, 'LogicalStructure')
         
-        #TODO: THINK ABOUT WHAT TO DO ABOUT THE DIAGRAMS!
         overviewIdCounter = 0
         for key, value in overviewDiagrams.items():
             dummySection = Section('overview' + str(overviewIdCounter), value['name'], sectionSummary=value['description'], sectionDiagrams=[{'uri': key, 'caption': value['caption']}])
@@ -831,8 +904,9 @@ def testing():
     baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
     implementation = ir.getIndividualsByType(baseUri + 'ImplementationClass')
     # es = eg.getLogicalFeatureToImplementationMap(baseUri + 'purchase_products')
+    es = eg.getFunctionalFeatureToImplementationMap(baseUri + 'purchase_products')
     # exp = et.generateLogicalFeatureImplementationSummary(baseUri + 'purchase_products', es)
-    es = eg.getImplementationToArchitecturalPatternMap(implementation)
+    # es = eg.getImplementationToArchitecturalPatternMap(implementation)
     #es = eg.getRationaleOfArchitecture(baseUri + 'thin_client_MVC')
     # print(exp)
     #s = ir.getSuperTypes(baseUri + 'Server_Model_CartForms')
@@ -844,6 +918,7 @@ def testing():
     test = [baseUri + 'Cart', baseUri + 'Order']
     pred = [r[1] for r in ir.getRelations(sub = baseUri + 'figure_3.10_class_diagram_of_the_system')]
     print(set(test)<set(pred))
+    print(es)
     return es
 
 def writeToFile(inputData):

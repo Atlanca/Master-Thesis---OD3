@@ -60,7 +60,7 @@ buildGraph(ontologyData)
 function buildGraph(ontologyData){
     // Initialize the input graph
     var g = new dagreD3.graphlib.Graph({compound:true})
-    .setGraph({edgesep: 10, ranksep: 100, nodesep: 50, rankdir: 'LR'})
+    .setGraph({edgesep: 10, ranksep: 70, nodesep: 50, rankdir: 'LR'})
     .setDefaultEdgeLabel(function() { return {}; });
 
     // Adding clusters
@@ -104,8 +104,17 @@ function buildGraph(ontologyData){
 
     // Sets parent for entities to relative entity type cluster
     ontologyData.entities.forEach(function(e){ 
-        g.setNode(getNameOfUri(e.uri), {id: getNameOfUri(e.uri), label: getNameOfEntity(e), style: 'fill:' + getEntityColor(e)})
+        if(e.uri.includes('dummy_')){
+            if(Object.keys(ontologyCategories).includes(e.type)){
+                g.setNode(getNameOfUri(e.uri), {id: getNameOfUri(e.uri), label: getNameOfEntity(e), width: 500, style: 'fill:' + getEntityColor(e)})
+            }else{
+                g.setNode(getNameOfUri(e.uri), {id: getNameOfUri(e.uri), label: getNameOfEntity(e), width: 300, style: 'fill:' + getEntityColor(e)})
+            }
+        }else{
+            g.setNode(getNameOfUri(e.uri), {id: getNameOfUri(e.uri), label: getNameOfEntity(e), style: 'fill:' + getEntityColor(e)})  
+        }
         g.setParent(getNameOfUri(e.uri), getNameOfUri(e.type))
+        
     })
 
     // Create edges for all entities
@@ -180,6 +189,9 @@ function buildGraph(ontologyData){
 
     // Scale the diagram to fit the screen
     scaleDiagram()
+
+    // Resizing dummy entities
+    resizeDummyNodes()
 
     //--------------------------------------------------------------------
     // BENEATH THIS POINT THERE ARE ONLY HELPER FUNCTIONS
@@ -456,6 +468,70 @@ function buildGraph(ontologyData){
         .attr('ry',50)
     }
 
+    //Resizes and styles dummy nodes 
+    function resizeDummyNodes(){
+        clusterBBox = d3.select('.cluster').node().getBBox()
+        d3.selectAll('.node').each(function(){
+            id = d3.select(this).attr('id')
+
+            // Define colors for styling the dummy nodes
+            color = d3.select(this).select('rect.nodeRect').style('fill')
+            
+            fillhsl = tinycolor(color).toHsl()
+            fillhsl.l = 0.9
+           
+            strokehsl = tinycolor(color).toHsl()
+            strokehsl.l = 0.7
+           
+            texthsl = tinycolor(color).toHsl()
+            texthsl.l = 0.5
+
+            if (id.includes('dummy_') ){
+                nodeRect = d3.select(this).select('rect.nodeRect')
+                
+                // Set styling of the dummy nodes
+                nodeRect
+                .attr('rx', 40)
+                .attr('ry', 40)
+                .style('fill', tinycolor(fillhsl).toHexString())
+                .style('stroke', tinycolor(strokehsl).toHexString())
+                
+                d3.select(this)
+                .classed('dummy', true)
+                .select('text')
+                .style('fill', tinycolor(texthsl).toHexString())
+
+                //Center the labels in the clusters
+                labelBBox = d3.select(this).select('.label').select('g').node().getBBox()
+                d3.select(this)
+                .select('.label')
+                .select('g')
+                .attr('transform', 'translate(' + -labelBBox.width/2 + ',0)')
+
+                // Set the height of the clusters
+                // If the type of the dummy is not a ontology category, make it smaller
+                isOntCategory = false
+                ontologyData.entities.forEach(function(e){
+                    if(e.uri.includes(id)){
+                        console.log(e.type)
+                        if(Object.keys(ontologyCategories).includes(e.type)){
+                            isOntCategory = true
+                        }
+                    }
+                })
+
+                if(isOntCategory){
+                    nodeRect.attr('height', clusterBBox.height)
+                    .attr('y', clusterBBox.y)
+                }else{
+                    nodeRect.attr('height', clusterBBox.height - 150)
+                    .attr('y', clusterBBox.y + 75)
+                }
+               
+            }
+        })
+    }
+
     //--------------------------------------------------------------------
     // Creating the logic for node actions
     //--------------------------------------------------------------------
@@ -503,6 +579,9 @@ function buildGraph(ontologyData){
 
     function setNodeDropdownLogic(){
         d3.selectAll('.node').each(function(node){
+            if(d3.select(this).attr('id').includes('dummy_')){
+                return
+            }
             //CREATE DROP-DOWN BUTTON FOR NODES
             nodeWidth = parseFloat(
                 d3.select(this)
