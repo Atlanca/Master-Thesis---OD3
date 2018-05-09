@@ -2,49 +2,74 @@
 
 {%block entity_description %}
 
-{%- for section in explanation.sections recursive %}
-  {%- if section in explanation.sections %}
-    <h3 class='{{section.id}} w3-bar-item title' onclick='toggleVisiblityOfDescription("{{section.id}}")' style='padding-left:0'>{{section.title}}&emsp;+</h3>
-    <div class='{{section.id}}' style='max-height:0px;display:none;opacity:0'>
-  {%- else %}
-    <h4 class='{{section.id}} w3-bar-item title' onclick='toggleVisiblityOfDescription("{{section.id}}")' style='padding-left:0'>{{section.title}}&emsp;+</h4>
-    <div class='{{section.id}}' style='max-height:0px;display:none;opacity:0'>
-  {%- endif %}
+<!-- Tabs -->
+{% for view in entityData %}
+  <button class='{{entityData[view].tab_id}} roundedTopCorners side-bar-tab' onclick='toggleTab("{{entityData[view].tab_id}}", "{{view}}")'>{{ entityData[view].tab_name }}</button>    
+{% endfor %} 
 
-  {% if section.summary %}
-    <p>{{section.summary|safe}}</p>
-  {% endif %}
+{% for view in entityData %}
+  <div class='{{entityData[view].tab_id}} w3-light-gray side-bar-content-base' style='display:none'>
+    <!-- Question -->
+    <h2><b>Question {{entityData[view].tab_id}}:</b> {{entityData[view].explanation.question}}</h2>
+    <hr class='thick'> 
 
-  {% for data in section.textContent %}
-    {% if data.0 %}
-      <h5>{{data.0}}</h5>
+    <!-- Summary -->
+    <h3 class="w3-bar-item title {{view}}summary" onclick='toggleVisiblityOfDescription("{{view}}summary")' style='padding-left:0px;'>Summary&emsp;-</h3>
+    <div class='{{view}}summary' style='max-height:10000px;'>
+    {{entityData[view].explanation.summaryText|safe}}
+    </div>
+    <hr class='thick'>
+    
+    {%- for section in entityData[view].explanation.sections recursive %}
+    {%- if section in entityData[view].explanation.sections %}
+      <h3 class='{{view + section.id}} w3-bar-item title' onclick='toggleVisiblityOfDescription("{{view + section.id}}")' style='padding-left:0'>{{section.title}}&emsp;+</h3>
+      <div class='{{view + section.id}}' style='max-height:0px;display:none;opacity:0'>
+    {%- else %}
+      <h4 class='{{view + section.id}} w3-bar-item title' onclick='toggleVisiblityOfDescription("{{view + section.id}}")' style='padding-left:0'>{{section.title}}&emsp;+</h4>
+      <div class='{{view + section.id}}' style='max-height:0px;display:none;opacity:0'>
+    {%- endif %}
+
+    {% if section.summary %}
+      <p>{{section.summary|safe}}</p>
     {% endif %}
-    {% if data.1 %}
-      <p>{{data.1|safe}}</p>
-    {% endif %}
-  {% endfor %}
 
-  {% for diagram in section.diagrams %}
-    {% if diagram %}
-    <div class='w3-padding w3-border w3-white' style='width:100%; text-align:center;'>
-      <img class='w3-margin-bottom' src='/{{diagram_file_paths[diagram.uri]}}' style='width:100%'></p>
-      <p>{{diagram.caption}}</p>
-    </div>  
+    {% for data in section.textContent %}
+      {% if data.0 %}
+        <h5>{{data.0}}</h5>
+      {% endif %}
+      {% if data.1 %}
+        <p>{{data.1|safe}}</p>
+      {% endif %}
+    {% endfor %}
 
-    {% endif %}
-  {% endfor %}
-  
-  {%- if section.children%}
-    {{ loop(section.children) }}
-  {%- endif %}
-  
+    {% for diagram in section.diagrams %}
+      {% if diagram %}
+      <div class='w3-padding w3-border w3-white' style='width:100%; text-align:center;'>
+        <img class='w3-margin-bottom' src='/{{diagram_file_paths[diagram.uri]}}' style='width:100%'></p>
+        <p>{{diagram.caption}}</p>
+      </div>  
+
+      {% endif %}
+    {% endfor %}
+    
+    {%- if section.children%}
+      {{ loop(section.children) }}
+    {%- endif %}
+    
+    </div>
+
+    {%- if section in entityData[view].explanation.sections %}
+      <hr class='thick'>  
+    {%- else %}
+      <hr>      
+    {%- endif %}
+  {%- endfor %}
+
   </div>
+{% endfor %} 
+<script>
+    toggleTab('pattern_view_tab', 'pattern')
+</script>
 
-  {%- if section in explanation.sections %}
-    <hr class='thick'>  
-  {%- else %}
-    <hr>      
-  {%- endif %}
-{%- endfor %}
 
 {%endblock entity_description %}

@@ -64,13 +64,13 @@
     float:left;
 }
 
-#interactive_diagram {
+.interactive_diagram {
     height:93%;
     width:99.5%;
     float:left
 }
 
-#interactive_diagram_svg {
+.interactive_diagram_svg {
     height:100%;
     width:100%;
 }

@@ -30,8 +30,8 @@ def index():
                             explanation=explanation,
                             structure=json.dumps(structure.toDict()))
                             
-@app.route('/test/<feature>')
-def test(feature):
+@app.route('/q2/logical/<feature>')
+def q2_logical(feature):
     baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
     
     explanationGenerator = httpQuery.ExplanationGenerator()
@@ -44,11 +44,10 @@ def test(feature):
     print(diagramFilePaths)
 
     return render_template('childtemplate.html', 
-                            tab_buttons=[{'id':'functional_view_tab', 'name': 'Functional view'}, 
-                                        {'id':'logical_view_tab', 'name': 'Logical view'}, 
-                                        {'id':'pattern_view_tab', 'name': 'Pattern view'}],  
                             diagram_path='static/ClusteringGraph.js', 
                             diagram_file_paths=diagramFilePaths,
-                            explanation=explanation,
-                            structure=json.dumps(structure.toDict()))
+                            entityData = {'functional': {'tab_id':'functional_view_tab', 'tab_name': 'Functional view', 'entity_structure': json.dumps(structure.toDict()), 'explanation': explanation}, 
+                                        'logical': {'tab_id':'logical_view_tab', 'tab_name': 'Logical view', 'entity_structure': json.dumps(structure.toDict()), 'explanation': explanation}, 
+                                        'pattern': {'tab_id':'pattern_view_tab', 'tab_name': 'Pattern view', 'entity_structure': json.dumps(structure.toDict()), 'explanation': explanation}
+                                        })
                             

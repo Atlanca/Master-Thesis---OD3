@@ -20,21 +20,24 @@
   <body>
     <div id="content">
       <div>
+        
         <!-- Interactive diagram -->
         <div class='interactive-diagram-base'>
-            <div class='w3-light-blue interactive-diagram-tab-container'></div>
-            <div class='w3-border info'><b>i</b>
-                <script src='/static/info.js'></script>
+          <div class='w3-light-blue interactive-diagram-tab-container'></div>
+          <div class='w3-border info'><b>i</b>
+            <script src='/static/info.js'></script>
+          </div>
+          {% for view in entityData %}
+            <div class='{{view}} interactive_diagram w3-white w3-border' style='display:block;'>
+              <svg class='{{view}} interactive_diagram_svg'></svg>
+              <script>
+                structure = JSON.parse({{entityData['logical'].entity_structure | tojson | safe}})
+                buildDiagram(structure, '{{view}}')
+              </script>
             </div>
-            <div id='interactive_diagram' class='w3-white w3-border'>
-                <svg id='interactive_diagram_svg'></svg>
-                <div id='structure_data' data-content={{structure}}></div>
-                <script>
-                  structure = JSON.parse({{structure | tojson | safe}})
-                  buildDiagram(structure)
-                </script>
-            </div>
+          {% endfor %}
         </div>
+
         <!-- Sidebar -->
         <div id='explanationSidebar'class="w3-sidebar w3-bar-block side-bar"> 
           <div class='w3-light-blue w3-border-left w3-border-indigo side-bar-toggle'>
@@ -44,30 +47,11 @@
           </div>
           <div style='height:1px;width:1%;float:left'></div>
           <div class='side-bar-base'>
-          <!-- Tabs -->
-          {% for tab_button in tab_buttons %}
-            <button id={{tab_button.id}} class='roundedTopCorners side-bar-tab'>{{ tab_button.name }}</button>    
-          {% endfor %}
-            <script>
-              d3.select('#logical_view_tab').classed('w3-light-grey', true)
-            </script>
-            <div class='w3-light-gray side-bar-content-base'>
-              <!-- Question -->
-              <h2><b>Question:</b> {{explanation.question}}</h2>
-              <hr class='thick'> 
-
-              <!-- Summary -->
-              <h3 class="w3-bar-item title summary" onclick='toggleVisiblityOfDescription("summary")' style='padding-left:0px;'>Summary&emsp;-</h3>
-              <div class='summary' style='max-height:10000px;'>
-              {{explanation.summaryText|safe}}
-              </div>
-              <hr class='thick'>
-
+ 
               <!-- Descriptions of significant entities -->
               {% block entity_description %}
               {% endblock entity_description %}
 
-            </div>
           </div>
         </div>
       </div>

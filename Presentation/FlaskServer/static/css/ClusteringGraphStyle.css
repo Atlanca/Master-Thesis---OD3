@@ -16,23 +16,30 @@
  transition: opacity 0.3s;
 }
 
-/* Nodes */
 
-.unselected rect {
+.cluster.unselected rect {
   stroke-dasharray: 10,10;
 }
 
-.selected rect {
+.cluster.selected rect {
   stroke-dasharray: 0;
   stroke-width: 10px
 }
 
-.unselected text {
+.cluster.unselected text {
   font-weight: normal;
 }
 
-.selected text {
+.cluster.selected text {
   opacity: 1;
+}
+
+/* Nodes */
+
+.node.selected rect.nodeRect {
+  stroke:orange;
+  fill: yellow !important;
+  stroke-width: 3px;
 }
 
 .node text {
@@ -45,6 +52,8 @@
   stroke-width: 1px;
   cursor: pointer;
   fill-opacity: 1;
+
+  transition: fill 0.5s ease, stroke 0.3s, stroke-width 0.3s !important;
 }
 
 /* Edges */

@@ -1,4 +1,3 @@
-
 function centerSVG(svg){
     if(svg.node().getBBox().height > svg.node().getBBox().width){
         svg.style("height", '90%')
@@ -9,38 +8,53 @@ function centerSVG(svg){
     }
 }
 
-function scrollIntoDescription(id){
-    originalColor = d3.select('#'+id).style('color')
+function toggleTab(tabid, view){
+    tab_display = d3.select('button.' + tabid).style('display')
+    if (tab_display || tab.display == 'none'){
+        d3.selectAll('.side-bar-tab').classed('w3-light-grey', false)
+        d3.selectAll('.side-bar-tab').classed('w3-grey', true)
 
-    d3.select('#'+id)
-    .transition()
-    .duration(0)
-    .style("color", '#ff9011')
-    .style("font-weight", 'bold')
+        d3.selectAll('div.side-bar-content-base').style('display', 'none')
+        d3.selectAll('.interactive_diagram').style('display', 'none')
 
-    d3.select('#'+id)
-    .transition()
-    .duration(1000)
-    .style("color", originalColor)
-    .style("font-weight", 'normal')
-    
-    originalColor = d3.select('#'+id.replace('title','description')).style('color')
-
-    d3.select('#'+id.replace('title','description')).
-    transition().duration(0).style("color", '#ff9011')
-    .style("font-weight", 'bold')
-
-    d3.select('#'+id.replace('title','description'))
-    .transition().duration(1000)
-    .style("color", originalColor)
-    .style("font-weight", 'normal')
-    
-    if(!toggle[id.replace('title', 'description')]){
-        toggleVisiblityOfDescription(id.replace('title','description'))
+        d3.select('div.' + tabid).style('display', 'block')
+        d3.select('button.' + tabid).classed('w3-light-grey', true)
+        d3.select('.' + view + '.interactive_diagram').style('display', 'block')
     }
-    var e = document.getElementById(id)
-    e.scrollIntoView()
+
 }
+
+function toggleVisiblityOfDescription(className){
+    inner = d3.select('.title.' + className).html()
+    tab_display = d3.select('div.' + className).style('display')
+
+    if (tab_display || tab_display == 'none') {
+        d3.select('.title.' + className)
+        .html(inner.substring(0, inner.length-1) + '+')
+
+        d3.select('div.' + className)
+        .transition()
+        .ease(d3.easeCubic)
+        .style("opacity", 0)
+        .style("display",'none')
+        .duration(300)
+        .style("max-height", "0px")
+    
+    } else {
+        d3.select('.title.' + className)
+        .html(inner.substring(0, inner.length-1) + '-')
+
+        d3.select('div.' + className)
+        .style("display", "block")
+        .transition()
+        .duration(300)
+        .style("opacity", "1")
+        .style("max-height", "20000px")
+
+    }
+}
+
+
 
 function screen_height(){
     console.log(screen.height)

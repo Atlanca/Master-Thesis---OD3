@@ -15,7 +15,7 @@ var ONTOLOGY_COLORS = {'Feature': '#af2d2d', 'Requirement': '#cc6a51', 'Function
                         'RationaleLayer': '#b476c4', 'ImplementationLayer': 'gray'}
                         
 var views = ['Development', 'UI', 'Logical', 'Physical'] 
-var ontologyCategories = {'ArchitectureLayer':     ['Role', 'ArchitecturalFragment', 'Development', 'UI', 'Physical', 'Logical'], 
+var ontologyCategories = {'ArchitectureLayer':     ['Role', 'ArchitecturalPattern', 'Development', 'UI', 'Physical', 'Logical'], 
                           'RequirementLayer':      ['Requirement', 'UserStory', 'UseCase', 'Feature'], 
                           'RationaleLayer':        ['DesignOption', 'Technology', 'Argument', 'Constraint', 'Assumption'], 
                           'ImplementationLayer':   ['Implementation']}

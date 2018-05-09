@@ -15,7 +15,7 @@ var ONTOLOGY_COLORS = {'Feature': '#af2d2d', 'Requirement': '#cc6a51', 'Function
                         'RationaleLayer': '#b476c4', 'ImplementationLayer': 'gray'}
                         
 var views = ['Development', 'UI', 'Logical', 'Physical'] 
-var ontologyCategories = {'ArchitectureLayer':     ['Role', 'ArchitecturalFragment', 'Development', 'UI', 'Physical', 'Logical'], 
+var ontologyCategories = {'ArchitectureLayer':     ['Role', 'ArchitecturalPattern', 'ArchitectureFragment', 'Development', 'UI', 'Physical', 'Logical'], 
                           'RequirementLayer':      ['Requirement', 'UserStory', 'UseCase', 'Feature'], 
                           'RationaleLayer':        ['DesignOption', 'Technology', 'Argument', 'Constraint', 'Assumption'], 
                           'ImplementationLayer':   ['Implementation']}
@@ -54,7 +54,7 @@ function getNameOfUri(string){
 //--------------------------------------------------------------------
 // MAIN RENDERER FUNCTION
 //--------------------------------------------------------------------
-function buildDiagram(ontologyData){
+function buildDiagram(ontologyData, view){
     // Initialize the input graph
     var g = new dagreD3.graphlib.Graph({compound:true})
     .setGraph({edgesep: 10, ranksep: 100, nodesep: 50, rankdir: 'LR'})
@@ -123,7 +123,7 @@ function buildDiagram(ontologyData){
     var render = new dagreD3.render();
 
     // Set up an SVG group so that we can translate the final graph.
-    var svg = d3.select("#interactive_diagram_svg"),
+    var svg = d3.select('.' + view + '.interactive_diagram_svg'),
     svgGroup = svg.append("g");
 
     // Set up zoom support
@@ -136,7 +136,7 @@ function buildDiagram(ontologyData){
     svg.call(zoom).on("dblclick.zoom", null);
 
     // Run the renderer. This is what draws the final graph.
-    render(d3.select("svg g"), g);
+    render(d3.select('.' + view + ".interactive_diagram_svg").select('g'), g);
 
     // -----------------------------------------------------------------------------------------
     // Beneath this point, we are adding actions to the rendered graph and making it prettier
@@ -144,15 +144,16 @@ function buildDiagram(ontologyData){
 
     // Make ontology layers to be positioned behind everything
     Object.keys(ontologyCategories).forEach(function(oc){
-        clusters = document.getElementsByClassName('clusters')[0]
-        cluster = document.getElementById(oc)
-        if(cluster){
-            clusters.insertBefore(cluster, clusters.firstChild)
+        clusters = d3.select('.interactive_diagram.' + view).select('.clusters')
+        cluster = d3.select('.interactive_diagram.' + view).select('#' + oc)
+        if(cluster.node()){
+            console.log(cluster.node())
+            clusters.node().insertBefore(cluster.node(), clusters.node().childNodes[0])
         }
     })
 
     // Lighten the colors a bit
-    d3.selectAll('rect').each(function(){
+    d3.select('.interactive_diagram.' + view).selectAll('rect').each(function(){
         color = d3.select(this).style('fill')
         recursiveLighten(d3.select(this))
     })
@@ -167,6 +168,8 @@ function buildDiagram(ontologyData){
 
     // Resizing clusters to make them more consistent in size
     resizeClusters()
+
+    setClusterActions()
 
     // Give nodes tooltips on hover
     setTitleToNodes()
@@ -232,7 +235,7 @@ function buildDiagram(ontologyData){
 
     function lightenClusters(targetL){
         //Lighten the clusters
-        d3.selectAll('.cluster')
+        d3.select('.interactive_diagram.' + view).selectAll('.cluster')
         .select('rect')
         .each(function(){
             color = d3.select(this).style('fill')
@@ -258,18 +261,18 @@ function buildDiagram(ontologyData){
     }
 
     function scaleDiagram(){
-        svgBCR = d3.select('#interactive_diagram_svg').node().getBoundingClientRect()
-        gBBox = d3.select('.output').node().getBBox()
+        svgBCR = d3.select('.interactive_diagram.' + view).select('svg').node().getBoundingClientRect()
+        gBBox = d3.select('.interactive_diagram.' + view).select('.output').node().getBBox()
         abswidth = Math.abs(svgBCR.width - gBBox.width)
         absheight = Math.abs(svgBCR.height - gBBox.height)
 
         if(absheight < abswidth){
             widthScale = svgBCR.width / gBBox.width
-            d3.select('.output')
+            d3.select('.interactive_diagram.' + view).select('.output')
             .style('transform','scale(' + widthScale + ')')
         }else{
             heightScale = svgBCR.height / gBBox.height
-            d3.select('.output')
+            d3.select('.interactive_diagram.' + view).select('.output')
             .style('transform','scale(' + heightScale + ')')
         }
     }
@@ -306,14 +309,16 @@ function buildDiagram(ontologyData){
             inClass = '.in-' + getNameOfUri(rel.target)
             outClass = '.out-' + getNameOfUri(rel.source)
 
-            d3.select(inClass + outClass)
+            d3.select('.interactive_diagram.' + view)
+            .select(inClass + outClass)
             .select('path.path')
             .transition()
             .duration(250)
             .style("stroke", "#ff5b5b")
             .style("stroke-dasharray", "")
 
-            d3.select(inClass + outClass)
+            d3.select('.interactive_diagram.' + view)
+            .select(inClass + outClass)
             .select('marker')
             .select('path')
             .transition()
@@ -323,7 +328,7 @@ function buildDiagram(ontologyData){
     }
 
     function unlightRelations(){
-        d3.selectAll('.edgePath')
+        d3.select('.interactive_diagram.' + view).selectAll('.edgePath')
         .select('path.path')
         .transition()
         .duration(200)
@@ -331,7 +336,7 @@ function buildDiagram(ontologyData){
         .duration(200)
         .style("stroke", "#929db5")
 
-        d3.selectAll('.edgePath')
+        d3.select('.interactive_diagram.' + view).selectAll('.edgePath')
         .select('marker')
         .select('path')
         .transition()
@@ -342,8 +347,7 @@ function buildDiagram(ontologyData){
     function resizeClusters(){
         largestYtop = 0
         largestYbot = 0
-        
-        d3.selectAll('.cluster').each(function(){
+        d3.select('.interactive_diagram.' + view).selectAll('.cluster').each(function(){
             currentBBox = d3.select(this).node().getBBox()
             if(currentBBox.y < largestYtop){
                 largestYtop = currentBBox.y
@@ -354,14 +358,14 @@ function buildDiagram(ontologyData){
         })
         largestYbot = largestYbot - Math.abs(largestYtop) + 100
         
-        clusterTransform = d3.select('.cluster')
+        clusterTransform = d3.select('.interactive_diagram.' + view).select('.cluster')
                             .attr('transform')
                             .replace('translate(', '')
                             .replace(')','')
                             .split(',')
         clusterTransformY = parseFloat(clusterTransform[1])
         
-        d3.selectAll('.cluster').each(function(){ 
+        d3.select('.interactive_diagram.' + view).selectAll('.cluster').each(function(){ 
             currentTransform = d3.select(this)
                                 .attr('transform')
                                 .replace(/,\d+\.*\d+/, ',' + clusterTransformY) 
@@ -383,13 +387,13 @@ function buildDiagram(ontologyData){
                                         .attr('width')) + 50) + 'px')
         })
     
-        d3.selectAll('.cluster')
+        d3.select('.interactive_diagram.' + view).selectAll('.cluster')
         .select('rect').attr('y', largestYtop - 50)
         .attr('height',largestYbot)
 
         // Make all clusters a bit larger in height
         heightDelta = 100
-        d3.selectAll('.cluster').each(function(){
+        d3.select('.interactive_diagram.' + view).selectAll('.cluster').each(function(){
             cluster = d3.select(this)
             if(!cluster.empty()){
                 clusterHeight = parseFloat(cluster.select('rect').attr('height'))
@@ -402,7 +406,7 @@ function buildDiagram(ontologyData){
 
         // Make ontology category clusters larger in height in comparison to all other clusters
         Object.keys(ontologyCategories).forEach(function(oc){
-            cluster = d3.select('#' + oc)
+            cluster = d3.select('.interactive_diagram.' + view).select('#' + oc)
             heightDelta = 150
             if(!cluster.empty()){
                 clusterHeight = parseFloat(cluster.select('rect').attr('height'))
@@ -414,7 +418,8 @@ function buildDiagram(ontologyData){
         })
 
         // Style labels
-        d3.selectAll('.cluster')
+        d3.select('.interactive_diagram.' + view)
+        .selectAll('.cluster')
         .each(function(c){
             clusterBBox = d3.select(this).node().getBBox()
             labelBBox = d3.select(this).select('.label').node().getBBox()
@@ -432,18 +437,29 @@ function buildDiagram(ontologyData){
             .style('fill', tinycolor(color).darken(25).toString())
         })
 
+        // Rounder corners of clusters
+        d3.select('.interactive_diagram.' + view)
+        .selectAll('.cluster')
+        .select('rect')
+        .attr('rx',50)
+        .attr('ry',50)
+    }
+
+    
+    function setClusterActions(){
         //Label onclick
-        d3.selectAll('.cluster')
+        d3.select('.interactive_diagram.' + view)
+        .selectAll('.cluster')
         .select('.label')
         .on('click', function(){
             rect = d3.select(this.parentNode).select('rect')
             parent = d3.select(this.parentNode)
-
+    
             if(parent.classed('selected')){
                 d3.select(this.parentNode)
                 .classed('selected', false)
                 .classed('unselected', true)
-
+    
             }else{
                 d3.selectAll('.selected')
                 .each(function(){
@@ -451,17 +467,12 @@ function buildDiagram(ontologyData){
                     d3.select(this).classed('unselected', true)
                     
                 })
-
+    
                 parent
                 .classed('unselected', false)
                 .classed('selected', true)
             }
         })
-
-        d3.selectAll('.cluster')
-        .select('rect')
-        .attr('rx',50)
-        .attr('ry',50)
     }
 
     //--------------------------------------------------------------------
@@ -470,47 +481,31 @@ function buildDiagram(ontologyData){
 
     function highlightNodepathsOnclick(){
         //ADD ACTIONS THE NODE RECTANGLES
-        d3.selectAll('.node')
+        d3.select('.interactive_diagram.' + view).selectAll('.node')
         .select('rect')
         .attr('class', 'nodeRect')
         .on('click', function(){
             thisClass = d3.select(this.parentNode).attr('id')
-
-            if(thisClass == toggleOn){
-                unlightRelations()
-                toggleOn = ''
-            }else{
-                toggleOn = thisClass
+            parent = d3.select(this.parentNode)
+            if(!parent.classed('selected')){
                 unlightRelations()
                 highlightRelations(thisClass)
-            }
+                d3.select('.interactive_diagram.' + view)
+                .selectAll('.node.selected')
+                .classed('selected', false)
 
-            style = d3.select(this)
-                .attr('style')
-            if(style != 'fill:#ffef68'){
-                if (selectedNodeColor['id']){
-                    d3.select('#' + selectedNodeColor['id'])
-                    .select('rect')
-                    .attr('style', 'fill:' + selectedNodeColor['color'])
-                }
-                selectedNodeColor['color'] = style.substring(5, style.length)
-                selectedNodeColor['id'] = d3.select(this.parentNode)
-                                            .attr('id')
-                d3.select(this)
-                .attr('style', 'fill:#ffef68')
-            
+                d3.select(this.parentNode)
+                .classed('selected', true)
             }else{
-                d3.select('#' + selectedNodeColor['id'])
-                .select('rect')
-                .attr('style', 'fill:' + selectedNodeColor['color'])
-                selectedNodeColor['color'] = ''
-                selectedNodeColor['id'] = ''
+                unlightRelations()
+                d3.select(this.parentNode)
+                .classed('selected', false)
             }
         })
     }
 
     function setNodeDropdownLogic(){
-        d3.selectAll('.node').each(function(node){
+        d3.select('.interactive_diagram.' + view).selectAll('.node').each(function(node){
             //CREATE DROP-DOWN BUTTON FOR NODES
             nodeWidth = parseFloat(
                 d3.select(this)

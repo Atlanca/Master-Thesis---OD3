@@ -829,10 +829,10 @@ def testing():
     eg = ExplanationGenerator()
     et = ExplanationTemplates()
     baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
-    # implementation = ir.getIndividualsByType(baseUri + 'ImplementationClass')
+    implementation = ir.getIndividualsByType(baseUri + 'ImplementationClass')
     # es = eg.getLogicalFeatureToImplementationMap(baseUri + 'purchase_products')
     # exp = et.generateLogicalFeatureImplementationSummary(baseUri + 'purchase_products', es)
-    # es = eg.getImplementationToArchitecturalPatternMap(implementation)
+    es = eg.getImplementationToArchitecturalPatternMap(implementation)
     #es = eg.getRationaleOfArchitecture(baseUri + 'thin_client_MVC')
     # print(exp)
     #s = ir.getSuperTypes(baseUri + 'Server_Model_CartForms')
@@ -844,7 +844,7 @@ def testing():
     test = [baseUri + 'Cart', baseUri + 'Order']
     pred = [r[1] for r in ir.getRelations(sub = baseUri + 'figure_3.10_class_diagram_of_the_system')]
     print(set(test)<set(pred))
-    return None
+    return es
 
 def writeToFile(inputData):
     f = open('../ExperimentationGraphs/static/explanationData.js', 'w') 
@@ -852,5 +852,5 @@ def writeToFile(inputData):
     f.write("ontologyData = " + json.dumps(inputData))
     f.close()
 
-testing()
+# data = testing()
 # writeToFile(data.toDict())
