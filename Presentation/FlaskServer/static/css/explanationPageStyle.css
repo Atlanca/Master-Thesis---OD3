@@ -101,10 +101,10 @@
     transition: color 0.3s;
 }
 .title:hover {
-    color:#6cd800
+    color:#bcb084
 }
 
-/* VIEW THEMES */
+/* VIEW SIDEBAR THEMES */
 .logical h2{
     font-size:22px;
     color: #424a70;
@@ -124,7 +124,10 @@
     color:#92a7b2;
 }
 
-/* VIEW THEMES */
+.logical hr.thick{
+    border-color: #587199;
+}
+
 .functional h2{
     font-size:22px;
     color: #7a4845;
@@ -144,7 +147,10 @@
     color:#d6a0a0;
 }
 
-/* VIEW THEMES */
+.functional hr.thick{
+    border-color: #a35151;
+}
+
 .pattern h2{
     font-size:22px;
     color: #64775b;
@@ -164,25 +170,16 @@
     color:#a2b596;
 }
 
-
-
-hr{
-    border-color:#a0c3d6;
-    opacity:0;
-    margin: 0px;
+.pattern hr.thick{
+    border-color: #719157;
 }
-hr.thick{
-    border-color: #3d73cc;
-    border-width: 1px;
-    opacity:1;
-    margin-top: 15px; 
-    margin-bottom: 15px; 
-} 
 
+/* Popup */
 .popup {
     z-index : 100;
 }
 
+/* Info */
 .info {
     position:absolute;
     left:1%;
@@ -201,6 +198,35 @@ hr.thick{
     background-color:lightcyan;
 }
 
+/* Tooltip */
+
 .tippy-tooltip {
     text-align: left;
+}
+
+/* General */
+
+hr{
+    border-color:#a0c3d6;
+    opacity:0;
+    margin: 0px;
+} 
+
+hr.thick{
+    border-width: 1px;
+    opacity:1;
+    margin-top: 15px; 
+    margin-bottom: 15px; 
+}
+
+button {
+    font-family: "Trebuchet MS", Helvetica, sans-serif !important;
+}
+
+h1,h2,h3,h4,h5 {
+    font-family: "Trebuchet MS", Helvetica, sans-serif !important;
+}
+
+p{
+    font-family: "Trebuchet MS", Helvetica, sans-serif !important;
 }
