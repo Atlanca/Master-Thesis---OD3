@@ -62,7 +62,7 @@ function getNameOfUri(string){
 function buildDiagram(structure, view){
     // Initialize the input graph
     var g = new dagreD3.graphlib.Graph({compound:true})
-    .setGraph({edgesep: 10, ranksep: 100, nodesep: 50, rankdir: 'LR'})
+    .setGraph({edgesep: 50, ranksep: 100, nodesep: 50, rankdir: 'LR'})
     .setDefaultEdgeLabel(function() { return {}; });
 
     // Adding clusters
@@ -492,7 +492,7 @@ function buildDiagram(structure, view){
             fillhsl.l = 0.9
            
             strokehsl = tinycolor(color).toHsl()
-            strokehsl.l = 0.7
+            strokehsl.l = 0.78
            
             texthsl = tinycolor(color).toHsl()
             texthsl.l = 0.5

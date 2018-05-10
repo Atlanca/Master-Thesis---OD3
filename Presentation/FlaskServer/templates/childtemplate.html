@@ -8,9 +8,12 @@
 {% endfor %} 
 
 {% for view in entityData %}
-  <div class='{{entityData[view].tab_id}} w3-light-gray side-bar-content-base' style='display:none'>
+  <div class='{{entityData[view].tab_id}} w3-light-gray side-bar-content-base {{view}}' style='display:none'>
     <!-- Question -->
-    <h2><b>Question {{entityData[view].tab_id}}:</b> {{entityData[view].explanation.question}}</h2>
+    <h2><b>Question:</b> {{entityData[view].explanation.question.sub}}</h2>
+    {% if entityData[view].explanation.question.original %}
+      <h3><b>Original question:</b> {{entityData[view].explanation.question.original}}</h3>
+    {% endif %}
     <hr class='thick'> 
 
     <!-- Summary -->
@@ -68,7 +71,7 @@
   </div>
 {% endfor %} 
 <script>
-    toggleTab('pattern_view_tab', 'pattern')
+    toggleTab('functional_view_tab', 'functional')
 </script>
 
 

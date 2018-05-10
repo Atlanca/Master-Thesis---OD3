@@ -1,0 +1,32 @@
+<!-- {{question: How are the implementation classes given in the answer for the orginal question mapped to the Architectural patterns?}} -->
+<!-- {{original question: How is the feature {main_entity} mapped to its implementation?}} -->
+
+<p>
+This view shows how the implementation classes that are related to the feature {main_entity} are related to the architectural patterns.
+The {nbr_impl} implementation classes are related to a total of {nbr_dev} development entities. The development entities together play {nbr_role} 
+different roles.
+The roles are finally part of {nbr_arch_patt} architectural patterns. 
+</p>
+
+<p>
+The subsequent sections contain descriptions of the most significant entities found in this explanation, 
+namely the implementation classes, the development entities, the pattern roles and the architectural patterns {main_entity}.
+</p>
+
+
+<h5>Interactive relationship diagram</h5>
+
+<p>
+The panel to the left illustrates the structural paths from the implementation classes to the architectural patterns.
+</p>
+
+
+<h5>Views</h5>
+
+<p>
+To see an overview of the relations between feature {main_entity} and implementation classes, select the functional view tab. 
+</p>
+
+<p>
+To see a more detailed view of how the requirements are mapped to the source code, select the logical view tab.
+</p>

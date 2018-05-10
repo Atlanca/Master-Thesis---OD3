@@ -86,9 +86,6 @@
     color: #2d3b7f;
 }
 
-h4 {
-    color:#70b1ea
-}
 .button1{
     background-color:#0099ff;
     position:absolute;
@@ -107,20 +104,67 @@ h4 {
     color:#6cd800
 }
 
-h2{
+/* VIEW THEMES */
+.logical h2{
     font-size:22px;
-    color: #2d3b7f;
+    color: #424a70;
 }
 
-h3 {
+.logical h3 {
     font-size:20px;
-    color:#3d73cc;
+    color:#587199;
 }
 
-h5 {
-    font-size:18px;
-    color:#a0c3d6;
+.logical h4 {
+    color:#7999b5
 }
+
+.logical h5 {
+    font-size:18px;
+    color:#92a7b2;
+}
+
+/* VIEW THEMES */
+.functional h2{
+    font-size:22px;
+    color: #7a4845;
+}
+
+.functional h3 {
+    font-size:20px;
+    color:#a35151;
+}
+
+.functional h4 {
+    color:#c16464;
+}
+
+.functional h5 {
+    font-size:18px;
+    color:#d6a0a0;
+}
+
+/* VIEW THEMES */
+.pattern h2{
+    font-size:22px;
+    color: #64775b;
+}
+
+.pattern h3 {
+    font-size:20px;
+    color:#719157;
+}
+
+.pattern h4 {
+    color:#879b6f
+}
+
+.pattern h5 {
+    font-size:18px;
+    color:#a2b596;
+}
+
+
 
 hr{
     border-color:#a0c3d6;

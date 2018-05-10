@@ -1,5 +1,5 @@
-<!-- {{question: How is the feature {main_entity} mapped to its implementation?}}
- -->
+<!-- {{question: From the logical viewpoint: How is the feature {main_entity} mapped to its implementation?}} -->
+<!-- {{original question: How is the feature {main_entity} mapped to its implementation?}} -->
 
 <p>
 The feature {main_entity} {rel_feat_req} {nbr_req} functional requirements which are {rel_req_logic} {nbr_logic} 
@@ -9,12 +9,23 @@ class packages in the development view of the architecture. The development clas
 </p>
 
 <p>
-The left-side panel demonstrates how the feature {main_entity} maps to the implementation 
-classes via the Logical view. Clicking on any entity will highlight the paths to its other related entities. 
-To see all available actions, click the round "i" button at the top left of the panel.
+The subsequent sections contain descriptions of the most significant entities found in this explanation, 
+namely the logical classes, the requirements and the feature {main_entity}.
+</p>
+
+<h5>Views</h5>
+
+<p>
+To see an overview of the relations between feature {main_entity} and implementation classes, select the functional view tab. 
 </p>
 
 <p>
-The subsequent sections contain descriptions of the most significant entities found in this explanation, 
-namely the logical classes, the requirements and the feature {main_entity}.
+To see how the implementation classes are mapped to the architectural patterns, select the pattern view tab.
+</p>
+
+<h5>Interactive relationship diagram</h5>
+<p>
+The left-side panel demonstrates how the feature {main_entity} maps to the implementation 
+classes via the Logical view. Clicking on any entity will highlight the paths to its other related entities. 
+To see all available actions, click the round "i" button at the top left of the panel.
 </p>

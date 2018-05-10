@@ -1,8 +1,8 @@
 /* Clusters */
 .clusters rect {
   stroke: lightgrey;
-  stroke-dasharray: 20,20;
-  stroke-width: 3px;
+  /* stroke-dasharray: 20,20; */
+  stroke-width: 10px;
   transition: stroke-width 1s;
   transition: opacity 0.3s;
   pointer-events: none;
@@ -10,6 +10,7 @@
 
 .clusters text {
  font-size: 35px;
+ font-weight:bold;
  opacity: 0.6;
  cursor:pointer;
  transition: fill 0.1s;
@@ -18,7 +19,7 @@
 
 
 .cluster.unselected rect {
-  stroke-dasharray: 20,20;
+  /* stroke-dasharray: 20,20; */
 }
 
 .cluster.selected rect {
@@ -38,16 +39,18 @@
 
 .dummy.node rect{
   stroke: gray;
-  stroke-dasharray: 20,20;
-  stroke-width: 3px;
+  /* stroke-dasharray: 20,20; */
+  stroke-width: 10px;
   transition: stroke-width 1s;
   transition: opacity 0.3s;
   pointer-events: none;
+  stroke-opacity:1;
 }
 
 .dummy.node text{
   font-size: 35px;
   opacity: 0.6;
+  font-weight:bold;
   cursor:pointer;
   transition: fill 0.1s;
   transition: opacity 0.3s;
@@ -103,8 +106,16 @@
 /* General */
 text {
   font-weight: 300;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serf;
-  font-size: 25px;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  font-size: 30px;
+}
+
+rect:focus{
+  outline:none;
+}
+
+button:focus{
+  outline:none;
 }
 
 /* Dropdown */

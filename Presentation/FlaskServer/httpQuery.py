@@ -753,16 +753,28 @@ class ExplanationTemplates:
         return template
 
     def getQuestion(self, summary):
-        firstMatch = re.search('<!--[ ]*{[ ]*question:.*}[ ]*-->', summary)
-        question = firstMatch.group(0)
-        question = re.sub('<!--[ ]*{[ ]*question:[ ]*', '', question)
-        question = re.sub('[ ]*}[ ]*-->', '', question)
-        return question
+        firstMatch = re.search('<!--[ ]*{[ ]*question:.*?}[ ]*-->', summary)
+        question = ''
+        question2 = ''
+        
+        if firstMatch:
+            question = firstMatch.group(0)
+            question = re.sub('<!--[ ]*{[ ]*question:[ ]*', '', question)
+            question = re.sub('[ ]*}[ ]*-->', '', question)
 
+        secondMatch = re.search('<!--[ ]*{[ ]*original question:.*?}[ ]*-->', summary)
+
+        if secondMatch:
+            question2 = secondMatch.group(0)
+            question2 = re.sub('<!--[ ]*{[ ]*original question:[ ]*', '', question2)
+            question2 = re.sub('[ ]*}[ ]*-->', '', question2)
+
+        return {'original': question2, 'sub': question}
+        
 
     def createSection(self, structure, id, title, summary='', priority=1):
         section = Section(id, title, sectionSummary=summary, priority=priority)
-        children = []
+        # children = []
 
         for entity in structure:
             diagrams = []
@@ -772,14 +784,13 @@ class ExplanationTemplates:
                     caption = caption[0][1]
 
                 diagrams.append({'uri': diagram, 'caption': caption})
-                
 
             entitySection = Section(self.getNameFromUri(entity.uri), 
                                     self.getNameOfEntity(entity),
                                     sectionSummary='This section shortly describes the ' + self.formatName(self.getNameFromUri(entity.type)) + ' ' + self.getNameOfEntity(entity) + '.', 
                                     sectionTextContent=[(self.getNameFromUri(structure[0]), structure[1]) for structure in entity.dataTypeProperties], 
                                     sectionDiagrams=diagrams)
-            children.append(self.getNameFromUri(entity.uri))
+            # children.append(self.getNameFromUri(entity.uri))
             section.addChild(entitySection.toDict())
         return section
 
@@ -836,7 +847,8 @@ class ExplanationTemplates:
         overviewSectionSummary = 'This section presents and describes diagrams that encapsulate all of the logical entities found in this explanation.'
         overviewSection = Section('logical_overview', 'Overview', sectionSummary=overviewSectionSummary, priority=99)
         overviewSection.addChild(dummySection.toDict())
-        logicalSection.addChild(overviewSection.toDict())
+        logicalSection.addChild(overviewSection
+        .toDict())
 
         expTemplate.addSection(logicalSection.toDict())
 
@@ -853,6 +865,64 @@ class ExplanationTemplates:
        
         return expTemplate.toDict()
         
+    def generateFunctionalFeatureImplementationSummary(self, mainEntityUri, structure):
+        
+        mainEntity = [entity for entity in structure.entities if entity.uri == mainEntityUri][0]
+        req = list(filter(lambda e: e.type == self.baseUri + 'FunctionalRequirement', structure.entities))
+        impl = list(filter(lambda e: self.baseUri + 'ImplementationClass' in e.supertypes, structure.entities))
+
+        template = self.openText('static/explanationTemplates/FunctionalViewImplementation.txt')
+        summary = template.format(main_entity=self.getNameOfEntity(mainEntity), nbr_requirements=len(req), nbr_implementation=len(impl))
+        question = self.getQuestion(summary)
+
+        sectionImplOverview = 'This section shows all implementation classes related to {main_entity}.'
+        sectionImplOverview = sectionImplOverview.format(main_entity=self.getNameOfEntity(mainEntity))
+        implSection = self.createSection(impl, 'impl_section', 'Implementation classes',
+                               summary=sectionImplOverview, priority=3)
+
+        expTemplate = Template(question, summary)
+        expTemplate.addSection(implSection.toDict())
+
+        return expTemplate
+        
+    def generatePatternFeatureImplementationSummary(self, mainEntityUri, structure):
+        
+        mainEntity = Entity(mainEntityUri)
+        impl = list(filter(lambda e: e.type == self.baseUri + 'ImplementationClass', structure.entities))
+        role = list(filter(lambda e: e.type == self.baseUri + 'Role', structure.entities))
+        arch = list(filter(lambda e: e.type == self.baseUri + 'ArchitecturalPattern', structure.entities))
+        dev = list(filter(lambda e: self.baseUri + 'DevelopmentStructure' in e.supertypes, structure.entities))
+
+        template = self.openText('static/explanationTemplates/PatternViewImplementation.txt')
+        summary = template.format(main_entity=self.getNameOfEntity(mainEntity), nbr_impl=len(impl), nbr_dev=len(dev),
+                                  nbr_role=len(role), nbr_arch_patt=len(arch))
+        question = self.getQuestion(summary)
+
+        sectionImplOverview = 'This section shows all implementation classes related to {main_entity}.'
+        sectionImplOverview = sectionImplOverview.format(main_entity=self.getNameOfEntity(mainEntity))
+        
+        implSection = self.createSection(impl, 'impl_section', 'Implementation classes',
+                               summary=sectionImplOverview, priority=1)
+        
+        sectionRoleOverview = 'This section shows all architectural pattern roles that are implemented by the implementation classes'
+        roleSection = self.createSection(role, 'role_section', 'Pattern roles',
+                               summary=sectionRoleOverview, priority=3)
+        
+        sectionDevOverview = 'This section shows all development entities related to the implementation classes.'
+        devSection = self.createSection(dev, 'dev_section', 'Development entities',
+                               summary=sectionDevOverview, priority=2)
+        
+        sectionArchOverview = 'This section shows all architectural patterns related to the pattern roles and implementation classes.'
+        archSection = self.createSection(arch, 'arch_section', 'Architectural patterns',
+                               summary=sectionArchOverview, priority=4)
+
+        expTemplate = Template(question, summary)
+        expTemplate.addSection(implSection.toDict())
+        expTemplate.addSection(roleSection.toDict())
+        expTemplate.addSection(archSection.toDict())
+        expTemplate.addSection(devSection.toDict())
+
+        return expTemplate
 
     #WHAT IS THE RATIONALE BEHIND THE CHOICE OF THIS ARCHITECTURE?
     def generatePatternSummary(self, mainEntityUri, structure):

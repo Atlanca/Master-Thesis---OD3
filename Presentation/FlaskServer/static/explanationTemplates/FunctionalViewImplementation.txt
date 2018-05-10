@@ -1,0 +1,29 @@
+<!-- {{question: How is the feature {main_entity} mapped to its implementation?}} -->
+
+<p>
+The functionality of feature {main_entity} can be decomposed into {nbr_requirements} requirements. They are realized 
+by the architecture which in turn is implemented by {nbr_implementation} implementation classes in the source code.  
+</p>
+
+<p>
+The subsequent sections contain descriptions of the most significant entities found in this explanation, 
+namely the feature, the requirements and the implementation classes {main_entity}.
+</p>
+
+
+<h5>Interactive relationship diagram</h5>
+
+<p>
+The left-side panel illustates the requirements to {main_entity} and the implementation classes related to them. 
+This is an overview of the mapping between Purchase products and the source code. 
+</p>
+
+<h5>Views</h5>
+
+<p>
+To see a more detailed view of how the requirements are mapped to the source code, select the logical view tab.
+</p>
+
+<p>
+To see how the implementation classes are mapped to the architectural patterns, select the pattern view tab.
+</p>
