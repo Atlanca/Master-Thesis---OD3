@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="/static/css/w3.css">
     <link rel="stylesheet" href="/static/css/ClusteringGraphStyle.css">
     <link rel="stylesheet" href="/static/css/explanationPageStyle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <head>
     {% block head %}
     <script src="/static/libraries/d3.min.js"></script>
@@ -23,10 +24,20 @@
         
         <!-- Interactive diagram -->
         <div class='interactive-diagram-base'>
-          <div class='w3-light-blue interactive-diagram-tab-container'></div>
+            <div class='interactive-diagram-tab-container'></div>
+
           <div class='w3-border info'><b>i</b>
             <script src='/static/info.js'></script>
           </div>
+
+          <div class='view-navigation back'><i onclick='nextTab()' class="fa fa-chevron-circle-left"></i>
+          </div>
+          
+          <div class='view-navigation forward'><i onclick='previousTab()' class="fa fa-chevron-circle-right"></i>
+            <script src=''></script>
+          </div>
+
+
           {% for view in entityData %}
             <div class='{{view}} interactive_diagram w3-white w3-border' style='display:block;'>
               <svg class='{{view}} interactive_diagram_svg' style='background-color:{{entityData[view].background}};user-select: none;'></svg>
@@ -40,7 +51,7 @@
 
         <!-- Sidebar -->
         <div id='explanationSidebar'class="w3-sidebar w3-bar-block side-bar"> 
-          <div class='w3-light-blue w3-border-left w3-border-indigo side-bar-toggle'>
+          <div class='w3-border-left w3-border-indigo side-bar-toggle'>
             <div class='side-bar-toggle-button-wrapper'>
               <button class="w3-large button1" onclick="sidebarToggle('explanationSidebar')"/>
             </div>

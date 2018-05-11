@@ -4,15 +4,15 @@
 
 <!-- Tabs -->
 {% for view in entityData %}
-  <button class='{{entityData[view].tab_id}} roundedTopCorners side-bar-tab' onclick='toggleTab("{{entityData[view].tab_id}}", "{{view}}")'>{{ entityData[view].tab_name }}</button>    
+  <button class='{{view}} roundedTopCorners side-bar-tab' onclick='toggleTab("{{view}}")'>{{ entityData[view].tab_name }}</button>    
 {% endfor %} 
 
 {% for view in entityData %}
-  <div class='{{entityData[view].tab_id}} w3-light-gray side-bar-content-base {{view}}' style='display:none'>
+  <div class='{{view}} w3-light-gray side-bar-content-base' style='display:none'>
     <!-- Question -->
-    <h2><b>Question:</b> {{entityData[view].explanation.question.sub}}</h2>
+    <h3><b>Question:</b> {{entityData[view].explanation.question.sub}}</h3>
     {% if entityData[view].explanation.question.original %}
-      <h3><b>Original question:</b> {{entityData[view].explanation.question.original}}</h3>
+      <h4 style='color:#848484'>Original question: {{entityData[view].explanation.question.original}}</h4>
     {% endif %}
     <hr class='thick'> 
 
@@ -71,7 +71,7 @@
   </div>
 {% endfor %} 
 <script>
-    toggleTab('functional_view_tab', 'functional')
+    toggleTab("functional")
 </script>
 
 

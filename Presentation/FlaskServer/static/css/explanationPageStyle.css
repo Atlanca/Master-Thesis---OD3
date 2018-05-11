@@ -22,6 +22,7 @@
 }
 
 .side-bar-tab {
+    color:black !important;
     height:50px;
     border:none;
     background:none;
@@ -64,6 +65,18 @@
     float:left;
 }
 
+
+div.functional {
+    background-color: #ff644f;
+}
+
+div.logical {
+    background-color: #3a96f2;
+}
+div.pattern {
+    background-color: #b2ea09;
+}
+
 .interactive_diagram {
     height:93%;
     width:99.5%;
@@ -104,76 +117,6 @@
     color:#bcb084
 }
 
-/* VIEW SIDEBAR THEMES */
-.logical h2{
-    font-size:22px;
-    color: #424a70;
-}
-
-.logical h3 {
-    font-size:20px;
-    color:#587199;
-}
-
-.logical h4 {
-    color:#7999b5
-}
-
-.logical h5 {
-    font-size:18px;
-    color:#92a7b2;
-}
-
-.logical hr.thick{
-    border-color: #587199;
-}
-
-.functional h2{
-    font-size:22px;
-    color: #7a4845;
-}
-
-.functional h3 {
-    font-size:20px;
-    color:#a35151;
-}
-
-.functional h4 {
-    color:#c16464;
-}
-
-.functional h5 {
-    font-size:18px;
-    color:#d6a0a0;
-}
-
-.functional hr.thick{
-    border-color: #a35151;
-}
-
-.pattern h2{
-    font-size:22px;
-    color: #64775b;
-}
-
-.pattern h3 {
-    font-size:20px;
-    color:#719157;
-}
-
-.pattern h4 {
-    color:#879b6f
-}
-
-.pattern h5 {
-    font-size:18px;
-    color:#a2b596;
-}
-
-.pattern hr.thick{
-    border-color: #719157;
-}
-
 /* Popup */
 .popup {
     z-index : 100;
@@ -198,6 +141,38 @@
     background-color:lightcyan;
 }
 
+/* VIEW NAVIGATION */
+.view-navigation.forward {
+    right:2%;
+    top:50%;
+}
+
+.view-navigation.back {
+    left:1%;
+    top:50%;
+}   
+
+.view-navigation .fa {
+    font-size: 40px;
+}
+
+.view-navigation {
+    position:absolute;
+    color:black;
+    opacity:0.1;
+    transition: color 0.5s;
+    cursor: pointer;
+}
+
+.view-navigation:hover {
+    color:cornflowerblue;
+}
+
+
+/* .view-back:hover {
+    background-color:lightcyan;
+} */
+
 /* Tooltip */
 
 .tippy-tooltip {
@@ -206,13 +181,18 @@
 
 /* General */
 
+h3{
+    font-size: 22px;
+}
+
 hr{
-    border-color:#a0c3d6;
     opacity:0;
     margin: 0px;
 } 
 
 hr.thick{
+    border-color:black !important;
+    opacity: 0.7 !important;
     border-width: 1px;
     opacity:1;
     margin-top: 15px; 
@@ -227,6 +207,7 @@ h1,h2,h3,h4,h5 {
     font-family: "Trebuchet MS", Helvetica, sans-serif !important;
 }
 
-p{
+.side-bar-content-base p {
+    color: #606060;
     font-family: "Trebuchet MS", Helvetica, sans-serif !important;
 }
