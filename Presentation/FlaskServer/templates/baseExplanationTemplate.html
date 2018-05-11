@@ -21,7 +21,13 @@
   <body>
     <div id="content">
       <div>
-        
+        <script>tabs = []</script>
+        {% for view in entityData %}
+          <script>
+          tabs.push("{{view}}")
+          initializeTabs(tabs)
+          </script>
+        {% endfor %}
         <!-- Interactive diagram -->
         <div class='interactive-diagram-base'>
             <div class='interactive-diagram-tab-container'></div>

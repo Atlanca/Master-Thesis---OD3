@@ -11,12 +11,11 @@ function centerSVG(svg){
 var tabList = []
 var currentView
 
-function toggleTab(view){
-    
-    if (!tabList.includes(view)){
-        tabList.push(view)
-    }
-    
+function initializeTabs(tablist){
+    tabList = tablist
+}
+
+function toggleTab(view){    
     currentView = view
 
     tab_display = d3.select('button.' + view).style('display')
@@ -38,8 +37,6 @@ function toggleTab(view){
     
     d3.select('.side-bar-toggle').classed(view, true)
     d3.select('.interactive-diagram-tab-container').classed(view, true)
-
-
 }
 
 function mod(n, m) {
@@ -49,7 +46,11 @@ function mod(n, m) {
 function previousTab(){
     if (currentView){
         index = tabList.indexOf(currentView)
-        nextIndex = mod((index + 1), (tabList.length))
+        if(index < 2)
+            nextIndex = index + 1
+        else{
+            previousIndex = index
+        }
         toggleTab(tabList[nextIndex])
     }
 }
@@ -57,8 +58,11 @@ function previousTab(){
 function nextTab(){
     if(currentView){
         index = tabList.indexOf(currentView)
-        previousIndex = mod((index - 1), (tabList.length))
-        console.log(tabList[previousIndex] + ', ' + previousIndex + ', ' + tabList.length)
+        if(index > 0)
+            previousIndex = index - 1
+        else{
+            previousIndex = index
+        }
         toggleTab(tabList[previousIndex])
     }
 }
