@@ -9,7 +9,7 @@
 }
 
 .clusters text {
- font-size: 35px;
+ font-size: 50px !important;
  font-weight:bold;
  opacity: 0.6;
  cursor:pointer;
@@ -48,7 +48,7 @@
 }
 
 .dummy.node text{
-  font-size: 35px;
+  font-size: 50px;
   opacity: 0.6;
   font-weight:bold;
   cursor:pointer;
@@ -106,8 +106,9 @@
 /* General */
 text {
   font-weight: 300;
-  font-family: "Trebuchet MS", Helvetica, sans-serif;
-  font-size: 30px;
+  /* font-family: Verdana, Geneva, sans-serif; */
+  font-family: Rajdhani;
+  font-size: 38px;
 }
 
 rect:focus{
@@ -131,7 +132,7 @@ button:focus{
 }
 
 .drop-down_item_text {
-  font-size: 25px;
+  font-size: 38px;
   fill: white;
   stroke: none;
   opacity: 0;

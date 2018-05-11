@@ -5,6 +5,9 @@
     <link rel="stylesheet" href="/static/css/ClusteringGraphStyle.css">
     <link rel="stylesheet" href="/static/css/explanationPageStyle.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Play|Poiret+One|Rajdhani" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Arapey|Domine|Nanum+Myeongjo|Philosopher" rel="stylesheet">
+
   <head>
     {% block head %}
     <script src="/static/libraries/d3.min.js"></script>
@@ -36,16 +39,16 @@
             <script src='/static/info.js'></script>
           </div>
 
-          <div class='view-navigation back'><i onclick='nextTab()' class="fa fa-chevron-circle-left"></i>
+          <div class='view-navigation back' style='display:none'><i onclick='previousTab()' class="fa fa-chevron-circle-left"></i>
           </div>
           
-          <div class='view-navigation forward'><i onclick='previousTab()' class="fa fa-chevron-circle-right"></i>
+          <div class='view-navigation forward'><i onclick='nextTab()' class="fa fa-chevron-circle-right"></i>
             <script src=''></script>
           </div>
 
 
           {% for view in entityData %}
-            <div class='{{view}} interactive_diagram w3-white w3-border' style='display:block;'>
+            <div class='{{view}} interactive_diagram w3-white w3-border-top w3-border-blue-gray' style='display:block;'>
               <svg class='{{view}} interactive_diagram_svg' style='background-color:{{entityData[view].background}};user-select: none;'></svg>
               <script>
                 structure = JSON.parse({{entityData[view].entity_structure | tojson | safe}})
@@ -57,12 +60,11 @@
 
         <!-- Sidebar -->
         <div id='explanationSidebar'class="w3-sidebar w3-bar-block side-bar"> 
-          <div class='w3-border-left w3-border-indigo side-bar-toggle'>
+          <div class='w3-border-left w3-border-blue-gray side-bar-toggle'>
             <div class='side-bar-toggle-button-wrapper'>
               <button class="w3-large button1" onclick="sidebarToggle('explanationSidebar')"/>
             </div>
           </div>
-          <div style='height:1px;width:1%;float:left'></div>
           <div class='side-bar-base'>
  
               <!-- Descriptions of significant entities -->

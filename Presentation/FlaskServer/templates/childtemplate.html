@@ -3,70 +3,81 @@
 {%block entity_description %}
 
 <!-- Tabs -->
-{% for view in entityData %}
-  <button class='{{view}} roundedTopCorners side-bar-tab' onclick='toggleTab("{{view}}")'>{{ entityData[view].tab_name }}</button>    
-{% endfor %} 
+<div>
+  {% for view in entityData %}
+    {% if loop.index == 1 %}
+      <button class='{{view}} roundedRightCorner side-bar-tab' onclick='toggleTab("{{view}}")'>{{ entityData[view].tab_name }}</button>    
+    {% else %}
+      <button class='{{view}} roundedTopCorners side-bar-tab' onclick='toggleTab("{{view}}")'>{{ entityData[view].tab_name }}</button>    
+    {% endif %}
+  {% endfor %} 
+</div>
 
 {% for view in entityData %}
   <div class='{{view}} w3-light-gray side-bar-content-base' style='display:none'>
     <!-- Question -->
-    <h3><b>Question:</b> {{entityData[view].explanation.question.sub}}</h3>
-    {% if entityData[view].explanation.question.original %}
-      <h4 style='color:#848484'>Original question: {{entityData[view].explanation.question.original}}</h4>
-    {% endif %}
-    <hr class='thick'> 
-
-    <!-- Summary -->
-    <h3 class="w3-bar-item title {{view}}summary" onclick='toggleVisiblityOfDescription("{{view}}summary")' style='padding-left:0px;'>Summary&emsp;-</h3>
-    <div class='{{view}}summary' style='max-height:10000px;'>
-    {{entityData[view].explanation.summaryText|safe}}
+    <div class='w3-padding-top w3-padding-bottom side-bar-question-base'>
+      <div>
+        <h2>{{entityData[view].explanation.question.sub}}</h2>
+        {% if entityData[view].explanation.question.original %}
+          <!-- <h4 style='color:#848484;'>{{entityData[view].explanation.question.original}}</h4> -->
+        {% endif %}
+      </div>
     </div>
-    <hr class='thick'>
-    
-    {%- for section in entityData[view].explanation.sections recursive %}
-    {%- if section in entityData[view].explanation.sections %}
-      <h3 class='{{view + section.id}} w3-bar-item title' onclick='toggleVisiblityOfDescription("{{view + section.id}}")' style='padding-left:0'>{{section.title}}&emsp;+</h3>
-      <div class='{{view + section.id}}' style='max-height:0px;display:none;opacity:0'>
-    {%- else %}
-      <h4 class='{{view + section.id}} w3-bar-item title' onclick='toggleVisiblityOfDescription("{{view + section.id}}")' style='padding-left:0'>{{section.title}}&emsp;+</h4>
-      <div class='{{view + section.id}}' style='max-height:0px;display:none;opacity:0'>
-    {%- endif %}
-
-    {% if section.summary %}
-      <p>{{section.summary|safe}}</p>
-    {% endif %}
-
-    {% for data in section.textContent %}
-      {% if data.0 %}
-        <h5>{{data.0}}</h5>
+    <div class='side-bar-text-base'>
+      <!-- Summary -->
+      <h3 class="w3-bar-item title {{view}}summary" onclick='toggleVisiblityOfDescription("{{view}}summary")' style='padding-left:0px;'>Summary&emsp;-</h3>
+      <div class='{{view}}summary' style='max-height:10000px;'>
+      {{entityData[view].explanation.summaryText|safe}}
+      </div>
+      <hr class='thick'>
+      
+      {%- for section in entityData[view].explanation.sections recursive %}
+      {%- if section in entityData[view].explanation.sections %}
+        <h3 class='{{view + section.id}} w3-bar-item title' onclick='toggleVisiblityOfDescription("{{view + section.id}}")' style='padding-left:0'>{{section.title}}&emsp;+</h3>
+        <div class='{{view + section.id}}' style='max-height:0px;display:none;opacity:0'>
+      {%- else %}
+        <h4 class='{{view + section.id}} w3-bar-item title' onclick='toggleVisiblityOfDescription("{{view + section.id}}")' style='padding-left:0'>{{section.title}}&emsp;+</h4>
+        <div class='{{view + section.id}}' style='max-height:0px;display:none;opacity:0'>
+      {%- endif %}
+  
+      {% if section.summary %}
+        <p>{{section.summary|safe}}</p>
       {% endif %}
-      {% if data.1 %}
-        <p>{{data.1|safe}}</p>
-      {% endif %}
-    {% endfor %}
+  
+      {% for data in section.textContent %}
+        {% if data.0 %}
+          <h5>{{data.0}}</h5>
+        {% endif %}
+        {% if data.1 %}
+          <p>{{data.1|safe}}</p>
+        {% endif %}
+      {% endfor %}
+  
+      {% for diagram in section.diagrams %}
+        {% if diagram %}
+        <div class='w3-padding w3-border w3-white' style='width:100%; text-align:center;'>
+          <img class='w3-margin-bottom' src='/{{diagram_file_paths[diagram.uri]}}' style='width:100%'></p>
+          <p>{{diagram.caption}}</p>
+        </div>  
+  
+        {% endif %}
+      {% endfor %}
+      
+      {%- if section.children%}
+        {{ loop(section.children) }}
+      {%- endif %}
+      
+      </div>
+  
+      {%- if section in entityData[view].explanation.sections %}
+        <hr class='thick'>  
+      {%- else %}
+        <hr>      
+      {%- endif %}
+    {%- endfor %}
 
-    {% for diagram in section.diagrams %}
-      {% if diagram %}
-      <div class='w3-padding w3-border w3-white' style='width:100%; text-align:center;'>
-        <img class='w3-margin-bottom' src='/{{diagram_file_paths[diagram.uri]}}' style='width:100%'></p>
-        <p>{{diagram.caption}}</p>
-      </div>  
-
-      {% endif %}
-    {% endfor %}
-    
-    {%- if section.children%}
-      {{ loop(section.children) }}
-    {%- endif %}
-    
     </div>
-
-    {%- if section in entityData[view].explanation.sections %}
-      <hr class='thick'>  
-    {%- else %}
-      <hr>      
-    {%- endif %}
-  {%- endfor %}
 
   </div>
 {% endfor %} 

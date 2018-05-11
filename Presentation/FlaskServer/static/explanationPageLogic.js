@@ -20,13 +20,13 @@ function toggleTab(view){
 
     tab_display = d3.select('button.' + view).style('display')
     if (tab_display || tab.display == 'none'){
-        d3.selectAll('.side-bar-tab').classed('w3-light-grey', false)
+        d3.selectAll('.side-bar-tab').classed('selected', false)
 
         d3.selectAll('div.side-bar-content-base').style('display', 'none')
         d3.selectAll('.interactive_diagram').style('display', 'none')
 
         d3.select('div.side-bar-content-base.' + view).style('display', 'block')
-        d3.select('button.' + view).classed('w3-light-grey', true)
+        d3.select('button.' + view).classed('selected', true)
         d3.select('.' + view + '.interactive_diagram').style('display', 'block')
     }
 
@@ -43,24 +43,30 @@ function mod(n, m) {
     return ((n % m) + m) % m;
 }
 
-function previousTab(){
+function nextTab(){
     if (currentView){
         index = tabList.indexOf(currentView)
-        if(index < 2)
+        if(index < tabList.length - 1){
             nextIndex = index + 1
-        else{
-            previousIndex = index
+            d3.select('.view-navigation.back').style('display', 'block')
+            if(nextIndex == tabList.length - 1)
+                d3.select('.view-navigation.forward').style('display', 'none')
+        }else{
+            nextIndex = index
         }
         toggleTab(tabList[nextIndex])
     }
 }
 
-function nextTab(){
+function previousTab(){
     if(currentView){
         index = tabList.indexOf(currentView)
-        if(index > 0)
+        if(index > 0){
             previousIndex = index - 1
-        else{
+            d3.select('.view-navigation.forward').style('display', 'block')
+            if(previousIndex == 0)
+                d3.select('.view-navigation.back').style('display', 'none')
+        }else{
             previousIndex = index
         }
         toggleTab(tabList[previousIndex])
@@ -97,8 +103,6 @@ function toggleVisiblityOfDescription(className){
     }
 }
 
-
-
 function screen_height(){
     console.log(screen.height)
     return screen.height
@@ -109,7 +113,7 @@ function sidebarToggle(id) {
     if(sidebarOpen){
         d3.select('#' + id).transition()
         .duration(500)
-        .style('transform', 'translateX(36%)')
+        .style('transform', 'translateX(49%)')
         sidebarOpen=false
     }else{
         d3.select('#' + id)
