@@ -6,7 +6,7 @@
 <div>
   {% for view in entityData %}
     {% if loop.index == 1 %}
-      <button class='{{view}} roundedRightCorner side-bar-tab' onclick='toggleTab("{{view}}")'>{{ entityData[view].tab_name }}</button>    
+      <button class='{{view}} roundedRightCorner side-bar-tab' style='padding-left:30px' onclick='toggleTab("{{view}}")'>{{ entityData[view].tab_name }}</button>    
     {% else %}
       <button class='{{view}} roundedTopCorners side-bar-tab' onclick='toggleTab("{{view}}")'>{{ entityData[view].tab_name }}</button>    
     {% endif %}

@@ -65,6 +65,9 @@ function buildDiagram(structure, view){
     .setGraph({edgesep: 50, ranksep: 100, nodesep: 50, rankdir: 'LR'})
     .setDefaultEdgeLabel(function() { return {}; });
 
+    var entityToNodeIdMap = {}
+    entityToNodeIdMap[view] = {}
+
     // Adding clusters
     structure.entities.forEach(function(e){
         // Create invisible entity type clusters
@@ -108,12 +111,13 @@ function buildDiagram(structure, view){
     structure.entities.forEach(function(e){ 
         if(e.uri.includes('dummy_')){
             if(Object.keys(ontologyCategories).includes(e.type)){
-                g.setNode(getNameOfUri(e.uri), {id: getNameOfUri(e.uri), label: getNameOfEntity(e), width: 500, style: 'fill:' + getEntityColor(e)})
+                g.setNode(getNameOfUri(e.uri), {id: getNameOfUri(e.uri), label: getNameOfEntity(e), width: 800, style: 'fill:' + getEntityColor(e)})
             }else{
-                g.setNode(getNameOfUri(e.uri), {id: getNameOfUri(e.uri), label: getNameOfEntity(e), width: 300, style: 'fill:' + getEntityColor(e)})
+                g.setNode(getNameOfUri(e.uri), {id: getNameOfUri(e.uri), label: getNameOfEntity(e), width: 500, style: 'fill:' + getEntityColor(e)})
             }
         }else{
-            g.setNode(getNameOfUri(e.uri), {id: getNameOfUri(e.uri), label: getNameOfEntity(e), style: 'fill:' + getEntityColor(e)})  
+            g.setNode(getNameOfUri(e.uri), {id: getNameOfUri(e.uri), label: getNameOfEntity(e), style: 'fill:' + getEntityColor(e)})
+            entityToNodeIdMap[view][getNameOfUri(e.uri)] = e
         }
         g.setParent(getNameOfUri(e.uri), getNameOfUri(e.type))
         
@@ -162,13 +166,11 @@ function buildDiagram(structure, view){
         clusters = d3.select('.interactive_diagram.' + view).select('.clusters')
         cluster = d3.select('.interactive_diagram.' + view).select('#' + oc)
         if(cluster.node()){
-            console.log(cluster.node())
             clusters.node().insertBefore(cluster.node(), clusters.node().childNodes[0])
         }
     })
 
     // Lighten the colors a bit
-    console.log(d3.select('.interactive_diagram.' + view).selectAll('rect'))
     d3.select('.interactive_diagram.' + view)
     .selectAll('rect')
     .each(function(){
@@ -524,7 +526,6 @@ function buildDiagram(structure, view){
                 isOntCategory = false
                 structure.entities.forEach(function(e){
                     if(e.uri.includes(id)){
-                        console.log(e.type)
                         if(Object.keys(ontologyCategories).includes(e.type)){
                             isOntCategory = true
                         }
@@ -535,8 +536,8 @@ function buildDiagram(structure, view){
                     nodeRect.attr('height', clusterBBox.height)
                     .attr('y', clusterBBox.y)
                 }else{
-                    nodeRect.attr('height', clusterBBox.height - 150)
-                    .attr('y', clusterBBox.y + 75)
+                    nodeRect.attr('height', clusterBBox.height - 250)
+                    .attr('y', clusterBBox.y + 125)
                 }
                
             }
@@ -666,16 +667,14 @@ function buildDiagram(structure, view){
                     .attr('y', -nodeHeight/2)
                     .attr('width', '0')
                     .attr('height', '1')
+                    .attr('rx','5')
+                    .attr('ry','5')
                     .transition()
                     .duration(200)
                     .attr('width', '350px')
                     .transition()
                     .duration(200)
                     .attr('height', nodeHeight*3)
-                    .attr('rx','5')
-                    .attr('ry','5')
-                    .style('stroke', '#424242')
-                    .style('fill', '#424242')
                     
                     //Drop-down arrow change to white
                     d3.select(this.parentNode)
@@ -711,7 +710,12 @@ function buildDiagram(structure, view){
                             .style('opacity', '0')
                         })
                         .on('click', function(){
-                            createPopup()
+                            id = d3.select(this.parentNode).attr('id')
+                            createEmptyPopup()
+                            input = entityToNodeIdMap[view][id].diagrams
+                            $.post('popup/diagram', {'figure': input}, function(data){
+                                addPopupContent(data)
+                            })
                         })
 
                         d3.select(parent.parentNode)
@@ -764,7 +768,8 @@ function buildDiagram(structure, view){
 
     }
 
-    function createPopup(){
+    function createEmptyPopup(){
+
         width = 80
         height = 90
         d3.select('body')
@@ -793,14 +798,14 @@ function buildDiagram(structure, view){
         .style('transform', 'translate(-50%,50%)')
         .style('width', width + "%")
         .style('height', height + "%")
-        
+    }
 
+    function addPopupContent(popupContent){
         d3.select('#popup-view')
-        .html(getPopup())
+        .html(popupContent)
 
         var s = document.createElement('script')
-        s.src = 'popup-graph.js'
-
+        s.src = '/static/popup-graph.js'
         document.getElementById('popup-view').appendChild(s)
 
         d3.select('#close_popup')
@@ -816,7 +821,7 @@ function buildDiagram(structure, view){
         "<button class='w3-button w3-light-grey w3-border-right roundedTopCorners' style='height:5%;background-color:#b8dced;float:left;font-size:13px'>Figure_3_4</button>" +
         "<button class='w3-button w3-light-grey w3-border-right roundedTopCorners' style='height:5%;background-color:#b8dced;float:left;font-size:13px'>Figure_3_2</button>" +
         "<button id='close_popup' class='w3-light-grey w3-button w3-text-indigo roundedTopCorners w3-border-right w3-border-top' style='height:5%;margin:0;float:right'><b>X</b></button>" +
-        "<a href='popup-window.html' class='w3-button roundedTopCorners w3-border-right' target='_blank' style='height:5%;margin:0;float:right'>Open in new window</a>" +
+        "<a href='/static/popup-window.html' class='w3-button roundedTopCorners w3-border-right' target='_blank' style='height:5%;margin:0;float:right'>Open in new window</a>" +
         "<div class='w3-white w3-border-bottom' style='width:100%;height:5%;font-size:13px'></div> " +
         "<div id ='diagram_image_div' class='w3-white w3-border-right' style='width:65%;height:95%;float:left;position:relative'> " +
         "   <svg id='diagram_image' height='100%' width='100%'></svg>"+

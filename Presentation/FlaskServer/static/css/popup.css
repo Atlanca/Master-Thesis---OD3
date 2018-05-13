@@ -1,0 +1,42 @@
+.popup button.left-side {
+    height:5%;
+    float:left;
+    font-size:13px;
+    background-color:lightgrey;
+    border: none;
+}
+
+.popup div.tab-bar {
+    width:100%;
+    height:5%;
+}
+
+.popup button.selected {
+    background-color: white;
+}
+
+.popup .right-side {
+    height:5% !important;
+    margin:0 !important;
+    float:right !important;
+} 
+
+.popup div.right-panel {
+    width:65%;
+    height:95%;
+    float:left;
+    position:relative;
+}
+
+.popup div.left-panel {
+    height:95%;
+    padding-top:16px;
+    padding-bottom:16px;
+}
+
+.popup div.left-panel-content-base {
+    overflow-y:scroll;
+    width:33.7%;
+    height:95%;
+    float:left;
+}

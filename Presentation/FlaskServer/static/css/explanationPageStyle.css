@@ -1,6 +1,6 @@
 .side-bar {
     background-color:lightgray;
-    width:50%;
+    width:37%;
     right:0;
     padding-right:0px;
 }
@@ -72,7 +72,7 @@
     border:none;
     background:none;
     margin:0px;
-    padding-left:30px;
+    padding-left:16px;
     padding-right:16px;
 }
 
@@ -119,17 +119,6 @@ div.logical {
 div.pattern {
     background-color: #acb598;
 }
-/* 
-div.functional {
-    background-color: #ff644f;
-}
-
-div.logical {
-    background-color: #3a96f2;
-}
-div.pattern {
-    background-color: #b9e231;
-} */
 
 .interactive_diagram {
     height:93%;
@@ -224,11 +213,6 @@ div.pattern {
     color:cornflowerblue;
 }
 
-
-/* .view-back:hover {
-    background-color:lightcyan;
-} */
-
 /* Tooltip */
 
 .tippy-tooltip {
@@ -243,41 +227,39 @@ hr{
 } 
 
 hr.thick{
-    border-color:black !important;
-    opacity: 0.7 !important;
+    border-color:black;
+    opacity: 0.7;
     border-width: 1px;
-    opacity:1;
     margin-top: 15px; 
     margin-bottom: 15px; 
 }
 
 button {
-    font-family: 'Domine';
-    letter-spacing: 2px;
+    font-family: 'Verdana';
+    font-size: 16px;
+    letter-spacing: -1px;
 }
 
+h1, h2, h3, h4, h5, .sidebar p, .popup p{
+    font-family: 'Verdana';
+    font-weight: 400;
+    letter-spacing: -1px;
+}
+
+
 h2 {
-    font-size: 30px;
-    font-weight: 300 !important;
-    font-family: 'Domine';
-    /* font-family: 'Arapey'; */
-    /* font-family: 'Nanum Myeongjo'; */
-    letter-spacing: 3px;
-    /* font-family: Verdana, Geneva, sans-serif !important; */
-    /* text-transform: uppercase; */
+    font-size: 22px;
 }
 
 
 h3{
     color: #4c4c4c;
-    font-size: 22px;
-    /* text-transform: uppercase; */
+    font-size: 21px;
 }
 
 h4 {
     color: #4c4c4c;
     font-size: 20px;
-    /* text-transform: uppercase; */
 }
 
 h5 {
@@ -285,21 +267,7 @@ h5 {
     font-size: 18px;
 }
 
-h1,h3,h4,h5 {
-    /* letter-spacing: 1px; */
-    font-family: 'Domine';
-    /* font-family: Verdana, Geneva, sans-serif !important; */
-    /* font-family: 'Rajdhani'; */
-    font-weight: 400;
-}
-
-.side-bar-content-base p {
+.side-bar p, .popup p {
     color: #808080;
-    /* font-family: Verdana, Geneva, serif !important; */
-    font-family: 'Domine';
-    /* font-family: 'Rajdhani'; */
-    line-height: 2;
-    letter-spacing: 1px;
-    font-size: 16px !important;
-    font-weight: 400 !important;
+    font-size: 16px;
 }

@@ -1,0 +1,8 @@
+<p>
+The left diagram illustrates the relations between the {classes}. 
+</p>
+
+<p>
+The subsequent sections consists of two parts: description of the left diagram as a whole and descriptions of each entity 
+found in that diagram.
+</p>

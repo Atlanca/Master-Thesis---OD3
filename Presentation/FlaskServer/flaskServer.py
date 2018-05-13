@@ -4,6 +4,10 @@ import httpQuery
 import re
 
 app = Flask(__name__, static_url_path="/static")
+baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
+explanationGenerator = httpQuery.ExplanationGenerator()
+explanationTemplates = httpQuery.ExplanationTemplates()
+
 
 def diagramUriToFileName(diagramName):
     match = re.search('\\wigure_\\d\.\\d+', diagramName)
@@ -12,11 +16,7 @@ def diagramUriToFileName(diagramName):
 
 @app.route('/index')
 def index():
-    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
-    
-    explanationGenerator = httpQuery.ExplanationGenerator()
-    explanationTemplates = httpQuery.ExplanationTemplates()
-    
+        
     structure = explanationGenerator.getLogicalFeatureToImplementationMap(baseUri + 'purchase_products')
     explanation = explanationTemplates.generateLogicalFeatureImplementationSummary(baseUri + 'purchase_products', structure)
 
@@ -30,12 +30,8 @@ def index():
                             explanation=explanation,
                             structure=json.dumps(structure.toDict()))
                             
-@app.route('/q2/logical/<feature>')
+@app.route('/q2/<feature>')
 def q2_logical(feature):
-    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
-    
-    explanationGenerator = httpQuery.ExplanationGenerator()
-    explanationTemplates = httpQuery.ExplanationTemplates()
 
     functionalStructure = explanationGenerator.getFunctionalFeatureToImplementationMap(baseUri + feature)
     func_explanation = explanationTemplates.generateFunctionalFeatureImplementationSummary(baseUri + feature, functionalStructure)
@@ -58,3 +54,13 @@ def q2_logical(feature):
                                         'pattern': {'tab_id':'pattern_view_tab', 'tab_name': 'Pattern view', 'entity_structure': json.dumps(patternStructure.toDict()), 'explanation': pattern_explanation, 'background': '#f4fffc'}
                                         })
                             
+@app.route('/q2/popup/diagram', methods=['POST'])
+def q2_popup_diagram():
+    figureUriList = request.form.getlist('figure[]')
+    explanation = {}
+    for figureUri in figureUriList:
+        explanation[diagramUriToFileName(figureUri)] = {'diagramFilePath': '/static/images/' + diagramUriToFileName(figureUri) + '.png',
+                                  'description': explanationTemplates.generatePopupFigureDescription(figureUri).toDict(),
+                                  'newWindowPath': '/static/something.html'}
+
+    return render_template('popup.html', explanations=explanation)

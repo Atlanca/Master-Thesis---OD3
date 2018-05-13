@@ -1,17 +1,23 @@
-var diagram_svg = d3.select("#diagram_image"),
-diagram_group = diagram_svg.append("g");
+setZoomForAll()
 
-// Set up zoom support
-var diagram_zoom = d3.zoom()
-.on("zoom", function() {
-    diagram_group.attr("transform", d3.event.transform);
-});
-diagram_svg.call(diagram_zoom);
+function setZoomForAll(){
+    var diagram_svg = d3.selectAll("#diagram_image")
+    diagram_svg.each(function(){
+        diagram_group = d3.select(this).select('g')
 
-diagram_group.append("svg:image")
-.attr("xlink:href", "static/images/figure_3_10.png")
+        // Set up zoom support
+        d3.select(this).call(zoom(diagram_group));
+        centerSVG(diagram_group.select('image'))
+    })
+    
+}
 
-image = diagram_group.select('image')
-centerSVG(image)
+function zoom(diagram_group){
+    var diagram_zoom = d3.zoom()
+    .on("zoom", function() {
+        diagram_group.attr("transform", d3.event.transform);
+    }); 
+    return diagram_zoom
+}
 
 

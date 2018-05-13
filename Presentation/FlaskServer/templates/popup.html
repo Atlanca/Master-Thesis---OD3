@@ -1,0 +1,65 @@
+
+{% for key, value in explanations.items() %}
+    {% if loop.index == 1 %}
+    <button id='{{key}}_button' onclick='toggleVisibility("popup-content_{{key}}")' class='popup-content_{{key}} w3-border-right roundedTopCorners left-side selected'>{{key}}</button>
+    {% else %}
+    <button id='{{key}}_button' onclick='toggleVisibility("popup-content_{{key}}")' class='popup-content_{{key}} w3-border-right roundedTopCorners left-side'>{{key}}</button>
+    {% endif %}
+{% endfor %}
+
+<button id='close_popup' class='w3-light-grey w3-button roundedTopCorners w3-border-right w3-border-top right-side'><b>X</b></button>
+
+<a href='/static/popup.html' class='w3-button roundedTopCorners w3-border-right right-side' target='_blank'>Open in new window</a>
+
+<div class='w3-white w3-border-bottom tab-bar'></div> 
+
+{% for name, explanation in explanations.items() %}
+    {% if loop.index == 1 %}
+    <div class='popup-content_{{name}} popup-content' style='height:100%; overflow:hidden; display:block'>
+    {% else%}
+    <div class='popup-content_{{name}} popup-content' style='height:100%; overflow:hidden; display:none'>       
+    {% endif %}
+        <div id ='{{name}}_image_div' class='height:100%; width:100%; w3-white w3-border-right right-panel'> 
+            <svg id='diagram_image' height='100%' width='100%'>
+                <g style='width:100%;height:100%'>
+                    <image href="{{explanation.diagramFilePath}}"/> 
+                </g>
+            </svg>
+        </div>
+    
+        <div class='left-panel'>
+            <div class='w3-container w3-light-gray left-panel-content-base'>
+                <h2 class='title popup_overview' onclick='toggleVisiblityOfDescription("popup_overview")'>{{explanation.description.question.sub}}&emsp;-</h2>
+                <div class='popup_overview' style='display:block;'>{{explanation.description.summaryText | safe}}</div>
+                <hr class='thick'>
+                {% for section in explanation.description.sections %}
+                    <h3 class='title popup_{{section.id}}' onclick='toggleVisiblityOfDescription("popup_{{section.id}}")'>{{section.title}}&emsp;+</h3>
+                    <div class='popup_{{section.id}}' style='display:none;'>
+                        {{section.summary | safe}}
+                        {% for content in section.textContent %}
+                            <h5>{{content[0]}}</h5>
+                            {{content[1] | safe}}
+                            <hr>
+                        {% endfor %}
+                        {% for subsection in section.children %}
+                            <h4 class='title popup_{{subsection.id}}' onclick='toggleVisiblityOfDescription("popup_{{subsection.id}}")'>{{subsection.title}}&emsp;+</h4>
+                            <div class='popup_{{subsection.id}}' style='display:none;'>
+                                {{subsection.summary | safe}}
+                                <h5>Type</h5>
+                                <p>{{subsection.entityType}}</p>
+                                {% for content in subsection.textContent %}
+                                    <h5>{{content[0]}}</h5>
+                                    {{content[1] | safe}}
+                                {% endfor %}
+                            </div>
+                            <hr>
+                        {% endfor %}
+                    </div>                    
+                    <hr class='thick'>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+

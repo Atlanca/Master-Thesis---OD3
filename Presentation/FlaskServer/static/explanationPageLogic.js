@@ -10,7 +10,6 @@ function centerSVG(svg){
 
 var tabList = []
 var currentView
-
 function initializeTabs(tablist){
     tabList = tablist
 }
@@ -73,11 +72,52 @@ function previousTab(){
     }
 }
 
+function toggleVisibility(className){
+    tab_content = d3.select('div.' + className)
+    tab_button = d3.select('button.' + className)
+    tab_display = tab_content.style('display')
+    
+    // If this tab already selected, return
+    if(tab_button.classed('selected')){
+        return
+    }
+    
+    // Hide everything
+    d3.selectAll('.left-side').classed('selected', false)
+    d3.selectAll('.popup-content').style('display', 'none')
+
+    // Display tab
+    if (tab_display == 'block') {
+        tab_content
+        .transition()
+        .ease(d3.easeCubic)
+        .style("opacity", 0)
+        .style("display",'none')
+        .duration(300)
+        .style("max-height", "0px")
+        
+        tab_button
+        .classed('selected', false)
+        
+    } else {
+        tab_content
+        .style("display", "block")
+        .transition()
+        .duration(300)
+        .style("opacity", "1")
+        .style("max-height", "20000px")
+
+        tab_button
+        .classed('selected', true)
+    }
+}
+
 function toggleVisiblityOfDescription(className){
+    console.log(className)
     inner = d3.select('.title.' + className).html()
     tab_display = d3.select('div.' + className).style('display')
 
-    if (tab_display || tab_display == 'none') {
+    if (tab_display == 'block') {
         d3.select('.title.' + className)
         .html(inner.substring(0, inner.length-1) + '+')
 
@@ -113,8 +153,9 @@ function sidebarToggle(id) {
     if(sidebarOpen){
         d3.select('#' + id).transition()
         .duration(500)
-        .style('transform', 'translateX(49%)')
+        .style('transform', 'translateX(36%)')
         sidebarOpen=false
+        console.log(d3.select('#'+id).style('width'))
     }else{
         d3.select('#' + id)
         .transition()

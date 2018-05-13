@@ -10,11 +10,12 @@
 
 .clusters text {
  font-size: 50px !important;
- font-weight:bold;
  opacity: 0.6;
  cursor:pointer;
  transition: fill 0.1s;
  transition: opacity 0.3s;
+ letter-spacing: 2px;
+
 }
 
 
@@ -50,10 +51,10 @@
 .dummy.node text{
   font-size: 50px;
   opacity: 0.6;
-  font-weight:bold;
   cursor:pointer;
   transition: fill 0.1s;
   transition: opacity 0.3s;
+  letter-spacing: 2px;
 }
 
 .node.selected rect.nodeRect {
@@ -106,8 +107,7 @@
 /* General */
 text {
   font-weight: 300;
-  /* font-family: Verdana, Geneva, sans-serif; */
-  font-family: Rajdhani;
+  font-family: 'Verdana';
   font-size: 38px;
 }
 
@@ -122,12 +122,12 @@ button:focus{
 /* Dropdown */
 .drop-down_container{
   stroke: #424242;
-  fill: #424242;
+  fill: #424242 !important;
 }
 
 .drop-down_item {
   stroke: none;
-  fill: gray;
+  fill: #424242;
   opacity: 0;
 }
 

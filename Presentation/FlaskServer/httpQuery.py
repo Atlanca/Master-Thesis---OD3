@@ -1,6 +1,7 @@
 import requests
 import json
 import re
+import inflect
 
 from SPARQLWrapper import SPARQLWrapper, JSON
 
@@ -616,9 +617,10 @@ class ExplanationGenerator:
 
     
 class Section:
-    def __init__(self, sectionId, sectionTitle, sectionTextContent=None, sectionSummary='', priority=0, sectionDiagrams=None, children=None):
+    def __init__(self, sectionId, sectionTitle, entityType='', sectionTextContent=None, sectionSummary='', priority=0, sectionDiagrams=None, children=None):
         self.sectionId = sectionId
         self.sectionTitle = sectionTitle
+        self.entityType = entityType
         self.sectionSummary = self.formatToHTML(sectionSummary)
         if sectionTextContent:
             self.sectionTextContent = [(value[0], self.formatToHTML(value[1])) for value in sectionTextContent]
@@ -644,7 +646,9 @@ class Section:
         self.children.sort(key=lambda x: x['priority'], reverse=True)
 
     def toDict(self):
-        return {'id': self.sectionId, 'title': self.sectionTitle, 
+        return {'id': self.sectionId, 
+                'title': self.sectionTitle, 
+                'entityType': self.entityType,
                 'textContent': self.sectionTextContent, 
                 'summary': self.sectionSummary,
                 'diagrams': self.sectionDiagrams,
@@ -673,7 +677,9 @@ class ExplanationTemplates:
     def __init__(self):
         self.baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
         self.informationRetriever = InformationRetriever()
+        self.pluralEngine = inflect.engine()
 
+    # HELPERS
     def getNameFromUri(self, uri):
         return (re.sub(".+#", '', uri))	
 
@@ -691,6 +697,11 @@ class ExplanationTemplates:
             return entity.label
         else: 
             return self.getNameFromUri(entity.uri)
+
+    def diagramUriToFileName(self, diagramName):
+        match = re.search('\\wigure_\\d\.\\d+', diagramName)
+        finalString = re.sub('\.', '_', str(match.group(0)))
+        return finalString
 
     def formatName(self, relationName):
         nameStr = ''
@@ -726,7 +737,6 @@ class ExplanationTemplates:
                 finalName += word + ' '
             else:
                 finalName += word
-        print(finalName)
         return finalName
     
     def formatListOfEntities(self, elist):
@@ -770,13 +780,33 @@ class ExplanationTemplates:
             question2 = re.sub('[ ]*}[ ]*-->', '', question2)
 
         return {'original': question2, 'sub': question}
-        
 
-    def createSection(self, structure, id, title, summary='', priority=1):
+    def classesToText(self, entities):
+        entityTypes = {}
+        for entityUri in entities:
+            entity = Entity(entityUri)
+            entityType = self.getNameFromUri(entity.type)
+            
+            if entityType not in list(entityTypes.keys()):
+                entityTypes[entityType] = []
+            
+            entityTypes[entityType].append(entity)
+
+        text = ''
+        for index, entityType in enumerate(entityTypes):
+            size = str(len(entityTypes[entityType]))
+            text += size + ' ' + self.pluralEngine.plural(self.formatName(entityType), size)
+            if index < len(entityTypes) - 2:
+                text += ', '
+            elif index == len(entityTypes) - 2:
+                text += 'and'
+
+        return text
+
+    def createSection(self, entityList, id, title, summary='', priority=1):
         section = Section(id, title, sectionSummary=summary, priority=priority)
-        # children = []
 
-        for entity in structure:
+        for entity in entityList:
             diagrams = []
             for diagram in entity.diagrams:
                 caption = self.informationRetriever.getRelations(diagram, self.baseUri + 'Caption')
@@ -787,10 +817,10 @@ class ExplanationTemplates:
 
             entitySection = Section(self.getNameFromUri(entity.uri), 
                                     self.getNameOfEntity(entity),
+                                    entityType=self.getNameFromUri(entity.type),
                                     sectionSummary='This section shortly describes the ' + self.formatName(self.getNameFromUri(entity.type)) + ' ' + self.getNameOfEntity(entity) + '.', 
-                                    sectionTextContent=[(self.getNameFromUri(structure[0]), structure[1]) for structure in entity.dataTypeProperties], 
+                                    sectionTextContent=[(self.getNameFromUri(content[0]), content[1]) for content in entity.dataTypeProperties], 
                                     sectionDiagrams=diagrams)
-            # children.append(self.getNameFromUri(entity.uri))
             section.addChild(entitySection.toDict())
         return section
 
@@ -809,6 +839,7 @@ class ExplanationTemplates:
                 overviewDiagrams[diagram] = {'name': self.formatDiagramName(self.getNameFromUri(diagram)), 'description' : overviewDiagramDescription, 'caption': overviewDiagramCaption}
         return overviewDiagrams
 
+    # EXPLANATIONS
     # HOW IS THIS FEAURE MAPPED TO THE IMPLEMENTATION?
     def generateLogicalFeatureImplementationSummary(self, mainEntityUri, structure):
         
@@ -924,47 +955,32 @@ class ExplanationTemplates:
 
         return expTemplate
 
-    #WHAT IS THE RATIONALE BEHIND THE CHOICE OF THIS ARCHITECTURE?
-    def generatePatternSummary(self, mainEntityUri, structure):
-        mainEntity = Entity(mainEntityUri)
-        roles = list(filter(lambda e: e.type == self.baseUri + 'Role', structure.entities))
-        devStruct = list(filter(lambda e: self.baseUri + 'DevelopmentStructure' in e.supertypes, structure.entities))
-
-        architectureComponents = str(len(devStruct)) + ' Development structure fragments'
-        roleListString = self.entitiesToListString(roles)
-        devStructListString = self.entitiesToListString(devStruct)
+    def generatePopupFigureDescription(self, figureUri):
+        figureEntity = Entity(figureUri)
         
-        template = self.openText('static/explanationTemplates/RationaleOfArchitectureTemplate2.txt')
-        template = template.format(pattern=self.getNameOfEntity(mainEntity), architectureComponents=architectureComponents, sumRoles=len(roles),
-                        componentTypes=roleListString, architecturalEntities=devStructListString)
-
-        return template
-    
-    def generatePatternSummary2(self, mainEntityUri, structure):
-        mainEntity = Entity(mainEntityUri)
-        designOptions = list(filter(lambda e: e.type == self.baseUri + 'DesignOption', structure.entities))
-        patterns = list(filter(lambda e: e.type == self.baseUri + 'ArchitecturalPattern', structure.entities))
-        arguments = list(filter(lambda e: e.type == self.baseUri + 'Argument', structure.entities))
-        constraints = list(filter(lambda e: e.type == self.baseUri + 'Constraint', structure.entities))
-        assumptions = list(filter(lambda e: e.type == self.baseUri + 'Assumption', structure.entities))
-
-        print(arguments)
-
-        relationChoiceChoice = self.formatName('causedBy')
-        relationChoicePattern = self.formatName('resultsIn')
-        relationChoiceArgument = self.formatName('basedOn')
+        template = self.openText('static/explanationTemplates/FigureSummary.txt')
+        
+        relatedEntityUris = [entity[1] for entity in self.informationRetriever.getRelations(figureUri, self.baseUri + 'models')]
+        summary = template.format(classes=self.classesToText(relatedEntityUris))
+        question = {'sub': 'View diagrams','orginial': ''}
 
 
-        argumentsConstraintsAssumptions = self.formatListOfEntities([arguments, constraints, assumptions])
+        figureid = 'popup_' + self.diagramUriToFileName(self.getNameFromUri(figureUri)) 
+        figuretitle = self.getNameOfEntity(figureEntity)
+        figureSummary = ''
 
-        designOptionListString = self.entitiesToListString(designOptions)
-        patternsListListString = self.entitiesToListString(patterns)
+        entityid = 'popup_entity_overview_' + self.diagramUriToFileName(self.getNameFromUri(figureUri)) 
+        entitySummary = 'This section shows short descriptions of each entity illustrated the diagram.'
 
-        template = self.openText('static/explanationTemplates/RationaleOfArchitectureTemplate1.txt')
-        template = template.format(mainChoice=self.getNameOfEntity(mainEntity), relationChoiceChoice=relationChoiceChoice,
-                                     relationChoicePattern=relationChoicePattern, relationChoiceArgument=relationChoiceArgument,
-                                     argumentsConstraintsAssumptions=argumentsConstraintsAssumptions, designOptions=designOptionListString,
-                                     patterns=patternsListListString, nrChoice=len(designOptions), nrPattern=len(patterns))
+        relatedEntities = [Entity(e) for e in relatedEntityUris]
+        figureSection = Section(figureid, figuretitle, figureSummary, priority=5,
+                        sectionTextContent=[(self.getNameFromUri(content[0]), content[1]) for content in figureEntity.dataTypeProperties])
+        entitySection = self.createSection(relatedEntities, entityid, 'Entities related to diagram', entitySummary)
+
+        template = Template(question, summary)
+        template.addSection(figureSection.toDict())
+        template.addSection(entitySection.toDict())
+
         return template
 
 def testing():
@@ -972,9 +988,9 @@ def testing():
     eg = ExplanationGenerator()
     et = ExplanationTemplates()
     baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
-    implementation = ir.getIndividualsByType(baseUri + 'ImplementationClass')
+    # implementation = ir.getIndividualsByType(baseUri + 'ImplementationClass')
     # es = eg.getLogicalFeatureToImplementationMap(baseUri + 'purchase_products')
-    es = eg.getFunctionalFeatureToImplementationMap(baseUri + 'purchase_products')
+    # es = eg.getFunctionalFeatureToImplementationMap(baseUri + 'purchase_products')
     # exp = et.generateLogicalFeatureImplementationSummary(baseUri + 'purchase_products', es)
     # es = eg.getImplementationToArchitecturalPatternMap(implementation)
     #es = eg.getRationaleOfArchitecture(baseUri + 'thin_client_MVC')
@@ -985,11 +1001,12 @@ def testing():
     #print(es)
     #print(et.generatePatternSummary2(baseUri + 'choice_mixed_client_MVC', es))
     # return es
-    test = [baseUri + 'Cart', baseUri + 'Order']
-    pred = [r[1] for r in ir.getRelations(sub = baseUri + 'figure_3.10_class_diagram_of_the_system')]
-    print(set(test)<set(pred))
-    print(es)
-    return es
+    su = et.generatePopupFigureDescription(baseUri + 'figure_3.10_class_diagram_of_the_system')
+    # test = [baseUri + 'Cart', baseUri + 'Order']
+    # pred = [r[1] for r in ir.getRelations(sub = baseUri + 'figure_3.10_class_diagram_of_the_system')]
+    # print(set(test)<set(pred))
+    print(su.toDict())
+    return su.summaryText
 
 def writeToFile(inputData):
     f = open('../ExperimentationGraphs/static/explanationData.js', 'w') 
