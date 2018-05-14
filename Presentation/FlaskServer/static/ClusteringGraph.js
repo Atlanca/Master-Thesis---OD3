@@ -686,7 +686,7 @@ function buildDiagram(structure, view){
 
                     //Create drop-down items
                     item_counter = 0
-                    function addDropdownItem(parent, name){
+                    function addDropdownItem(parent, name, callback=null){
                         d3.select(parent.parentNode)
                         .append('rect')
                         .attr('class', 'drop-down_item')
@@ -710,12 +710,9 @@ function buildDiagram(structure, view){
                             .style('opacity', '0')
                         })
                         .on('click', function(){
-                            id = d3.select(this.parentNode).attr('id')
-                            createEmptyPopup()
-                            input = entityToNodeIdMap[view][id].diagrams
-                            $.post('popup/diagram', {'figure': input}, function(data){
-                                addPopupContent(data)
-                            })
+                            if (callback) {
+                                callback(this)
+                            }
                         })
 
                         d3.select(parent.parentNode)
@@ -737,8 +734,19 @@ function buildDiagram(structure, view){
                         item_counter++
                     }
 
-                    addDropdownItem(this, 'View diagrams')
-                    addDropdownItem(this, 'Explain entity')
+                    addDropdownItem(this, 'View diagrams', function(object){                        
+                        id = d3.select(object.parentNode).attr('id')
+                        createEmptyPopup()
+                        input = entityToNodeIdMap[view][id].diagrams
+                        $.post('popup/diagram', {'figure': input}, function(data){
+                            addPopupContent(data)
+                        })
+                    })
+
+                    addDropdownItem(this, 'Explain entity', function(object){
+                        
+                    })
+
                     addDropdownItem(this, 'Explain relations')
 
                 }else{

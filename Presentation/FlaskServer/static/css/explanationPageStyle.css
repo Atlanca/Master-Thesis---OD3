@@ -1,3 +1,39 @@
+.test .menu-button:hover{
+    background-color:lightgray !important;
+}
+
+.query-loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+    z-index: 1050;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+
+@keyframes spin {
+    0% { transform: translate(-60px,-60px) rotate(0deg); }
+    100% { transform: translate(-60px,-60px) rotate(360deg); }
+}
+
+.query-loader-background {
+    background-color: black !important;
+    opacity: 0.3 !important;
+    width: 100%;
+    height: 100%;
+    z-index: 949 !important;
+    position: absolute;
+}
+
+.menu-button.selected {
+    background-color: lightgray !important;
+    color: black !important;
+}
+
 .side-bar {
     background-color:lightgray;
     width:37%;
@@ -108,8 +144,9 @@
     float:left;
 }
 
+
+
 div.functional {
-    /* background-color: #bc9eaa; */
     background-color: #a3949d;
 }
 

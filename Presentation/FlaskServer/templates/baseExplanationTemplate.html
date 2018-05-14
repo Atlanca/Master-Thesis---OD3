@@ -34,7 +34,46 @@
         {% endfor %}
         <!-- Interactive diagram -->
         <div class='interactive-diagram-base'>
-            <div class='interactive-diagram-tab-container'></div>
+            <div class='interactive-diagram-tab-container'>
+                <div class='w3-dropdown-click' style='height:100%;width:50px;'>
+                    <button class='menu-button w3-button' onclick='toggleMenu(this, "menu-button", "main-menu-item")' style='height:100%;width:100%;color:white'><i class='fa fa-bars' aria-hidden='true'></i></button>
+                    <div class='main-menu-item w3-dropdown-content w3-bar-block w3-border' style='width:200px;'>
+                        <a href="#" class="w3-bar-item w3-button">Home</a>
+                        <a href="#" class="w3-bar-item w3-button">Settings</a>
+                    </div>
+                </div>
+                <div class='w3-dropdown-click test' style='height:100%;width:50px;'>
+                  <button class='menu-button w3-button' onclick='toggleMenu(this, "menu-button", "main-menu-item")' style='height:100%;width:100%;color:white'><i class='fa fa-search' aria-hidden='true'></i></button>
+                  <div class='main-menu-item w3-dropdown-content w3-bar-block w3-border' style='padding-bottom:20px;'>
+                    <div class='w3-container w3-margin' style='width:700px'>
+                      <h4>Select question</h4>
+                      <select id='menu-search-question-select' style='height:50px;width:650px;'>
+                        <option value="q1">What is the role of this feature?</option>
+                        <option value="q2">How is this feature mapped to its implementation?</option>
+                        <option value="q3">What is the behavior of this feature?</option>
+                        <option value="q4">How is this what is the rationale behind the choice of this architecture?</option>
+                      </select>
+                      <div class='w3-border' style='float:left;margin-top:16px;display:inline-block'>
+                        <input id='menu-search-input' class='w3-input' style='border:none;float:left;width:540px;height:50px;' type='text' placeholder='Name of entity...'>                            
+                        <button class='w3-button' onclick='performSearch("menu-search-question-select", "menu-search-input")' style='border:none;width:50px;height:50px;float:left;background-color:gray'>
+                          <i class="fa fa-search" style='color:white;font-size:25px;' aria-hidden="true"></i> 
+                        </button>
+                      </div>
+                      <button class='w3-button w3-border' style='margin-left:8px; margin-top:16px; float:left;border:none;width:50px;height:50px;float:left;background-color:white;'>
+                          <i class="fa fa-plus" style='color:black;font-size:25px;' aria-hidden="true"></i> 
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class='w3-dropdown-click' style='height:100%;width:50px;'>
+                    <button class='menu-button w3-button' onclick='toggleMenu(this, "menu-button", "main-menu-item")' style='height:100%;width:100%;color:white'><i class='fa fa-history' aria-hidden='true'></i></button>
+                    <div id='history_menu' class='main-menu-item w3-dropdown-content w3-bar-block w3-border' style='width:300px;'>
+                        <a href="#" class="w3-bar-item w3-button">2018-05-14 15:56 Some action</a>
+                        <a href="#" class="w3-bar-item w3-button">2018-05-14 15:54 Some action</a>
+                        <a href="#" class="w3-bar-item w3-button">2018-05-14 15:52 Some action</a>
+                    </div>
+                </div>
+            </div>
 
           <div class='w3-border info'><b>i</b>
             <script src='/static/info.js'></script>
@@ -50,7 +89,7 @@
 
           {% for view in entityData %}
             <div class='{{view}} interactive_diagram w3-white w3-border-top w3-border-blue-gray' style='display:block;'>
-              <svg class='{{view}} interactive_diagram_svg' style='background-color:{{entityData[view].background}};user-select: none;'></svg>
+              <svg class='{{view}} interactive_diagram_svg' style='background-color:"{{entityData[view].background}}";user-select: none;'></svg>
               <script>
                 structure = JSON.parse({{entityData[view].entity_structure | tojson | safe}})
                 buildDiagram(structure, '{{view}}')

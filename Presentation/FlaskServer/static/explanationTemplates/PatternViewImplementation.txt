@@ -2,9 +2,9 @@
 <!-- {{original question: How is the feature {main_entity} mapped to its implementation?}} -->
 
 <p>
-This view shows how the implementation classes that are related to the feature {main_entity} are related to the architectural patterns.
+This view shows how the implementation classes that are related to the feature {main_entity} are related to the architectural patterns. 
 The {nbr_impl} implementation classes are related to a total of {nbr_dev} development entities. The development entities together play {nbr_role} 
-different roles.
+different roles. 
 The roles are finally part of {nbr_arch_patt} architectural patterns. 
 </p>
 

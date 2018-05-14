@@ -155,7 +155,6 @@ function sidebarToggle(id) {
         .duration(500)
         .style('transform', 'translateX(36%)')
         sidebarOpen=false
-        console.log(d3.select('#'+id).style('width'))
     }else{
         d3.select('#' + id)
         .transition()
@@ -166,4 +165,40 @@ function sidebarToggle(id) {
         .style('transform', 'translateX(-0%)')
         sidebarOpen=true
     }
+
+}
+
+function toggleMenu(elem, menuButtonClass, menuContentClass){
+    menu = d3.select(elem.parentNode).select('.' + menuContentClass)
+    if(menu.classed('w3-show')){
+        menu.classed('w3-show', false)
+        d3.select(elem).classed('selected', false)
+    }else{
+        d3.selectAll('.' + menuContentClass).classed('w3-show', false)
+        d3.selectAll('.' + menuButtonClass).classed('selected', false)
+
+        menu.classed('w3-show', true)
+        d3.select(elem).classed('selected', true)
+    }
+
+}
+
+function performSearch(question_select, query_input){
+    selectElem = document.getElementById(question_select)
+    selectValue = selectElem.options[selectElem.selectedIndex].value;
+
+    d3.select('body')
+    .append('div')
+    .classed('query-loader-background', true)
+    .append('div')
+    .classed('query-loader', true)
+    .style('transform', 'translate(50px, 50px)')
+
+    query = document.getElementById(query_input).value;
+    setTimeout(function(){
+        document.location.href = 'http://localhost:5000/' + selectValue + '/' + query
+    },500);
+
+    return false;
+
 }

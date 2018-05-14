@@ -1,0 +1,11 @@
+{% extends "popup.html" %}
+
+{% block svg %}
+<div id ='{{name}}_image_div' class='height:100%; width:100%; w3-white w3-border-right right-panel'> 
+    <svg id='diagram_image' height='100%' width='100%'>
+        <g style='width:100%;height:100%'>
+            <image href="{{explanation.diagramFilePath}}"/> 
+        </g>
+    </svg>
+</div>
+{% endblock svg %}

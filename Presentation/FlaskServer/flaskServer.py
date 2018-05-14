@@ -63,4 +63,15 @@ def q2_popup_diagram():
                                   'description': explanationTemplates.generatePopupFigureDescription(figureUri).toDict(),
                                   'newWindowPath': '/static/something.html'}
 
-    return render_template('popup.html', explanations=explanation)
+    return render_template('popupImageDiagram.html', explanations=explanation)
+                            
+@app.route('/q2/popup/interactivediagram', methods=['POST'])
+def q2_popup_interactive_diagram():
+    figureUriList = request.form.getlist('figure[]')
+    explanation = {}
+    for figureUri in figureUriList:
+        explanation[diagramUriToFileName(figureUri)] = {'diagramFilePath': '/static/images/' + diagramUriToFileName(figureUri) + '.png',
+                                  'description': explanationTemplates.generatePopupFigureDescription(figureUri).toDict(),
+                                  'newWindowPath': '/static/something.html'}
+
+    return render_template('popupInteractiveDiagram.html', explanations=explanation)
