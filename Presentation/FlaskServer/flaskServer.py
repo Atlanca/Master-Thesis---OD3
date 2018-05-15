@@ -1,18 +1,14 @@
 import json
 from flask import Flask, request, send_from_directory, render_template, Markup
-import httpQuery
+import explanationTemplatingEngine
+import explanationStructureGenerator
+import explanationHelper
 import re
 
 app = Flask(__name__, static_url_path="/static")
 baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
-explanationGenerator = httpQuery.ExplanationGenerator()
-explanationTemplates = httpQuery.ExplanationTemplates()
-
-
-def diagramUriToFileName(diagramName):
-    match = re.search('\\wigure_\\d\.\\d+', diagramName)
-    finalString = re.sub('\.', '_', str(match.group(0)))
-    return finalString
+explanationGenerator = explanationStructureGenerator.ExplanationGenerator()
+explanationTemplates = explanationTemplatingEngine.ExplanationTemplates()
 
 @app.route('/index')
 def index():
@@ -20,8 +16,7 @@ def index():
     structure = explanationGenerator.getLogicalFeatureToImplementationMap(baseUri + 'purchase_products')
     explanation = explanationTemplates.generateLogicalFeatureImplementationSummary(baseUri + 'purchase_products', structure)
 
-    diagramFilePaths = {diagram: 'static/images/' + diagramUriToFileName(diagram) + '.png' for entity in structure.entities for diagram in set(entity.diagrams)}
-    print(diagramFilePaths)
+    diagramFilePaths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in structure.entities for diagram in set(entity.diagrams)}
 
     return render_template('childtemplate.html', 
                             tab_buttons=['Functional view', 'Logical view', 'Pattern view'],  
@@ -43,8 +38,7 @@ def q2_logical(feature):
     patternStructure = explanationGenerator.getImplementationToArchitecturalPatternMap(implementationEntityUris)
     pattern_explanation = explanationTemplates.generatePatternFeatureImplementationSummary(baseUri + feature, patternStructure)
 
-    diagramFilePaths = {diagram: 'static/images/' + diagramUriToFileName(diagram) + '.png' for entity in logicalStructure.entities for diagram in set(entity.diagrams)}
-    print(diagramFilePaths)
+    diagramFilePaths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in logicalStructure.entities for diagram in set(entity.diagrams)}
 
     return render_template('childtemplate.html', 
                             diagram_path='static/ClusteringGraph.js', 
@@ -59,7 +53,7 @@ def q2_popup_diagram():
     figureUriList = request.form.getlist('figure[]')
     explanation = {}
     for figureUri in figureUriList:
-        explanation[diagramUriToFileName(figureUri)] = {'diagramFilePath': '/static/images/' + diagramUriToFileName(figureUri) + '.png',
+        explanation[explanationHelper.diagramUriToFileName(figureUri)] = {'diagramFilePath': '/static/images/' + explanationHelper.diagramUriToFileName(figureUri) + '.png',
                                   'description': explanationTemplates.generatePopupFigureDescription(figureUri).toDict(),
                                   'newWindowPath': '/static/something.html'}
 
@@ -70,7 +64,7 @@ def q2_popup_interactive_diagram():
     figureUriList = request.form.getlist('figure[]')
     explanation = {}
     for figureUri in figureUriList:
-        explanation[diagramUriToFileName(figureUri)] = {'diagramFilePath': '/static/images/' + diagramUriToFileName(figureUri) + '.png',
+        explanation[explanationHelper.diagramUriToFileName(figureUri)] = {'diagramFilePath': '/static/images/' + explanationHelper.diagramUriToFileName(figureUri) + '.png',
                                   'description': explanationTemplates.generatePopupFigureDescription(figureUri).toDict(),
                                   'newWindowPath': '/static/something.html'}
 
