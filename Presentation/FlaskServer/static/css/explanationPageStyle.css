@@ -3,7 +3,7 @@
 }
 
 .query-loader {
-    border: 16px solid #f3f3f3;
+    border: 16px solid rgba(255, 255, 255, 0.7);
     border-radius: 50%;
     border-top: 16px solid #3498db;
     width: 120px;
@@ -21,8 +21,8 @@
 }
 
 .query-loader-background {
-    background-color: black !important;
-    opacity: 0.3 !important;
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    /* opacity: 0.3 !important; */
     width: 100%;
     height: 100%;
     z-index: 949 !important;
@@ -85,6 +85,19 @@
     bottom:0;
     margin:auto;
 }
+
+.side-bar-tab.selected.logical {
+    color:#e1f6f7 !important;
+}
+
+.side-bar-tab.selected.pattern {
+    color:#e5f7e1 !important;
+}
+
+.side-bar-tab.selected.functional {
+    color:#ffeff5 !important;
+}
+
 
 .side-bar-tab.selected.logical {
     color:#e1f6f7 !important;
@@ -166,6 +179,16 @@ div.pattern {
 .interactive_diagram_svg {
     height:100%;
     width:100%;
+}
+
+.interactive_diagram_svg.logical {
+    background-color: #edf7fc
+}
+.interactive_diagram_svg.functional {
+    background-color:#fff4f4; 
+}
+.interactive_diagram_svg {
+    background-color:#f0fced; 
 }
 
 .button1:hover {
