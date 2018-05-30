@@ -45,75 +45,142 @@ joint.dia.Element.define('standard.Rectangle', {
 rectMap = {}
 
 baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
+
+// Assumes that there can be only a single parent for each
+// type
 $.get('http://localhost:5000/getOntology', function(data, status){
-    console.log(data)
     var ontology = JSON.parse(data)
     var types = ontology.types
     var relations = ontology.relations
 
-    types.forEach(function(type){
-        var rect = new joint.shapes.standard.Rectangle();
-        rect.position(100, 30);
-        rect.resize(100, 40);
-        rect.attr({
-            label: {
-                text: getNameOfUri(type),
-            }
-        });
-        rect.addTo(graph);
-        rectMap[getNameOfUri(type)] = rect
-    })
-
-    relations.min.forEach(function(rel){
-        var link = new joint.shapes.standard.Link()
-        link.source(rectMap[getNameOfUri(rel.source)])
-        link.target(rectMap[getNameOfUri(rel.target)])
-        link.labels([{
-            attrs: {
-                text: {
-                    //text: getNameOfUri(rel.name)
+    $.post('http://localhost:5000/getDirectSuperClassParentMap', {'types[]': types}, function(data, status){
+        parentMap = JSON.parse(data)
+    
+        types.forEach(function(type){
+            var rect = new joint.shapes.standard.Rectangle();
+            rect.position(100, 30);
+            rect.resize(100, 40);
+            rect.attr({
+                label: {
+                    text: getNameOfUri(type),
                 }
-            }
-        }])
-        link.addTo(graph)
-    })
+            });
+            rect.addTo(graph);
+            rectMap[getNameOfUri(type)] = rect
+        })
 
-    relations.exactly.forEach(function(rel){
-        var link = new joint.shapes.standard.Link()
-        link.source(rectMap[getNameOfUri(rel.source)])
-        link.target(rectMap[getNameOfUri(rel.target)])
-        link.labels([{
-            attrs: {
-                text: {
-                    //text: getNameOfUri(rel.name)
+        var min = restructureRelations(types, relations, 'min', parentMap)
+        var exactly = restructureRelations(types, relations, 'exactly', parentMap)
+        var some = restructureRelations(types, relations, 'some', parentMap)
+
+        types.forEach(function(type){
+            if(getNameOfUri(parentMap[getNameOfUri(type)].parent)){
+                var link = new joint.shapes.standard.Link()
+                link.source(rectMap[getNameOfUri(type)])
+                link.target(rectMap[getNameOfUri(parentMap[getNameOfUri(type)].parent)])
+                link.attr({
+                    '.marker-arrowhead[end="source"]': { 
+                        fill: 'red'
+                    }
+                })
+                link.labels([{
+                    attrs: {
+                        text: {
+                            text: 'ISA'
+                        }
+                    }
+                }])
+                link.addTo(graph)
+            }
+        })
+        
+        min.forEach(function(rel){
+            var link = new joint.shapes.standard.Link()
+            link.source(rectMap[getNameOfUri(rel.source)])
+            link.target(rectMap[getNameOfUri(rel.target)])
+            link.labels([{
+                attrs: {
+                    text: {
+                        text: getNameOfUri(rel.property)
+                    }
                 }
-            }
-        }])
-        link.addTo(graph)
-    })
-    relations.some.forEach(function(rel){
-        var link = new joint.shapes.standard.Link()
-        link.source(rectMap[getNameOfUri(rel.source)])
-        link.target(rectMap[getNameOfUri(rel.target)])
-        link.labels([{
-            attrs: {
-                text: {
-                    //text: getNameOfUri(rel.name)
+            }])
+            link.addTo(graph)
+        })
+    
+        exactly.forEach(function(rel){
+            var link = new joint.shapes.standard.Link()
+            link.source(rectMap[getNameOfUri(rel.source)])
+            link.target(rectMap[getNameOfUri(rel.target)])
+            link.labels([{
+                attrs: {
+                    text: {
+                        text: getNameOfUri(rel.property)
+                    }
                 }
+            }])
+            link.addTo(graph)
+        })
+        some.forEach(function(rel){
+            var link = new joint.shapes.standard.Link()
+            link.source(rectMap[getNameOfUri(rel.source)])
+            link.target(rectMap[getNameOfUri(rel.target)])
+            link.labels([{
+                attrs: {
+                    text: {
+                        text: getNameOfUri(rel.property)
+                    }
+                }
+            }])
+            link.addTo(graph)
+        })
+    
+        joint.layout.DirectedGraph.layout(graph, {
+            nodeSep: 20,
+            edgeSep: 80,
+            rankSep: 300,
+            rankDir: "LR"
             }
-        }])
-        link.addTo(graph)
-    })
-
-    joint.layout.DirectedGraph.layout(graph, {
-        nodeSep: 20,
-        edgeSep: 80,
-        rankSep: 300,
-        rankDir: "LR"
-        }
-    );
-
+        );
+    })       
 })
+
+
+function relationIncludes(list, item, STDirection){
+    var included = false
+    list.forEach(function(i){
+        itemCopy = JSON.parse(JSON.stringify(item))
+        iCopy = JSON.parse(JSON.stringify(i))
+
+        if (STDirection) {
+            iCopy.source = ''
+            itemCopy.source = ''
+        } else {
+            iCopy.target = ''
+            itemCopy.target = ''
+        }
+
+        if (JSON.stringify(iCopy) === JSON.stringify(itemCopy)){
+            included = true
+        }
+    })
+    
+    return included
+}
+
+function restructureRelations(types, relations, relationType, parentMap){
+    var relationsBySource = []
+    
+    types.forEach(function(type){
+        var typeName = getNameOfUri(type)
+        var relationsByType = relations[relationType].filter(rel => rel.source == type)
+        var relationsByParentType = relations[relationType].filter(rel => rel.source == parentMap[typeName].parent)
+        var difference = relationsByType.filter(rel => !relationIncludes(relationsByParentType, rel, true))
+
+        relationsBySource = relationsBySource.concat(difference)
+    })
+    return relationsBySource
+}
 
 // metaModel.types.forEach(function(type){
 //     var rect = new joint.shapes.standard.Rectangle();

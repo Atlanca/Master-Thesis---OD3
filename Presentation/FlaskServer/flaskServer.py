@@ -74,6 +74,25 @@ def getOntology():
 
     return json.dumps({'types': types, 'relations': relations})
 
+@app.route('/getDirectSuperClass', methods=['POST'])
+def getDirectSuperClass():
+    klass = request.form.get('type', '')
+    if klass:
+        return json.dumps(queryManager.getDirectSuperClass(klass))
+    else:
+        return ''
+
+@app.route('/getDirectSuperClassParentMap', methods=['POST'])
+def getDirectSuperClassParentMap():
+    classes = request.form.getlist('types[]')
+    if classes:
+        parentMap = {}
+        for c in classes:
+            parent = queryManager.getDirectSuperClass(c)
+            parentMap[explanationHelper.getNameFromUri(c)] = {'child': c, 'parent': parent}
+        return json.dumps(parentMap)
+    return ''
+
 
 @app.route('/q1/<feature>')
 def q1(feature):
