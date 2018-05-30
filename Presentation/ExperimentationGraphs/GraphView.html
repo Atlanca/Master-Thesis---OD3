@@ -2,22 +2,33 @@
 <html>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="ClusteringGraphStyle.css">
+    <!-- <link rel="stylesheet" href="ClusteringGraphStyle.css"> -->
     <link rel="stylesheet" href="explanationPageStyle.css">
+    <link rel="stylesheet" href="static/joint.css">
+    <link rel="stylesheet" href="interactiveGraph.css">
 </html>
 <head>
     <script src="https://d3js.org/d3.v5.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://dagrejs.github.io/project/dagre-d3/latest/dagre-d3.js"></script>
     <script src="https://unpkg.com/tippy.js@2.5.0/dist/tippy.all.min.js"></script>
     <script src="static/explanationData.js"></script>
     <script type='text/javascript' src='static/tinycolor.js'></script>
+    <script type='text/javascript' src='static/jquery.js'></script>
+    <script type='text/javascript' src='static/lodash.js'></script>
+    <script type='text/javascript' src='static/backbone.js'></script>
+    <script type='text/javascript' src='static/joint.js'></script>
+    <script type='text/javascript' src='static/graphlib.js'></script>
+    <script type='text/javascript' src='static/dagre.js'></script>
+    <script type='text/javascript' src='static/joint.layout.DirectedGraph.js'></script>
+    <script type='text/javascript' src='static/svg-pan-zoom.js'></script>
     <script type='text/javascript' src='explanationPageLogic.js'></script>
+    <script type='text/javascript' src='ontologyRelations.js'></script>
+    <script src="joint.layout.ForceDirected.js"></script>
 </head>
 
 <body> 
     <div>
-        <div id='explanationSidebar'class="w3-sidebar w3-bar-block" style="background-color:#d6d6d6;width:37%;right:0;"> 
+        <div id='explanationSidebar'class="w3-sidebar w3-bar-block" style="background-color:#d6d6d6;width:0%;right:0;"> 
             <div class='w3-light-blue w3-border-left w3-border-indigo' style='position:absolute;height:100%;width:5px;float:left;'>
                 <div style='position:absolute;height:50%;width:10px;top:0;bottom:0;margin:auto;'>
                     <button onclick="sidebarToggle('explanationSidebar')" class="w3-large button1"/>
@@ -52,22 +63,61 @@
                     <hr class='thick'> 
                     <h3 id='conceptual_model_title' class='w3-bar-item title' onclick='toggleVisiblityOfDescription("conceptual_model_description")' style='padding-left:0'>Logical classes&emsp;+</h3>
                     <div id='conceptual_model_description' style='max-height:0px;display:none;opacity:0'>
-                        <p>This section describes the logical view and the specific conceptual classes that are related to the requirements of the feature Purchase products.</p>
+                        <p> Once the checkout is finished a cart becomes an order, with 
+                            information about the current payment, shipping and order status.
+                            If the customer
+                            was not anonymous, this order will be associated with that customer, along with any 
+                            of his previous orders.
+                            While the current cart may optionally have associated information, this information is mandatory in an
+                            order instance.
+
+                        </p>
                         <hr>
                         <h4 id='conceptual_model_overview_title' class='w3-bar-item title' onclick='toggleVisiblityOfDescription("conceptual_model_overview_description")' style='padding-left:0'>Overview of the Logical view&emsp;+</h4>
                         <div id='conceptual_model_overview_description' style='max-height:0px;display:none;opacity:0'>
-                            <p>
-                                The conceptual model of this project revolves around the cart concept, while all other system elements are there to provide the required information to the cart, as seen in the class diagram below  (Figure  3.10).  Products  are  related  to  carts  as  a  list  of  product  variants,  forming  line items.  Variant  is  a  concept  to  define  the  part  of  the  product  that  contains  the  particular characteristics of it, such as color or size, even having sometimes a different price. Therefore every product has at least one variant, each one with different price or attributes. Similarly, a cart can be associated with one of the shipping methods available in the system, resulting in a shipping item, necessary to manage taxes. 
-                            </p> 
-                            <p>
-                                Both products and shipping methods have  a  particular  tax  category,  that  can  be  variable  for  products  and  fixed  in  the  case  of shipping. When one of these elements are added to the cart, a tax rate is assigned to the item according to this tax category and the shipping address of the cart. As mentioned above carts can have a shipping address, but can have as well a billing address. 
-                            </p>
-                            <p>
-                                A cart can belong to a registered customer, otherwise it is considered to have an anonymous customer. Once the checkout is finished a cart becomes an order, with information about the current payment, shipping and order status. If the customer was not anonymous, this order will be associated with that customer, along with any of his previous orders. Every customer can also have a list of addresses comprising the address book.
-                            </p>
-                            <p>Products, addresses and shipping methods can change or disappear over time, but the orders associated with them must stay in the system for an indefinite period of time, having exactly 44 the original information. To solve this issue, cart is not related to the original instances, but to instances that were created exclusively for this particular cart as a snapshot of those original instances. </p>
-                            <p>While the current cart may optionally have associated information, this information is mandatory in an order instance. For simplicity, the conceptual model only accepts product and shipping prices that do not include taxes. Allowing taxes in prices can be achieved by simply adding a boolean attribute indicating whether the price in question has taxes included or not. So assuming that taxes are not included, the net total price in the cart must be the sum of all the line item prices (i.e. the quantity in each line item multiplied by the corresponding variant price) associated with it, plus the price of the shipping method selected. In order to calculate the gross total price, taxes must be added up to this resulting net price. Taxes are calculated multiplying the price of each shipping or line item by its corresponding tax rate. </p>
-                            <p>Lastly when the shipping address is set in the cart, all tax rates from shipping and line items are calculated. Only those products that include a tax category corresponding to the zone (e.g. state, country) of the shipping address can be part of the cart. Missing the tax category means that the price cannot be calculated, thus the product is not available in that zone.</p>
+                                <p>
+                                        The conceptual model of this project revolves around the cart concept, while all other system elements 
+                                        are there to provide the required information to the cart, as seen in the class diagram below  
+                                        (Figure  3.10).  Products  are  related  to  carts  as  a  list  of  product  variants,  forming  line
+                                         items.  Variant  is  a  concept  to  define  the  part  of  the  product  that  contains  the  
+                                         particular characteristics of it, such as color or size, even having sometimes a different price. 
+                                         Therefore every product has at least one variant, each one with different price or attributes. Similarly, 
+                                         a cart can be associated with one of the shipping methods available in the system, resulting in a shipping 
+                                         item, necessary to manage taxes. 
+                                        
+                                        Both products and shipping methods have  a  particular  tax  category,  that  can  be  variable  
+                                        for  products  and  fixed  in  the  case  of shipping. When one of these elements are added to the cart, 
+                                        a tax rate is assigned to the item according to this tax category and the shipping address of the cart.
+                                         As mentioned above carts can have a shipping address, but can have as well a billing address. 
+                                        
+                                        A cart can belong to a registered customer, otherwise it is considered to have an 
+                                        anonymous customer. <font color="red">Once the checkout is finished a cart becomes an order, with 
+                                        information about the current payment, shipping and order status.</font> <font color="red">If the customer
+                                         was not anonymous, this order will be associated with that customer, along with any 
+                                         of his previous orders.</font> Every customer can also have a list of addresses comprising 
+                                         the address book.
+                                        
+                                        <font color="red">Products, addresses and shipping methods can change or disappear over time, but the orders 
+                                        associated with them must stay in the system for an indefinite period of time, having exactly 
+                                        44 the original information.</font> To solve this issue, cart is not related to the original instances, 
+                                        but to instances that were created exclusively for this particular cart as a snapshot of those original 
+                                        instances.
+                                        
+                                        <font color="red">While the current cart may optionally have associated information, this information is mandatory in an
+                                         order instance.</font> For simplicity, the conceptual model only accepts product and shipping prices that do not 
+                                         include taxes. Allowing taxes in prices can be achieved by simply adding a boolean attribute indicating whether 
+                                         the price in question has taxes included or not. So assuming that taxes are not included, the net total price in 
+                                         the cart must be the sum of all the line item prices (i.e. the quantity in each line item multiplied by the corresponding 
+                                         variant price) associated with it, plus the price of the shipping method selected. <font color="red">In order to calculate the gross total 
+                                         price, taxes must be added up to this resulting net price.</font> Taxes are calculated multiplying the price of each shipping or l
+                                         ine item by its corresponding tax rate. 
+                                        
+                                        Lastly when the shipping address is set in the cart, all tax rates from shipping and line items are calculated. 
+                                        Only those products that include a tax category corresponding to the zone (e.g. state, country) of the shipping address 
+                                        can be part of the cart. Missing the tax category means that the price cannot be calculated, thus the product is not 
+                                        available in that zone.
+                                </p>
+                                                                                                                         
                         </div>
                         <hr>
                         
@@ -157,12 +207,47 @@
         
         <div style='overflow:hidden;height:100%;position:absolute;width:100%;'>
             <div class='w3-light-blue' style='width:99.5%;height:7%;float:left;'></div>
-            <div class='w3-border info'><b>i</b>
+            <div class='w3-border info' style='margin-left:20%'><b>i</b>
                 <script src='static/info.js'></script>
             </div>
             <div id='interactive_diagram' class='w3-white w3-border' style='height:93%;width:99.5%;float:left'>
-                <svg id='interactive_diagram_svg' style='height:100%;width:100%'></svg>
-                <script src="ClusteringGraph.js"></script>  
+                <!-- <svg id='interactive_diagram_svg' style='height:100%;width:100%'></svg> -->
+                <div id='myholder' style='width:80%;height:100%;float:right;'></div>
+                <script src="metaModel.js"></script>  
+                <div id='UI' style='background-color:lightblue;width:20%;height:100%;float:right;'>
+                    <div class='w3-margin w3-bar-item'>
+                        <p>Selection: </p>
+                        <div class='w3-border w3-border-black w3-white'>
+                            <p id='entity_selection'>&emsp;</p>
+                        </div>
+                    </div>
+                    <hr class='thick'>
+                    <div class='w3-margin'>
+                        <p>Relations:</p>
+                        <select id='relations_select'>
+                        </select>
+                    </div>
+                    <button id='find_relations_button' class='w3-margin w3-button w3-green' onclick='drawRelations()'>Find relations</button>
+                    <hr class='thick'>
+                    <div class='w3-margin'>
+                        <p>Find path to:</p>
+                        <select id='path_select'>
+                            <option value="p1">ImplementationClass</option>
+                            <option value="p2">Feature</option>
+                            <option value="p3">ArchitecturalPattern</option>
+                            <option value="p4">Rationale</option>
+                        </select>
+                    </div>
+                    <div class='w3-bar-item'>
+                        <button id='find_path_button' class='w3-button w3-green w3-margin' onclick='drawPathTo()'>Find path</button>
+                    </div>
+                    <div class='w3-bar-item'>
+                        <button id='save_button' class='w3-button w3-green w3-margin' onclick='saveGraph()'>Save graph</button>
+                    </div>
+                    <div class='w3-bar-item'>
+                        <button id='load_button' class='w3-button w3-green w3-margin' onclick='loadGraph()'>Load graph</button>
+                    </div>
+                </div>
             </div>
         </div>
 

@@ -1,0 +1,40 @@
+The conceptual model of this project revolves around the cart concept, while all other system elements 
+are there to provide the required information to the cart, as seen in the class diagram below  
+(Figure  3.10).  Products  are  related  to  carts  as  a  list  of  product  variants,  forming  line
+ items.  Variant  is  a  concept  to  define  the  part  of  the  product  that  contains  the  
+ particular characteristics of it, such as color or size, even having sometimes a different price. 
+ Therefore every product has at least one variant, each one with different price or attributes. Similarly, 
+ a cart can be associated with one of the shipping methods available in the system, resulting in a shipping 
+ item, necessary to manage taxes. 
+
+Both products and shipping methods have  a  particular  tax  category,  that  can  be  variable  
+for  products  and  fixed  in  the  case  of shipping. When one of these elements are added to the cart, 
+a tax rate is assigned to the item according to this tax category and the shipping address of the cart.
+ As mentioned above carts can have a shipping address, but can have as well a billing address. 
+
+A cart can belong to a registered customer, otherwise it is considered to have an 
+anonymous customer. Once the checkout is finished a cart becomes an order, with 
+information about the current payment, shipping and order status. If the customer
+ was not anonymous, this order will be associated with that customer, along with any 
+ of his previous orders. Every customer can also have a list of addresses comprising 
+ the address book.
+
+Products, addresses and shipping methods can change or disappear over time, but the orders 
+associated with them must stay in the system for an indefinite period of time, having exactly 
+44 the original information. To solve this issue, cart is not related to the original instances, 
+but to instances that were created exclusively for this particular cart as a snapshot of those original 
+instances.
+
+While the current cart may optionally have associated information, this information is mandatory in an
+ order instance. For simplicity, the conceptual model only accepts product and shipping prices that do not 
+ include taxes. Allowing taxes in prices can be achieved by simply adding a boolean attribute indicating whether 
+ the price in question has taxes included or not. So assuming that taxes are not included, the net total price in 
+ the cart must be the sum of all the line item prices (i.e. the quantity in each line item multiplied by the corresponding 
+ variant price) associated with it, plus the price of the shipping method selected. In order to calculate the gross total 
+ price, taxes must be added up to this resulting net price. Taxes are calculated multiplying the price of each shipping or l
+ ine item by its corresponding tax rate. 
+
+Lastly when the shipping address is set in the cart, all tax rates from shipping and line items are calculated. 
+Only those products that include a tax category corresponding to the zone (e.g. state, country) of the shipping address 
+can be part of the cart. Missing the tax category means that the price cannot be calculated, thus the product is not 
+available in that zone.

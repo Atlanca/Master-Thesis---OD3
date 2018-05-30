@@ -1,7 +1,14 @@
+/* Style for menu */
 .test .menu-button:hover{
     background-color:lightgray !important;
 }
 
+.menu-button.selected {
+    background-color: lightgray !important;
+    color: black !important;
+}
+
+/* Style for menu search */
 .query-loader {
     border: 16px solid rgba(255, 255, 255, 0.7);
     border-radius: 50%;
@@ -22,16 +29,26 @@
 
 .query-loader-background {
     background-color: rgba(0, 0, 0, 0.3) !important;
-    /* opacity: 0.3 !important; */
     width: 100%;
     height: 100%;
     z-index: 949 !important;
     position: absolute;
 }
 
-.menu-button.selected {
-    background-color: lightgray !important;
-    color: black !important;
+/* Style for side bar */
+
+.side-bar-toggle-button:hover {
+    background-color:#80e5ff;
+}
+
+.side-bar-toggle-button{
+    background-color:#0099ff;
+    position:absolute;
+    top:150px;
+    height:100px;
+    width:10px;
+    padding:0;
+    border:none;
 }
 
 .side-bar {
@@ -144,6 +161,7 @@
     background-color: red;
 }
 
+/* Style for interactive diagram layout */
 .interactive-diagram-base {
     overflow:hidden;
     position:absolute;
@@ -156,8 +174,6 @@
     height:7%;
     float:left;
 }
-
-
 
 div.functional {
     background-color: #a3949d;
@@ -189,37 +205,6 @@ div.pattern {
 }
 .interactive_diagram_svg {
     background-color:#f0fced; 
-}
-
-.button1:hover {
-    background-color:#80e5ff;
-}
-
-.roundedRightCorner {
-    border-top-right-radius: 10px;
-}
-
-.roundedTopCorners {
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px; 
-}
-
-.button1{
-    background-color:#0099ff;
-    position:absolute;
-    top:150px;
-    height:100px;
-    width:10px;
-    padding:0;
-    border:none;
-}
-
-.title {
-    cursor: pointer;
-    transition: color 0.3s;
-}
-.title:hover {
-    color:#bcb084
 }
 
 /* Popup */
@@ -280,6 +265,24 @@ div.pattern {
 }
 
 /* General */
+
+.roundedRightCorner {
+    border-top-right-radius: 10px;
+}
+
+.roundedTopCorners {
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px; 
+}
+
+.title {
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.title:hover {
+    color:#bcb084
+}
 
 hr{
     opacity:0;

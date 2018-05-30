@@ -237,31 +237,83 @@ def testing():
     eg = explanationStructureGenerator.ExplanationGenerator()
     et = ExplanationTemplates()
     baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
-    # implementation = ir.getIndividualsByType(baseUri + 'ImplementationClass')
-    # es = eg.getLogicalFeatureToImplementationMap(baseUri + 'purchase_products')
-    # es = eg.getFunctionalFeatureToImplementationMap(baseUri + 'purchase_products')
-    # exp = et.generateLogicalFeatureImplementationSummary(baseUri + 'purchase_products', es)
-    # es = eg.getImplementationToArchitecturalPatternMap(implementation)
-    #es = eg.getRationaleOfArchitecture(baseUri + 'thin_client_MVC')
-    # print(exp)
-    #s = ir.getSuperTypes(baseUri + 'Server_Model_CartForms')
-    #print(s)
-    #es = None
-    #print(es)
-    #print(et.generatePatternSummary2(baseUri + 'choice_mixed_client_MVC', es))
-    # return es
-    su = et.generatePopupFigureDescription(baseUri + 'figure_3.10_class_diagram_of_the_system')
-    # test = [baseUri + 'Cart', baseUri + 'Order']
-    # pred = [r[1] for r in ir.getRelations(sub = baseUri + 'figure_3.10_class_diagram_of_the_system')]
-    # print(set(test)<set(pred))
-    print(su.toDict())
-    return su.summaryText
+    es = eg.getLogicalFeatureToImplementationMap(baseUri + 'purchase_products')
+    # es = [explanationHelper.formatName(explanationHelper.getNameFromUri(uri)) for uri in ir.getIndividualsByType(baseUri + 'Logical')]
+    
+    # f = open('LogicalClassDiagramText.txt', 'r')
+    # text = f.read()
+    # f.close()
+    
+    # es = ['product', 'order', 'cart']
+    # for entity in es:
+    #     text = re.sub(r'('+ entity +'(s*)(es)*)', r'<font color="#68aeff">\1</font>', text, flags=re.IGNORECASE)
+    # print(text)
+    return es
+
+def testAutomaticFindPath():
+    ir = sparqlQueryManager.InformationRetriever()
+    eg = explanationStructureGenerator.ExplanationGenerator()
+    et = ExplanationTemplates()
+    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
+    # es = eg.constructMetaModel()
+    es = eg.loadMetaModel()
+    paths = eg.getMetaModelPath(es, baseUri + 'Feature', baseUri + 'FunctionalRequirement')
+    for path in paths:
+        print('_______________START______________')
+        for rel in path:
+            print('source:' + explanationHelper.getNameFromUri(rel['source']))
+            print('name:' + explanationHelper.getNameFromUri(rel['name']))
+            print('target:' + explanationHelper.getNameFromUri(rel['target']))
+            print('_____')
+    
+
+
+def testGetAllObjectsAndRelations():
+    ir = sparqlQueryManager.InformationRetriever()
+    eg = explanationStructureGenerator.ExplanationGenerator()
+    et = ExplanationTemplates()
+    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
+    es = ir.getAllObjectsAndRelations()
+    return es
+
+def testGetAllTypes():
+    ir = sparqlQueryManager.InformationRetriever()
+    eg = explanationStructureGenerator.ExplanationGenerator()
+    et = ExplanationTemplates()
+    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#' 
+    print(ir.getAllOntologyTypes())
+
+def testGetTypeRelations():
+    ir = sparqlQueryManager.InformationRetriever()
+    eg = explanationStructureGenerator.ExplanationGenerator()
+    et = ExplanationTemplates()
+    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#' 
+    print(ir.getTypeRelation(baseUri + 'ArchitectureFragment'))
+
+def testGetAllTypeRelations():
+    ir = sparqlQueryManager.InformationRetriever()
+    eg = explanationStructureGenerator.ExplanationGenerator()
+    et = ExplanationTemplates()
+    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#' 
+    print(ir.getAllTypeRelations())
+
+def testGetDirectSuperClass():
+    ir = sparqlQueryManager.InformationRetriever()
+    eg = explanationStructureGenerator.ExplanationGenerator()
+    et = ExplanationTemplates()
+    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
+    print(ir.getDirectSuperClass(baseUri + 'Technology'))
+
+# def writeToFile(inputData):
+#     f = open('../ExperimentationGraphs/static/explanationData.js', 'w') 
+#     f.truncate(0)
+#     f.write("ontologyData = " + json.dumps(inputData))
+#     f.close()
 
 def writeToFile(inputData):
-    f = open('../ExperimentationGraphs/static/explanationData.js', 'w') 
+    f = open('../ExperimentationGraphs/static/Test.txt', 'w') 
     f.truncate(0)
-    f.write("ontologyData = " + json.dumps(inputData))
+    f.write(inputData)
     f.close()
 
-# data = testing()
-# writeToFile(data.toDict())
+testGetDirectSuperClass()

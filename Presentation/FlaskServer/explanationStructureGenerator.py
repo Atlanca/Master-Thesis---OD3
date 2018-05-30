@@ -2,6 +2,8 @@ import sparqlQueryManager
 import ontologyStructureModel
 import re
 import explanationHelper
+import json
+import copy
 
 
 class ExplanationGenerator:
@@ -19,6 +21,7 @@ class ExplanationGenerator:
         es.addEntity(featureUri)
         requirements = [r[1] for r in self.ir.getRelations(featureUri, self.baseUri + 'compriseOf', self.baseUri+ 'Requirement')]
         es.addAllEntities(requirements)
+        es.addOneToManyRelation('compriseOf', featureUri, requirements)
 
         for r in requirements:
             usecases = [uc[1] for uc in self.ir.getRelations(r, self.baseUri + 'partOf', self.baseUri + 'UseCase')]
@@ -26,8 +29,8 @@ class ExplanationGenerator:
             
             es.addAllEntities(usecases)
             es.addAllEntities(userstories)
-            es.addOneToManyRelation(self.baseUri + 'partOf', r, usecases)
-            es.addOneToManyRelation(self.baseUri + 'explainedBy', r, userstories)
+            es.addOneToManyRelation('partOf', r, usecases)
+            es.addOneToManyRelation('explainedBy', r, userstories)
         return es
     
     #WHAT IS THE RATIONALE BEHIND THE CHOICE OF THIS ARCHITECTURE?
@@ -51,6 +54,21 @@ class ExplanationGenerator:
                 es.addRelation('resultOf', pattern[1], dc[1])
         return es
     
+
+    def getDev(self, architecturalPatternUri):
+        def callBackArchitecturalPattern(es, s):
+            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'implementedBy', self.baseUri + 'ImplementationClass')
+
+        def callbackPlaysRole(es, s):
+            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'compriseOf', self.baseUri + 'DevelopmentStructure', callback=callBackArchitecturalPattern)
+        
+        es = ontologyStructureModel.EntityStructure()
+        es.addEntity(architecturalPatternUri)
+        for role in self.ir.getRelations(architecturalPatternUri, self.baseUri + 'compriseOf', self.baseUri + 'Role'):
+            es.addEntity(role[1])
+            es.addRelation('compriseOf' , architecturalPatternUri, role[1])
+            self.addRecursiveEntitiesAndRelations(es, role[1], self.baseUri + 'roleImplementedBy', callback=callbackPlaysRole)
+        return es
 
     def getDevelopmentStructureOfArchitecture(self, architecturalPatternUri):
         es = ontologyStructureModel.EntityStructure()
@@ -119,7 +137,6 @@ class ExplanationGenerator:
         return es
 
     #HOW IS THIS FEATURE MAPPED TO THE IMPLEMENTATION?
-
     def getLogicalFeatureToImplementationMap(self, featureUri):
         #Callbacks: 
         def callbackImplementedBy(es, s): 
@@ -211,3 +228,134 @@ class ExplanationGenerator:
             if callback:
                 callback(entityStructure, o[1])
         return entityStructure
+
+    # A depth-first algorithm that returns a list of all paths
+    # from a start type to a target type.
+    # If no paths are found, return an empty list
+    def getMetaModelPath(self, metaModel, startType, targetType):
+        # A list that keeps track of all types we have encountered so far
+        encounteredTypes = []
+
+        # A list that keeps track fo all paths we found to the target
+        paths = []
+
+        # Find all relations from startType
+        relations = list(filter(lambda rel: rel['source'] == startType, metaModel['relations']))
+        relations = metaModel['relations']
+        # For each relation from startType, find path to target
+        for rel in relations:
+            paths += self.getMetaModelPathRecursive(metaModel, rel, targetType, encounteredTypes, [])
+
+        # paths = [path for path in paths if not self.pathHasType(startType, path)]
+
+        # for ontologyType in metaModel['types']:
+        #     paths = self.filterShortestPath(startType, paths, ontologyType)
+
+        return [metaModel['relations']]
+
+    def filterShortestPath(self, paths, ontologyType):
+        intersectingPaths = list(filter(lambda path: self.pathHasType(ontologyType, path), paths))
+        otherPaths = [path for path in paths if path not in intersectingPaths]
+        shortestPath = []
+        shortestLen = 0
+        
+        for path in intersectingPaths:
+            if shortestLen == 0:
+                shortestLen = len(path)
+                shortestPath.append(path)
+
+            if len(path) < shortestLen:
+                shortestPath = []
+                shortestPath.append(path)
+                shortestLen = len(path)
+            elif len(path) == shortestLen:
+                shortestPath.append(path)
+        
+        otherPaths += shortestPath
+        return otherPaths
+    
+    def pathHasType(self, ontologyType, path):
+        for index, relation in enumerate(path):
+            if index > 0:
+                if relation['source'] == ontologyType:
+                    return True
+        return False
+
+    # This method is a recursive helper for getMetaModelPath()
+    def getMetaModelPathRecursive(self, metaModel, currentRelation, targetType, encounteredTypes, currentPath):
+        paths = []
+        currentPath.append(currentRelation)
+        # If the start type is same as the target, then we found a path. 
+        if currentRelation['target'] == targetType:
+            paths.append(currentPath)
+            return paths
+
+        encounteredTypes.append(currentRelation['target'])
+        # Find outgoing relations from the startType
+        # Of these relations, only pick the relations with targets 
+        # we have not encountered yet.
+        relations = list(filter(lambda rel: rel['source'] == currentRelation['target'], metaModel['relations']))
+        relations = list(filter(lambda rel: rel['target'] not in encounteredTypes , relations))
+
+        # Loop through all relations and recursively
+        # try to find paths to target, once done return the paths
+        for rel in relations:
+            paths += (self.getMetaModelPathRecursive(metaModel, rel, targetType, encounteredTypes, copy.deepcopy(currentPath)))
+              
+        return paths        
+
+
+    def loadMetaModel(self):
+        metaModel = None
+        with open('C:/Users/SAMSUNG/Documents/ThesisProject/MasterThesisCode/Master-Thesis---OD3/Presentation/FlaskServer/static/ontologyRelations.js', 'r') as f:
+            metaModel = json.load(f)
+        return metaModel
+
+    def constructMetaModel(self):
+        allObjectsAndRelations = self.ir.getAllObjectsAndRelations()
+        es = ontologyStructureModel.EntityStructure()
+        entityToUriMap = {}
+        for item in allObjectsAndRelations:
+            e1 = ontologyStructureModel.Entity(item[0])
+            e2 = ontologyStructureModel.Entity(item[2])
+            es.addEntity(e1)
+            es.addEntity(e2)
+            entityToUriMap[explanationHelper.getNameFromUri(item[0])] = e1
+            entityToUriMap[explanationHelper.getNameFromUri(item[2])] = e2
+            es.addRelation(item[1], item[0], item[2])
+            
+        duplicates = {}
+        for item in es.entities:
+            if not explanationHelper.getNameFromUri(item.uri) in list(duplicates.keys()):
+                duplicates[explanationHelper.getNameFromUri(item.uri)] = 1
+            else:
+                print('We got a duplicate key!')
+                break
+
+        print(duplicates)
+
+        types = set()
+        for item in es.entities:
+            types.add(item.type)
+        
+        types = list(types)
+        print('Types:')
+        print(types)
+
+        def getEntityType(entityUri):
+            return entityToUriMap[explanationHelper.getNameFromUri(entityUri)].type
+
+        typeRelations = []
+        for item in es.relations:
+            typeRelations.append({'name': item.name, 'source': getEntityType(item.source), 'target': getEntityType(item.target)})
+        
+        typeRelations = [dict(s) for s in set(frozenset(d.items()) for d in typeRelations)]
+
+        print('Type relations:')
+        print(typeRelations)
+
+        typesAndRelations = {'types': types, 'relations': typeRelations}
+
+        with open('C:/Users/SAMSUNG/Documents/ThesisProject/MasterThesisCode/Master-Thesis---OD3/Presentation/FlaskServer/static/ontologyRelations.js', 'w') as f:
+            f.write(json.dumps(typesAndRelations))
+    

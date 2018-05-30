@@ -18,6 +18,228 @@ class InformationRetriever:
     # 1. BASIC QUERY HELPER METHODS
     #-----------------------------------------------------------------------------------------
 
+    def getAllOntologyTypes(self):
+        query = 'PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>'\
+                'PREFIX owl: <http://www.w3.org/2002/07/owl#> '\
+                'SELECT * WHERE {{'\
+                '?type rdf:type owl:Class .'\
+                'FILTER regex(str(?type), "http://www.semanticweb.org/ontologies/snowflake#")'\
+                '}}'
+        types = []
+
+        try:
+            queryResult = self.query(query)
+            results = queryResult['results']['bindings']
+            if results:
+                for r in results:
+                    types.append(r['type']['value'])
+                return types
+        except:      
+            return ''
+
+    def getAllTypeRelations(self):
+        queryMin = 'PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>'\
+        'PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>'\
+        'PREFIX owl: <http://www.w3.org/2002/07/owl#> '\
+        'SELECT * WHERE {{'\
+        '?type rdfs:subClassOf _:b . '\
+        '_:b owl:onProperty ?prop . '\
+        '_:b owl:minQualifiedCardinality ?card . '\
+        '_:b owl:onClass ?class '\
+        'FILTER regex(str(?type), "http://www.semanticweb.org/ontologies/snowflake#")'\
+        '}}'
+
+        queryExactly = 'PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>'\
+        'PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>'\
+        'PREFIX owl: <http://www.w3.org/2002/07/owl#> '\
+        'SELECT * WHERE {{'\
+        '?type rdfs:subClassOf _:b . '\
+        '_:b owl:onProperty ?prop .'\
+        '_:b owl:qualifiedCardinality ?card . '\
+        '_:b owl:onClass ?class '\
+        'FILTER regex(str(?type), "http://www.semanticweb.org/ontologies/snowflake#")'\
+        '}}'
+
+        querySome = 'PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>'\
+        'PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>'\
+        'PREFIX owl: <http://www.w3.org/2002/07/owl#> '\
+        'SELECT * WHERE {{'\
+        '?type rdfs:subClassOf _:b . '\
+        '_:b owl:onProperty ?prop . '\
+        '_:b owl:someValuesFrom ?class '\
+        'FILTER regex(str(?type), "http://www.semanticweb.org/ontologies/snowflake#")'\
+        '}}'
+
+        relations = {'min':[], 'exactly':[], 'some':[]}
+
+        try:
+            queryResult = self.query(queryMin)
+            results = queryResult['results']['bindings']
+            if results:
+                for r in results:
+                    relations['min'].append({'source': r['type']['value'], 'property': r['prop']['value'], 'cardinality': r['card']['value'],'target': r['class']['value']})
+        except:    
+            return ''  
+
+        try:
+            queryResult = self.query(queryExactly)
+            results = queryResult['results']['bindings']
+            if results:
+                for r in results:
+                    relations['exactly'].append({'source': r['type']['value'], 'property': r['prop']['value'], 'cardinality': r['card']['value'],'target': r['class']['value']})
+        except:    
+            return '' 
+
+        try:
+            queryResult = self.query(querySome)
+            results = queryResult['results']['bindings']
+            if results:
+                for r in results:
+                    relations['some'].append({'source': r['type']['value'], 'property': r['prop']['value'], 'target': r['class']['value']})
+        except:    
+            return '' 
+        
+        return relations
+
+    # Only supports qualified min cardinality (min), cardinality (exactly) and someValuesFrom (some) 
+    def getTypeRelations(self, typeUri):
+        typeUri = self.toQueryUri(typeUri)
+        queryMin = 'PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>'\
+                    'PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>'\
+                    'PREFIX owl: <http://www.w3.org/2002/07/owl#> '\
+                    'SELECT * WHERE {{'\
+                    '{typeUri} rdfs:subClassOf _:b . '\
+                    '_:b owl:onProperty ?prop . '\
+                    '_:b owl:minQualifiedCardinality ?card . '\
+                    '_:b owl:onClass ?class'\
+                    '}}'
+
+        queryExactly = 'PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>'\
+                    'PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>'\
+                    'PREFIX owl: <http://www.w3.org/2002/07/owl#> '\
+                    'SELECT * WHERE {{'\
+                    '{typeUri} rdfs:subClassOf _:b . '\
+                    '_:b owl:onProperty ?prop .'\
+                    '_:b owl:qualifiedCardinality ?card . '\
+                    '_:b owl:onClass ?class'\
+                    '}}'
+
+        querySome = 'PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>'\
+                    'PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>'\
+                    'PREFIX owl: <http://www.w3.org/2002/07/owl#> '\
+                    'SELECT * WHERE {{'\
+                    '{typeUri} rdfs:subClassOf _:b . '\
+                    '_:b owl:onProperty ?prop . '\
+                    '_:b owl:someValuesFrom ?class'\
+                    '}}'
+        
+        queryMin = queryMin.format(typeUri=typeUri)
+        queryExactly = queryExactly.format(typeUri=typeUri)
+        querySome = querySome.format(typeUri=typeUri)
+
+        relations = {'min':[], 'exactly':[], 'some':[]}
+
+        try:
+            queryResult = self.query(queryMin)
+            results = queryResult['results']['bindings']
+            if results:
+                for r in results:
+                    relations['min'].append((r['prop']['value'], r['card']['value'], r['class']['value']))
+        except:    
+            return ''  
+
+        try:
+            queryResult = self.query(queryExactly)
+            results = queryResult['results']['bindings']
+            if results:
+                for r in results:
+                    relations['exactly'].append((r['prop']['value'], r['card']['value'], r['class']['value']))
+        except:    
+            return '' 
+
+        try:
+            queryResult = self.query(querySome)
+            results = queryResult['results']['bindings']
+            if results:
+                for r in results:
+                    relations['some'].append((r['prop']['value'], r['class']['value']))
+        except:    
+            return '' 
+        
+        return relations
+           
+
+    # Assumes only a single superclass
+    def getDirectSuperClass(self, subjectUri):
+        originalSubjectUri = subjectUri
+        subjectUri = self.toQueryUri(subjectUri)
+        query = 'PREFIX owl: <http://www.w3.org/2002/07/owl#> '\
+                'PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>' \
+                'PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>' \
+                'PREFIX base: <http://www.semanticweb.org/ontologies/snowflake#>'\
+                'SELECT * {{'\
+                '{klass} rdfs:subClassOf ?class . '\
+                '?class rdfs:subClassOf ?superClass '\
+                'FILTER regex(str(?class), "http://www.semanticweb.org/ontologies/snowflake#")'\
+                'FILTER regex(str(?superClass), "http://www.semanticweb.org/ontologies/snowflake#")'\
+                '}}'
+
+        query = query.format(klass=subjectUri)
+
+
+        try:
+            queryResult = self.query(query)
+            results = queryResult['results']['bindings']
+        except:      
+            return ''
+        
+        superClasses = []
+        referenceClass = {}
+        if results:
+            i = -1
+            currentSuperClass = ''
+            for r in results:
+                if(r['class']['value'] == originalSubjectUri):
+                    if not referenceClass:
+                        referenceClass['class'] = r['class']['value']
+                        referenceClass['superClasses'] = []
+                    referenceClass['superClasses'].append(r['superClass']['value'])
+
+                elif(currentSuperClass == r['class']['value']):
+                    superClasses[i]['superClasses'].append((r['superClass']['value']))
+                else:
+                    superClasses.append({'class': r['class']['value'], 'superClasses': [r['superClass']['value']]})
+                    currentSuperClass = r['class']['value']
+                    i += 1
+
+        for klass in superClasses:
+            superClasses = set(klass['superClasses'])
+            referenceSuperClasses = set(referenceClass['superClasses'])
+
+            differenceSuperClasses = list(referenceSuperClasses - superClasses)
+
+            if len(differenceSuperClasses) == 1:
+                return klass['class']
+
+        return ''
+
+
+    def getObjectPropertyRelations(self, subjectUri):
+        subjectUri = self.toQueryUri(subjectUri)
+        query = "PREFIX owl: <http://www.w3.org/2002/07/owl#> "\
+                "SELECT ?pred ?obj WHERE {{?pred a owl:ObjectProperty . {subjectUri} ?pred ?obj}}"
+        query = query.format(subjectUri=subjectUri)
+        relations = []
+
+        try:
+            queryResult = self.query(query)
+            results = queryResult['results']['bindings']
+            if results:
+                for r in results:
+                    relations.append((r['pred']['value'], r['obj']['value']))
+                return relations
+        except:      
+            return ''
     
     def getSuperTypes(self, subjectUri):
         subjectUri = self.toQueryUri(subjectUri)
