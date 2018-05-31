@@ -1,10 +1,3 @@
-function getNameOfUri(string){
-    string = string.replace(/.+#/, '')
-    string = string.replace(/\./g, '_')
-    return string
-}
-
-var cells = []
 var graph = new joint.dia.Graph;
 var paper = new joint.dia.Paper({
   el: $('#myholder'),
@@ -14,253 +7,36 @@ var paper = new joint.dia.Paper({
   model: graph
 });
 
-joint.dia.Element.define('standard.Rectangle', {
-    attrs: {
-        body: {
-            refWidth: '100%',
-            refHeight: '100%',
-            strokeWidth: 2,
-            stroke: '#000000',
-            fill: '#FFFFFF'
-        },
-        label: {
-            textVerticalAnchor: 'middle',
-            textAnchor: 'middle',
-            refX: '50%',
-            refY: '50%',
-            fontSize: 14,
-            fill: '#333333'
-        }
-    }
-}, {
-    markup: [{
-        tagName: 'rect',
-        selector: 'body',
-    }, {
-        tagName: 'text',
-        selector: 'label'
-    }]
-});
+//UGLY Workaround!
+loadGraph(buildGraph)
 
-rectMap = {}
-
-baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
-
-// Assumes that there can be only a single parent for each
-// type
-$.get('http://localhost:5000/getOntology', function(data, status){
-    var ontology = JSON.parse(data)
-    var types = ontology.types
-    var relations = ontology.relations
-
-    $.post('http://localhost:5000/getDirectSuperClassParentMap', {'types[]': types}, function(data, status){
-        parentMap = JSON.parse(data)
+function buildGraph(){
+    var panCanvas = d3.select('.panCanvas')
+    var jointViewport = d3.select('.joint-viewport')
+    var jointMarkers = d3.select('#v-4')
+    var myholder = d3.select('#myholder')
+    var body = d3.select('body')
     
-        types.forEach(function(type){
-            var rect = new joint.shapes.standard.Rectangle();
-            rect.position(100, 30);
-            rect.resize(100, 40);
-            rect.attr({
-                label: {
-                    text: getNameOfUri(type),
-                }
-            });
-            rect.addTo(graph);
-            rectMap[getNameOfUri(type)] = rect
-        })
-
-        var min = restructureRelations(types, relations, 'min', parentMap)
-        var exactly = restructureRelations(types, relations, 'exactly', parentMap)
-        var some = restructureRelations(types, relations, 'some', parentMap)
-
-        types.forEach(function(type){
-            if(getNameOfUri(parentMap[getNameOfUri(type)].parent)){
-                var link = new joint.shapes.standard.Link()
-                link.source(rectMap[getNameOfUri(type)])
-                link.target(rectMap[getNameOfUri(parentMap[getNameOfUri(type)].parent)])
-                link.attr({
-                    '.marker-arrowhead[end="source"]': { 
-                        fill: 'red'
-                    }
-                })
-                link.labels([{
-                    attrs: {
-                        text: {
-                            text: 'ISA'
-                        }
-                    }
-                }])
-                link.addTo(graph)
-            }
-        })
-        
-        min.forEach(function(rel){
-            var link = new joint.shapes.standard.Link()
-            link.source(rectMap[getNameOfUri(rel.source)])
-            link.target(rectMap[getNameOfUri(rel.target)])
-            link.labels([{
-                attrs: {
-                    text: {
-                        text: getNameOfUri(rel.property)
-                    }
-                }
-            }])
-            link.addTo(graph)
-        })
+    addItem(jointViewport.node())
+    addItem(jointMarkers.node())
     
-        exactly.forEach(function(rel){
-            var link = new joint.shapes.standard.Link()
-            link.source(rectMap[getNameOfUri(rel.source)])
-            link.target(rectMap[getNameOfUri(rel.target)])
-            link.labels([{
-                attrs: {
-                    text: {
-                        text: getNameOfUri(rel.property)
-                    }
-                }
-            }])
-            link.addTo(graph)
-        })
-        some.forEach(function(rel){
-            var link = new joint.shapes.standard.Link()
-            link.source(rectMap[getNameOfUri(rel.source)])
-            link.target(rectMap[getNameOfUri(rel.target)])
-            link.labels([{
-                attrs: {
-                    text: {
-                        text: getNameOfUri(rel.property)
-                    }
-                }
-            }])
-            link.addTo(graph)
-        })
-    
-        joint.layout.DirectedGraph.layout(graph, {
-            nodeSep: 20,
-            edgeSep: 80,
-            rankSep: 300,
-            rankDir: "LR"
-            }
-        );
-    })       
-})
+    body.node().removeChild(myholder.node())
+    jointViewport.attr('transform', 'translate(-2000, 200)')
 
-
-function relationIncludes(list, item, STDirection){
-    var included = false
-    list.forEach(function(i){
-        itemCopy = JSON.parse(JSON.stringify(item))
-        iCopy = JSON.parse(JSON.stringify(i))
-
-        if (STDirection) {
-            iCopy.source = ''
-            itemCopy.source = ''
-        } else {
-            iCopy.target = ''
-            itemCopy.target = ''
-        }
-
-        if (JSON.stringify(iCopy) === JSON.stringify(itemCopy)){
-            included = true
-        }
-    })
-    
-    return included
-}
-
-function restructureRelations(types, relations, relationType, parentMap){
-    var relationsBySource = []
-    
-    types.forEach(function(type){
-        var typeName = getNameOfUri(type)
-        var relationsByType = relations[relationType].filter(rel => rel.source == type)
-        var relationsByParentType = relations[relationType].filter(rel => rel.source == parentMap[typeName].parent)
-        var difference = relationsByType.filter(rel => !relationIncludes(relationsByParentType, rel, true))
-
-        relationsBySource = relationsBySource.concat(difference)
-    })
-    return relationsBySource
-}
-
-// metaModel.types.forEach(function(type){
-//     var rect = new joint.shapes.standard.Rectangle();
-//     rect.position(100, 30);
-//     rect.resize(100, 40);
-//     rect.attr({
-//         label: {
-//             text: getNameOfUri(type),
-//         }
-//     });
-//     rect.addTo(graph);
-//     rectMap[getNameOfUri(type)] = rect
-// }) 
-
-// metaModel.relations.forEach(function(relation){
-//     var link = new joint.shapes.standard.Link()
-//     link.source(rectMap[getNameOfUri(relation.source)])
-//     link.target(rectMap[getNameOfUri(relation.target)])
-//     link.labels([{
-//         attrs: {
-//             text: {
-//                 text: getNameOfUri(relation.name)
-//             }
-//         }
-//     }])
-//     link.addTo(graph)
-// }) 
-
-var svgZoom = svgPanZoom('#myholder svg', {
-    center: true,
-    zoomEnabled: true,
-    panEnabled: true,
-    controlIconsEnabled: true,
-    enableDblClickZoom: false,
-    fit: false,
-    minZoom: 0,
-    maxZoom:10,
-    zoomScaleSensitivity: 0.3
-  });
-
-paper.on('blank:pointerdown', function (evt, x, y) {
-    svgZoom.enablePan();
-});
-paper.on('cell:pointerup blank:pointerup', function(cellView, event) {
-    svgZoom.disablePan();
-});
-
-
-graph.on('change:source change:target', function(link) {
-    if (link.get('source').id === link.get('target').id) {
-        // self-looping link detected.
-        link.set('vertices', findLoopLinkVertices(link));
-    }
- })
-
-// function findLoopLinkVertices(link){
-
-// }
-
-// graph.resetCells(graph.getElements())
-
-
-
-joint.layout.DirectedGraph.layout(graph, {
-    nodeSep: 20,
-    edgeSep: 80,
-    rankSep: 300,
-    rankDir: "LR"
-    }
-);
-
-function saveGraph(){
-    graphData = JSON.stringify(graph)
-    $.post('http://localhost:5000/savegraph', {graphData: graphData}, function(data, status){ 
-        console.log(status)
+    jointViewport.selectAll('.joint-type-standard-rectangle rect')
+    .each(function(){
+        color = d3.select(this).attr('fill')
+        hslColor = tinycolor(color).toHsl()
+        hslColor.l = 0.8
+        color = tinycolor(hslColor).toHexString()
+        d3.select(this)
+        .attr('fill', color)
     })
 }
 
-function loadGraph(){
+function loadGraph(callback){
     $.get('http://localhost:5000/loadgraph', function(data, status){
         graph.fromJSON(JSON.parse(data))
+        callback()
     })
 }

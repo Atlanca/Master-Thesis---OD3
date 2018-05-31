@@ -23,12 +23,11 @@
     <script type='text/javascript' src='static/svg-pan-zoom.js'></script>
     <script type='text/javascript' src='explanationPageLogic.js'></script>
     <script type='text/javascript' src='ontologyRelations.js'></script>
-    <script src="joint.layout.ForceDirected.js"></script>
 </head>
 
 <body> 
     <div>
-        <div id='explanationSidebar'class="w3-sidebar w3-bar-block" style="background-color:#d6d6d6;width:0%;right:0;"> 
+        <div id='explanationSidebar'class="w3-sidebar w3-bar-block" style="background-color:#d6d6d6;width:37%;right:0;"> 
             <div class='w3-light-blue w3-border-left w3-border-indigo' style='position:absolute;height:100%;width:5px;float:left;'>
                 <div style='position:absolute;height:50%;width:10px;top:0;bottom:0;margin:auto;'>
                     <button onclick="sidebarToggle('explanationSidebar')" class="w3-large button1"/>
@@ -213,7 +212,9 @@
             <div id='interactive_diagram' class='w3-white w3-border' style='height:93%;width:99.5%;float:left'>
                 <!-- <svg id='interactive_diagram_svg' style='height:100%;width:100%'></svg> -->
                 <div id='myholder' style='width:80%;height:100%;float:right;'></div>
-                <script src="metaModel.js"></script>  
+                <div id='minimap' style='width:200px;height:200px;float:right;background-color:green;position:absolute;left:21%;bottom:20px'></div>
+                <script src="metaModelOriginal.js"></script>  
+
                 <div id='UI' style='background-color:lightblue;width:20%;height:100%;float:right;'>
                     <div class='w3-margin w3-bar-item'>
                         <p>Selection: </p>
