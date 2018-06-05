@@ -1,0 +1,10 @@
+<!-- {{question: What is the role of the feature {feature_name}?}} -->
+
+<p>
+The role of the feature {feature_name} can be explained by its description and the responsibilities the feature has. 
+The responsibility for {feature_name} comprises of requirements which are in turn part of use cases and explained by user stories.
+</p>
+
+<p>
+The subsequent sections contain descriptions of the entities found in this explanation.
+</p>

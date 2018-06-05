@@ -89,9 +89,40 @@ class ExplanationTemplates:
     # EXPLANATIONS
     # ----------------------------------------------------------------------------------------
    
+    def generateFeatureRoleSummary(self, featureUri, structure):
+        feature_entity = [entity for entity in structure.entities if entity.uri == featureUri][0]
+        requirements = list(filter(lambda e: e.type == self.baseUri + 'FunctionalRequirement', structure.entities))
+        use_cases = list(filter(lambda e: e.type == self.baseUri + 'UseCase', structure.entities))
+        user_stories = list(filter(lambda e: e.type == self.baseUri + 'UserStory', structure.entities))
+
+        template = explanationHelper.openText('static/explanationTemplates/FeatureRole.txt')
+
+        summary = template.format(feature_name=explanationHelper.getNameOfEntity(feature_entity))
+
+        question = self.getQuestion(summary)
+
+        expTemplate = sectionModel.Template(question, summary)
+
+        #Requirements section
+        sectionReqOverview = 'This section contain the descriptions of the functional requirements'
+        expTemplate.addSection(self.createSection(requirements, 'requirements_section', 'Requirement entities', 
+                               summary=sectionReqOverview, priority=1).toDict())
+       
+        #Use cases section
+        sectionUCOverview = 'This section contain descriptions of the the use cases.'
+        expTemplate.addSection(self.createSection(use_cases, 'use_case_section', 'Use case entities', 
+                               summary=sectionUCOverview, priority=2).toDict())
+        
+        #User story section
+        sectionUSOverview = 'This section contain descriptions of the the user stories.'
+        expTemplate.addSection(self.createSection(user_stories, 'user_story_section', 'User story entities', 
+                               summary=sectionUSOverview, priority=3).toDict())
+
+        return expTemplate.toDict()
+
+
     # HOW IS THIS FEAURE MAPPED TO THE IMPLEMENTATION?
     def generateLogicalFeatureImplementationSummary(self, mainEntityUri, structure):
-        
         # Setup the summary
         main_entity = [entity for entity in structure.entities if entity.uri == mainEntityUri][0]
         requirements = list(filter(lambda e: e.type == self.baseUri + 'FunctionalRequirement', structure.entities))

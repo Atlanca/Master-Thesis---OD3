@@ -127,16 +127,14 @@ def getDirectSuperClassParentMap():
 
 @app.route('/q1/<feature>')
 def q1(feature):
-    functionalStructure = explanationGenerator.getFeatureRole(baseUri + feature)
-    func_explanation = explanationTemplates.generateFunctionalFeatureImplementationSummary(baseUri + feature, functionalStructure)
+    structure = explanationGenerator.getFeatureRole(baseUri + feature)
+    explanation = explanationTemplates.generateFeatureRoleSummary(baseUri + feature, structure)
 
-    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in functionalStructure.entities for diagram in set(entity.diagrams)}
-
-
+    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in structure.entities for diagram in set(entity.diagrams)}
     return render_template('childtemplate.html', 
                             diagram_path='static/FeatureRoleGraph.js', 
                             side_bar_diagram_file_paths=sideBardiagram_file_paths,
-                            entityData = {'functional': {'tab_id':'functional_view_tab', 'tab_name': 'Functional view', 'entity_structure': json.dumps(functionalStructure.toDict()), 'explanation': func_explanation, 'background': '#fff6f4'}})
+                            entityData = {'functional': {'tab_id':'feature_role_tab', 'tab_name': 'Feature role', 'entity_structure': json.dumps(structure.toDict()), 'explanation': explanation, 'background': '#fff6f4'}})
 
 @app.route('/q2/<feature>')
 def q2(feature):
