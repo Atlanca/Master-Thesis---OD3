@@ -39,3 +39,35 @@ html, body {
   filter: url(#minimapDropShadow_qwpyza);
   cursor: move;
 }
+
+.joint-viewport path {
+  pointer-events: none;
+  opacity: 0
+}
+
+.joint-viewport text {
+  pointer-events: none;
+}
+
+.joint-viewport path.metaLink, path.linkInteractionArea, rect.metaType {
+  pointer-events: auto;
+  cursor: pointer !important;
+  opacity: 1
+}
+
+.background {
+  cursor: move !important
+}
+
+.metaLink.hovered {
+  stroke: orangered
+}
+
+.metaLink.selected {
+  stroke: red
+}
+
+.selected.metaType {
+  fill: red
+}
+

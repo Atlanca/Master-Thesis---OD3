@@ -82,6 +82,37 @@ def getDirectSuperClass():
     else:
         return ''
 
+@app.route('/getEntitiesByPath', methods=['POST'])
+def getEntitiesByPath():
+   
+    # startEntity = request.form.get('startEntity', '')
+    # print(startEntity)
+    startEntity = baseUri + 'Cart'
+    print(request.form)
+    startType = request.form.get('startType', '')
+    relations = request.form.get('relations', '')
+    relations = json.loads(relations)
+    print(relations)
+
+    startEntities = queryManager.getIndividualsByType(startType)
+    
+    paths = []
+    
+    if startEntities and relations:
+        for startEntity in startEntities:
+            paths += explanationGenerator.getEntityPaths(startEntity, relations)
+    
+    if paths:
+        with open('path.js', 'w') as f:
+            f.write('paths =' + json.dumps(paths))
+        return json.dumps(paths)
+    return ''
+
+    # startEntity = baseUri + 'purchase_products'
+    # relations = [{'source': baseUri + 'Feature', 'property': baseUri + 'compriseOf', 'target': baseUri + 'Requirement'},
+    #             {'source': baseUri + 'FunctionalRequirement', 'property': baseUri + 'partOf', 'target': baseUri + 'UseCase'},
+    #             {'source': baseUri + 'Feature', 'property': baseUri + 'modeledIn', 'target': baseUri + 'Diagram'}]
+
 @app.route('/getDirectSuperClassParentMap', methods=['POST'])
 def getDirectSuperClassParentMap():
     classes = request.form.getlist('types[]')

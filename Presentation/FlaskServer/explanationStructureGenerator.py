@@ -304,6 +304,19 @@ class ExplanationGenerator:
               
         return paths        
 
+    def getEntityPaths(self, startEntityUri, pathRelations):
+        startType = self.ir.getTypeOfIndividual(startEntityUri)
+        typeRelations = list(filter(lambda rel: rel['source'] == startType, pathRelations))
+        difference = [rel for rel in pathRelations if rel not in typeRelations]
+        print(difference)
+        finalRelationsList = []
+        for typeRelation in typeRelations:
+            entityRel = self.ir.getRelations(startEntityUri, pred=typeRelation['property'], objType=typeRelation['target'])
+            for er in entityRel:
+                finalRelationsList.append({'source': startEntityUri, 'property': er[0], 'target': er[1]})
+                finalRelationsList += self.getEntityPaths(er[1], difference)
+        return finalRelationsList
+
 
     def loadMetaModel(self):
         metaModel = None

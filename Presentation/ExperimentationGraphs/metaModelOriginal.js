@@ -44,7 +44,7 @@ var paper = new joint.dia.Paper({
   el: $('#myholder'),
   width: '100%',
   height: '100%',
-  gridSize: 20,
+  gridSize: 15,
   model: graph
 });
 
@@ -110,31 +110,37 @@ $.get('http://localhost:5000/getOntology', function(data, status){
 
             if (reverseOntologyCategories[getNameOfUri(type)]){
                 color = ONTOLOGY_COLORS[reverseOntologyCategories[getNameOfUri(type)]]
+                hslColor = tinycolor(color).toHsl()
+                hslColor.l = 0.8
+                color = tinycolor(hslColor).toHexString()
             } else {
                 superTypes.forEach(function(superType){
                     superTypeFound = reverseOntologyCategories[getNameOfUri(superType)]
+
                     if(superTypeFound){
                         color = ONTOLOGY_COLORS[superTypeFound]
+                        hslColor = tinycolor(color).toHsl()
+                        hslColor.l = 0.8
+                        color = tinycolor(hslColor).toHexString()
                     }
-                    
                 })
             }
 
-            console.log(color)
-
             var rect = new joint.shapes.standard.Rectangle();
-            rect.position(100, 30);
+            rect.position(90, 30);
             rect.attr({
                 label: {
                     fontSize: 20,
                     text: getNameOfUri(type),
                 },
                 body:{
-                    fill: color
+                    fill: color,
+                    class: 'metaType',
+                    'data-uri': type
                 } 
             });
-            minwidth = 100
-            width = getNameOfUri(type).length * 15
+            minwidth = 90
+            width = parseInt(getNameOfUri(type).length) * 15
             
             if(minwidth > width){
                 width = minwidth
@@ -156,6 +162,10 @@ $.get('http://localhost:5000/getOntology', function(data, status){
                 link.target(rectMap[getNameOfUri(parentMap[getNameOfUri(type)].parent)])
                 link.attr({
                     line: {
+                        class: 'metaLink',
+                        'data-source-1': rectMap[getNameOfUri(type)].attributes.id,
+                        'data-target-1': rectMap[getNameOfUri(parentMap[getNameOfUri(type)].parent)].attributes.id,
+                        'data-uri-1': 'none',
                         stroke: 'orange',
                         targetMarker: {
                             fill: 'white',
@@ -186,6 +196,9 @@ $.get('http://localhost:5000/getOntology', function(data, status){
             rankDir: "LR"
             }
         );
+
+        loadLayout()
+
     })  
 })
 
@@ -216,12 +229,15 @@ function createLink(rel){
                 }
             },
             position: {
-                distance: 0.75
+                distance: 0.25
             }
         });
 
         oppositeLink.attr({
             line: {
+                'data-uri-2': rel.property,
+                'data-source-2': rectMap[getNameOfUri(rel.source)].attributes.id,
+                'data-target-2': rectMap[getNameOfUri(rel.target)].attributes.id,
                 sourceMarker: {
                     type: 'path',
                     'd': 'M 10 -5 0 0 10 5 Z',
@@ -240,9 +256,17 @@ function createLink(rel){
                 }
             },
             position: {
-                distance: 0.25
+                distance: 0.75
             }
         });
+        link.attr({
+            line: {
+                'data-uri-1': rel.property,
+                'data-source-1': rectMap[getNameOfUri(rel.source)].attributes.id,
+                'data-target-1': rectMap[getNameOfUri(rel.target)].attributes.id,
+                class: 'metaLink'  
+            }
+        })
         link.addTo(graph)
     }
 }
@@ -290,7 +314,7 @@ var svgZoom = svgPanZoom(' svg', {
     controlIconsEnabled: true,
     enableDblClickZoom: false,
     fit: false,
-    minZoom: 0,
+    minZoom: 0.2,
     maxZoom:10,
     zoomScaleSensitivity: 0.3
   });
@@ -310,23 +334,25 @@ graph.on('change:source change:target', function(link) {
     }
  })
 
-joint.layout.DirectedGraph.layout(graph, {
-    nodeSep: 20,
-    edgeSep: 80,
-    rankSep: 300,
-    rankDir: "LR"
-    }
-);
-
 function saveGraph(){
     graphData = JSON.stringify(graph)
     $.post('http://localhost:5000/savegraph', {graphData: graphData}, function(data, status){ 
-        console.log(status)
     })
 }
 
 function loadGraph(){
     $.get('http://localhost:5000/loadgraph', function(data, status){
         graph.fromJSON(JSON.parse(data))
+    })
+}
+
+function loadLayout(){
+    $.get('http://localhost:5000/loadgraph', function(data, status){
+        loadedGraph = JSON.parse(data)
+        graph.getElements().forEach(function(element, index){
+            loadedElement = loadedGraph.cells[index]
+            element.position(loadedElement.position.x, loadedElement.position.y)
+        })
+
     })
 }

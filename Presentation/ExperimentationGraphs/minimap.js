@@ -6,7 +6,7 @@
         "use strict";
 
         var width           = 7000,
-            height          = 2500,
+            height          = 3500,
             zoomEnabled     = true,
             dragEnabled     = true,
             scale           = 1,
@@ -58,7 +58,7 @@
             var zoom = d3.behavior.zoom()
                 .x(xScale)
                 .y(yScale)
-                .scaleExtent([0.5, 5])
+                .scaleExtent([0.4, 3])
                 .on("zoom.canvas", zoomHandler);
 
             var svg = selection.append("svg")
@@ -267,7 +267,7 @@
             frameHeight     = h,
             x               = 10
             ,
-            y               = 580,
+            y               = 500,
             frameX          = 0,
             frameY          = 0;
 
@@ -422,3 +422,9 @@
         canvas.addItem(d3.select(item));
         canvas.reset()
     }
+
+    var jointViewport = d3.select('.joint-viewport')
+    console.log(d3.selectAll('rect'))
+    d3.selectAll('.joint-cell rect').on('click', function(){
+        console.log('watt')
+    })

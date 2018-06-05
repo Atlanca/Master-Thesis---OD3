@@ -13,6 +13,7 @@
 <script type='text/javascript' src='static/svg-pan-zoom.js'></script>
 <script type='text/javascript' src='explanationPageLogic.js'></script>
 <script type='text/javascript' src='ontologyRelations.js'></script>
+<script type='text/javascript' src='path.js'></script>
 
 <link rel="stylesheet" href="minimap.css">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -22,29 +23,7 @@
 
 </html>
 
-<div>
-    <div id='explanationSidebar'class="w3-sidebar w3-bar-block" style="background-color:#d6d6d6;width:35%;right:0;"> 
-        <div class='w3-light-blue w3-border-left w3-border-indigo' style='position:absolute;height:100%;width:5px;float:left;'>
-            <div style='position:absolute;height:50%;width:10px;top:0;bottom:0;margin:auto;'>
-                <button onclick="sidebarToggle('explanationSidebar')" class="w3-large button1"/>
-            </div>
-        </div>
-        <div style='height:1px;width:1%;float:left'></div>
-        <div class='' style="height:100%;width:98%;margin-right:0px;padding-right:0px;float:left;overflow-y:scroll;overflow-x:hidden;display:flex;flex-wrap:wrap">
-            <div class='w3-light-gray' style='min-height:100%;width:inherit;padding-left:16px;padding-right:16px;padding-top:16px;margin:0px'>
-                <button onclick='startPathMode()'> Start path mode </button>
-                <select id='entitySelection'>
-                </select>
-                <button onclick='clearSelection()'> Clear selection </button>
-                <button onclick='getEntityPath()'> Generate path </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="canvasQwpYZa" class="canvas"></div>
-<script src="minimap.js"></script>
 <div id="myholder" class="canvas"></div>
-<script src="metaModel.js"></script>
+<script src="pathsGraph.js"></script>
 
 
