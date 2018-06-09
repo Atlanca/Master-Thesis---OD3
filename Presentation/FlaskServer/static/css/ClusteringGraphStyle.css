@@ -1,7 +1,6 @@
 /* Clusters */
 .clusters rect {
   stroke: lightgrey;
-  /* stroke-dasharray: 20,20; */
   stroke-width: 10px;
   transition: stroke-width 1s;
   transition: opacity 0.3s;
@@ -18,29 +17,59 @@
 
 }
 
-
-.cluster.unselected rect {
-  /* stroke-dasharray: 20,20; */
+/* Not selected */
+.node.not-selected rect{
+  opacity: 0.2;
+  transition: opacity 0.5s, fill 0.5s, stroke 0.5s, stroke-width 0.5s, stroke-opacity 0.5s !important;
 }
 
-.cluster.selected rect {
-  stroke-dasharray: 0;
-  stroke-width: 10px
+.node.not-selected text{
+  opacity: 0;
+  transition: opacity 0.5s !important;
 }
 
-.cluster.unselected text {
-  font-weight: normal;
+
+.edgeLabel.not-selected text{
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s !important;
 }
 
-.cluster.selected text {
-  opacity: 1;
+.edgePath.not-selected marker path{
+  opacity: 0;
+  transition: opacity 0.5s, fill 0.5s, stroke 0.5s !important;
+}
+
+
+.edgePath.not-selected path{
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+/* Selected */
+.node.selected rect.nodeRect {
+  stroke:#ff5b5b !important;
+  stroke-opacity: 1 !important;
+  fill: #fadb69 !important;
+  transition: fill 0.5s, stroke 0.5s, stroke-opacity 0.5s;
+}
+
+.diagram-node.selected .nodeRect {  
+  stroke-width: 20px !important;
+}
+
+/* Selected secondary */
+
+.node.selected-secondary rect.nodeRect {
+  stroke:#ff5b5b !important;
+  stroke-opacity: 1 !important;
 }
 
 /* Nodes */
 
 .dummy.node rect{
   stroke: gray;
-  /* stroke-dasharray: 20,20; */
   stroke-width: 10px;
   transition: stroke-width 1s;
   transition: opacity 0.3s;
@@ -51,52 +80,88 @@
 .dummy.node text{
   font-size: 50px;
   opacity: 0.6;
-  cursor:pointer;
+  cursor: pointer;
   transition: fill 0.1s;
   transition: opacity 0.3s;
   letter-spacing: 2px;
 }
 
-.node.selected rect.nodeRect {
-  stroke:#ff5b5b;
-  stroke-opacity: 1;
-  fill: #f4db69 !important;
-  stroke-width: 5px;
-}
 
 .node text {
   pointer-events:none;
+  transition: opacity 0.5s;
 }
 
 .node rect {
   stroke:black;
   stroke-opacity: 0.4;
   fill: #fff;
-  stroke-width: 3px;
+  stroke-width: 7px;
   cursor: pointer;
   fill-opacity: 1;
+  transition: opacity 0.5, fill 0.5s, stroke 0.5s, stroke-width 0.5s, stroke-opacity 0.5s;
+}
 
-  transition: fill 0.5s ease, stroke 0.5s, stroke-width 0.5s, stroke-opacity 0.5s !important;
+.diagram-node .nodeRect {
+  stroke-opacity: 1;
+  stroke-width: 20px !important;
+  stroke: #5990ff;
+}
+
+.image-diagram rect {
+  stroke: gray;
+  stroke-width: 3px;
+  fill: white !important;
 }
 
 /* Edges */
+
+.edgeLabel text{
+  transition: opacity 0.5s;
+}
+
+.edgePath circle.connector{
+  fill:yellowgreen;
+  stroke-width: 10px;
+  stroke: #929db5;
+}
+
 .edgePath path {
   fill:none; 
   stroke: #929db5; 
-  stroke-width: 3px; 
-  stroke-dasharray: 10,10;
-  transition: stroke 0.5s, stroke-dasharray 0.5s !important;
+  stroke-width: 3px;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 2s ease-in-out, stroke 0.5s, opacity 0.5s;
 }
 
+.diagram-edge path {
+  stroke-width: 5px;
+  stroke: #5990ff;
+}
+
+.edgePath.selected circle.connector{
+  fill:yellow;
+  stroke: red;
+}
+
+.edgePath.not-selected .connector{
+  opacity:0;
+}
+
+.edgePath.selected-secondary circle.connector{
+  fill:yellow;
+  stroke: red;
+}
+
+/* Arrows */
 .edgePath marker path {
   fill:#929db5; 
-  transition: stroke 0.5s, fill 0.5s !important;
+  transition: stroke 0.5s, fill 0.5s, opacity 0.5s;
 }
 
-.edgePath.selected path.path {
+.edgePath.selected path {
   fill: none !important;
   stroke: #ff5b5b !important;
-  stroke-dasharray: none !important;
 }
 
 .edgePath.selected marker path {

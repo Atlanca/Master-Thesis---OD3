@@ -2,6 +2,7 @@
 <html>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/static/css/w3.css">
+    <link rel="stylesheet" href="/static/css/ExplanationFonts.css">
     <link rel="stylesheet" href="/static/css/ClusteringGraphStyle.css">
     <link rel="stylesheet" href="/static/css/explanationPageStyle.css">
     <link rel="stylesheet" href="/static/css/popup.css">
@@ -16,9 +17,9 @@
     <script src="/static/libraries/dagre-d3.js"></script>
     <script src="/static/libraries/tippy-all.js"></script>
     <script src='/static/libraries/tinycolor.js'></script>
-    <script src="/static/explanationData.js"></script>
     <script src='/static/explanationPageLogic.js'></script>
-    <script src='/static/baseExplanationView.js'></script>
+    <script src='/static/graphHelper.js'></script>
+    <script src='/static/explanationFonts.js'></script>
     <script src="/{{diagram_path}}"></script>
     {% endblock head %}
   </head>
@@ -51,7 +52,9 @@
                         <option value="q1">What is the role of this feature?</option>
                         <option value="q2">How is this feature mapped to its implementation?</option>
                         <option value="q3">What is the behavior of this feature?</option>
-                        <option value="q4">How is this what is the rationale behind the choice of this architecture?</option>
+                        <option value="q4">What is the rationale behind the choice of this architecture?</option>
+                        <option value="q5">How are these implementation classes mapped to the architecture?</option>
+                        <option value="q6">To which features are these implementation classes mapped to?</option>
                       </select>
                       <div class='w3-border' style='float:left;margin-top:16px;display:inline-block'>
                         <input id='menu-search-input' class='w3-input' style='border:none;float:left;width:540px;height:50px;' type='text' placeholder='Name of entity...'>                            
@@ -102,7 +105,7 @@
         <div id='explanationSidebar'class="w3-sidebar w3-bar-block side-bar"> 
           <div class='w3-border-left w3-border-blue-gray side-bar-toggle'>
             <div class='side-bar-toggle-button-wrapper'>
-              <button class="w3-large button1" onclick="sidebarToggle('explanationSidebar')"/>
+              <button class="w3-large side-bar-toggle-button" onclick="sidebarToggle('explanationSidebar')"/>
             </div>
           </div>
           <div class='side-bar-base'>

@@ -89,9 +89,122 @@ class ExplanationTemplates:
     # EXPLANATIONS
     # ----------------------------------------------------------------------------------------
    
+    def generateFeatureRoleSummary(self, featureUri, structure):
+        feature_entity = [entity for entity in structure.entities if entity.uri == featureUri][0]
+        requirements = list(filter(lambda e: e.type == self.baseUri + 'FunctionalRequirement', structure.entities))
+        use_cases = list(filter(lambda e: e.type == self.baseUri + 'UseCase', structure.entities))
+        user_stories = list(filter(lambda e: e.type == self.baseUri + 'UserStory', structure.entities))
+
+        template = explanationHelper.openText('static/explanationTemplates/FeatureRole.txt')
+
+        summary = template.format(feature_name=explanationHelper.getNameOfEntity(feature_entity))
+
+        question = self.getQuestion(summary)
+
+        expTemplate = sectionModel.Template(question, summary)
+
+        #Requirements section
+        sectionReqOverview = 'This section contain the descriptions of the functional requirements'
+        expTemplate.addSection(self.createSection(requirements, 'requirements_section', 'Requirement entities', 
+                               summary=sectionReqOverview, priority=3).toDict())
+       
+        #Use cases section
+        sectionUCOverview = 'This section contain descriptions of the the use cases.'
+        expTemplate.addSection(self.createSection(use_cases, 'use_case_section', 'Use case entities', 
+                               summary=sectionUCOverview, priority=2).toDict())
+        
+        #User story section
+        sectionUSOverview = 'This section contain descriptions of the the user stories.'
+        expTemplate.addSection(self.createSection(user_stories, 'user_story_section', 'User story entities', 
+                               summary=sectionUSOverview, priority=1).toDict())
+
+        return expTemplate.toDict()
+
+    def generateBehaviorSummary(self, featureUri, structure, viewType):
+        if viewType == 'logical':
+            structureTypeUri = 'LogicalStructure'
+            behaviorTypeUri = 'LogicalBehavior'
+        elif viewType == 'development':
+            structureTypeUri = 'DevelopmentStructure'
+            behaviorTypeUri = 'DevelopmentBehavior'
+        elif viewType == 'ui':
+            structureTypeUri = 'UIStructure'
+            behaviorTypeUri = 'UIBehavior'
+        else:
+            return {}
+
+        feature_entity = [entity for entity in structure.entities if entity.uri == featureUri][0]
+        requirements =  list(filter(lambda e: e.type == self.baseUri + 'FunctionalRequirement', structure.entities))
+        structures =  list(filter(lambda e: self.baseUri + structureTypeUri in e.supertypes, structure.entities))
+        behavior =  list(filter(lambda e: self.baseUri + behaviorTypeUri in e.supertypes, structure.entities))
+        diagrams = list(filter(lambda e: e.type == self.baseUri + 'Diagram', structure.entities))
+
+        template = explanationHelper.openText('static/explanationTemplates/BehaviorOfFeature.txt')
+
+        summary = template.format(feature_name=explanationHelper.getNameOfEntity(feature_entity), view_type=viewType, diagram_type='sequence diagrams')
+
+        question = self.getQuestion(summary)
+
+        expTemplate = sectionModel.Template(question, summary)
+
+        #Requirements section
+        sectionReqOverview = 'This section contain the descriptions of the functional requirements'
+        expTemplate.addSection(self.createSection(requirements, 'requirements_section', 'Requirement entities', 
+                               summary=sectionReqOverview, priority=4).toDict())
+        #Requirements section
+        sectionStructOverview = 'This section contain the descriptions of the ' + structureTypeUri
+        expTemplate.addSection(self.createSection(structures, 'structures_section', 'Structure entities', 
+                               summary=sectionStructOverview, priority=3).toDict())
+        #Requirements section
+        sectionBehOverview = 'This section contain the descriptions of the ' + behaviorTypeUri
+        expTemplate.addSection(self.createSection(behavior, 'behavior_section', 'Behavior entities', 
+                               summary=sectionBehOverview, priority=2).toDict())
+        #Requirements section
+        sectionDiaOverview = 'This section contain the descriptions of the diagrams'
+        expTemplate.addSection(self.createSection(diagrams, 'diagram_section', 'Diagram entities', 
+                               summary=sectionDiaOverview, priority=1).toDict())
+
+        return expTemplate.toDict()
+       
+
+    def generateRationaleSummary(self, pattern, structure):
+        pattern_entity = [entity for entity in structure.entities if entity.uri == pattern][0]
+        designOptions = list(filter(lambda e: self.baseUri + 'DesignOption' in e.supertypes, structure.entities))
+        arguments = list(filter(lambda e: e.type == self.baseUri + 'Argument', structure.entities))
+        assumptions = list(filter(lambda e: e.type == self.baseUri + 'Assumption', structure.entities))
+        constraints = list(filter(lambda e: e.type == self.baseUri + 'Constraint', structure.entities))
+
+        template = explanationHelper.openText('static/explanationTemplates/RationaleOfArchitecture.txt')
+
+        summary = template.format(arch_patt=explanationHelper.getNameOfEntity(pattern_entity))
+        question = self.getQuestion(summary)
+
+        expTemplate = sectionModel.Template(question, summary)
+
+        #Choice section
+        sectionDOOverview = 'This section contain the descriptions of the design options'
+        expTemplate.addSection(self.createSection(designOptions, 'design_option_section', 'Design option entities', 
+                               summary=sectionDOOverview, priority=4).toDict())
+       
+        #Arguments section
+        sectionArgOverview = 'This section contain descriptions of the the arguments.'
+        expTemplate.addSection(self.createSection(arguments, 'arguments_section', 'Argument entities', 
+                               summary=sectionArgOverview, priority=3).toDict())
+        
+        #Constraint section
+        sectionConOverview = 'This section contain descriptions of the the constraints.'
+        expTemplate.addSection(self.createSection(constraints, 'constraint_section', 'Constraint entities', 
+                               summary=sectionConOverview, priority=2).toDict())
+        #Assumption section
+        sectionAssOverview = 'This section contain descriptions of the the assumptions.'
+        expTemplate.addSection(self.createSection(assumptions, 'assumption_section', 'Assumption entities', 
+                               summary=sectionAssOverview, priority=1).toDict())
+
+        return expTemplate.toDict()
+
+
     # HOW IS THIS FEAURE MAPPED TO THE IMPLEMENTATION?
     def generateLogicalFeatureImplementationSummary(self, mainEntityUri, structure):
-        
         # Setup the summary
         main_entity = [entity for entity in structure.entities if entity.uri == mainEntityUri][0]
         requirements = list(filter(lambda e: e.type == self.baseUri + 'FunctionalRequirement', structure.entities))
@@ -237,31 +350,107 @@ def testing():
     eg = explanationStructureGenerator.ExplanationGenerator()
     et = ExplanationTemplates()
     baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
-    # implementation = ir.getIndividualsByType(baseUri + 'ImplementationClass')
-    # es = eg.getLogicalFeatureToImplementationMap(baseUri + 'purchase_products')
-    # es = eg.getFunctionalFeatureToImplementationMap(baseUri + 'purchase_products')
-    # exp = et.generateLogicalFeatureImplementationSummary(baseUri + 'purchase_products', es)
-    # es = eg.getImplementationToArchitecturalPatternMap(implementation)
-    #es = eg.getRationaleOfArchitecture(baseUri + 'thin_client_MVC')
-    # print(exp)
-    #s = ir.getSuperTypes(baseUri + 'Server_Model_CartForms')
-    #print(s)
-    #es = None
-    #print(es)
-    #print(et.generatePatternSummary2(baseUri + 'choice_mixed_client_MVC', es))
-    # return es
-    su = et.generatePopupFigureDescription(baseUri + 'figure_3.10_class_diagram_of_the_system')
-    # test = [baseUri + 'Cart', baseUri + 'Order']
-    # pred = [r[1] for r in ir.getRelations(sub = baseUri + 'figure_3.10_class_diagram_of_the_system')]
-    # print(set(test)<set(pred))
-    print(su.toDict())
-    return su.summaryText
+    es = eg.getLogicalFeatureToImplementationMap(baseUri + 'purchase_products')
+    # es = [explanationHelper.formatName(explanationHelper.getNameFromUri(uri)) for uri in ir.getIndividualsByType(baseUri + 'Logical')]
+    
+    # f = open('LogicalClassDiagramText.txt', 'r')
+    # text = f.read()
+    # f.close()
+    
+    # es = ['product', 'order', 'cart']
+    # for entity in es:
+    #     text = re.sub(r'('+ entity +'(s*)(es)*)', r'<font color="#68aeff">\1</font>', text, flags=re.IGNORECASE)
+    # print(text)
+    return es
+
+def testAutomaticFindPath():
+    ir = sparqlQueryManager.InformationRetriever()
+    eg = explanationStructureGenerator.ExplanationGenerator()
+    et = ExplanationTemplates()
+    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
+    # es = eg.constructMetaModel()
+    es = eg.loadMetaModel()
+    paths = eg.getMetaModelPath(es, baseUri + 'Feature', baseUri + 'FunctionalRequirement')
+    for path in paths:
+        print('_______________START______________')
+        for rel in path:
+            print('source:' + explanationHelper.getNameFromUri(rel['source']))
+            print('name:' + explanationHelper.getNameFromUri(rel['name']))
+            print('target:' + explanationHelper.getNameFromUri(rel['target']))
+            print('_____')
+    
+
+
+def testGetAllObjectsAndRelations():
+    ir = sparqlQueryManager.InformationRetriever()
+    eg = explanationStructureGenerator.ExplanationGenerator()
+    et = ExplanationTemplates()
+    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
+    es = ir.getAllObjectsAndRelations()
+    return es
+
+def testGetAllTypes():
+    ir = sparqlQueryManager.InformationRetriever()
+    eg = explanationStructureGenerator.ExplanationGenerator()
+    et = ExplanationTemplates()
+    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#' 
+    print(ir.getAllOntologyTypes())
+
+def testGetTypeRelations():
+    ir = sparqlQueryManager.InformationRetriever()
+    eg = explanationStructureGenerator.ExplanationGenerator()
+    et = ExplanationTemplates()
+    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#' 
+    print(ir.getTypeRelation(baseUri + 'ArchitectureFragment'))
+
+def testGetAllTypeRelations():
+    ir = sparqlQueryManager.InformationRetriever()
+    eg = explanationStructureGenerator.ExplanationGenerator()
+    et = ExplanationTemplates()
+    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#' 
+    print(ir.getAllTypeRelations())
+
+def testGetDirectSuperClass():
+    ir = sparqlQueryManager.InformationRetriever()
+    eg = explanationStructureGenerator.ExplanationGenerator()
+    et = ExplanationTemplates()
+    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
+    print(ir.getDirectSuperClass(baseUri + 'Technology'))
+
+def testGetBehavior():
+    ir = sparqlQueryManager.InformationRetriever()
+    eg = explanationStructureGenerator.ExplanationGenerator()
+    et = ExplanationTemplates()
+    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
+    print(ir.getBehavior(baseUri + 'UIStructure', baseUri + 'UIBehavior'))
+
+def testGetLogicalBehavior():
+    ir = sparqlQueryManager.InformationRetriever()
+    eg = explanationStructureGenerator.ExplanationGenerator()
+    et = ExplanationTemplates()
+    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
+    print(eg.getDevelopmentBehaviorOfFeature(baseUri + 'purchase_products'))
+
+def testSameAs():
+    ir = sparqlQueryManager.InformationRetriever()
+    eg = explanationStructureGenerator.ExplanationGenerator()
+    et = ExplanationTemplates()
+    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
+    print(ir.getRelations(baseUri + 'UI_ProductsDetail', 'owl:sameAs', baseUri + 'UIBehavior'))
+
+# def writeToFile(inputData):
+#     f = open('../ExperimentationGraphs/static/explanationData.js', 'w') 
+#     f.truncate(0)
+#     f.write("ontologyData = " + json.dumps(inputData))
+#     f.close()
 
 def writeToFile(inputData):
-    f = open('../ExperimentationGraphs/static/explanationData.js', 'w') 
+    f = open('../ExperimentationGraphs/static/Test.txt', 'w') 
     f.truncate(0)
-    f.write("ontologyData = " + json.dumps(inputData))
+    f.write(inputData)
     f.close()
 
-# data = testing()
-# writeToFile(data.toDict())
+# testGetDirectSuperClass()
+# testGetBehavior()
+# testGetLogicalBehavior()
+testSameAs()

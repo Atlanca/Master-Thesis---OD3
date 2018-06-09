@@ -165,7 +165,6 @@ function sidebarToggle(id) {
         .style('transform', 'translateX(-0%)')
         sidebarOpen=true
     }
-
 }
 
 function toggleMenu(elem, menuButtonClass, menuContentClass){

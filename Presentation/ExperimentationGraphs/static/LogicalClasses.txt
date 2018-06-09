@@ -1,0 +1,49 @@
+<p>
+The conceptual model of this project revolves around the <font color="#68aeff">cart</font> concept, while all other system elements 
+are there to provide the required information to the <font color="#68aeff">cart</font>, as seen in the class diagram below  
+(Figure  3.10).  <font color="#68aeff">Products</font>  are  related  to  <font color="#68aeff">carts</font>  as  a  list  of  <font color="#68aeff">product</font>  variants,  forming  line
+ items.  Variant  is  a  concept  to  define  the  part  of  the  <font color="#68aeff">product</font>  that  contains  the  
+ particular characteristics of it, such as color or size, even having sometimes a different price. 
+ Therefore every <font color="#68aeff">product</font> has at least one variant, each one with different price or attributes. Similarly, 
+ a <font color="#68aeff">cart</font> can be associated with one of the shipping methods available in the system, resulting in a shipping 
+ item, necessary to manage taxes. 
+</p>
+ 
+<p>
+Both <font color="#68aeff">products</font> and shipping methods have  a  particular  tax  category,  that  can  be  variable  
+for  <font color="#68aeff">products</font>  and  fixed  in  the  case  of shipping. When one of these elements are added to the <font color="#68aeff">cart</font>, 
+a tax rate is assigned to the item according to this tax category and the shipping address of the <font color="#68aeff">cart</font>.
+ As mentioned above <font color="#68aeff">carts</font> can have a shipping address, but can have as well a billing address. 
+</p>
+
+<p>
+A <font color="#68aeff">cart</font> can belong to a registered customer, otherwise it is considered to have an 
+anonymous customer. Once the checkout is finished a <font color="#68aeff">cart</font> becomes an <font color="#68aeff">order</font>, with 
+information about the current payment, shipping and <font color="#68aeff">order</font> status. If the customer
+ was not anonymous, this <font color="#68aeff">order</font> will be associated with that customer, along with any 
+ of his previous <font color="#68aeff">orders</font>. Every customer can also have a list of addresses comprising 
+ the address book.
+</p>
+
+<p><font color="#68aeff">Products</font>, addresses and shipping methods can change or disappear over time, but the <font color="#68aeff">orders</font> 
+associated with them must stay in the system for an indefinite period of time, having exactly 
+44 the original information. To solve this issue, <font color="#68aeff">cart</font> is not related to the original instances, 
+but to instances that were created exclusively for this particular <font color="#68aeff">cart</font> as a snapshot of those original 
+instances.
+ </p>
+
+<p>While the current <font color="#68aeff">cart</font> may optionally have associated information, this information is mandatory in an
+ <font color="#68aeff">order</font> instance. For simplicity, the conceptual model only accepts <font color="#68aeff">product</font> and shipping prices that do not 
+ include taxes. Allowing taxes in prices can be achieved by simply adding a boolean attribute indicating whether 
+ the price in question has taxes included or not. So assuming that taxes are not included, the net total price in 
+ the <font color="#68aeff">cart</font> must be the sum of all the line item prices (i.e. the quantity in each line item multiplied by the corresponding 
+ variant price) associated with it, plus the price of the shipping method selected. In <font color="#68aeff">order</font> to calculate the gross total 
+ price, taxes must be added up to this resulting net price. Taxes are calculated multiplying the price of each shipping or l
+ ine item by its corresponding tax rate. 
+ </p>
+
+<p>Lastly when the shipping address is set in the <font color="#68aeff">cart</font>, all tax rates from shipping and line items are calculated. 
+Only those <font color="#68aeff">products</font> that include a tax category corresponding to the zone (e.g. state, country) of the shipping address 
+can be part of the <font color="#68aeff">cart</font>. Missing the tax category means that the price cannot be calculated, thus the <font color="#68aeff">product</font> is not 
+available in that zone.
+</p>

@@ -60,13 +60,13 @@ buildGraph(ontologyData)
 function buildGraph(ontologyData){
     // Initialize the input graph
     var g = new dagreD3.graphlib.Graph({compound:true})
-    .setGraph({edgesep: 10, ranksep: 70, nodesep: 50, rankdir: 'LR'})
+    .setGraph({edgesep: 50, ranksep: 300, nodesep: 100, rankdir: 'LR'})
     .setDefaultEdgeLabel(function() { return {}; });
 
     // Adding clusters
     ontologyData.entities.forEach(function(e){
         // Create invisible entity type clusters
-        g.setNode(getNameOfUri(e.type), {style:'fill:none;opacity:0;border:none;stroke:none'})
+        g.setNode(getNameOfUri(e.type), {label: getNameOfUri(e.type), clusterLabelPos:'top', style:'fill:gray;opacity:1;border:black;stroke:black'})
 
         // Create clusters for architectural views, sets them as parent to entity type clusters
         views.forEach(function(v){
@@ -178,7 +178,12 @@ function buildGraph(ontologyData){
     highlightNodepathsOnclick()
 
     // Resizing clusters to make them more consistent in size
-    resizeClusters()
+    // resizeClusters()
+
+    d3.selectAll('.cluster')
+    .select('rect')
+    .attr('rx', '50')
+    .attr('ry', '50')
 
     // Give nodes tooltips on hover
     setTitleToNodes()

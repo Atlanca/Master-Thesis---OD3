@@ -1,57 +1,50 @@
-<!DOCTYPE HTML>
-<html>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="ClusteringGraphStyle.css">
-    
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="static/joint.min.css">
-<head>
-    <script src="https://d3js.org/d3.v4.min.js"></script>
-    <style>
-            html, body {
-        font-family: Arial, sans-serif;
-        }
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="https://dagrejs.github.io/project/dagre-d3/latest/dagre-d3.js"></script>
+<script src="https://unpkg.com/tippy.js@2.5.0/dist/tippy.all.min.js"></script>
+<script src="static/explanationData.js"></script>
+<script type='text/javascript' src='static/tinycolor.js'></script>
+<script type='text/javascript' src='static/jquery.js'></script>
+<script type='text/javascript' src='static/lodash.js'></script>
+<script type='text/javascript' src='static/backbone.js'></script>
+<script type='text/javascript' src='static/joint.js'></script>
+<script type='text/javascript' src='static/graphlib.js'></script>
+<script type='text/javascript' src='static/dagre.js'></script>
+<script type='text/javascript' src='static/joint.layout.DirectedGraph.js'></script>
+<script type='text/javascript' src='static/svg-pan-zoom.js'></script>
+<script type='text/javascript' src='explanationPageLogic.js'></script>
+<script type='text/javascript' src='ontologyRelations.js'></script>
 
-        .title {
-        font-size: 12px;
-        }
-        .canvas {
-        overflow: hidden;
-        }
-        .canvas .wrapper.outer > .background {
-        fill: #000000;
-        }
-        .canvas .wrapper.inner > .background {
-        fill: #CCCCCC;
-        cursor: move;
-        }
-        .canvas .background {
-        fill: #F6F6F6;
-        stroke: #333333;
-        cursor: move;
-        }
-        .canvas .panCanvas {
-        cursor: move;
-        }
+<link rel="stylesheet" href="minimap.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="explanationPageStyle.css">
+<link rel="stylesheet" href="static/joint.css">
+<link rel="stylesheet" href="interactiveGraph.css">
 
-        .canvas .minimap .frame {
-        pointer-events: all;
-        }
-        .canvas .minimap .frame .background {
-        stroke: #111111;
-        stroke-width: 4px;
-        fill-opacity: 0.1;
-        fill: #000000;
-        fill: url(#minimapGradient_qwpyza);
-        filter: url(#minimapDropShadow_qwpyza);
-        cursor: move;
-        }
-    </style>
-</head>
-<body>
-    <h5 class="title">Use mousewheel to zoom. Drag image or minimap rectangle to pan.</h5>
-    <div id="canvasqPWKOg" class="canvas"></div>
-    <button id="resetButtonqPWKOg">Reset</button>
-    <script src="static/minimap.js"></script>
-</body>
 </html>
+
+<div>
+    <div id='explanationSidebar'class="w3-sidebar w3-bar-block" style="background-color:#d6d6d6;width:35%;right:0;"> 
+        <div class='w3-light-blue w3-border-left w3-border-indigo' style='position:absolute;height:100%;width:5px;float:left;'>
+            <div style='position:absolute;height:50%;width:10px;top:0;bottom:0;margin:auto;'>
+                <button onclick="sidebarToggle('explanationSidebar')" class="w3-large button1"/>
+            </div>
+        </div>
+        <div style='height:1px;width:1%;float:left'></div>
+        <div class='' style="height:100%;width:98%;margin-right:0px;padding-right:0px;float:left;overflow-y:scroll;overflow-x:hidden;display:flex;flex-wrap:wrap">
+            <div class='w3-light-gray' style='min-height:100%;width:inherit;padding-left:16px;padding-right:16px;padding-top:16px;margin:0px'>
+                <button onclick='startPathMode()'> Start path mode </button>
+                <select id='entitySelection'>
+                </select>
+                <button onclick='clearSelection()'> Clear selection </button>
+                <button onclick='getEntityPath()'> Generate path </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="canvasQwpYZa" class="canvas"></div>
+<script src="minimap.js"></script>
+<div id="myholder" class="canvas"></div>
+<script src="metaModel.js"></script>
+
+

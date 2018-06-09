@@ -128,18 +128,12 @@ function screen_height(){
 sidebarOpen = true
 function sidebarToggle(id) {
     if(sidebarOpen){
-        d3.select('#' + id).transition()
-        .duration(500)
-        .style('transform', 'translateX(36%)')
+        d3.select('#' + id)
+        .style('transform', 'translateX(98%)')
         sidebarOpen=false
     }else{
         d3.select('#' + id)
-        .transition()
-        .duration(0)
-        .style('display', 'block')
-        .transition()
-        .duration(500)
-        .style('transform', 'translateX(-0%)')
+        .style('transform', 'translateX(0%)')
         sidebarOpen=true
     }
 }

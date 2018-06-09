@@ -139,13 +139,9 @@ class EntityStructure:
 
         for index, relation in enumerate(self.relations):
             if index < relationsEnd:
-                relationsStr += '(' + explanationHelper.getNameFromUri(relation.name) + ', ' 
-                + explanationHelper.getNameFromUri(relation.source) + ', ' 
-                + explanationHelper.getNameFromUri(relation.target) + ')' + ', '
+                relationsStr += '(' + explanationHelper.getNameFromUri(relation.name) + ', ' + explanationHelper.getNameFromUri(relation.source) + ', ' + explanationHelper.getNameFromUri(relation.target) + ')' + ', '
             else:
-                relationsStr += '(' + explanationHelper.getNameFromUri(relation.name) + ', ' 
-                + explanationHelper.getNameFromUri(relation.source) + ', '
-                + explanationHelper.getNameFromUri(relation.target) + ')'
+                relationsStr += '(' + explanationHelper.getNameFromUri(relation.name) + ', ' + explanationHelper.getNameFromUri(relation.source) + ', ' + explanationHelper.getNameFromUri(relation.target) + ')'
 
         return output.format(entities=entitiesStr, relations=relationsStr)
 

@@ -15,7 +15,6 @@ doc_paragraphs = []
 mode = 0
 min_sent_len_paragraph = 0
 
-
 #We only want to work with paragraphs that have more than two sentences
 for paragraph in document.paragraphs:
   if(paragraph.page >= document_start and paragraph.page <= document_end):
@@ -30,7 +29,6 @@ if (os.path.exists('snowflakethesisa.dict') and os.path.exists('snowflakethesisa
   print('Used saved files')
 
 else:
-  text = ""
   tokenized_paragraphs = []
 
   #Tokenize paragraphs 
@@ -63,7 +61,12 @@ else:
 tfidf = models.TfidfModel(corpus)
 
 test = dictionary.doc2bow(bigram_tokenized_paragraphs[1])
-print("HERE I AM: " + str(tfidf[test]))
+wordScores = [(dictionary[wordscore[0]], wordscore[1]) for wordscore in tfidf[test]]
+print('HERE')
+print(wordScores)
+# print("HERE I AM: " + str(tfidf[test]))
+
+
 
 corpus_tfidf = tfidf[corpus]
 
