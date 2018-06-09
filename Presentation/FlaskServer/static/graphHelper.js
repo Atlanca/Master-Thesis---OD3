@@ -14,10 +14,6 @@ var ONTOLOGY_COLORS = {'Feature': '#af2d2d', 'Requirement': '#cc6a51', 'Function
                         'ArchitectureLayer': '#6bb496', 'RequirementLayer': '#af2d2d',
                         'RationaleLayer': '#b476c4', 'ImplementationLayer': 'gray', 'ArchitecturalPatternLayer': '#779658'}
                         
-                        //#90f4ca
-                        //Role #64cfa3
-                        //Arch patt #79d6e3
-                        
 var views = ['Development', 'UI', 'Logical', 'Physical'] 
 var ontologyCategories = {'ArchitecturalPatternLayer':  ['Role', 'ArchitecturalPattern'],
                           'ArchitectureLayer':          ['ArchitectureFragment', 'Development', 'UI', 'Physical', 'Logical'], 
@@ -26,28 +22,35 @@ var ontologyCategories = {'ArchitecturalPatternLayer':  ['Role', 'ArchitecturalP
                           'ImplementationLayer':        ['Implementation']}
 
 function getEntityColor(entity){
-    if(ONTOLOGY_COLORS[getNameOfUri(entity.type)]){
-        return ONTOLOGY_COLORS[getNameOfUri(entity.type)]
+    if(getNameOfUri(entity.type) == 'DevelopmentClassPackage'){
+        color = tinycolor(ONTOLOGY_COLORS['Development']).toHsl()
+        color.l = 0.6
+        color = tinycolor(color).toHexString()
+    }
+    else if(getNameOfUri(entity.type) == 'DevelopmentClass'){
+        color = tinycolor(ONTOLOGY_COLORS['Development']).toHsl()
+        color.l = 0.75
+        color = tinycolor(color).toHexString()
+    }
+    else if(ONTOLOGY_COLORS[getNameOfUri(entity.type)]){
+        color = tinycolor(ONTOLOGY_COLORS[getNameOfUri(entity.type)]).toHsl()
+        color.l = 0.7
+        color = tinycolor(color).toHexString()
     }else{
         color = ''
         entity.supertypes.forEach(function(s){
             //TODO: find a way to better code this
-            //Brighten classes of views
-            if(getNameOfUri(s) == 'DevelopmentClassPackage'){
+            //Brighten classes of view
+            
+            if(ONTOLOGY_COLORS[getNameOfUri(s)]){
                 if(!color)
-                    color = tinycolor(ONTOLOGY_COLORS['Development']).spin(0).brighten(25).desaturate(10).toString()
-            }
-            if(getNameOfUri(s) == 'DevelopmentClass'){
-                if(!color)
-                    color = tinycolor(ONTOLOGY_COLORS['Development']).spin(-20).brighten(35).desaturate(35).toString()
-            }
-            else if(ONTOLOGY_COLORS[getNameOfUri(s)]){
-                if(!color)
-                    color = ONTOLOGY_COLORS[getNameOfUri(s)]
+                    color = tinycolor(ONTOLOGY_COLORS[getNameOfUri(s)]).toHsl()
+                    color.l = 0.7
+                    color = tinycolor(color).toHexString()
             }
         })
-        return color
     }
+    return color
 }
 
 function getNameOfUri(string){

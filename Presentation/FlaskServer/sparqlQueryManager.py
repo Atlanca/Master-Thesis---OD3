@@ -37,6 +37,31 @@ class InformationRetriever:
         except:      
             return ''
 
+    def getBehavior(self, structureUri, behaviorUri):
+        behaviorUri = self.toQueryUri(behaviorUri)
+        structureUri = self.toQueryUri(structureUri)
+        query = 'PREFIX base: <http://www.semanticweb.org/ontologies/snowflake#>'\
+                'PREFIX owl:<http://www.w3.org/2002/07/owl#>'\
+                'SELECT * WHERE {{'\
+                    '?sub a {structure} .'\
+                    'FILTER EXISTS {{'\
+                    '?a a {behavior} .'\
+                    '?a owl:sameAs ?sub'\
+                    '}}'\
+                '}}'
+        query = query.format(structure=structureUri, behavior=behaviorUri)
+        
+        behavior = []
+        try:
+            queryResult = self.query(query)
+            results = queryResult['results']['bindings']
+            if results:
+                for r in results:
+                    behavior.append(r['sub']['value'])
+                return behavior
+        except:      
+            return ''
+
     def getAllTypeRelations(self):
         queryMin = 'PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>'\
         'PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>'\
@@ -361,7 +386,7 @@ class InformationRetriever:
     def getRelations(self, sub, pred="", objType="", useInversePred=False):
         # 1. Starts with building up the query depending on input parameters
         sub = self.toQueryUri(sub)
-        if pred:
+        if pred and 'http' in pred:
             pred = self.toQueryUri(pred)
         if objType:
             objType = self.toQueryUri(objType)

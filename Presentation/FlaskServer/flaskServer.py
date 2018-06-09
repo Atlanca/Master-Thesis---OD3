@@ -16,8 +16,6 @@ queryManager = sparqlQueryManager.InformationRetriever()
 
 @app.route('/index/<pattern>')
 def index(pattern):
-    # print(explanationGenerator.getDev(baseUri + 'thin_client_MVC'))
-   
     functionalStructure = explanationGenerator.getDev(baseUri + pattern)
     func_explanation = explanationTemplates.generateFunctionalFeatureImplementationSummary(baseUri + pattern, functionalStructure)
 
@@ -84,15 +82,10 @@ def getDirectSuperClass():
 
 @app.route('/getEntitiesByPath', methods=['POST'])
 def getEntitiesByPath():
-   
-    # startEntity = request.form.get('startEntity', '')
-    # print(startEntity)
     startEntity = baseUri + 'Cart'
-    print(request.form)
     startType = request.form.get('startType', '')
     relations = request.form.get('relations', '')
     relations = json.loads(relations)
-    print(relations)
 
     startEntities = queryManager.getIndividualsByType(startType)
     
@@ -107,11 +100,6 @@ def getEntitiesByPath():
             f.write('paths =' + json.dumps(paths))
         return json.dumps(paths)
     return ''
-
-    # startEntity = baseUri + 'purchase_products'
-    # relations = [{'source': baseUri + 'Feature', 'property': baseUri + 'compriseOf', 'target': baseUri + 'Requirement'},
-    #             {'source': baseUri + 'FunctionalRequirement', 'property': baseUri + 'partOf', 'target': baseUri + 'UseCase'},
-    #             {'source': baseUri + 'Feature', 'property': baseUri + 'modeledIn', 'target': baseUri + 'Diagram'}]
 
 @app.route('/getDirectSuperClassParentMap', methods=['POST'])
 def getDirectSuperClassParentMap():
@@ -163,6 +151,56 @@ def q2(feature):
                                         'logical': {'tab_id':'logical_view_tab', 'tab_name': 'Logical view', 'entity_structure': json.dumps(logicalStructure.toDict()), 'explanation': logic_explanation, 'background': '#f4f6ff'}, 
                                         'pattern': {'tab_id':'pattern_view_tab', 'tab_name': 'Pattern view', 'entity_structure': json.dumps(patternStructure.toDict()), 'explanation': pattern_explanation, 'background': '#f4fffc'}
                                         })
+
+@app.route('/q3/<feature>')
+def q3(feature):
+    # devBehaviorStructure = explanationGenerator.getPatternArchitecture()
+    # logBehaviorStructure = explanationGenerator.getDesignOptions()
+    # UIBehaviorStructure = explanationGenerator.getFunctionalView()
+    devBehaviorStructure = explanationGenerator.getDevelopmentBehaviorOfFeature(baseUri + feature)
+    logBehaviorStructure = explanationGenerator.getLogicalBehaviorOfFeature(baseUri + feature)
+    UIBehaviorStructure = explanationGenerator.getUIBehaviorOfFeature(baseUri + feature)
+
+    ui_explanation = explanationTemplates.generateBehaviorSummary(baseUri + feature, UIBehaviorStructure, 'ui')
+    development_explanation = explanationTemplates.generateBehaviorSummary(baseUri + feature, devBehaviorStructure, 'development')
+    logical_explanation = explanationTemplates.generateBehaviorSummary(baseUri + feature, logBehaviorStructure, 'logical')
+
+
+    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in logBehaviorStructure.entities for diagram in set(entity.diagrams)}
+
+
+    return render_template('childtemplate.html', 
+                            diagram_path='static/ClusteringGraph.js', 
+                            side_bar_diagram_file_paths=sideBardiagram_file_paths,
+                            entityData = {'functional': {'tab_id':'functional_view_tab', 'tab_name': 'Logical viewpoint', 'entity_structure': json.dumps(logBehaviorStructure.toDict()), 'explanation': logical_explanation, 'background': '#fff6f4'},
+                                        'logical': {'tab_id':'logical_view_tab', 'tab_name': 'Development viewpoint', 'entity_structure': json.dumps(devBehaviorStructure.toDict()), 'explanation': development_explanation, 'background': '#fff6f4'},
+                                        'pattern': {'tab_id':'pattern_view_tab', 'tab_name': 'UI viewpoint', 'entity_structure': json.dumps(UIBehaviorStructure.toDict()), 'explanation': ui_explanation, 'background': '#fff6f4'}
+                                        })
+@app.route('/q5/')
+def q5():
+    structure = explanationGenerator.getDesignOptions()
+    explanation = explanationTemplates.generateBehaviorSummary('', structure, 'ui')
+    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in structure.entities for diagram in set(entity.diagrams)}
+    return render_template('childtemplate.html', 
+                            diagram_path='static/ClusteringGraph.js', 
+                            side_bar_diagram_file_paths=sideBardiagram_file_paths,
+                            entityData = {'functional': {'tab_id':'functional_view_tab', 'tab_name': 'Rationale', 'entity_structure': json.dumps(structure.toDict()), 'explanation': explanation, 'background': '#fff6f4'},
+                                        })
+
+
+@app.route('/q4/<architecturalPattern>')
+def q4(architecturalPattern):
+    architecturalStructure = explanationGenerator.getRationaleOfArchitecture(baseUri + architecturalPattern)
+    pattern_explanation = explanationTemplates.generateRationaleSummary(baseUri + architecturalPattern, architecturalStructure)
+
+    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in architecturalStructure.entities for diagram in set(entity.diagrams)}
+
+
+    return render_template('childtemplate.html', 
+                            diagram_path='static/ClusteringGraph.js', 
+                            side_bar_diagram_file_paths=sideBardiagram_file_paths,
+                            entityData = {'functional': {'tab_id':'rationale_view_tab', 'tab_name': 'Rationale of architectural pattern', 'entity_structure': json.dumps(architecturalStructure.toDict()), 'explanation': pattern_explanation, 'background': '#fff6f4'}})
+
                             
 @app.route('/popup/diagram', methods=['POST'])
 def q2_popup_diagram():
@@ -185,19 +223,6 @@ def q2_popup_interactive_diagram():
                                   'newWindowPath': '/static/something.html'}
 
     return render_template('popupInteractiveDiagram.html', explanations=explanation)
-
-@app.route('/q4/<architecturalPattern>')
-def q4(architecturalPattern):
-    architecturalStructure = explanationGenerator.getRationaleOfArchitecture(baseUri + architecturalPattern)
-    func_explanation = explanationTemplates.generateFunctionalFeatureImplementationSummary(baseUri + architecturalPattern, architecturalStructure)
-
-    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in architecturalStructure.entities for diagram in set(entity.diagrams)}
-
-
-    return render_template('childtemplate.html', 
-                            diagram_path='static/ClusteringGraph.js', 
-                            side_bar_diagram_file_paths=sideBardiagram_file_paths,
-                            entityData = {'functional': {'tab_id':'functional_view_tab', 'tab_name': 'Functional view', 'entity_structure': json.dumps(architecturalStructure.toDict()), 'explanation': func_explanation, 'background': '#fff6f4'}})
 
 @app.route('/savegraph', methods=['POST'])
 def saveOntology():

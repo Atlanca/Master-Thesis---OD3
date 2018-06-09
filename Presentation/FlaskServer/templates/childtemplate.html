@@ -26,7 +26,7 @@
     </div>
     <div class='side-bar-text-base'>
       <!-- Summary -->
-      <h3 class="w3-bar-item title {{view}}summary" onclick='toggleVisiblityOfDescription("{{view}}summary")' style='padding-left:0px;'>Summary&emsp;-</h3>
+      <h3 class="w3-bar-item title {{view}}summary" onclick='toggleVisiblityOfDescription("{{view}}summary")' style='padding-left:0px;'>Overview&emsp;-</h3>
       <div class='{{view}}summary' style='max-height:10000px;'>
       {{entityData[view].explanation.summaryText|safe}}
       </div>
@@ -83,6 +83,7 @@
 {% endfor %} 
 <script>
     toggleTab("functional")
+    setFontColors()
 </script>
 
 

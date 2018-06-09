@@ -13,7 +13,7 @@ function buildDiagram(structure, view){
     // Adding clusters
     structure.entities.forEach(function(e){
         // Create invisible entity type clusters
-        g.setNode(getNameOfUri(e.type), {style:'fill:none;opacity:0;border:none;stroke:none'})
+        g.setNode(getNameOfUri(e.type), {label: getNameOfUri(e.type), style:'fill:gray;opacity:1;', clusterLabelPos: 'top'})
         // Create clusters for architectural views, sets them as parent to entity type clusters
         views.forEach(function(v){
             e.supertypes.forEach(function(s){
@@ -54,12 +54,14 @@ function buildDiagram(structure, view){
             if(Object.keys(ontologyCategories).includes(e.type)){
                 g.setNode(getNameOfUri(e.uri), {id: getNameOfUri(e.uri), 
                                                 label: getNameOfEntity(e), 
-                                                width: 800, 
+                                                width: 800,
+                                                height: 900, 
                                                 style: 'fill:' + getEntityColor(e)})
             }else{
                 g.setNode(getNameOfUri(e.uri), {id: getNameOfUri(e.uri), 
                                                 label: getNameOfEntity(e), 
-                                                width: 500, 
+                                                width: 500,
+                                                height: 600, 
                                                 style: 'fill:' + getEntityColor(e)})
             }
         }else{
@@ -142,15 +144,15 @@ function buildDiagram(structure, view){
     })
 
     // Lighten the colors a bit
-    d3.select('.interactive_diagram.' + view)
-    .selectAll('rect')
-    .each(function(){
-        color = d3.select(this).style('fill')
-        colorhsl = tinycolor(color).toHsl()
-        colorhsl.l = 0.7
-        d3.select(this).style('fill', tinycolor(colorhsl).toHexString())
-        // recursiveLighten(d3.select(this))
-    })
+    // d3.select('.interactive_diagram.' + view)
+    // .selectAll('rect')
+    // .each(function(){
+    //     color = d3.select(this).style('fill')
+    //     colorhsl = tinycolor(color).toHsl()
+    //     colorhsl.l = 0.7
+    //     d3.select(this).style('fill', tinycolor(colorhsl).toHexString())
+    //     // recursiveLighten(d3.select(this))
+    // })
 
     // Lighten the colors of the clusters
     gh.lightenClusters(0.9)
@@ -161,7 +163,7 @@ function buildDiagram(structure, view){
     gh.highlightNodepathsOnclick()
 
     // Resizing clusters to make them more consistent in size
-    gh.resizeClusters()
+    // gh.resizeClusters()
 
     gh.setClusterActions()
 
@@ -176,6 +178,6 @@ function buildDiagram(structure, view){
     gh.scaleDiagram()
     
     //Resize dummy and style dummy nodes
-    gh.resizeDummyNodes()
+    // gh.resizeDummyNodes()
 }
 

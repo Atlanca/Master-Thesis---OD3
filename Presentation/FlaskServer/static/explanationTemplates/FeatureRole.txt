@@ -1,8 +1,8 @@
 <!-- {{question: What is the role of the feature {feature_name}?}} -->
 
 <p>
-The role of the feature {feature_name} can be explained by its description and the responsibilities the feature has. 
-The responsibility for {feature_name} comprises of requirements which are in turn part of use cases and explained by user stories.
+The role of the <font class='class-font feature-font'>feature</font> <font class='entity-font feature-font'>{feature_name}</font> can be explained by its description and the responsibilities the <font class='class-font feature-font'>feature</font> has. 
+The responsibility comprises of <font class='class-font functional-requirement-font'>functional requirements</font> which are in turn part of <font class='class-font use-case-font'>use cases</font> and explained by <font class='class-font user-story-font'>user stories</font>.
 </p>
 
 <p>

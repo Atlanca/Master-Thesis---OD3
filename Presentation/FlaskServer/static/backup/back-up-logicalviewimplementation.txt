@@ -1,0 +1,28 @@
+The detailed path between purchase products to the implementation classes
+consists of requirements, logical classes, development classes and development class packages.
+
+Interactive relationship diagram
+
+<p>
+The <font class='feature-font class-font'>feature</font> <font class='feature-font entity-font'>{main_entity}</font> {rel_feat_req} {nbr_req} <font class='functional-requirement-font class-font'>functional requirements</font> which are {rel_req_logic} {nbr_logic} 
+ <font class='logical-class-font class-font'>logical classes</font> in the <font class='logical-font view-font'>logical view</font> of the architecture. These classes are in turn {rel_logic_dev} <font class='development-class-font class-font'>development classes</font> and 
+<font class='development-class-package-font class-font'>development class packages</font> in the <font class='development-font view-font'>development view</font> of the architecture. <font class='development-class-font class-font'>The development classes</font> are finally 
+{rel_dev_impl} the <font class='implementation-class-font class-font'>implementation classes</font>.
+</p>
+
+<h5>Views</h5>
+
+<p>
+To see an overview of the relations between feature {main_entity} and implementation classes, select the functional view tab. 
+</p>
+
+<p>
+To see how the implementation classes are mapped to the architectural patterns, select the pattern view tab.
+</p>
+
+<h5>Interactive relationship diagram</h5>
+<p>
+The left-side panel demonstrates how the feature {main_entity} maps to the implementation 
+classes via the Logical view. Clicking on any entity will highlight the paths to its other related entities. 
+To see all available actions, click the round "i" button at the top left of the panel.
+</p>

@@ -1,0 +1,9 @@
+<!-- {{question: What is the behavior of the feature {feature_name}?}} -->
+
+<p>
+The behavior of the feature {feature_name} from the {view_type} point of view is expressed by {diagram_type}.
+</p>
+
+<p>
+The subsequent sections contain descriptions of the entities found in this explanation.
+</p>
