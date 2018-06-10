@@ -120,7 +120,7 @@ class ExplanationGenerator:
             self.addRecursiveEntitiesAndRelations(es, designOption, self.baseUri + 'causes', self.baseUri + 'DesignOption', callback=callbackArgConAss)
         return es
 
-    def getBehaviorOfFeature(self, featureUri, behaviorUri, structureUri):
+    def getLogBehaviorOfFeature(self, featureUri, behaviorUri, structureUri):
         def callbackDiagram(es, s):
             self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'modeledIn', self.baseUri + 'Diagram')
 
@@ -137,8 +137,43 @@ class ExplanationGenerator:
 
         return es
 
+    def getAllRequirementsToLogicalClass(self):
+        es = ontologyStructureModel.EntityStructure()
+        requirements = self.ir.getIndividualsByType(self.baseUri + 'DevelopmentClass')
+
+        for req in requirements:
+            es.addEntity(req)
+            self.addRecursiveEntitiesAndRelations(es, req, self.baseUri + 'designs', self.baseUri + 'LogicalClass')
+            self.addRecursiveEntitiesAndRelations(es, req, self.baseUri + 'satisfies', self.baseUri + 'Requirement')
+            self.addRecursiveEntitiesAndRelations(es, req, self.baseUri + 'partOf', self.baseUri + 'Package')
+            self.addRecursiveEntitiesAndRelations(es, req, self.baseUri + 'partOf', self.baseUri + 'DevelopmentClassPackage')
+        return es
+
+    def getBehaviorOfFeature(self, featureUri, behaviorUri, structureUri):
+        def callbackDiagram(es, s):
+            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'modeledIn', self.baseUri + 'Diagram')
+
+        def callbackBehavior(es, s):
+            self.addRecursiveEntitiesAndRelations(es, s, 'owl:sameAs', behaviorUri, callbackDiagram)
+            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'expressedBy', behaviorUri, callbackDiagram)
+    
+        def callbackStructure(es, s):
+            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'designedBy', structureUri, callback=callbackBehavior)
+
+        def callbackLogicalStructure(es, s):
+            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'satisfiedBy', self.baseUri + 'Logical', callback=callbackStructure)
+            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'satisfiedBy', structureUri, callback=callbackBehavior)
+
+        es = ontologyStructureModel.EntityStructure()
+        es.addEntity(featureUri)
+        self.addRecursiveEntitiesAndRelations(es, featureUri, self.baseUri + 'compriseOf', self.baseUri + 'Requirement', callback=callbackLogicalStructure)
+        self.addRecursiveEntitiesAndRelations(es, featureUri, self.baseUri + 'realizedBy', structureUri, callback=callbackStructure)
+
+        return es
+
+
     def getLogicalBehaviorOfFeature(self, featureUri):
-        return self.getBehaviorOfFeature(featureUri, self.baseUri + 'LogicalBehavior', self.baseUri + 'LogicalStructure')
+        return self.getLogBehaviorOfFeature(featureUri, self.baseUri + 'LogicalBehavior', self.baseUri + 'LogicalStructure')
 
     def getDevelopmentBehaviorOfFeature(self, featureUri):
         return self.getBehaviorOfFeature(featureUri, self.baseUri + 'DevelopmentBehavior', self.baseUri + 'DevelopmentStructure')

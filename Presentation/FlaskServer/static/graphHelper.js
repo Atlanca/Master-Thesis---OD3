@@ -666,6 +666,8 @@ class graphHelper {
                     addDropdownItem(this, 'View diagrams', function(object){                        
                         self.createEmptyPopup()
                         var id = d3.select(object.parentNode).attr('id')
+                        console.log(id)
+                        console.log(self.entityToNodeIdMap[self.view])
                         var input = self.entityToNodeIdMap[self.view][id].diagrams
                         $.post('http://localhost:5000/popup/diagram', {'figure': input}, function(data){
                             self.addPopupContent(data)

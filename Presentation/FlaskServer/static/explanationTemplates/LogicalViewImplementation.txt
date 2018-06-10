@@ -1,16 +1,11 @@
-<!-- {{question: From the logical viewpoint: How is the feature {main_entity} mapped to its implementation?}} -->
-<!-- {{original question: How is the feature {main_entity} mapped to its implementation?}} -->
+<!-- {{question: How is the feature {no_style_feature_name} mapped to its implementation?}} -->
 
 <p>
-The detailed path between <font class='feature-font class-font'>purchase products</font> to the <font class='implementation-class-font class-font'>implementation classes</font> 
-consists of <font class='functional-requirement-font class-font'>functional requirements</font>,  <font class='logical-class-font view-font'>logical classes</font>, 
-<font class='development-class-package-font class-font'>development class packages</font> and <font class='development-class-font class-font'>development classes</font>. 
-Each entity is described in the sections below.
+The detailed view of the mapping between {feature_name} to the {target_type_name} 
+consists of {path_inbetween}. Each entity is described in the sections below.
 </p>
 
-<h5>Interactive relationship diagram</h5>
 <p>
-The left-side panel demonstrates how the feature {main_entity} maps to the implementation 
-classes via the Logical view. Clicking on any entity will highlight the paths to its other related entities. 
-To see all available actions, click the round "i" button at the top left of the panel.
-</p>
+To see what actions are available in the interactive graph (left-hand side), 
+press the round "i" button in the top left corner
+of the graph.</p>

@@ -147,8 +147,8 @@ def q2(feature):
     return render_template('childtemplate.html', 
                             diagram_path='static/ClusteringGraph.js', 
                             side_bar_diagram_file_paths=sideBardiagram_file_paths,
-                            entityData = {'functional': {'tab_id':'functional_view_tab', 'tab_name': 'Functional view', 'entity_structure': json.dumps(functionalStructure.toDict()), 'explanation': func_explanation, 'background': '#fff6f4'}, 
-                                        'logical': {'tab_id':'logical_view_tab', 'tab_name': 'Logical view', 'entity_structure': json.dumps(logicalStructure.toDict()), 'explanation': logic_explanation, 'background': '#f4f6ff'}, 
+                            entityData = {'functional': {'tab_id':'functional_view_tab', 'tab_name': 'Overview', 'entity_structure': json.dumps(functionalStructure.toDict()), 'explanation': func_explanation, 'background': '#fff6f4'}, 
+                                        'logical': {'tab_id':'logical_view_tab', 'tab_name': 'Detailed view', 'entity_structure': json.dumps(logicalStructure.toDict()), 'explanation': logic_explanation, 'background': '#f4f6ff'}, 
                                         'pattern': {'tab_id':'pattern_view_tab', 'tab_name': 'Pattern view', 'entity_structure': json.dumps(patternStructure.toDict()), 'explanation': pattern_explanation, 'background': '#f4fffc'}
                                         })
 
@@ -178,8 +178,9 @@ def q3(feature):
                                         })
 @app.route('/q5/')
 def q5():
-    structure = explanationGenerator.getDesignOptions()
-    explanation = explanationTemplates.generateBehaviorSummary('', structure, 'ui')
+    structure = explanationGenerator.getAllRequirementsToLogicalClass()
+    logBehaviorStructure = explanationGenerator.getLogicalBehaviorOfFeature(baseUri + 'purchase_products')
+    explanation = explanationTemplates.generateBehaviorSummary(baseUri + 'purchase_products', logBehaviorStructure, 'ui')
     sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in structure.entities for diagram in set(entity.diagrams)}
     return render_template('childtemplate.html', 
                             diagram_path='static/ClusteringGraph.js', 

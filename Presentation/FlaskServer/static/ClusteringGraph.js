@@ -1,14 +1,15 @@
 //--------------------------------------------------------------------
 // MAIN RENDERER FUNCTION
 //--------------------------------------------------------------------
+entityToNodeIdMap = {}
 function buildDiagram(structure, view){
     // Initialize the input graph
     var g = new dagreD3.graphlib.Graph({compound:true})
-    .setGraph({edgesep: 50, ranksep: 100, nodesep: 50, rankdir: 'LR'})
+    .setGraph({edgesep: 20, ranksep: 200, nodesep: 50, rankdir: 'LR'})
     .setDefaultEdgeLabel(function() { return {}; });
 
     var originalStructure = structure
-    var entityToNodeIdMap = {}
+    entityToNodeIdMap[view] = {}
 
     // Adding clusters
     structure.entities.forEach(function(e){
@@ -66,7 +67,8 @@ function buildDiagram(structure, view){
             }
         }else{
             g.setNode(getNameOfUri(e.uri), {id: getNameOfUri(e.uri), label: getNameOfEntity(e), style: 'fill:' + getEntityColor(e)})  
-            
+            id = getNameOfUri(e.uri)
+            entityToNodeIdMap[view][id] = e 
         }
             g.setParent(getNameOfUri(e.uri), getNameOfUri(e.type))
     })
@@ -164,6 +166,9 @@ function buildDiagram(structure, view){
 
     // Resizing clusters to make them more consistent in size
     // gh.resizeClusters()
+
+    d3.selectAll('.interactive-diagram.' + view + ' .clusters .cluster')
+
 
     gh.setClusterActions()
 
