@@ -33,21 +33,46 @@ class ExplanationTemplates:
         return entityFont
 
     def classesToText(self, entities):
+
+        def addEntityType(entity, entityType, entityTypes):
+            if entityType not in list(entityTypes.keys()):
+                entityTypes[entityType] = []
+                
+            entityTypes[entityType].append(entity)
+
         entityTypes = {}
-        for entityUri in entities:
-            entity = ontologyStructureModel.Entity(entityUri)
+        for entity in entities:
+            entitySupertypes = entity.supertypes
             entityType = explanationHelper.getNameFromUri(entity.type)
             
-            if entityType:
-                if entityType not in list(entityTypes.keys()):
-                    entityTypes[entityType] = []
-                
-                entityTypes[entityType].append(entity)
+            if self.baseUri + 'DevelopmentStructure' in entitySupertypes:
+                addEntityType(entity, 'DevelopmentStructure', entityTypes)
+
+            elif self.baseUri + 'DevelopmentBehavior' in entitySupertypes:
+                addEntityType(entity, 'DevelopmentBehavior', entityTypes)
+
+            elif self.baseUri + 'LogicalStructure' in entitySupertypes:
+                addEntityType(entity, 'LogicalStructure', entityTypes)
+
+            elif self.baseUri + 'LogicalBehavior' in entitySupertypes:
+                addEntityType(entity, 'LogicalBehavior', entityTypes)
+
+            elif self.baseUri + 'UIStructure' in entitySupertypes:
+                addEntityType(entity, 'UIStructure', entityTypes)
+
+            elif self.baseUri + 'UIBehavior' in entitySupertypes:
+                addEntityType(entity, 'UIBehavior', entityTypes)
+
+            elif self.baseUri + 'PhysicalStructure' in entitySupertypes:
+                addEntityType(entity, 'PhysicalStructure', entityTypes)
+
+            elif entityType and not 'dummy' in entityType:
+                addEntityType(entity, entityType, entityTypes)
 
         text = ''
         for index, entityType in enumerate(entityTypes):
             size = str(len(entityTypes[entityType]))
-            text += size + ' ' + self.styledName(self.pluralEngine.plural(explanationHelper.formatName(entityType), size), 'class-font', entityType)
+            text += self.styledName(size + ' ' + self.pluralEngine.plural(explanationHelper.formatName(entityType), size), 'class-font', entityType)
             if index < len(entityTypes) - 2:
                 text += ', '
             elif index == len(entityTypes) - 2:
@@ -223,14 +248,12 @@ class ExplanationTemplates:
         requirements = list(filter(lambda e: e.type == self.baseUri + 'FunctionalRequirement', structure.entities))
         logical = list(filter(lambda e: self.baseUri + 'LogicalStructure' in e.supertypes, structure.entities))
 
-        entityUris = [e.uri for e in structure.entities]
-
         template = explanationHelper.openText('static/explanationTemplates/LogicalViewImplementation.txt')
         entityName = explanationHelper.getNameOfEntity(main_entity)
         summary = template.format(no_style_feature_name=entityName,
                                   feature_name=self.styledName(explanationHelper.getNameOfEntity(main_entity), 'entity-font', entityType=main_entity.type), 
                                   target_type_name=self.styledName('implementation', 'class-font', entityType=self.baseUri + 'ImplementationClass'), 
-                                  path_inbetween=self.classesToText(entityUris))
+                                  path_inbetween=self.classesToText(structure.entities))
         
 
         question = self.getQuestion(summary)
@@ -277,7 +300,7 @@ class ExplanationTemplates:
         template = explanationHelper.openText('static/explanationTemplates/FunctionalViewImplementation.txt')
         summary = template.format(feature_name=self.styledName(explanationHelper.getNameOfEntity(mainEntity), 'class-font', mainEntity.type),
                                   no_style_feature_name=explanationHelper.getNameOfEntity(mainEntity),
-                                  path=self.classesToText([e.uri for e in structure.entities])
+                                  path=self.classesToText(structure.entities)
                                   )
         question = self.getQuestion(summary)
 
@@ -302,7 +325,7 @@ class ExplanationTemplates:
         template = explanationHelper.openText('static/explanationTemplates/PatternViewImplementation.txt')
         summary = template.format(impl_class=self.styledName('Implementation classes','class-font', self.baseUri + 'ImplementationClass'),
                                   arch_patt=self.styledName('Architectural patterns', 'class-font', self.baseUri + 'ArchitecturalPattern'),
-                                  path_inbetween=self.classesToText([e.uri for e in structure.entities])
+                                  path_inbetween=self.classesToText(structure.entities)
                                   )
         question = self.getQuestion(summary)
 
@@ -337,7 +360,7 @@ class ExplanationTemplates:
         
         template = explanationHelper.openText('static/explanationTemplates/FigureSummary.txt')
         
-        relatedEntityUris = [entity[1] for entity in self.informationRetriever.getRelations(figureUri, self.baseUri + 'models')]
+        relatedEntityUris = [onyologyStructureModel.Entity(entity[1]) for entity in self.informationRetriever.getRelations(figureUri, self.baseUri + 'models')]
         summary = template.format(classes=self.classesToText(relatedEntityUris))
         question = {'sub': 'View diagrams','orginial': ''}
 

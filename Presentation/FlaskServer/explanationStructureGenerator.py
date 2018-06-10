@@ -217,7 +217,7 @@ class ExplanationGenerator:
             else:
                 es.addEntity(entity)
         
-        architectureEntity = ontologyStructureModel.DummyEntity('dummy_architecture_uri', 'ArchitectureLayer', entityType='ArchitectureLayer', supertypes=['ArchitecturePattern'])
+        architectureEntity = ontologyStructureModel.DummyEntity('architecture_uri', 'ArchitectureLayer', supertypes=['ArchitectureFragment'])
         es.addEntity(architectureEntity)
 
         for relation in logical.relations:
@@ -228,7 +228,7 @@ class ExplanationGenerator:
             elif relation.source in architectureFragmentUris and relation.target not in architectureFragmentUris:
                 es.addRelation(relation.name, architectureEntity.uri, relation.target)
 
-        requirementEntity = ontologyStructureModel.DummyEntity('dummy_requirement_uri', 'Requirements', entityType='Requirement', supertypes=['Requirement'])
+        requirementEntity = ontologyStructureModel.DummyEntity('requirement_uri', 'Requirements', supertypes=['Requirement'])
         es.addEntity(requirementEntity)
 
         for relation in logical.relations:
