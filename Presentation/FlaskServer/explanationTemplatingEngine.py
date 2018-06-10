@@ -85,10 +85,10 @@ class ExplanationTemplates:
         return text
 
     def createSection(self, entityList, id, title, summary='', priority=1):
-        if summary:
-            section = sectionModel.Section(id, title, sectionSummary=summary, priority=priority)
-        else:
+        if entityList and not summary:
             section = sectionModel.Section(id, title, sectionSummary=self.sectionSummary(entityList[0].type), priority=priority)
+        else:
+            section = sectionModel.Section(id, title, sectionSummary=summary, priority=priority)
 
         for entity in entityList:
             diagrams = []
@@ -260,8 +260,10 @@ class ExplanationTemplates:
         # Setup the summary
         main_entity = [entity for entity in structure.entities if entity.uri == mainEntityUri][0]
         requirements = list(filter(lambda e: e.type == self.baseUri + 'FunctionalRequirement', structure.entities))
-        logical = list(filter(lambda e: self.baseUri + 'LogicalStructure' in e.supertypes, structure.entities))
-        development = list(filter(lambda e: self.baseUri + 'DevelopmentStructure' in e.supertypes, structure.entities))
+        logicalClasses = list(filter(lambda e: self.baseUri + 'LogicalClass' in e.supertypes, structure.entities))
+        developmentClasses = list(filter(lambda e: self.baseUri + 'DevelopmentClass' in e.supertypes, structure.entities))
+        developmentClassPackages = list(filter(lambda e: self.baseUri + 'DevelopmentClassPackage' in e.supertypes, structure.entities))
+        developmentPackages = list(filter(lambda e: self.baseUri + 'Package' in e.supertypes, structure.entities))
         implementation = list(filter(lambda e: self.baseUri + 'ImplementationClass' in e.supertypes, structure.entities))
 
         template = explanationHelper.openText('static/explanationTemplates/LogicalViewImplementation.txt')
@@ -276,8 +278,8 @@ class ExplanationTemplates:
         expTemplate = sectionModel.Template(question, summary)
         
         #Logical section      
-        logicalSection = self.createSection(logical, 'logical_section', 'Logical structures',
-                               summary=self.sectionSummary(logical[0].type), priority=3)
+        logicalSection = self.createSection(logicalClasses, 'logical_section', 'Logical classes',
+                               summary=self.sectionSummary(logicalClasses[0].type), priority=3)
 
         overviewDiagrams = self.getOverviewDiagrams(structure, 'LogicalStructure')
         
@@ -285,7 +287,7 @@ class ExplanationTemplates:
         for key, value in overviewDiagrams.items():
             dummySection = sectionModel.Section('overview' + str(overviewIdCounter), value['name'], sectionSummary=value['description'], sectionDiagrams=[{'uri': key, 'caption': value['caption']}])
             overviewIdCounter += 1
-        overviewSectionSummary = 'This section presents and describes diagrams that encapsulate all of the logical entities found in this explanation.'
+        overviewSectionSummary = 'This section presents and describes diagrams that encapsulate all of the logical classes found in this explanation.'
         overviewSection = sectionModel.Section('logical_overview', 'Overview', sectionSummary=overviewSectionSummary, priority=99)
         overviewSection.addChild(dummySection.toDict())
         logicalSection.addChild(overviewSection
@@ -296,10 +298,19 @@ class ExplanationTemplates:
         #Implementation section
         expTemplate.addSection(self.createSection(implementation, 'implementation_section', 'Implementation classes', 
                                summary=self.sectionSummary(implementation[0].type), priority=1).toDict())
+        if developmentClasses:
+            #Development structure section
+            expTemplate.addSection(self.createSection(developmentClasses, 'developmentClass_section', 'Development classes', 
+                                summary=self.sectionSummary(developmentClasses[0].type), priority=2).toDict())
+        if developmentClassPackages:
+            #Development structure section
+            expTemplate.addSection(self.createSection(developmentClassPackages, 'developmentClassPackage_section', 'Development class packages', 
+                                summary=self.sectionSummary(developmentClassPackages[0].type), priority=2).toDict())
+        if developmentPackages:
+            #Development structure section
+            expTemplate.addSection(self.createSection(developmentPackages, 'developmentPackage_section', 'Development packages', 
+                                summary=self.sectionSummary(developmentPackages[0].type), priority=2).toDict())
 
-        #Development structure section
-        expTemplate.addSection(self.createSection(development, 'development_section', 'Development structures', 
-                               summary=self.sectionSummary(development[0].type), priority=2).toDict())
         #Requirements section
         expTemplate.addSection(self.createSection(requirements, 'requirements_section', 'Functional requirements', 
                                summary=self.sectionSummary(requirements[0].type), priority=4).toDict())
@@ -345,7 +356,9 @@ class ExplanationTemplates:
         impl = list(filter(lambda e: e.type == self.baseUri + 'ImplementationClass', structure.entities))
         role = list(filter(lambda e: e.type == self.baseUri + 'Role', structure.entities))
         arch = list(filter(lambda e: e.type == self.baseUri + 'ArchitecturalPattern', structure.entities))
-        dev = list(filter(lambda e: self.baseUri + 'DevelopmentStructure' in e.supertypes, structure.entities))
+        developmentClasses = list(filter(lambda e: self.baseUri + 'DevelopmentClass' in e.supertypes, structure.entities))
+        developmentClassPackages = list(filter(lambda e: self.baseUri + 'DevelopmentClassPackage' in e.supertypes, structure.entities))
+        developmentPackages = list(filter(lambda e: self.baseUri + 'DevelopmentPackage' in e.supertypes, structure.entities))
 
         template = explanationHelper.openText('static/explanationTemplates/PatternViewImplementation.txt')
         summary = template.format(impl_class=self.styledName('Implementation classes','class-font', self.baseUri + 'ImplementationClass'),
@@ -357,12 +370,21 @@ class ExplanationTemplates:
         sectionImplOverview = ''
         sectionImplOverview = sectionImplOverview.format(main_entity=explanationHelper.getNameOfEntity(mainEntity))
         
+        expTemplate = sectionModel.Template(question, summary)
+
         implSection = self.createSection(impl, 'impl_section', 'Implementation classes',
                                summary=sectionImplOverview, priority=4)
         
-        sectionDevOverview = ''
-        devSection = self.createSection(dev, 'dev_section', 'Development structures',
-                               summary=sectionDevOverview, priority=3)
+        if developmentClasses:
+            expTemplate.addSection(self.createSection(developmentClasses, 'developmentClass_section', 'Development classes', 
+                                summary=self.sectionSummary(developmentClasses[0].type), priority=2).toDict())
+        if developmentClassPackages:
+            expTemplate.addSection(self.createSection(developmentClassPackages, 'developmentClassPackage_section', 'Development class packages', 
+                                summary=self.sectionSummary(developmentClassPackages[0].type), priority=2).toDict())
+        if developmentPackages:
+            expTemplate.addSection(self.createSection(developmentPackages, 'developmentPackage_section', 'Development packages', 
+                                summary=self.sectionSummary(developmentPackages[0].type), priority=2).toDict())
+
 
         sectionRoleOverview = ''
         roleSection = self.createSection(role, 'role_section', 'Roles',
@@ -372,11 +394,9 @@ class ExplanationTemplates:
         archSection = self.createSection(arch, 'arch_section', 'Architectural patterns',
                                summary=sectionArchOverview, priority=1)
 
-        expTemplate = sectionModel.Template(question, summary)
         expTemplate.addSection(implSection.toDict())
         expTemplate.addSection(roleSection.toDict())
         expTemplate.addSection(archSection.toDict())
-        expTemplate.addSection(devSection.toDict())
 
         return expTemplate
 

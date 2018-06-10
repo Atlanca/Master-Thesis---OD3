@@ -137,16 +137,17 @@ class ExplanationGenerator:
 
         return es
 
-    def getAllRequirementsToLogicalClass(self):
+    def getFunctionalityOfSystem(self):
+        def callbackRequirement(es, s):
+            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'partOf', self.baseUri + 'UseCase')
+            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'explainedBy', self.baseUri + 'UserStory')
+
         es = ontologyStructureModel.EntityStructure()
-        requirements = self.ir.getIndividualsByType(self.baseUri + 'DevelopmentClass')
+        requirements = self.ir.getIndividualsByType(self.baseUri + 'Feature')
 
         for req in requirements:
             es.addEntity(req)
-            self.addRecursiveEntitiesAndRelations(es, req, self.baseUri + 'designs', self.baseUri + 'LogicalClass')
-            self.addRecursiveEntitiesAndRelations(es, req, self.baseUri + 'satisfies', self.baseUri + 'Requirement')
-            self.addRecursiveEntitiesAndRelations(es, req, self.baseUri + 'partOf', self.baseUri + 'Package')
-            self.addRecursiveEntitiesAndRelations(es, req, self.baseUri + 'partOf', self.baseUri + 'DevelopmentClassPackage')
+            self.addRecursiveEntitiesAndRelations(es, req, self.baseUri + 'compriseOf', self.baseUri + 'Requirement', callback=callbackRequirement)
         return es
 
     def getBehaviorOfFeature(self, featureUri, behaviorUri, structureUri):

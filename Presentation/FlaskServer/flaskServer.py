@@ -178,7 +178,7 @@ def q3(feature):
                                         })
 @app.route('/q5/')
 def q5():
-    structure = explanationGenerator.getAllRequirementsToLogicalClass()
+    structure = explanationGenerator.getFunctionalityOfSystem()
     logBehaviorStructure = explanationGenerator.getLogicalBehaviorOfFeature(baseUri + 'purchase_products')
     explanation = explanationTemplates.generateBehaviorSummary(baseUri + 'purchase_products', logBehaviorStructure, 'ui')
     sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in structure.entities for diagram in set(entity.diagrams)}
