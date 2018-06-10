@@ -1,5 +1,5 @@
 /* Clusters */
-.clusters rect {
+.cluster rect {
   stroke: lightgrey;
   stroke-width: 10px;
   transition: stroke-width 1s;
@@ -7,7 +7,7 @@
   pointer-events: none;
 }
 
-.clusters text {
+.cluster text {
  font-size: 50px !important;
  opacity: 0.6;
  cursor:pointer;

@@ -218,7 +218,7 @@ class ExplanationGenerator:
             else:
                 es.addEntity(entity)
         
-        architectureEntity = ontologyStructureModel.DummyEntity('architecture_uri', 'ArchitectureLayer', supertypes=['ArchitectureFragment'])
+        architectureEntity = ontologyStructureModel.DummyEntity('architecture_uri', 'ArchitectureFragments', supertypes=['ArchitectureFragment'])
         es.addEntity(architectureEntity)
 
         for relation in logical.relations:

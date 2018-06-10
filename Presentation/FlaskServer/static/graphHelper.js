@@ -25,6 +25,7 @@ var ONTOLOGY_COLORS = { 'Feature': '#af2d2d', 'Requirement': '#cc6a51',
                         'Assumption': 'ffaece',
                         'Implementation': '#dbd8cb', 
                         'ImplementationClass': '#dbd8cb',
+                        'ArchitecturalPatternLayer': '#779658', 
                         'ArchitectureLayer': '#6bb496', 
                         'RequirementLayer': '#af2d2d',
                         'DevelopmentStructure': '#308f91', 
@@ -42,6 +43,8 @@ var ontologyCategories = {'ArchitecturalPatternLayer':  ['Role', 'ArchitecturalP
                           'RequirementLayer':           ['Requirement', 'UserStory', 'UseCase', 'Feature'], 
                           'RationaleLayer':             ['DesignOption', 'Technology', 'Argument', 'Constraint', 'Assumption'], 
                           'ImplementationLayer':        ['Implementation']}
+
+var ontologyDummyCategories = ['ArchitectureFragment']
 
 function getEntityColor(entity){
     if (ONTOLOGY_COLORS[getNameOfUri(entity.type)]){
@@ -298,24 +301,8 @@ class graphHelper {
     
     resizeClusters(){
         var self = this
-    
-        // Make all clusters a bit larger in height
-        // var heightDelta = 100
-        // d3.select('.interactive_diagram.' + self.view)
-        // .selectAll('.cluster')
-        // .each(function(){
-        //     var cluster = d3.select(this)
-        //     if(!cluster.empty()){
-        //         var clusterHeight = parseFloat(cluster.select('rect').attr('height'))
-        //         var clusterY = parseFloat(cluster.select('rect').attr('y'))
-        //         cluster.select('rect')
-        //         .attr('height', clusterHeight + heightDelta) 
-        //         .attr('y', clusterY - heightDelta/2) 
-        //     }
-        // })
-    
-        // Make ontology category clusters larger in height in comparison to all other clusters
 
+        // Make ontology category clusters larger in height in comparison to all other clusters
         Object.keys(ontologyCategories).forEach(function(oc){
             var cluster = d3.select('.interactive_diagram.' + self.view).select('#' + oc)
             var heightDelta = 150
@@ -347,7 +334,7 @@ class graphHelper {
             .select('text')
             .style('fill', tinycolor(color).darken(25).toString())
         })
-    
+
         // Rounder corners of clusters
         d3.select('.interactive_diagram.' + self.view)
         .selectAll('.cluster')

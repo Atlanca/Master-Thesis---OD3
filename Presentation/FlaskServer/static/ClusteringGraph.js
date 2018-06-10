@@ -61,11 +61,11 @@ function buildDiagram(structure, view){
     // Sets parent for entities to relative entity type cluster
     structure.entities.forEach(function(e){ 
         if(e.uri.includes('dummy')){
-            if(Object.keys(ontologyCategories).includes(e.type)){
+            if(ontologyDummyCategories.includes(e.supertypes[0])){
                 g.setNode(getNameOfUri(e.uri), {id: getNameOfUri(e.uri), 
                                                 label: getNameOfEntity(e), 
-                                                width: 800,
-                                                height: 900, 
+                                                width: 1000,
+                                                height: 1200, 
                                                 style: 'fill:' + getEntityColor(e)})
             }else{
                 g.setNode(getNameOfUri(e.uri), {id: getNameOfUri(e.uri), 
@@ -161,6 +161,18 @@ function buildDiagram(structure, view){
         var cluster = d3.select('.interactive_diagram.' + view).select('#' + oc)
         if(cluster.node()){
             clusters.node().insertBefore(cluster.node(), clusters.node().childNodes[0])
+        }
+    })
+
+
+    d3.select('.interactive_diagram.' + view)
+    .selectAll('.node').each(function(){
+        if (d3.select(this).attr('id').includes('dummy')) {
+            d3.select(this)
+            .classed('cluster', true)
+            .classed('node', false)
+            .select('rect')
+            .classed('nodeRect', false)
         }
     })
 
