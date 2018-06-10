@@ -44,35 +44,39 @@ class ExplanationTemplates:
         for entity in entities:
             entitySupertypes = entity.supertypes
             entityType = explanationHelper.getNameFromUri(entity.type)
-            
-            if self.baseUri + 'DevelopmentStructure' in entitySupertypes:
-                addEntityType(entity, 'DevelopmentStructure', entityTypes)
 
-            elif self.baseUri + 'DevelopmentBehavior' in entitySupertypes:
-                addEntityType(entity, 'DevelopmentBehavior', entityTypes)
-
-            elif self.baseUri + 'LogicalStructure' in entitySupertypes:
-                addEntityType(entity, 'LogicalStructure', entityTypes)
-
-            elif self.baseUri + 'LogicalBehavior' in entitySupertypes:
-                addEntityType(entity, 'LogicalBehavior', entityTypes)
-
-            elif self.baseUri + 'UIStructure' in entitySupertypes:
-                addEntityType(entity, 'UIStructure', entityTypes)
-
-            elif self.baseUri + 'UIBehavior' in entitySupertypes:
-                addEntityType(entity, 'UIBehavior', entityTypes)
-
-            elif self.baseUri + 'PhysicalStructure' in entitySupertypes:
-                addEntityType(entity, 'PhysicalStructure', entityTypes)
-
-            elif entityType and not 'dummy' in entityType:
+            if entityType and not 'dummy' in entityType:
                 addEntityType(entity, entityType, entityTypes)
 
         text = ''
         for index, entityType in enumerate(entityTypes):
             size = str(len(entityTypes[entityType]))
-            text += self.styledName(size + ' ' + self.pluralEngine.plural(explanationHelper.formatName(entityType), size), 'class-font', entityType)
+            entitySupertypes = entityTypes[entityType][0].supertypes
+
+            eType = entityType
+
+            if self.baseUri + 'DevelopmentStructure' in entitySupertypes:
+                eType = 'DevelopmentStructure' 
+
+            elif self.baseUri + 'DevelopmentBehavior' in entitySupertypes:
+                eType = 'DevelopmentBehavior' 
+
+            elif self.baseUri + 'LogicalStructure' in entitySupertypes:
+                eType = 'LogicalStructure' 
+
+            elif self.baseUri + 'LogicalBehavior' in entitySupertypes:
+                eType = 'LogicalBehavior' 
+
+            elif self.baseUri + 'UIStructure' in entitySupertypes:
+                eType = 'UIStructure' 
+
+            elif self.baseUri + 'UIBehavior' in entitySupertypes:
+                eType = 'UIBehavior' 
+
+            elif self.baseUri + 'PhysicalStructure' in entitySupertypes:
+                eType = 'PhysicalStructure' 
+
+            text += self.styledName(size + ' ' + self.pluralEngine.plural(explanationHelper.formatName(entityType), size), 'class-font', eType)
             if index < len(entityTypes) - 2:
                 text += ', '
             elif index == len(entityTypes) - 2:
@@ -81,7 +85,10 @@ class ExplanationTemplates:
         return text
 
     def createSection(self, entityList, id, title, summary='', priority=1):
-        section = sectionModel.Section(id, title, sectionSummary=summary, priority=priority)
+        if summary:
+            section = sectionModel.Section(id, title, sectionSummary=summary, priority=priority)
+        else:
+            section = sectionModel.Section(id, title, sectionSummary=self.sectionSummary(entityList[0].type), priority=priority)
 
         for entity in entityList:
             diagrams = []
@@ -241,12 +248,21 @@ class ExplanationTemplates:
             name = name.format(fontType=fontType, entityFontName=self.getEntityFont(text), textName=explanationHelper.getNameFromUri(text))
         return name
 
+    def sectionSummary(self, typeUri):
+        name = self.pluralEngine.plural(explanationHelper.formatName(explanationHelper.getNameFromUri(typeUri)), 2)
+        summary = 'This section lists the {name} and their descriptions'
+        summary = summary.format(name=name)
+        return summary
+        
     # HOW IS THIS FEAURE MAPPED TO THE IMPLEMENTATION?
+    # Detailed - Feature to implementation mapping
     def generateLogicalFeatureImplementationSummary(self, mainEntityUri, structure):
         # Setup the summary
         main_entity = [entity for entity in structure.entities if entity.uri == mainEntityUri][0]
         requirements = list(filter(lambda e: e.type == self.baseUri + 'FunctionalRequirement', structure.entities))
         logical = list(filter(lambda e: self.baseUri + 'LogicalStructure' in e.supertypes, structure.entities))
+        development = list(filter(lambda e: self.baseUri + 'DevelopmentStructure' in e.supertypes, structure.entities))
+        implementation = list(filter(lambda e: self.baseUri + 'ImplementationClass' in e.supertypes, structure.entities))
 
         template = explanationHelper.openText('static/explanationTemplates/LogicalViewImplementation.txt')
         entityName = explanationHelper.getNameOfEntity(main_entity)
@@ -259,11 +275,9 @@ class ExplanationTemplates:
         question = self.getQuestion(summary)
         expTemplate = sectionModel.Template(question, summary)
         
-        #Logical section
-        sectionLogicalOverview = ''
-        
-        logicalSection = self.createSection(logical, 'logical_section', 'Logical entities',
-                               summary=sectionLogicalOverview, priority=3)
+        #Logical section      
+        logicalSection = self.createSection(logical, 'logical_section', 'Logical structures',
+                               summary=self.sectionSummary(logical[0].type), priority=3)
 
         overviewDiagrams = self.getOverviewDiagrams(structure, 'LogicalStructure')
         
@@ -279,22 +293,26 @@ class ExplanationTemplates:
 
         expTemplate.addSection(logicalSection.toDict())
 
+        #Implementation section
+        expTemplate.addSection(self.createSection(implementation, 'implementation_section', 'Implementation classes', 
+                               summary=self.sectionSummary(implementation[0].type), priority=1).toDict())
+
+        #Development structure section
+        expTemplate.addSection(self.createSection(development, 'development_section', 'Development structures', 
+                               summary=self.sectionSummary(development[0].type), priority=2).toDict())
         #Requirements section
-        sectionReqOverview = ''
-        expTemplate.addSection(self.createSection(requirements, 'requirements_section', 'Requirement entities', 
-                               summary=sectionReqOverview, priority=2).toDict())
+        expTemplate.addSection(self.createSection(requirements, 'requirements_section', 'Functional requirements', 
+                               summary=self.sectionSummary(requirements[0].type), priority=4).toDict())
 
         #Feature section
-        sectionFeatureOverview = ''
         expTemplate.addSection(self.createSection([main_entity], 'feature_section', 'Feature',
-                               summary=sectionFeatureOverview, priority=1).toDict())
+                               summary=self.sectionSummary(main_entity.type), priority=5).toDict())
        
         return expTemplate.toDict()
         
-    def generateFunctionalFeatureImplementationSummary(self, mainEntityUri, structure):
-        
+    # Overview - Feature to implementation mapping
+    def generateFunctionalFeatureImplementationSummary(self, mainEntityUri, structure):      
         mainEntity = [entity for entity in structure.entities if entity.uri == mainEntityUri][0]
-        req = list(filter(lambda e: e.type == self.baseUri + 'FunctionalRequirement', structure.entities))
         impl = list(filter(lambda e: self.baseUri + 'ImplementationClass' in e.supertypes, structure.entities))
 
         template = explanationHelper.openText('static/explanationTemplates/FunctionalViewImplementation.txt')
@@ -303,17 +321,24 @@ class ExplanationTemplates:
                                   path=self.classesToText(structure.entities)
                                   )
         question = self.getQuestion(summary)
+  
+        expTemplate = sectionModel.Template(question, summary)
 
+        #Feature section
+        sectionFeatureOverview = ''
+        expTemplate.addSection(self.createSection([mainEntity], 'feature_section', 'Feature',
+                               summary=sectionFeatureOverview, priority=5).toDict())
+
+        #Implmentation section
         sectionImplOverview = ''
         sectionImplOverview = sectionImplOverview.format(main_entity=explanationHelper.getNameOfEntity(mainEntity))
-        implSection = self.createSection(impl, 'impl_section', 'Implementation classes',
-                               summary=sectionImplOverview, priority=3)
+        expTemplate.addSection(self.createSection(impl, 'impl_section', 'Implementation classes',
+                               summary=sectionImplOverview, priority=3).toDict())
 
-        expTemplate = sectionModel.Template(question, summary)
-        expTemplate.addSection(implSection.toDict())
 
         return expTemplate
         
+    # Pattern - Feature to implementation mapping
     def generatePatternFeatureImplementationSummary(self, mainEntityUri, structure):
         
         mainEntity = ontologyStructureModel.Entity(mainEntityUri)
@@ -333,19 +358,19 @@ class ExplanationTemplates:
         sectionImplOverview = sectionImplOverview.format(main_entity=explanationHelper.getNameOfEntity(mainEntity))
         
         implSection = self.createSection(impl, 'impl_section', 'Implementation classes',
-                               summary=sectionImplOverview, priority=1)
-        
-        sectionRoleOverview = ''
-        roleSection = self.createSection(role, 'role_section', 'Pattern roles',
-                               summary=sectionRoleOverview, priority=3)
+                               summary=sectionImplOverview, priority=4)
         
         sectionDevOverview = ''
-        devSection = self.createSection(dev, 'dev_section', 'Development entities',
-                               summary=sectionDevOverview, priority=2)
+        devSection = self.createSection(dev, 'dev_section', 'Development structures',
+                               summary=sectionDevOverview, priority=3)
+
+        sectionRoleOverview = ''
+        roleSection = self.createSection(role, 'role_section', 'Roles',
+                               summary=sectionRoleOverview, priority=2)
         
         sectionArchOverview = ''
         archSection = self.createSection(arch, 'arch_section', 'Architectural patterns',
-                               summary=sectionArchOverview, priority=4)
+                               summary=sectionArchOverview, priority=1)
 
         expTemplate = sectionModel.Template(question, summary)
         expTemplate.addSection(implSection.toDict())
@@ -360,7 +385,7 @@ class ExplanationTemplates:
         
         template = explanationHelper.openText('static/explanationTemplates/FigureSummary.txt')
         
-        relatedEntityUris = [onyologyStructureModel.Entity(entity[1]) for entity in self.informationRetriever.getRelations(figureUri, self.baseUri + 'models')]
+        relatedEntityUris = [ontologyStructureModel.Entity(entity[1]) for entity in self.informationRetriever.getRelations(figureUri, self.baseUri + 'models')]
         summary = template.format(classes=self.classesToText(relatedEntityUris))
         question = {'sub': 'View diagrams','orginial': ''}
 

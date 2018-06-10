@@ -44,28 +44,18 @@ var ontologyCategories = {'ArchitecturalPatternLayer':  ['Role', 'ArchitecturalP
                           'ImplementationLayer':        ['Implementation']}
 
 function getEntityColor(entity){
-    if(getNameOfUri(entity.type) == 'DevelopmentClassPackage'){
-        color = tinycolor(ONTOLOGY_COLORS['Development']).toHsl()
-        color.l = 0.6
-        color = tinycolor(color).toHexString()
-    }
-    else if(getNameOfUri(entity.type) == 'DevelopmentClass'){
-        color = tinycolor(ONTOLOGY_COLORS['Development']).toHsl()
-        color.l = 0.75
-        color = tinycolor(color).toHexString()
-    }
-    else if(ONTOLOGY_COLORS[getNameOfUri(entity.type)]){
+    if (ONTOLOGY_COLORS[getNameOfUri(entity.type)]){
         color = tinycolor(ONTOLOGY_COLORS[getNameOfUri(entity.type)]).toHsl()
         color.l = 0.7
         color = tinycolor(color).toHexString()
-    }else{
+    } else {
         color = ''
         entity.supertypes.forEach(function(s){
             //TODO: find a way to better code this
             //Brighten classes of view
             
-            if(ONTOLOGY_COLORS[getNameOfUri(s)]){
-                if(!color)
+            if (ONTOLOGY_COLORS[getNameOfUri(s)]){
+                if (!color)
                     color = tinycolor(ONTOLOGY_COLORS[getNameOfUri(s)]).toHsl()
                     color.l = 0.7
                     color = tinycolor(color).toHexString()

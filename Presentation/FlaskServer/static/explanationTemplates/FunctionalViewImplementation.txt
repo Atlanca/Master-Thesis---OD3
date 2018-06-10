@@ -8,5 +8,5 @@ view of this mapping, select the detailed view tab.
 
 <p>
 To see what actions are available in the interactive graph (left-hand side), 
-press the round "i" button in the top left corner
+press the round "i" button in the top left corner 
 of the graph.</p>

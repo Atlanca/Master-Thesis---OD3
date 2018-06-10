@@ -36,7 +36,7 @@ class DummyEntity(Entity):
         if entityType:
             self.type = entityType
         else:
-            self.type = self.uri + '_type'
+            self.type = self.uri
         self.dataTypeProperties = []
         self.diagrams = []
 

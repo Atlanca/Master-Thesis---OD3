@@ -51,7 +51,7 @@ function buildDiagram(structure, view){
 
     // Sets parent for entities to relative entity type cluster
     structure.entities.forEach(function(e){ 
-        if(e.uri.includes('dummy_')){
+        if(e.uri.includes('dummy')){
             if(Object.keys(ontologyCategories).includes(e.type)){
                 g.setNode(getNameOfUri(e.uri), {id: getNameOfUri(e.uri), 
                                                 label: getNameOfEntity(e), 
@@ -70,6 +70,7 @@ function buildDiagram(structure, view){
             id = getNameOfUri(e.uri)
             entityToNodeIdMap[view][id] = e 
         }
+        if(e.uri != e.type)
             g.setParent(getNameOfUri(e.uri), getNameOfUri(e.type))
     })
 
