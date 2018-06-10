@@ -2,6 +2,15 @@
 // MAIN RENDERER FUNCTION
 //--------------------------------------------------------------------
 entityToNodeIdMap = {}
+
+function getViewColor(v){
+    var color = ONTOLOGY_COLORS[v]
+    var hsl = tinycolor(color).toHsl()
+    hsl.l = 0.8
+    color = tinycolor(hsl).toHexString()
+    return color
+}
+
 function buildDiagram(structure, view){
     // Initialize the input graph
     var g = new dagreD3.graphlib.Graph({compound:true})
@@ -14,13 +23,13 @@ function buildDiagram(structure, view){
     // Adding clusters
     structure.entities.forEach(function(e){
         // Create invisible entity type clusters
-        g.setNode(getNameOfUri(e.type), {label: getNameOfUri(e.type), style:'fill:gray;opacity:1;', clusterLabelPos: 'top'})
+        g.setNode(getNameOfUri(e.type), {label: getNameOfUri(e.type), style:'fill:' + getEntityColor(e) + ';opacity:1;', clusterLabelPos: 'top'})
         // Create clusters for architectural views, sets them as parent to entity type clusters
         views.forEach(function(v){
             e.supertypes.forEach(function(s){
                 if(s.includes(v)){
                     if(!g.nodes().includes(v))
-                        g.setNode(v, {label: v + ' view', style: 'fill:' + ONTOLOGY_COLORS[v] + ';stroke:' + ONTOLOGY_COLORS[v] , clusterLabelPos: 'top'})
+                        g.setNode(v, {id: v, label: v + ' view', style: 'fill:' + ONTOLOGY_COLORS[v] + ';stroke:' + ONTOLOGY_COLORS[v] , clusterLabelPos: 'top'})
                     g.setParent(getNameOfUri(e.type), v)
                 }
             }) 
@@ -137,28 +146,26 @@ function buildDiagram(structure, view){
         }
     }
 
-    // Make ontology layers to be positioned behind everything
-    Object.keys(ontologyCategories).forEach(function(oc){
-        clusters = d3.select('.interactive_diagram.' + view).select('.clusters')
-        cluster = d3.select('.interactive_diagram.' + view).select('#' + oc)
+    // Make ontology views be positioned second to last
+    views.forEach(function(v){
+        var clusters = d3.select('.interactive_diagram.' + view).select('.clusters')
+        var cluster = d3.select('.interactive_diagram.' + view).select('#' + v)
         if(cluster.node()){
             clusters.node().insertBefore(cluster.node(), clusters.node().childNodes[0])
         }
     })
 
-    // Lighten the colors a bit
-    // d3.select('.interactive_diagram.' + view)
-    // .selectAll('rect')
-    // .each(function(){
-    //     color = d3.select(this).style('fill')
-    //     colorhsl = tinycolor(color).toHsl()
-    //     colorhsl.l = 0.7
-    //     d3.select(this).style('fill', tinycolor(colorhsl).toHexString())
-    //     // recursiveLighten(d3.select(this))
-    // })
+    // Make ontology layers to be positioned behind everything
+    Object.keys(ontologyCategories).forEach(function(oc){
+        var clusters = d3.select('.interactive_diagram.' + view).select('.clusters')
+        var cluster = d3.select('.interactive_diagram.' + view).select('#' + oc)
+        if(cluster.node()){
+            clusters.node().insertBefore(cluster.node(), clusters.node().childNodes[0])
+        }
+    })
 
     // Lighten the colors of the clusters
-    gh.lightenClusters(0.9)
+    gh.lightenClusters(0.85)
 
     // Add logic for highlighting relations and entities
     var toggleOn = ''
@@ -166,10 +173,7 @@ function buildDiagram(structure, view){
     gh.highlightNodepathsOnclick()
 
     // Resizing clusters to make them more consistent in size
-    // gh.resizeClusters()
-
-    d3.selectAll('.interactive-diagram.' + view + ' .clusters .cluster')
-
+    gh.resizeClusters()
 
     gh.setClusterActions()
 

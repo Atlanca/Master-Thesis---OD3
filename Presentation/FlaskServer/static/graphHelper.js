@@ -137,15 +137,26 @@ class graphHelper {
         d3.select('.interactive_diagram.' + self.view).selectAll('.cluster')
         .select('rect')
         .each(function(){
+            var parentId = d3.select(this.parentNode).attr('id')
             var color = d3.select(this).style('fill')
-            
             var newColor = tinycolor(color).toHsl()
-            newColor.l = targetL
+            var newTargetL = targetL
+
+            if (parentId == null){
+                
+            }
+            else if (views.includes(parentId)){
+                newTargetL = targetL + 0.03
+                console.log(parentId)
+            }else if (Object.keys(ontologyCategories).includes(parentId)) {
+                newTargetL = targetL + 0.06
+            }
+
+            newColor.l = newTargetL
             var newColorFill = tinycolor(newColor).toHex().toString()
             
-            newColor.l = targetL - 0.1
+            newColor.l = newTargetL - 0.1
             var newColorStroke = tinycolor(newColor).toHex().toString()
-    
             d3.select(this).style('fill', newColorFill)
             d3.select(this).style('stroke', newColorStroke)
         })
@@ -287,76 +298,24 @@ class graphHelper {
     
     resizeClusters(){
         var self = this
-        var largestYtop = 0
-        var largestYbot = 0
-
-        d3.select('.interactive_diagram.' + self.view)
-        .selectAll('.cluster')
-        .each(function(){
-            var currentBBox = d3.select(this).node().getBBox()
-            if(currentBBox.y < largestYtop){
-                largestYtop = currentBBox.y
-            }
-            if(currentBBox.height + Math.abs(currentBBox.y) > largestYbot){
-                largestYbot = currentBBox.height + Math.abs(currentBBox.y)
-            }
-        })
-        largestYbot = largestYbot - Math.abs(largestYtop) + 100
-        
-        var clusterTransform = d3.select('.interactive_diagram.' + self.view)
-                                    .select('.cluster')
-                                    .attr('transform')
-                                    .replace('translate(', '')
-                                    .replace(')','')
-                                    .split(',')
-        var clusterTransformY = parseFloat(clusterTransform[1])
-        
-        d3.select('.interactive_diagram.' + self.view)
-        .selectAll('.cluster')
-        .each(function(){ 
-            var currentTransform = d3.select(this)
-                                .attr('transform')
-                                .replace(/,\d+\.*\d+/, ',' + clusterTransformY) 
-    
-            d3.select(this)
-            .attr('transform', currentTransform)
-            
-            // Make cluster rects wider
-            d3.select(this)
-            .select('rect')
-            .attr('x', (parseFloat(d3.select(this)
-                                    .select('rect')
-                                    .attr('x')) - 25) + 'px')
-    
-            d3.select(this)
-            .select('rect')
-            .attr('width', (parseFloat(d3.select(this)
-                                        .select('rect')
-                                        .attr('width')) + 50) + 'px')
-        })
-    
-        d3.select('.interactive_diagram.' + self.view)
-        .selectAll('.cluster')
-        .select('rect')
-        .attr('y', largestYtop - 50)
-        .attr('height',largestYbot)
     
         // Make all clusters a bit larger in height
-        var heightDelta = 100
-        d3.select('.interactive_diagram.' + self.view)
-        .selectAll('.cluster')
-        .each(function(){
-            var cluster = d3.select(this)
-            if(!cluster.empty()){
-                var clusterHeight = parseFloat(cluster.select('rect').attr('height'))
-                var clusterY = parseFloat(cluster.select('rect').attr('y'))
-                cluster.select('rect')
-                .attr('height', clusterHeight + heightDelta) 
-                .attr('y', clusterY - heightDelta/2) 
-            }
-        })
+        // var heightDelta = 100
+        // d3.select('.interactive_diagram.' + self.view)
+        // .selectAll('.cluster')
+        // .each(function(){
+        //     var cluster = d3.select(this)
+        //     if(!cluster.empty()){
+        //         var clusterHeight = parseFloat(cluster.select('rect').attr('height'))
+        //         var clusterY = parseFloat(cluster.select('rect').attr('y'))
+        //         cluster.select('rect')
+        //         .attr('height', clusterHeight + heightDelta) 
+        //         .attr('y', clusterY - heightDelta/2) 
+        //     }
+        // })
     
         // Make ontology category clusters larger in height in comparison to all other clusters
+
         Object.keys(ontologyCategories).forEach(function(oc){
             var cluster = d3.select('.interactive_diagram.' + self.view).select('#' + oc)
             var heightDelta = 150
@@ -396,6 +355,117 @@ class graphHelper {
         .attr('rx',50)
         .attr('ry',50)
     }
+    // resizeClusters(){
+    //     var self = this
+    //     var largestYtop = 0
+    //     var largestYbot = 0
+
+    //     d3.select('.interactive_diagram.' + self.view)
+    //     .selectAll('.cluster')
+    //     .each(function(){
+    //         var currentBBox = d3.select(this).node().getBBox()
+    //         if(currentBBox.y < largestYtop){
+    //             largestYtop = currentBBox.y
+    //         }
+    //         if(currentBBox.height + Math.abs(currentBBox.y) > largestYbot){
+    //             largestYbot = currentBBox.height + Math.abs(currentBBox.y)
+    //         }
+    //     })
+    //     largestYbot = largestYbot - Math.abs(largestYtop) + 100
+        
+    //     var clusterTransform = d3.select('.interactive_diagram.' + self.view)
+    //                                 .select('.cluster')
+    //                                 .attr('transform')
+    //                                 .replace('translate(', '')
+    //                                 .replace(')','')
+    //                                 .split(',')
+    //     var clusterTransformY = parseFloat(clusterTransform[1])
+        
+    //     d3.select('.interactive_diagram.' + self.view)
+    //     .selectAll('.cluster')
+    //     .each(function(){ 
+    //         var currentTransform = d3.select(this)
+    //                             .attr('transform')
+    //                             .replace(/,\d+\.*\d+/, ',' + clusterTransformY) 
+    
+    //         d3.select(this)
+    //         .attr('transform', currentTransform)
+            
+    //         // Make cluster rects wider
+    //         d3.select(this)
+    //         .select('rect')
+    //         .attr('x', (parseFloat(d3.select(this)
+    //                                 .select('rect')
+    //                                 .attr('x')) - 25) + 'px')
+    
+    //         d3.select(this)
+    //         .select('rect')
+    //         .attr('width', (parseFloat(d3.select(this)
+    //                                     .select('rect')
+    //                                     .attr('width')) + 50) + 'px')
+    //     })
+    
+    //     d3.select('.interactive_diagram.' + self.view)
+    //     .selectAll('.cluster')
+    //     .select('rect')
+    //     .attr('y', largestYtop - 50)
+    //     .attr('height',largestYbot)
+    
+    //     // Make all clusters a bit larger in height
+    //     var heightDelta = 100
+    //     d3.select('.interactive_diagram.' + self.view)
+    //     .selectAll('.cluster')
+    //     .each(function(){
+    //         var cluster = d3.select(this)
+    //         if(!cluster.empty()){
+    //             var clusterHeight = parseFloat(cluster.select('rect').attr('height'))
+    //             var clusterY = parseFloat(cluster.select('rect').attr('y'))
+    //             cluster.select('rect')
+    //             .attr('height', clusterHeight + heightDelta) 
+    //             .attr('y', clusterY - heightDelta/2) 
+    //         }
+    //     })
+    
+    //     // Make ontology category clusters larger in height in comparison to all other clusters
+    //     Object.keys(ontologyCategories).forEach(function(oc){
+    //         var cluster = d3.select('.interactive_diagram.' + self.view).select('#' + oc)
+    //         var heightDelta = 150
+    //         if(!cluster.empty()){
+    //             var clusterHeight = parseFloat(cluster.select('rect').attr('height'))
+    //             var clusterY = parseFloat(cluster.select('rect').attr('y'))
+    //             cluster.select('rect')
+    //             .attr('height', clusterHeight + heightDelta) 
+    //             .attr('y', clusterY - heightDelta/2) 
+    //         }
+    //     })
+    
+    //     // Style labels
+    //     d3.select('.interactive_diagram.' + self.view)
+    //     .selectAll('.cluster')
+    //     .each(function(c){
+    //         var clusterBBox = d3.select(this).node().getBBox()
+    //         var labelBBox = d3.select(this).select('.label').node().getBBox()
+    
+    //         // Center labels in cluster
+    //         d3.select(this)
+    //         .select('.label')
+    //         .select('g')
+    //         .attr('transform', 'translate(' + labelBBox.x + ',' + (clusterBBox.y + 10) + ')')
+            
+    //         // Set color of label
+    //         var color = d3.select(this).select('rect').style('stroke')
+    //         d3.select(this)
+    //         .select('text')
+    //         .style('fill', tinycolor(color).darken(25).toString())
+    //     })
+    
+    //     // Rounder corners of clusters
+    //     d3.select('.interactive_diagram.' + self.view)
+    //     .selectAll('.cluster')
+    //     .select('rect')
+    //     .attr('rx',50)
+    //     .attr('ry',50)
+    // }
     
     setClusterActions(){
         //Label onclick

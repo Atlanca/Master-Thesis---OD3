@@ -2,7 +2,7 @@ import re
 
 class Section:
     def __init__(self, sectionId, sectionTitle, entityType='', sectionTextContent=None, sectionSummary='', priority=0, sectionDiagrams=None, children=None):
-        self.sectionId = sectionId
+        self.sectionId = sectionId.replace('.', '_')
         self.sectionTitle = sectionTitle
         self.entityType = entityType
         self.sectionSummary = self.formatToHTML(sectionSummary)
