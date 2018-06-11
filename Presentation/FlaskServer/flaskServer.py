@@ -206,6 +206,7 @@ def q4(architecturalPattern):
 @app.route('/popup/diagram', methods=['POST'])
 def q2_popup_diagram():
     figureUriList = request.form.getlist('figure[]')
+    print(figureUriList)
     explanation = {}
     for figureUri in figureUriList:
         explanation[explanationHelper.diagramUriToFileName(figureUri)] = {'diagramFilePath': '/static/images/' + explanationHelper.diagramUriToFileName(figureUri) + '.png',

@@ -569,211 +569,198 @@ class graphHelper {
         })
     }
     
-    setNodeDropdownLogic(){
+    addDropdownButton(node){
+        //CREATE DROP-DOWN BUTTON FOR NODES
+        var nodeWidth = parseFloat(
+            d3.select(node)
+            .select('rect')
+            .attr('width'))
+        var nodeHeight = parseFloat(
+                    d3.select(node)
+                    .select('rect')
+                    .attr('height'))
+        var rectColor = d3.select(node)
+                    .select('rect')
+                    .style('fill')
+
+        d3.select(node)
+        .select('rect')
+        .attr('width', nodeWidth + nodeHeight)
+
+        //Create nodebutton
+        d3.select(node)
+        .append("rect")
+        .classed('nodeButton', true)
+        .attr('width', nodeHeight)
+        .attr('height', nodeHeight)
+        .attr('x', nodeWidth/2)
+        .attr('y', -nodeHeight/2)
+        .attr('rx', '5')
+        .attr('ry', '5')
+        .style('stroke', 'none')
+        .style('cursor', 'pointer')
+        .style('opacity', '0')
+
+        //Create dropdown container
+        d3.select(node)
+        .append('rect')
+        .classed('drop-down_container', true)
+        .classed('drop-down', true)
+        .classed('hidden', true)
+        .attr('x', (nodeWidth/2 + nodeHeight + 20))
+        .attr('y', -nodeHeight/2)
+        .attr('width', '350px')
+        .attr('height', '0px')
+        .attr('rx','5')
+        .attr('ry','5')
+
+        d3.select(node).select('.nodeButton')
+        .on('mouseover', function(){
+            d3.select(this)
+            .style('fill','white')
+            .transition()
+            .duration(200)
+            .style('opacity','0.7')
+
+        }).on('mouseout', function(){
+            d3.select(this)
+            .transition()
+            .duration(200)
+            .style('opacity','0')
+        }).on('click', function(){
+            nodeWidth = parseFloat(
+                d3.select(this.parentNode)
+                .select('.nodeRect')
+                .attr('width'))
+            nodeHeight = parseFloat(
+                d3.select(this.parentNode)
+                .select('.nodeRect')
+                .attr('height'))
+            
+            //CREATE DROPDOWN RECTANGLE
+            //Put the node first in the list to avoid overlapping
+            this.parentNode.parentNode.appendChild(this.parentNode)
+
+            function hideDropdown(){
+                d3.selectAll('.drop-down')
+                .classed('hidden', true)
+                
+                d3.selectAll('.drop-down_arrow')
+                .classed('hidden', true)
+            }
+
+            if (d3.select(this.parentNode).select('.drop-down_container').classed('hidden')) {
+                hideDropdown()
+                d3.select(this.parentNode)
+                .selectAll('.drop-down')
+                .classed('hidden', false)
+            } else {
+                hideDropdown()
+            }
+        })
+    
+
+        // CREATE SVG ARROW
+        var nodeButton = d3.select(node).select('.nodeButton')
+        var x = parseFloat(nodeButton.attr('x'))
+        var y = parseFloat(nodeButton.attr('y'))
+        var width = parseFloat(nodeButton.attr('width'))
+        var arrowSize = 8
+        var points = (x + width/2) + ',' + 
+                    (y + arrowSize + nodeHeight/2) + ' ' + 
+                    (x + width/2) + ',' +
+                    (y - arrowSize + nodeHeight/2) + ' ' + 
+                    (x + arrowSize + width/2) + ',' + 
+                    (y + nodeHeight/2)
+    
+        d3.select(node)
+        .append("polygon")
+        .classed('drop-down_arrow', true)
+        .attr('points', points)
+    }
+
+    addNodeDropdownLogic(d3selection, name, callbackLogic){
         var self = this
-        d3.select('.interactive_diagram.' + self.view)
-        .selectAll('.node')
-        .each(function(node){
+        d3selection.each(function(){
             if(d3.select(this).attr('id').includes('dummy_')){
                 return
             }
-    
-            //CREATE DROP-DOWN BUTTON FOR NODES
-            var nodeWidth = parseFloat(
-                            d3.select(this)
-                            .select('rect')
-                            .attr('width'))
-            var nodeHeight = parseFloat(
-                            d3.select(this)
-                            .select('rect')
-                            .attr('height'))
-            var rectColor = d3.select(this)
-                            .select('rect')
-                            .style('fill')
             
-            d3.select(this)
-            .select('rect')
-            .attr('width', nodeWidth + nodeHeight)
-    
-            d3.select(this)
-            .append("rect")
-            .classed('nodeButton', true)
-            .attr('width', nodeHeight)
-            .attr('height', nodeHeight)
-            .attr('x', nodeWidth/2)
-            .attr('y', -nodeHeight/2)
-            .attr('rx', '5')
-            .attr('ry', '5')
-            .style('stroke', 'none')
-            .style('cursor', 'pointer')
-            .style('opacity', '0')
-            .on('mouseover', function(){
-                d3.select(this)
-                .style('fill','white')
-                .transition()
-                .duration(200)
-                .style('opacity','0.7')
-            }).on('mouseout', function(){
-                d3.select(this)
-                .transition()
-                .duration(200)
-                .style('opacity','0')
-            }).on('click', function(){
-                nodeWidth = parseFloat(
-                    d3.select(this.parentNode)
-                    .select('.nodeRect')
-                    .attr('width'))
-                nodeHeight = parseFloat(
-                    d3.select(this.parentNode)
-                    .select('.nodeRect')
-                    .attr('height'))
-                
-                //CREATE DROPDOWN RECTANGLE
-                //Put the node first in the list to avoid overlapping
-                this.parentNode.parentNode.appendChild(this.parentNode)
-    
-                function hideDropdown(){
-                    d3.selectAll('.drop-down_container')
-                    .transition()
-                    .duration(200)
-                    .attr('height', '1')
-                    .transition()
-                    .duration(200)
-                    .attr('width','0')
-                    .remove()
-                    
-                    d3.selectAll('.drop-down_arrow')
-                    .transition()
-                    .duration(100)
-                    .style('fill', '#2c4c66')
-                    .style('stroke', '#2c4c66')
-    
-                    d3.selectAll('.drop-down_item')
-                    .remove()
-    
-                    d3.selectAll('.drop-down_item_text')
-                    .remove()
-                }
-    
-                if(d3.select(this.parentNode).select('.drop-down_container').empty()){
-    
-                    hideDropdown()
-                    //Create drop-down box
-                    d3.select(this.parentNode)
-                    .append('rect')
-                    .classed('drop-down_container', true)
-                    .attr('x', (nodeWidth/2+nodeHeight/2)+20)
-                    .attr('y', -nodeHeight/2)
-                    .attr('width', '0')
-                    .attr('height', '1')
-                    .attr('rx','5')
-                    .attr('ry','5')
-                    .transition()
-                    .duration(200)
-                    .attr('width', '350px')
-                    .transition()
-                    .duration(200)
-                    .attr('height', nodeHeight*3)
-                    
-                    //Drop-down arrow change to white
-                    d3.select(this.parentNode)
-                    .select('.drop-down_arrow')
-                    .transition()
-                    .duration(250)
-                    .style('fill', 'white')
-                    .style('stroke', 'white')
-    
-                    //Create drop-down items
-                    var item_counter = 0
-                    function addDropdownItem(parent, name, callback=null){
-                        d3.select(parent.parentNode)
-                        .append('rect')
-                        .classed('drop-down_item', true)
-                        .attr('id', 'drop_down_item' + item_counter)
-                        .attr('x', (nodeWidth/2+nodeHeight/2)+20)
-                        .attr('y', (-nodeHeight/2 + nodeHeight*item_counter))
-                        .attr('width', '350px')
-                        .attr('height', nodeHeight)
-                        .attr('rx', 5)
-                        .attr('ry', 5)
-                        .on('mouseover', function(){
-                            d3.select(this)
-                            .transition()
-                            .duration(200)
-                            .style('opacity', '0.5')
-                        })
-                        .on('mouseout', function(){
-                            d3.select(this)
-                            .transition()
-                            .duration(200)
-                            .style('opacity', '0')
-                        })
-                        .on('click', function(){
-                            if (callback) {
-                                callback(this)
-                            }
-                        })
-    
-                        d3.select(parent.parentNode)
-                        .insert('text')
-                        .classed('drop-down_item_text', true)
-                        .attr('id', 'drop-down_item_text' + item_counter)
-                        .attr('x', (12.5 + nodeWidth/2+nodeHeight/2)+20)
-                        .attr('y', (10 + nodeHeight*item_counter))
-                        .transition()
-                        .delay(300)
-                        .duration(200)
-                        .style('opacity', '1')
-                        
-                        d3.select(parent.parentNode)
-                        .select('#drop-down_item_text' + item_counter)
-                        .html(name)
-    
-                        item_counter++
-                    }
-    
-                    addDropdownItem(this, 'View diagrams', function(object){                        
-                        self.createEmptyPopup()
-                        var id = d3.select(object.parentNode).attr('id')
-                        console.log(id)
-                        console.log(self.entityToNodeIdMap[self.view])
-                        var input = self.entityToNodeIdMap[self.view][id].diagrams
-                        $.post('http://localhost:5000/popup/diagram', {'figure': input}, function(data){
-                            self.addPopupContent(data)
-                        })
-                    })
-    
-                    addDropdownItem(this, 'Explain entity', function(object){
-                        
-                    })
-    
-                    addDropdownItem(this, 'Explain relations')
-    
-                }else{
-                    hideDropdown() 
-                }
-    
-            })
-    
-            // CREATE SVG ARROW
-            var nodeButton = d3.select(this).select('.nodeButton')
-            var x = parseFloat(nodeButton.attr('x'))
-            var y = parseFloat(nodeButton.attr('y'))
-            var width = parseFloat(nodeButton.attr('width'))
-            var arrowSize = 8
-            var points = (x + width/2) + ',' + 
-                        (y + arrowSize + nodeHeight/2) + ' ' + 
-                        (x + width/2) + ',' +
-                        (y - arrowSize + nodeHeight/2) + ' ' + 
-                        (x + arrowSize + width/2) + ',' + 
-                        (y + nodeHeight/2)
-        
-            d3.select(this)
-            .append("polygon")
-            .classed('drop-down_arrow', true)
-            .attr('points', points)
+            if (d3.select(this).select('.nodeButton').empty()) {
+                self.addDropdownButton(this)
+            }
+            self.addDropdownItem(this, name, callbackLogic)     
         })
-    
+    }
+
+    addDropdownItem(parent, name, callback=null) {
+        var item_counter = 0
+        d3.select(parent).selectAll('.drop-down_item').each(function(){
+            item_counter += 1
+        })
+
+        var nodeWidth = parseFloat(
+            d3.select(parent)
+            .select('.nodeRect')
+            .attr('width'))
+
+        var nodeHeight = parseFloat(
+            d3.select(parent)
+            .select('.nodeRect')
+            .attr('height'))
+        
+        var containerHeight = parseFloat(d3.select(parent).select('.drop-down_container').attr('height'))
+
+        d3.select(parent)
+        .select('.drop-down_container')
+        .attr('height', containerHeight + nodeHeight)
+
+        d3.select(parent)
+        .append('rect')
+        .classed('drop-down', true)
+        .classed('hidden', true)
+        .classed('drop-down_item', true)
+        .attr('id', 'drop_down_item' + item_counter)
+        .attr('x', (nodeWidth/2+nodeHeight/2)+20)
+        .attr('y', (-nodeHeight/2 + nodeHeight*item_counter))
+        .attr('width', '350px')
+        .attr('height', nodeHeight)
+        .attr('rx', 5)
+        .attr('ry', 5)
+        .on('mouseover', function(){
+            d3.select(this)
+            .transition()
+            .duration(200)
+            .style('opacity', '0.5')
+        })
+        .on('mouseout', function(){
+            d3.select(this)
+            .transition()
+            .duration(200)
+            .style('opacity', '0')
+        })
+        .on('click', function(){
+            if (callback) {
+                callback(this)
+            }
+        })
+
+        d3.select(parent)
+        .insert('text')
+        .classed('drop-down', true)
+        .classed('hidden', true)        
+        .classed('drop-down_item_text', true)
+        .attr('id', 'drop-down_item_text' + item_counter)
+        .attr('x', (12.5 + nodeWidth/2+nodeHeight/2)+20)
+        .attr('y', (10 + nodeHeight*item_counter))
+        .transition()
+        .delay(300)
+        .duration(200)
+        .style('opacity', '1')
+        
+        d3.select(parent)
+        .select('#drop-down_item_text' + item_counter)
+        .html(name)   
     }
     
     createEmptyPopup(){

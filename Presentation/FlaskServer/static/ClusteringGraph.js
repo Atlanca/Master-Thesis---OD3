@@ -194,7 +194,21 @@ function buildDiagram(structure, view){
     tippy('.nodeRect')
 
     // Create dropdown logic for the arrow button beside the node
-    gh.setNodeDropdownLogic()
+
+    // View diagram dropdown item logic
+    var viewDiagramFunction = function(object){                        
+        gh.createEmptyPopup()
+        var id = d3.select(object.parentNode).attr('id')
+        var input = gh.entityToNodeIdMap[gh.view][id].diagrams
+        $.post('http://localhost:5000/popup/diagram', {'figure': input}, function(data){
+            gh.addPopupContent(data)
+        })
+    }
+
+    // The selection of elements that the dropdown logic should apply to
+    selection = d3.select('.interactive_diagram.' + gh.view).selectAll('.node')
+
+    gh.addNodeDropdownLogic(selection, 'View diagrams', viewDiagramFunction)
 
     // Scale the diagram to fit the screen
     gh.scaleDiagram()

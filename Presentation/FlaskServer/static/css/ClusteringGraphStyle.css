@@ -17,6 +17,8 @@
 
 }
 
+
+
 /* Not selected */
 .node.not-selected rect{
   opacity: 0.2;
@@ -185,6 +187,10 @@ button:focus{
 }
 
 /* Dropdown */
+.drop-down.hidden {
+  display: none;
+}
+
 .drop-down_container{
   stroke: #424242;
   fill: #424242 !important;

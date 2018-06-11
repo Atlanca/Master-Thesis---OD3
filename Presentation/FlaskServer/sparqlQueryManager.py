@@ -194,7 +194,27 @@ class InformationRetriever:
         return relations
            
 
-    # Assumes only a single superclass
+    def getSuperClasses(self, subjectUri):
+        subjectUri = self.toQueryUri(subjectUri)
+        query = 'PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>'\
+                'SELECT * WHERE {{'\
+                    '{subjectUri} rdfs:subClassOf ?superclass .'\
+                    'FILTER (regex(str(?superclass), "http://www.semanticweb.org/ontologies/snowflake")) '\
+                '}}'
+        query = query.format(subjectUri=subjectUri)
+
+        superclasses = []
+        try:
+            queryResult = self.query(query)
+            results = queryResult['results']['bindings']
+            if results:
+                for r in results:
+                    superclasses.append(r['superclass']['value'])
+                return superclasses
+        except:      
+            return ''
+
+    # Assumes only a single direct superclass
     def getDirectSuperClass(self, subjectUri):
         originalSubjectUri = subjectUri
         subjectUri = self.toQueryUri(subjectUri)

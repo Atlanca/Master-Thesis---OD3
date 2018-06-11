@@ -32,29 +32,14 @@ class ExplanationTemplates:
         entityFont = '-'.join(words) + '-font'
         return entityFont
 
-    def classesToText(self, entities):
-
-        def addEntityType(entity, entityType, entityTypes):
-            if entityType not in list(entityTypes.keys()):
-                entityTypes[entityType] = []
-                
-            entityTypes[entityType].append(entity)
-
-        entityTypes = {}
-        for entity in entities:
-            entitySupertypes = entity.supertypes
-            entityType = explanationHelper.getNameFromUri(entity.type)
-
-            if entityType and not 'dummy' in entityType:
-                addEntityType(entity, entityType, entityTypes)
-
-        text = ''
-        for index, entityType in enumerate(entityTypes):
-            size = str(len(entityTypes[entityType]))
-            entitySupertypes = entityTypes[entityType][0].supertypes
-
-            eType = entityType
-
+    def styledName(self, text, fontType='', entityType=''):
+        if entityType:
+            entitySupertypes = self.informationRetriever.getSuperClasses(entityType)
+        else:
+            entitySupertypes = self.informationRetriever.getSuperClasses(text)
+        
+        eType = entityType
+        if entitySupertypes:
             if self.baseUri + 'DevelopmentStructure' in entitySupertypes:
                 eType = 'DevelopmentStructure' 
 
@@ -76,7 +61,38 @@ class ExplanationTemplates:
             elif self.baseUri + 'PhysicalStructure' in entitySupertypes:
                 eType = 'PhysicalStructure' 
 
-            text += self.styledName(size + ' ' + self.pluralEngine.plural(explanationHelper.formatName(entityType), size), 'class-font', eType)
+        name = '<span class="{fontType} {entityFontName}">{textName}</span>'
+        if entityType:
+            name = name.format(fontType=fontType, entityFontName=self.getEntityFont(eType), textName=text)
+        else:
+            name = name.format(fontType=fontType, entityFontName=self.getEntityFont(text), textName=explanationHelper.getNameFromUri(text))
+        return name
+
+    def sectionSummary(self, typeUri):
+        name = self.styledName(self.pluralEngine.plural(explanationHelper.formatName(explanationHelper.getNameFromUri(typeUri)), 2), 'class-font', entityType=typeUri)
+        summary = 'This section lists the {name} and their descriptions'
+        summary = summary.format(name=name)
+        return summary
+
+    def classesToText(self, entities):
+
+        def addEntityType(entity, entityType, entityTypes):
+            if entityType not in list(entityTypes.keys()):
+                entityTypes[entityType] = []
+                
+            entityTypes[entityType].append(entity)
+
+        entityTypes = {}
+        for entity in entities:
+            entityType = explanationHelper.getNameFromUri(entity.type)
+            if entityType and not 'dummy' in entityType:
+                addEntityType(entity, entityType, entityTypes)
+
+        text = ''
+        for index, entityType in enumerate(entityTypes):
+            size = str(len(entityTypes[entityType]))
+            text += self.styledName(size + ' ' + self.pluralEngine.plural(explanationHelper.formatName(entityType), size), 'class-font', self.baseUri + entityType)
+            
             if index < len(entityTypes) - 2:
                 text += ', '
             elif index == len(entityTypes) - 2:
@@ -141,20 +157,21 @@ class ExplanationTemplates:
 
         expTemplate = sectionModel.Template(question, summary)
 
+        #Features section
+        expTemplate.addSection(self.createSection([feature_entity], 'features_section', 'Feature', 
+                               summary='', priority=3).toDict())
+
         #Requirements section
-        sectionReqOverview = ''
-        expTemplate.addSection(self.createSection(requirements, 'requirements_section', 'Requirement entities', 
-                               summary=sectionReqOverview, priority=3).toDict())
+        expTemplate.addSection(self.createSection(requirements, 'requirements_section', 'FunctionalRequirement', 
+                               summary='', priority=3).toDict())
        
         #Use cases section
-        sectionUCOverview = ''
-        expTemplate.addSection(self.createSection(use_cases, 'use_case_section', 'Use case entities', 
-                               summary=sectionUCOverview, priority=2).toDict())
+        expTemplate.addSection(self.createSection(use_cases, 'use_case_section', 'UseCase', 
+                               summary='', priority=2).toDict())
         
         #User story section
-        sectionUSOverview = ''
-        expTemplate.addSection(self.createSection(user_stories, 'user_story_section', 'User story entities', 
-                               summary=sectionUSOverview, priority=1).toDict())
+        expTemplate.addSection(self.createSection(user_stories, 'user_story_section', 'UserStory', 
+                               summary='', priority=1).toDict())
 
         return expTemplate.toDict()
 
@@ -239,20 +256,6 @@ class ExplanationTemplates:
                                summary=sectionAssOverview, priority=1).toDict())
 
         return expTemplate.toDict()
-
-    def styledName(self, text, fontType, entityType=''):
-        name = '<font class="{fontType} {entityFontName}">{textName}</font>'
-        if entityType:
-            name = name.format(fontType=fontType, entityFontName=self.getEntityFont(entityType), textName=text)
-        else:
-            name = name.format(fontType=fontType, entityFontName=self.getEntityFont(text), textName=explanationHelper.getNameFromUri(text))
-        return name
-
-    def sectionSummary(self, typeUri):
-        name = self.pluralEngine.plural(explanationHelper.formatName(explanationHelper.getNameFromUri(typeUri)), 2)
-        summary = 'This section lists the {name} and their descriptions'
-        summary = summary.format(name=name)
-        return summary
         
     # HOW IS THIS FEAURE MAPPED TO THE IMPLEMENTATION?
     # Detailed - Feature to implementation mapping
@@ -417,7 +420,8 @@ class ExplanationTemplates:
         entityid = 'popup_entity_overview_' + explanationHelper.diagramUriToFileName(explanationHelper.getNameFromUri(figureUri)) 
         entitySummary = ''
 
-        relatedEntities = [ontologyStructureModel.Entity(e) for e in relatedEntityUris]
+        # relatedEntities = [ontologyStructureModel.Entity(e) for e in relatedEntityUris]
+        relatedEntities = relatedEntityUris
         figureSection = sectionModel.Section(figureid, figuretitle, figureSummary, priority=5,
                         sectionTextContent=[(explanationHelper.getNameFromUri(content[0]), content[1]) for content in figureEntity.dataTypeProperties])
         entitySection = self.createSection(relatedEntities, entityid, 'Entities related to diagram', entitySummary)
