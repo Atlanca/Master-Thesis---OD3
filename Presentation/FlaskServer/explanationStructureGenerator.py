@@ -54,7 +54,6 @@ class ExplanationGenerator:
                 es.addRelation('resultOf', pattern[1], dc[1])
         return es
     
-
     def getDev(self, architecturalPatternUri):
         def callBackArchitecturalPattern(es, s):
             self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'implementedBy', self.baseUri + 'ImplementationClass')
@@ -143,11 +142,11 @@ class ExplanationGenerator:
             self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'explainedBy', self.baseUri + 'UserStory')
 
         es = ontologyStructureModel.EntityStructure()
-        requirements = self.ir.getIndividualsByType(self.baseUri + 'Feature')
+        features = self.ir.getIndividualsByType(self.baseUri + 'Feature')
 
-        for req in requirements:
-            es.addEntity(req)
-            self.addRecursiveEntitiesAndRelations(es, req, self.baseUri + 'compriseOf', self.baseUri + 'Requirement', callback=callbackRequirement)
+        for feature in features:
+            es.addEntity(feature)
+            self.addRecursiveEntitiesAndRelations(es, feature, self.baseUri + 'compriseOf', self.baseUri + 'Requirement', callback=callbackRequirement)
         return es
 
     def getBehaviorOfFeature(self, featureUri, behaviorUri, structureUri):

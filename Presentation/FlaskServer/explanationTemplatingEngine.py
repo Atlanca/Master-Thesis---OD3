@@ -335,6 +335,38 @@ class ExplanationTemplates:
        
         return expTemplate.toDict()
         
+    def generateSystemFunctionalitySummary(self, structure):      
+
+        features = list(filter(lambda e: self.baseUri + 'Feature' in e.supertypes, structure.entities))
+        funcreqs = list(filter(lambda e: self.baseUri + 'FunctionalRequirement' in e.supertypes, structure.entities))
+        userstories = list(filter(lambda e: self.baseUri + 'UserStory' in e.supertypes, structure.entities))
+        usecases = list(filter(lambda e: self.baseUri + 'UseCase' in e.supertypes, structure.entities))
+
+        template = explanationHelper.openText('static/explanationTemplates/SystemFunctionality.txt')
+        summary = template.format(path=self.classesToText(structure.entities))
+        question = self.getQuestion(summary)
+  
+        expTemplate = sectionModel.Template(question, summary)
+
+        #Feature section
+        expTemplate.addSection(self.createSection(features, 'feature_section', 'Feature',
+                               summary='', priority=5).toDict())
+
+        #Fuctional requirements section
+        expTemplate.addSection(self.createSection(funcreqs, 'func_req_section', 'Functional Requirements',
+                               summary='', priority=3).toDict())
+
+        #User story section
+        expTemplate.addSection(self.createSection(userstories, 'user_story_section', 'User stories',
+                               summary='', priority=3).toDict())
+
+        #Use case section
+        expTemplate.addSection(self.createSection(usecases, 'use_case_section', 'Use cases',
+                               summary='', priority=3).toDict())
+
+
+        return expTemplate
+
     # Overview - Feature to implementation mapping
     def generateFunctionalFeatureImplementationSummary(self, mainEntityUri, structure):      
         mainEntity = [entity for entity in structure.entities if entity.uri == mainEntityUri][0]

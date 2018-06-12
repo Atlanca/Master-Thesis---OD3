@@ -1,0 +1,12 @@
+<!-- {{question: What functionality exists in the system?}} -->
+
+<p>
+The general functionality of the system is explained by {path}.  
+Each entity is described in the sections below.
+</p>
+
+<p>
+To see what actions are available in the interactive graph (left-hand side), 
+press the round "i" button in the top left corner 
+of the graph.</p>
+</p>

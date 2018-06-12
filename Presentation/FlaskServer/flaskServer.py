@@ -179,15 +179,13 @@ def q3(feature):
 @app.route('/q5/')
 def q5():
     structure = explanationGenerator.getFunctionalityOfSystem()
-    logBehaviorStructure = explanationGenerator.getLogicalBehaviorOfFeature(baseUri + 'purchase_products')
-    explanation = explanationTemplates.generateBehaviorSummary(baseUri + 'purchase_products', logBehaviorStructure, 'ui')
+    explanation = explanationTemplates.generateSystemFunctionalitySummary(structure)
     sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in structure.entities for diagram in set(entity.diagrams)}
     return render_template('childtemplate.html', 
                             diagram_path='static/ClusteringGraph.js', 
                             side_bar_diagram_file_paths=sideBardiagram_file_paths,
-                            entityData = {'functional': {'tab_id':'functional_view_tab', 'tab_name': 'Rationale', 'entity_structure': json.dumps(structure.toDict()), 'explanation': explanation, 'background': '#fff6f4'},
-                                        })
-
+                            entityData = {'functional': {'tab_id':'functional_view_tab', 'tab_name': 'System functionality', 'entity_structure': json.dumps(structure.toDict()), 'explanation': explanation, 'background': '#fff6f4'},
+                                        })  
 
 @app.route('/q4/<architecturalPattern>')
 def q4(architecturalPattern):
