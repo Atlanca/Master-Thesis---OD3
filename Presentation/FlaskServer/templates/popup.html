@@ -24,9 +24,16 @@
             {{name}}
         {% endblock svg %}
     
+        {% if structure %}
+            <script>
+                struct = JSON.parse({{structure | tojson | safe}})
+                buildDiagram(struct, 'popup')
+            </script>
+        {% endif %}
+
         <div class='left-panel'>
             <div class='w3-container w3-light-gray left-panel-content-base'>
-                <h2 class='title popup_overview_{{name}}' onclick='toggleVisiblityOfDescription("popup_overview_{{name}}")'>{{explanation.description.question.sub}}&emsp;-</h2>
+                <h2 class='popup_overview_{{name}}'>{{explanation.description.question.sub}}</h2>
                 <div class='popup_overview_{{name}}' style='display:block;'>{{explanation.description.summaryText | safe}}</div>
                 <hr class='thick'>
                 {% for section in explanation.description.sections %}

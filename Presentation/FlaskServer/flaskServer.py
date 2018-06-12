@@ -204,9 +204,8 @@ def q4(architecturalPattern):
 
                             
 @app.route('/popup/diagram', methods=['POST'])
-def q2_popup_diagram():
+def popup_diagram():
     figureUriList = request.form.getlist('figure[]')
-    print(figureUriList)
     explanation = {}
     for figureUri in figureUriList:
         explanation[explanationHelper.diagramUriToFileName(figureUri)] = {'diagramFilePath': '/static/images/' + explanationHelper.diagramUriToFileName(figureUri) + '.png',
@@ -214,17 +213,21 @@ def q2_popup_diagram():
                                   'newWindowPath': '/static/something.html'}
 
     return render_template('popupImageDiagram.html', explanations=explanation)
-                            
-@app.route('/popup/interactivediagram', methods=['POST'])
-def q2_popup_interactive_diagram():
-    figureUriList = request.form.getlist('figure[]')
-    explanation = {}
-    for figureUri in figureUriList:
-        explanation[explanationHelper.diagramUriToFileName(figureUri)] = {'diagramFilePath': '/static/images/' + explanationHelper.diagramUriToFileName(figureUri) + '.png',
-                                  'description': explanationTemplates.generatePopupFigureDescription(figureUri).toDict(),
-                                  'newWindowPath': '/static/something.html'}
 
-    return render_template('popupInteractiveDiagram.html', explanations=explanation)
+@app.route('/popup/featureRole', methods=['POST'])
+def popup_featureRole():
+    featureUri = request.form.get('feature', '')
+    structure = explanationGenerator.getFeatureRole(featureUri)
+    explanation = {}
+    explanation['Feature role'] = {'description': explanationTemplates.generateFeatureRoleSummary(featureUri, structure),
+                                   'newWindowPath': '/static/something.html'}
+    return render_template('popupInteractiveDiagram.html', explanations=explanation, structure=json.dumps(structure.toDict()))
+
+@app.route('/structure/featureRole', methods=['POST'])
+def getFeatureRoleStructure():
+    featureUri = request.form.get('feature', '')
+    structure = explanationGenerator.getFeatureRole(featureUri)
+    return json.dumps(structure.toDict())
 
 @app.route('/savegraph', methods=['POST'])
 def saveOntology():

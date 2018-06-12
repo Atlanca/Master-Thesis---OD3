@@ -196,19 +196,61 @@ function buildDiagram(structure, view){
     // Create dropdown logic for the arrow button beside the node
 
     // View diagram dropdown item logic
-    var viewDiagramFunction = function(object){                        
+    var viewDiagramsFunction = function(object){                        
         gh.createEmptyPopup()
         var id = d3.select(object.parentNode).attr('id')
-        var input = gh.entityToNodeIdMap[gh.view][id].diagrams
+        var input = gh.entityToNodeIdMap[view][id].diagrams
         $.post('http://localhost:5000/popup/diagram', {'figure': input}, function(data){
             gh.addPopupContent(data)
         })
     }
 
-    // The selection of elements that the dropdown logic should apply to
-    selection = d3.select('.interactive_diagram.' + gh.view).selectAll('.node')
+    var showFeatureRole = function(object){                        
+        gh.createEmptyPopup()
+        var id = d3.select(object.parentNode).attr('id')
+        var input = gh.entityToNodeIdMap[view][id].uri
 
-    gh.addNodeDropdownLogic(selection, 'View diagrams', viewDiagramFunction)
+        $.post('http://localhost:5000/structure/featureRole', {'feature': input}, function(structure){
+            $.post('http://localhost:5000/popup/featureRole', {'feature': input}, function(content){
+                gh.addPopupContent(content, structure)
+            })
+        })
+    }
+
+    var showDiagramFunction = function(object){                        
+        gh.createEmptyPopup()
+        var id = d3.select(object.parentNode).attr('id')
+        var input = gh.entityToNodeIdMap[view][id].uri
+        $.post('http://localhost:5000/popup/diagram', {'figure': [input]}, function(data){
+            gh.addPopupContent(data)
+        })
+    }
+
+    // The selection of elements that the dropdown logic should apply to
+    d3.select('.interactive_diagram.' + gh.view).selectAll('.node').each(function(){
+        var current = d3.select(this)
+        var currentEntity = entityToNodeIdMap[view][current.attr('id')]
+        if (currentEntity.diagrams.length > 0){
+            gh.addNodeDropdownLogic(current, 'Show diagrams', viewDiagramsFunction)
+        }
+        
+        currentEntity.supertypes.forEach(function(st){
+            if (st.includes('Figure')){
+                gh.addNodeDropdownLogic(current, 'Show this diagram', showDiagramFunction)
+            }
+        })
+
+        if (currentEntity.type.includes('Feature')){
+            gh.addNodeDropdownLogic(current, 'Show role', showFeatureRole)
+            gh.addNodeDropdownLogic(current, 'Show behavior', showFeatureRole)
+            gh.addNodeDropdownLogic(current, 'Show mapping to implementation', showFeatureRole)
+        }
+
+        if (currentEntity.type.includes('ArchitecturalPattern')){
+            gh.addNodeDropdownLogic(current, 'Show rationale', showFeatureRole)
+        }
+        
+    })
 
     // Scale the diagram to fit the screen
     gh.scaleDiagram()

@@ -150,7 +150,6 @@ class graphHelper {
             }
             else if (views.includes(parentId)){
                 newTargetL = targetL + 0.03
-                console.log(parentId)
             }else if (Object.keys(ontologyCategories).includes(parentId)) {
                 newTargetL = targetL + 0.06
             }
@@ -609,7 +608,7 @@ class graphHelper {
         .classed('hidden', true)
         .attr('x', (nodeWidth/2 + nodeHeight + 20))
         .attr('y', -nodeHeight/2)
-        .attr('width', '350px')
+        .attr('width', '400px')
         .attr('height', '0px')
         .attr('rx','5')
         .attr('ry','5')
@@ -710,11 +709,29 @@ class graphHelper {
             .attr('height'))
         
         var containerHeight = parseFloat(d3.select(parent).select('.drop-down_container').attr('height'))
+        var containerWidth = parseFloat(d3.select(parent).select('.drop-down_container').attr('width'))
+        var fontSize = 24
+        var newContainerWidth = fontSize * name.length
 
+        // Set width of container according to size of text
+        if (newContainerWidth > containerWidth) {
+            d3.select(parent)
+            .select('.drop-down_container')
+            .attr('width', newContainerWidth)
+
+            d3.select(parent)
+            .selectAll('.drop-down_item')
+            .attr('width', newContainerWidth)
+        } else {
+            newContainerWidth = containerWidth
+        }
+
+        // Set container height according to number of items
         d3.select(parent)
         .select('.drop-down_container')
         .attr('height', containerHeight + nodeHeight)
 
+        // Create drop-down item
         d3.select(parent)
         .append('rect')
         .classed('drop-down', true)
@@ -723,7 +740,7 @@ class graphHelper {
         .attr('id', 'drop_down_item' + item_counter)
         .attr('x', (nodeWidth/2+nodeHeight/2)+20)
         .attr('y', (-nodeHeight/2 + nodeHeight*item_counter))
-        .attr('width', '350px')
+        .attr('width', newContainerWidth)
         .attr('height', nodeHeight)
         .attr('rx', 5)
         .attr('ry', 5)
@@ -745,6 +762,7 @@ class graphHelper {
             }
         })
 
+        // Set the text of the drop-down item
         d3.select(parent)
         .insert('text')
         .classed('drop-down', true)
@@ -795,13 +813,19 @@ class graphHelper {
         .style('height', height + "%")
     }
     
-    addPopupContent(popupContent){
+    addPopupContent(popupContent, structure=null){
         d3.select('#popup-view')
         .html(popupContent)
     
         var s = document.createElement('script')
         s.src = '/static/popup-graph.js'
         document.getElementById('popup-view').appendChild(s)
+
+        if (structure != null) {
+            structure = JSON.parse(structure)
+            console.log(structure)
+            buildDiagram(structure, 'popup')
+        }
     
         d3.select('#close_popup')
         .on('click', function(){
@@ -995,7 +1019,6 @@ class graphHelper {
         if (isRelationLeftToRight && !isSourceInImage) {
             // ABOVE
             if (sourceTransform.translateY < targetTransform.translateY) {
-                console.log(sourceTransform)
                 var translation = 'translate(' + (((edgeBBox.x + edgeBBox.width) - sourceTransform.translateX) * turnPoint + sourceTransform.translateX) + ',' + (edgeBBox.y) + ')'
             // BELOW
             } else {
