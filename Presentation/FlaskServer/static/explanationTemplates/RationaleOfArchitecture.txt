@@ -1,10 +1,12 @@
-<!-- {{question: What is the rationale behind the architectural pattern {arch_patt}?}} -->
+<!-- {{question: What is the rationale behind the architectural pattern {no_style_arch_patt}?}} -->
 
 <p>
-The rationale behind the architectural pattern {arch_patt} is a result of design options. 
-The reasoning behind these design options are caused by other design options and is based on arguments, constraints and assumptions.
+The rationale of the {arch_patt} can be expressed by {path}. 
+Each entity is described in the sections below.
 </p>
 
 <p>
-The subsequent sections contain descriptions of the resulting architectural patterns and reasoning behind the choice.
+To see what actions are available in the interactive graph (left-hand side), 
+press the round "i" button in the top left corner 
+of the graph.</p>
 </p>

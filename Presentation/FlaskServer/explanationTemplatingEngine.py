@@ -151,7 +151,9 @@ class ExplanationTemplates:
 
         template = explanationHelper.openText('static/explanationTemplates/FeatureRole.txt')
 
-        summary = template.format(feature_name=explanationHelper.getNameOfEntity(feature_entity))
+        summary = template.format(no_style_feature_name=explanationHelper.getNameOfEntity(feature_entity),
+                                    feature_name=self.styledName(explanationHelper.getNameOfEntity(feature_entity), 'class-font', feature_entity.type),
+                                    path=self.classesToText(structure.entities))
 
         question = self.getQuestion(summary)
 
@@ -179,12 +181,15 @@ class ExplanationTemplates:
         if viewType == 'logical':
             structureTypeUri = 'LogicalStructure'
             behaviorTypeUri = 'LogicalBehavior'
+            viewTypeUri = 'Logical'
         elif viewType == 'development':
             structureTypeUri = 'DevelopmentStructure'
             behaviorTypeUri = 'DevelopmentBehavior'
+            viewTypeUri = 'Development'
         elif viewType == 'ui':
             structureTypeUri = 'UIStructure'
             behaviorTypeUri = 'UIBehavior'
+            viewTypeUri = 'UI'
         else:
             return {}
 
@@ -196,7 +201,10 @@ class ExplanationTemplates:
 
         template = explanationHelper.openText('static/explanationTemplates/BehaviorOfFeature.txt')
 
-        summary = template.format(feature_name=explanationHelper.getNameOfEntity(feature_entity), view_type=viewType, diagram_type='sequence diagrams')
+        summary = template.format(feature_name=self.styledName(explanationHelper.getNameOfEntity(feature_entity), 'entity-font', entityType=feature_entity.type),
+                                    no_style_feature_name=explanationHelper.getNameOfEntity(feature_entity),
+                                    point_of_view=self.styledName(viewType + ' point of view', 'class-font', entityType=self.baseUri + viewTypeUri), 
+                                    path=self.classesToText(structure.entities))
 
         question = self.getQuestion(summary)
 
@@ -231,7 +239,10 @@ class ExplanationTemplates:
 
         template = explanationHelper.openText('static/explanationTemplates/RationaleOfArchitecture.txt')
 
-        summary = template.format(arch_patt=explanationHelper.getNameOfEntity(pattern_entity))
+        summary = template.format(no_style_arch_patt=explanationHelper.getNameOfEntity(pattern_entity),
+                                    arch_patt=self.styledName(explanationHelper.getNameOfEntity(pattern_entity), 'class-font', pattern_entity.type),
+                                    path=self.classesToText(structure.entities)
+                                    )
         question = self.getQuestion(summary)
 
         expTemplate = sectionModel.Template(question, summary)

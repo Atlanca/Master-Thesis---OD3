@@ -1,10 +1,11 @@
-<!-- {{question: What is the role of the feature {feature_name}?}} -->
+<!-- {{question: What is the role of the feature {no_style_feature_name}?}} -->
 
-<p>
-The role of the <font class='class-font feature-font'>feature</font> <font class='entity-font feature-font'>{feature_name}</font> can be explained by its description and the responsibilities the <font class='class-font feature-font'>feature</font> has. 
-The responsibility comprises of <font class='class-font functional-requirement-font'>functional requirements</font> which are in turn part of <font class='class-font use-case-font'>use cases</font> and explained by <font class='class-font user-story-font'>user stories</font>.
+<p> The role of {feature_name} can be explained by its own description and its responsibilities. These are expressed
+by {path}. Each entity is described in the sections below.
 </p>
 
 <p>
-The subsequent sections contain descriptions of the entities found in this explanation.
+To see what actions are available in the interactive graph (left-hand side), 
+press the round "i" button in the top left corner 
+of the graph.
 </p>

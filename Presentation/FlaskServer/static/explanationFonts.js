@@ -96,7 +96,7 @@ function setFontColors(){
                     '.non-functional-req-category-font { color: ' + getOntologyColor('NonFunctionalReqCategory') + '}' +
                     // Architecture
                     '.architecture-fragment-font { color: ' + getOntologyColor('ArchitectureFragment') + '}' +
-                    '.ui-font { color: ' + getOntologyColor('UI') + '}' +
+                    '.u-i-font { color: ' + getOntologyColor('UI') + '}' +
                     '.logical-font { color: ' + getOntologyColor('Logical') + '}' +
                     '.development-font { color: ' + getOntologyColor('Development') + '}' +
                     '.physical-font { color: ' + getOntologyColor('Physical') + '}' +
@@ -104,11 +104,11 @@ function setFontColors(){
                     '.development-structure-font { color: ' + getOntologyColor('DevelopmentStructure') + '}' +
                     '.logical-structure-font { color: ' + getOntologyColor('LogicalStructure') + '}' +
                     '.physical-structure-font { color: ' + getOntologyColor('PhysicalStructure') + '}' +
-                    '.ui-structure-font { color: ' + getOntologyColor('UIStructure') + '}' +
+                    '.u-i-structure-font { color: ' + getOntologyColor('UIStructure') + '}' +
                     // Architecture behavior
                     '.development-behavior-font { color: ' + getOntologyColor('DevelopmentBehavior') + '}' +
                     '.logical-behavior-font { color: ' + getOntologyColor('LogicalBehavior') + '}' +
-                    '.ui-behavior-font { color: ' + getOntologyColor('UIBehavior') + '}' +
+                    '.u-i-behavior-font { color: ' + getOntologyColor('UIBehavior') + '}' +
                     // Figure 
                     '.diagram-font { color: ' + getOntologyColor('Diagram') + '}' +
                     '.figure-font { color: ' + getOntologyColor('Figure') + '}' +
@@ -144,7 +144,7 @@ function setFontColors(){
     .attr('title', logicalDescription)
     d3.selectAll('.development-font')
     .attr('title', developmentDescription)
-    d3.selectAll('.ui-font')
+    d3.selectAll('.u-i-font')
     .attr('title', uiDescription)
     d3.selectAll('.physical-font')
     .attr('title', physicalDescription)
@@ -158,9 +158,9 @@ function setFontColors(){
     .attr('title', developmentstructureDescription)
     d3.selectAll('.development-behavior-font')
     .attr('title', developmentbehaviorDescription)
-    d3.selectAll('.ui-structure-font')
+    d3.selectAll('.u-i-structure-font')
     .attr('title', uistructureDescription)
-    d3.selectAll('.ui-behavior-font')
+    d3.selectAll('.u-i-behavior-font')
     .attr('title', uibehaviorDescription)
     d3.selectAll('.physical-structure-font')
     .attr('title', physicalstructureDescription)

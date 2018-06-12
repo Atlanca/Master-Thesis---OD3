@@ -120,7 +120,7 @@ def q1(feature):
 
     sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in structure.entities for diagram in set(entity.diagrams)}
     return render_template('childtemplate.html', 
-                            diagram_path='static/FeatureRoleGraph.js', 
+                            diagram_path='static/ClusteringGraph.js', 
                             side_bar_diagram_file_paths=sideBardiagram_file_paths,
                             entityData = {'functional': {'tab_id':'feature_role_tab', 'tab_name': 'Feature role', 'entity_structure': json.dumps(structure.toDict()), 'explanation': explanation, 'background': '#fff6f4'}})
 

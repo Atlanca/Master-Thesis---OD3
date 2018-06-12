@@ -1,9 +1,11 @@
-<!-- {{question: What is the behavior of the feature {feature_name}?}} -->
+<!-- {{question: What is the behavior of the feature {no_style_feature_name}?}} -->
 
 <p>
-The behavior of the feature {feature_name} from the {view_type} point of view is expressed by {diagram_type}.
+From the {point_of_view}, the behavior of {feature_name} is expressed by {path}. 
+Each entity is described in the sections below.
 </p>
 
 <p>
-The subsequent sections contain descriptions of the entities found in this explanation.
-</p>
+To see what actions are available in the interactive graph (left-hand side), 
+press the round "i" button in the top left corner 
+of the graph.</p>
