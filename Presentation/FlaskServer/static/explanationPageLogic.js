@@ -72,7 +72,7 @@ function previousTab(){
     }
 }
 
-function toggleVisibility(className){
+function toggleVisibilityFirst(toggleClass){
     tab_content = d3.select('div.' + className)
     tab_button = d3.select('button.' + className)
     tab_display = tab_content.style('display')
@@ -82,22 +82,23 @@ function toggleVisibility(className){
         return
     }
     
+}
+
+function toggleVisibility(className){
+    tab_content = d3.select('div.' + className)
+    tab_button = d3.select('button.' + className)
+    tab_display = tab_content.style('display')
+    
     // Hide everything
     d3.selectAll('.left-side').classed('selected', false)
     d3.selectAll('.popup-content').style('display', 'none')
 
     // Display tab
     if (tab_display == 'block') {
-        tab_content
-        .transition()
-        .ease(d3.easeCubic)
-        .style("opacity", 0)
-        .style("display",'none')
-        .duration(300)
-        .style("max-height", "0px")
-        
+        tab_content.transition()
+        .style("display",'block')
         tab_button
-        .classed('selected', false)
+        .classed('selected', true)
         
     } else {
         tab_content

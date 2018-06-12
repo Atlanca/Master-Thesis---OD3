@@ -9,7 +9,6 @@ function setZoomForAll(){
         d3.select(this).call(zoom(diagram_group));
         centerSVG(diagram_group.select('image'))
     })
-    
 }
 
 function zoom(diagram_group){

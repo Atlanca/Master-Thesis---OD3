@@ -17,19 +17,12 @@
     {% if loop.index == 1 %}
     <div class='popup-content_{{name}} popup-content' style='height:100%; overflow:hidden; display:block'>
     {% else%}
-    <div class='popup-content_{{name}} popup-content' style='height:100%; overflow:hidden; display:none'>       
+    <div class='popup-content_{{name}} popup-content' style='height:100%; overflow:hidden; display:block'>       
     {% endif %}
         {% block svg scoped %}
             {{explanation}}
             {{name}}
         {% endblock svg %}
-    
-        {% if structure %}
-            <script>
-                struct = JSON.parse({{structure | tojson | safe}})
-                buildDiagram(struct, 'popup')
-            </script>
-        {% endif %}
 
         <div class='left-panel'>
             <div class='w3-container w3-light-gray left-panel-content-base'>

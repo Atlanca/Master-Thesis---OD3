@@ -193,8 +193,8 @@ function buildDiagram(structure, view){
     gh.setTitleToNodes()
     tippy('.nodeRect')
 
+    // Sets dropdown logic
     // Create dropdown logic for the arrow button beside the node
-
     // View diagram dropdown item logic
     var viewDiagramsFunction = function(object){                        
         gh.createEmptyPopup()
@@ -205,6 +205,18 @@ function buildDiagram(structure, view){
         })
     }
 
+    var showPatternRationale = function(object){                        
+        gh.createEmptyPopup()
+        var id = d3.select(object.parentNode).attr('id')
+        var input = gh.entityToNodeIdMap[view][id].uri
+
+        $.post('http://localhost:5000/structure/patternRationale', {'pattern': input}, function(structure){
+            $.post('http://localhost:5000/popup/patternRationale', {'pattern': input}, function(content){
+                gh.addPopupContent(content, structure)
+            })
+        })
+    }
+
     var showFeatureRole = function(object){                        
         gh.createEmptyPopup()
         var id = d3.select(object.parentNode).attr('id')
@@ -212,6 +224,30 @@ function buildDiagram(structure, view){
 
         $.post('http://localhost:5000/structure/featureRole', {'feature': input}, function(structure){
             $.post('http://localhost:5000/popup/featureRole', {'feature': input}, function(content){
+                gh.addPopupContent(content, structure)
+            })
+        })
+    }
+
+    var showFeatureBehavior = function(object){                        
+        gh.createEmptyPopup()
+        var id = d3.select(object.parentNode).attr('id')
+        var input = gh.entityToNodeIdMap[view][id].uri
+
+        $.post('http://localhost:5000/structure/featureBehavior', {'feature': input}, function(structure){
+            $.post('http://localhost:5000/popup/featureBehavior', {'feature': input}, function(content){
+                gh.addPopupContent(content, structure)
+            })
+        })
+    }
+
+    var showFeatureImplementation = function(object){                        
+        gh.createEmptyPopup()
+        var id = d3.select(object.parentNode).attr('id')
+        var input = gh.entityToNodeIdMap[view][id].uri
+
+        $.post('http://localhost:5000/structure/featureImplementation', {'feature': input}, function(structure){
+            $.post('http://localhost:5000/popup/featureImplementation', {'feature': input}, function(content){
                 gh.addPopupContent(content, structure)
             })
         })
@@ -242,20 +278,18 @@ function buildDiagram(structure, view){
 
         if (currentEntity.type.includes('Feature')){
             gh.addNodeDropdownLogic(current, 'Show role', showFeatureRole)
-            gh.addNodeDropdownLogic(current, 'Show behavior', showFeatureRole)
-            gh.addNodeDropdownLogic(current, 'Show mapping to implementation', showFeatureRole)
+            gh.addNodeDropdownLogic(current, 'Show behavior', showFeatureBehavior)
+            gh.addNodeDropdownLogic(current, 'Show mapping to implementation', showFeatureImplementation)
         }
 
         if (currentEntity.type.includes('ArchitecturalPattern')){
-            gh.addNodeDropdownLogic(current, 'Show rationale', showFeatureRole)
+            gh.addNodeDropdownLogic(current, 'Show rationale', showPatternRationale)
         }
         
     })
 
     // Scale the diagram to fit the screen
     gh.scaleDiagram()
-    
-    //Resize dummy and style dummy nodes
-    // gh.resizeDummyNodes()
+
 }
 

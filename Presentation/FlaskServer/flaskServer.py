@@ -219,15 +219,88 @@ def popup_featureRole():
     featureUri = request.form.get('feature', '')
     structure = explanationGenerator.getFeatureRole(featureUri)
     explanation = {}
-    explanation['Feature role'] = {'description': explanationTemplates.generateFeatureRoleSummary(featureUri, structure),
+    explanation['popup_feature_role'] = {'description': explanationTemplates.generateFeatureRoleSummary(featureUri, structure),
                                    'newWindowPath': '/static/something.html'}
-    return render_template('popupInteractiveDiagram.html', explanations=explanation, structure=json.dumps(structure.toDict()))
+
+    return render_template('popupInteractiveDiagram.html', explanations=explanation)
 
 @app.route('/structure/featureRole', methods=['POST'])
 def getFeatureRoleStructure():
     featureUri = request.form.get('feature', '')
-    structure = explanationGenerator.getFeatureRole(featureUri)
-    return json.dumps(structure.toDict())
+    structure = {'popup_feature_role': explanationGenerator.getFeatureRole(featureUri).toDict()}
+    return json.dumps(structure)
+
+@app.route('/popup/featureBehavior', methods=['POST'])
+def popup_featureBehavior():
+    featureUri = request.form.get('feature', '')
+
+    logStructure = explanationGenerator.getDevelopmentBehaviorOfFeature(featureUri)
+    devStructure = explanationGenerator.getLogicalBehaviorOfFeature(featureUri)
+    uiStructure = explanationGenerator.getUIBehaviorOfFeature(featureUri)
+
+    explanation = {}
+
+    explanation['popup_log_feature_behavior'] = {'description': explanationTemplates.generateBehaviorSummary(featureUri, logStructure, 'logical'),
+                                                'newWindowPath': '/static/something.html'}
+    explanation['popup_dev_feature_behavior'] = {'description': explanationTemplates.generateBehaviorSummary(featureUri, devStructure, 'development'),
+                                                'newWindowPath': '/static/something.html'}
+    explanation['popup_ui_feature_behavior'] = {'description': explanationTemplates.generateBehaviorSummary(featureUri, uiStructure, 'ui'),
+                                                'newWindowPath': '/static/something.html'}
+
+    return render_template('popupInteractiveDiagram.html', explanations=explanation)
+
+@app.route('/structure/featureBehavior', methods=['POST'])
+def getFeatureBehavior():
+    featureUri = request.form.get('feature', '')
+
+    logStructure = explanationGenerator.getDevelopmentBehaviorOfFeature(featureUri)
+    devStructure = explanationGenerator.getLogicalBehaviorOfFeature(featureUri)
+    uiStructure = explanationGenerator.getUIBehaviorOfFeature(featureUri)
+
+    structures = {'popup_log_feature_behavior': logStructure.toDict(),
+                  'popup_dev_feature_behavior': devStructure.toDict(),
+                  'popup_ui_feature_behavior': uiStructure.toDict()}
+    return json.dumps(structures)
+
+@app.route('/popup/featureImplementation', methods=['POST'])
+def popup_featureImplementation():
+    featureUri = request.form.get('feature', '')
+
+    overviewStructure = explanationGenerator.getFunctionalFeatureToImplementationMap(featureUri)
+    overviewExplanation = explanationTemplates.generateFunctionalFeatureImplementationSummary(featureUri, overviewStructure)
+
+    detailedStructure = explanationGenerator.getLogicalFeatureToImplementationMap(featureUri)
+    detailedExplanation = explanationTemplates.generateLogicalFeatureImplementationSummary(featureUri, detailedStructure)
+    
+    implementationEntityUris = [implementation.uri for implementation in list(filter(lambda x: baseUri + 'ImplementationClass' in x.supertypes, detailedStructure.entities))]
+
+    patternStructure = explanationGenerator.getImplementationToArchitecturalPatternMap(implementationEntityUris)
+    patternExplanation = explanationTemplates.generatePatternFeatureImplementationSummary(featureUri, patternStructure)
+
+    explanation = {}
+
+    explanation['popup_overview_feature_implementation'] = {'description': overviewExplanation,
+                                                'newWindowPath': '/static/something.html'}
+    explanation['popup_detailed_feature_implementation'] = {'description': detailedExplanation,
+                                                'newWindowPath': '/static/something.html'}
+    explanation['popup_pattern_implementation'] = {'description': patternExplanation,
+                                                'newWindowPath': '/static/something.html'}
+
+    return render_template('popupInteractiveDiagram.html', explanations=explanation)
+
+@app.route('/structure/featureImplementation', methods=['POST'])
+def getFeatureImplementation():
+    featureUri = request.form.get('feature', '')
+
+    overviewStructure = explanationGenerator.getFunctionalFeatureToImplementationMap(featureUri)
+    detailedStructure = explanationGenerator.getLogicalFeatureToImplementationMap(featureUri)
+    implementationEntityUris = [implementation.uri for implementation in list(filter(lambda x: baseUri + 'ImplementationClass' in x.supertypes, detailedStructure.entities))]
+    patternStructure = explanationGenerator.getImplementationToArchitecturalPatternMap(implementationEntityUris)
+
+    structures = {'popup_overview_feature_implementation': overviewStructure.toDict(),
+                  'popup_detailed_feature_implementation': detailedStructure.toDict(),
+                  'popup_pattern_implementation': patternStructure.toDict()}
+    return json.dumps(structures)
 
 @app.route('/savegraph', methods=['POST'])
 def saveOntology():
@@ -235,6 +308,22 @@ def saveOntology():
     with open('static/ontologyGraph.txt', 'w') as f:
         f.write(graphData)
     return 'success!'
+
+@app.route('/popup/patternRationale', methods=['POST'])
+def popup_patternRationale():
+    patternUri = request.form.get('pattern', '')
+    structure = explanationGenerator.getRationaleOfArchitecture(patternUri)
+    explanation = {}
+    explanation['popup_pattern_rationale'] = {'description': explanationTemplates.generateRationaleSummary(patternUri, structure),
+                                   'newWindowPath': '/static/something.html'}
+
+    return render_template('popupInteractiveDiagram.html', explanations=explanation)
+
+@app.route('/structure/patternRationale', methods=['POST'])
+def getPatternRationale():
+    patternUri = request.form.get('pattern', '')
+    structure = {'popup_pattern_rationale': explanationGenerator.getRationaleOfArchitecture(patternUri).toDict()}
+    return json.dumps(structure)
 
 @app.route('/loadgraph')
 def loadOntology():

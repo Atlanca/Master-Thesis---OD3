@@ -782,35 +782,37 @@ class graphHelper {
     }
     
     createEmptyPopup(){
-        var width = 80
-        var height = 90
-
-        d3.select('body')
-        .append('div')
-        .attr('id', 'popup-background')
-        .classed('popup', true)
-        .style('width', '100%')
-        .style('height', '100%')
-        .style('opacity','0.3')
-        .style('position', 'absolute')
-        .style('background-color','black')
-        
-        d3.select('#popup-background')
-        .on('click', function(){
-            d3.selectAll('.popup')
-            .remove()
-        })
+        if(d3.select('#popup-view').empty()){
+            var width = 80
+            var height = 90
     
-        d3.select('body')
-        .append('div')
-        .attr('id', 'popup-view')
-        .attr('class','w3-light-gray w3-border w3-border-indigo popup')
-        .style('position','absolute')
-        .style('left', '50%')
-        .style('bottom', '50%')
-        .style('transform', 'translate(-50%,50%)')
-        .style('width', width + "%")
-        .style('height', height + "%")
+            d3.select('body')
+            .append('div')
+            .attr('id', 'popup-background')
+            .classed('popup', true)
+            .style('width', '100%')
+            .style('height', '100%')
+            .style('opacity','0.3')
+            .style('position', 'absolute')
+            .style('background-color','black')
+            
+            d3.select('#popup-background')
+            .on('click', function(){
+                d3.selectAll('.popup')
+                .remove()
+            })
+        
+            d3.select('body')
+            .append('div')
+            .attr('id', 'popup-view')
+            .attr('class','w3-light-gray w3-border w3-border-indigo popup')
+            .style('position','absolute')
+            .style('left', '50%')
+            .style('bottom', '50%')
+            .style('transform', 'translate(-50%,50%)')
+            .style('width', width + "%")
+            .style('height', height + "%")
+        }
     }
     
     addPopupContent(popupContent, structure=null){
@@ -824,9 +826,11 @@ class graphHelper {
         if (structure != null) {
             structure = JSON.parse(structure)
             console.log(structure)
-            buildDiagram(structure, 'popup')
+            Object.keys(structure).forEach(function(className){
+                buildDiagram(structure[className], className)
+            })
         }
-    
+          
         d3.select('#close_popup')
         .on('click', function(){
             d3.selectAll('.popup')
