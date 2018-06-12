@@ -30,7 +30,7 @@
                 <div class='popup_overview_{{name}}' style='display:block;'>{{explanation.description.summaryText | safe}}</div>
                 <hr class='thick'>
                 {% for section in explanation.description.sections %}
-                    <h3 class='title popup_{{section.id}}' onclick='toggleVisiblityOfDescription("popup_{{section.id}}")'>{{section.title}}&emsp;+</h3>
+                    <h3 class='title popup_{{section.id}}' onclick='toggleVisiblityOfDescription("popup_{{section.id}}", "popup-content_{{name}}")'>{{section.title}}&emsp;+</h3>
                     <div class='popup_{{section.id}}' style='display:none;'>
                         {{section.summary | safe}}
                         {% for content in section.textContent %}
@@ -39,7 +39,7 @@
                             <hr>
                         {% endfor %}
                         {% for subsection in section.children %}
-                            <h4 class='title popup_{{section.id}}_{{subsection.id}}' onclick='toggleVisiblityOfDescription("popup_{{section.id}}_{{subsection.id}}")'>{{subsection.title}}&emsp;+</h4>
+                            <h4 class='title popup_{{section.id}}_{{subsection.id}}' onclick='toggleVisiblityOfDescription("popup_{{section.id}}_{{subsection.id}}", "popup-content_{{name}}")'>{{subsection.title}}&emsp;+</h4>
                             <div class='popup_{{section.id}}_{{subsection.id}}' style='display:none;'>
                                 {{subsection.summary | safe}}
                                 <h5>Type</h5>

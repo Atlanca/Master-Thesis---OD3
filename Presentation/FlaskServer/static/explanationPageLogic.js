@@ -113,16 +113,25 @@ function toggleVisibility(className){
     }
 }
 
-function toggleVisiblityOfDescription(className){
+function toggleVisiblityOfDescription(className, wrapperClassName=''){
+    if (wrapperClassName) {
+        wrapperClassName = '.' + wrapperClassName
+    } else {
+        wrapperClasName = 'body'
+    }  
+    console.log(wrapperClassName)
     console.log(className)
-    inner = d3.select('.title.' + className).html()
-    tab_display = d3.select('div.' + className).style('display')
+
+    console.log(d3.select(wrapperClassName + ' .title.' + className))
+
+    inner = d3.select(wrapperClassName + ' .title.' + className).html()
+    tab_display = d3.select(wrapperClassName + ' div.' + className).style('display')
 
     if (tab_display == 'block') {
-        d3.select('.title.' + className)
+        d3.select(wrapperClassName + ' .title.' + className)
         .html(inner.substring(0, inner.length-1) + '+')
 
-        d3.select('div.' + className)
+        d3.select(wrapperClassName + ' div.' + className)
         .transition()
         .ease(d3.easeCubic)
         .style("opacity", 0)
@@ -131,10 +140,10 @@ function toggleVisiblityOfDescription(className){
         .style("max-height", "0px")
     
     } else {
-        d3.select('.title.' + className)
+        d3.select(wrapperClassName + ' .title.' + className)
         .html(inner.substring(0, inner.length-1) + '-')
 
-        d3.select('div.' + className)
+        d3.select(wrapperClassName + ' div.' + className)
         .style("display", "block")
         .transition()
         .duration(300)
