@@ -209,7 +209,7 @@ function changeInputType(){
             data.forEach(function(entity){
                 var option = document.createElement('option')
                 option.value = getNameOfUri(entity)
-                option.innerHTML = 'Feature: ' + getNameOfUri(entity)
+                option.innerHTML = selectionType + ': ' + getNameOfUri(entity)
                 datalist.appendChild(option)
             })
 
