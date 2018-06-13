@@ -192,6 +192,33 @@ function toggleMenu(elem, menuButtonClass, menuContentClass){
 
 }
 
+function changeInputType(){
+    var select = document.getElementById('menu-search-question-select')
+    var currentSelection = select.options[select.selectedIndex].value
+    var selectionHasListInput = select.options[select.selectedIndex].dataset.listinput
+    var selectionType = select.options[select.selectedIndex].dataset.type
+    var baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
+    var input = document.getElementById('search-input-container')
+    if (selectionHasListInput == 'true') {
+        input.style.display = 'block'
+        var datalist = document.getElementById('entities-list')
+        
+        $.post('http://localhost:5000/query/getentitiesbytype', {typeUri: baseUri + selectionType}, function(data){
+            data = JSON.parse(data)
+            datalist.innerHTML = ''
+            data.forEach(function(entity){
+                var option = document.createElement('option')
+                option.value = getNameOfUri(entity)
+                option.innerHTML = 'Feature: ' + getNameOfUri(entity)
+                datalist.appendChild(option)
+            })
+
+        })
+    } else {
+        input.style.display = 'none'
+    }
+}
+
 function performSearch(question_select, query_input){
     selectElem = document.getElementById(question_select)
     selectValue = selectElem.options[selectElem.selectedIndex].value;

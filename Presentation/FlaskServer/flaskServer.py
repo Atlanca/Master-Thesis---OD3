@@ -27,6 +27,14 @@ def index(pattern):
                             side_bar_diagram_file_paths=sideBardiagram_file_paths,
                             entityData = {'functional': {'tab_id':'functional_view_tab', 'tab_name': 'Functional view', 'entity_structure': json.dumps(functionalStructure.toDict()), 'explanation': func_explanation, 'background': '#fff6f4'}})
 
+@app.route('/query/getentitiesbytype', methods=['POST'])
+def getEntitiesByType():
+    typeUri = request.form.get('typeUri', '')
+
+    if typeUri:
+        return json.dumps(queryManager.getIndividualsByType(typeUri))
+    return ''
+
 @app.route('/query/getrelations', methods=['POST'])
 def getRelations():
     subject = request.form.get('subjectUri', '')

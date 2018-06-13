@@ -443,6 +443,14 @@
     
 
 
+    <!-- http://www.semanticweb.org/ontologies/snowflake#Criteria -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/ontologies/snowflake#Criteria">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
     <!-- http://www.semanticweb.org/ontologies/snowflake#Description -->
 
     <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/ontologies/snowflake#Description">
@@ -563,17 +571,9 @@
     
 
 
-    <!-- http://www.semanticweb.org/ontologies/snowflake/Criteria -->
+    <!-- http://www.semanticweb.org/ontologies/snowflake#ValueStatement -->
 
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/ontologies/snowflake/Criteria">
-        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- http://www.semanticweb.org/ontologies/snowflake/ValueStatement -->
-
-    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/ontologies/snowflake/ValueStatement">
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/ontologies/snowflake#ValueStatement">
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     </owl:DatatypeProperty>
     
@@ -4829,9 +4829,9 @@ These form classes also host the methods generating the different content that m
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#add_address_to_address_book">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UserStory"/>
         <explains rdf:resource="http://www.semanticweb.org/ontologies/snowflake#add_address"/>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When an address is requested to be added to the address book in the user profile page, add the selected address in the address book and display the updated user profile.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the address is invalid, show a bad request error message and pre-fill the form.</snowflake1:Criteria>
-        <snowflake1:ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a registered customer, I want to add a postal address to my address book, so that I can select it as shipping or billing address when placing an order.</snowflake1:ValueStatement>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When an address is requested to be added to the address book in the user profile page, add the selected address in the address book and display the updated user profile.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the address is invalid, show a bad request error message and pre-fill the form.</Criteria>
+        <ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a registered customer, I want to add a postal address to my address book, so that I can select it as shipping or billing address when placing an order.</ValueStatement>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Add address to address book</rdfs:label>
     </owl:NamedIndividual>
     
@@ -4855,10 +4855,10 @@ These form classes also host the methods generating the different content that m
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#add_item_to_cart_user_story">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UserStory"/>
         <explains rdf:resource="http://www.semanticweb.org/ontologies/snowflake#add_item_to_cart"/>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When a product is requested to be added to the shopping cart, add the selected variant in the cart and display the updated cart content.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the product is already in the cart, the quantity will be updated with the addition.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the selected product does not exist, show a bad request error message.</snowflake1:Criteria>
-        <snowflake1:ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to add a particular product to the shopping cart, so that I can buy it with the next order.</snowflake1:ValueStatement>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When a product is requested to be added to the shopping cart, add the selected variant in the cart and display the updated cart content.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the product is already in the cart, the quantity will be updated with the addition.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the selected product does not exist, show a bad request error message.</Criteria>
+        <ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to add a particular product to the shopping cart, so that I can buy it with the next order.</ValueStatement>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Add item to cart</rdfs:label>
     </owl:NamedIndividual>
     
@@ -5355,10 +5355,10 @@ So far all the tools for accessing and managing the backend data were focused on
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#do_log_in">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UserStory"/>
         <explains rdf:resource="http://www.semanticweb.org/ontologies/snowflake#log_in"/>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When invalid credentials provided, show an unauthorized error message and pre-fill form.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When logging in a user is requested, sign in with the user and display the user profile.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When user already logged in, display the user profile.</snowflake1:Criteria>
-        <snowflake1:ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As an anonymous customer, I want to log in with an existing customer account, so that I take advantage of the benefits of being a registered customer.</snowflake1:ValueStatement>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When invalid credentials provided, show an unauthorized error message and pre-fill form.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When logging in a user is requested, sign in with the user and display the user profile.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When user already logged in, display the user profile.</Criteria>
+        <ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As an anonymous customer, I want to log in with an existing customer account, so that I take advantage of the benefits of being a registered customer.</ValueStatement>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Do log in</rdfs:label>
     </owl:NamedIndividual>
     
@@ -5369,9 +5369,9 @@ So far all the tools for accessing and managing the backend data were focused on
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#do_log_out">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UserStory"/>
         <explains rdf:resource="http://www.semanticweb.org/ontologies/snowflake#log_out"/>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When logging out a user is requested, sign out the user and display the last visited page.</snowflake1:Criteria>
-        <snowflake1:ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a registered customer, I want to logout from my customer account, so that nobody else can use it from the same machine</snowflake1:ValueStatement>
-        <snowflake1:ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When user already logged out, display the last visited page.</snowflake1:ValueStatement>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When logging out a user is requested, sign out the user and display the last visited page.</Criteria>
+        <ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a registered customer, I want to logout from my customer account, so that nobody else can use it from the same machine</ValueStatement>
+        <ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When user already logged out, display the last visited page.</ValueStatement>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Do log out</rdfs:label>
     </owl:NamedIndividual>
     
@@ -5382,10 +5382,10 @@ So far all the tools for accessing and managing the backend data were focused on
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#do_sign_up">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UserStory"/>
         <explains rdf:resource="http://www.semanticweb.org/ontologies/snowflake#sign_up"/>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When invalid data provided, show a bad request error message and pre-fill the form.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When signing up a new user is requested, register the user and display the user profile.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When user already registered, show a bad request error message and pre-fill form.</snowflake1:Criteria>
-        <snowflake1:ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As an anonymous customer, I want to sign up a new customer account, so that I can place orders more easily and take advantage of many other benefits.</snowflake1:ValueStatement>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When invalid data provided, show a bad request error message and pre-fill the form.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When signing up a new user is requested, register the user and display the user profile.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When user already registered, show a bad request error message and pre-fill form.</Criteria>
+        <ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As an anonymous customer, I want to sign up a new customer account, so that I can place orders more easily and take advantage of many other benefits.</ValueStatement>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Do sign up</rdfs:label>
     </owl:NamedIndividual>
     
@@ -5408,10 +5408,10 @@ So far all the tools for accessing and managing the backend data were focused on
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#edit_user_data">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UserStory"/>
         <explains rdf:resource="http://www.semanticweb.org/ontologies/snowflake#update_account"/>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When invalid data provided, show a bad request error message and pre-fill the form.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the user data is requested to be updated, edit data and display updated user profile.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the user is not logged in, show an unauthorized error message and display login.</snowflake1:Criteria>
-        <snowflake1:ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a registered customer, I want to update my personal data such as the email address used.</snowflake1:ValueStatement>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When invalid data provided, show a bad request error message and pre-fill the form.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the user data is requested to be updated, edit data and display updated user profile.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the user is not logged in, show an unauthorized error message and display login.</Criteria>
+        <ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a registered customer, I want to update my personal data such as the email address used.</ValueStatement>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Edit user data</rdfs:label>
     </owl:NamedIndividual>
     
@@ -5422,10 +5422,10 @@ So far all the tools for accessing and managing the backend data were focused on
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#edit_user_password">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UserStory"/>
         <explains rdf:resource="http://www.semanticweb.org/ontologies/snowflake#change_password"/>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When invalid current password provided, show a bad request error message.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the user is not logged in, show an unauthorized error message and display login.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the user password is requested to be updated, change password and display user profile.</snowflake1:Criteria>
-        <snowflake1:ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a registered customer, I want to change my current password to another one of my choice</snowflake1:ValueStatement>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When invalid current password provided, show a bad request error message.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the user is not logged in, show an unauthorized error message and display login.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the user password is requested to be updated, change password and display user profile.</Criteria>
+        <ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a registered customer, I want to change my current password to another one of my choice</ValueStatement>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Edit user password</rdfs:label>
     </owl:NamedIndividual>
     
@@ -5961,10 +5961,10 @@ A description of each chosen technology and the characteristics that influenced 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#filter_products_by_color">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UserStory"/>
         <explains rdf:resource="http://www.semanticweb.org/ontologies/snowflake#filter_by_color"/>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When a color filtering is requested in any product list page, the chosen color will be displayed, as well as all products from the previous list whose main color matches the selected color.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When more than one color is selected at once, products whose main color matches any of the selected colors will be displayed.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When no products found, show an informative message.</snowflake1:Criteria>
-        <snowflake1:ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to see only those products from the product list which main color matches any of the colors I selected, so that I can narrow down the list to best fit my liking</snowflake1:ValueStatement>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When a color filtering is requested in any product list page, the chosen color will be displayed, as well as all products from the previous list whose main color matches the selected color.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When more than one color is selected at once, products whose main color matches any of the selected colors will be displayed.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When no products found, show an informative message.</Criteria>
+        <ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to see only those products from the product list which main color matches any of the colors I selected, so that I can narrow down the list to best fit my liking</ValueStatement>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Filter products by color</rdfs:label>
     </owl:NamedIndividual>
     
@@ -5975,11 +5975,11 @@ A description of each chosen technology and the characteristics that influenced 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#filter_products_by_price">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UserStory"/>
         <explains rdf:resource="http://www.semanticweb.org/ontologies/snowflake#filter_by_price"/>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When a price range filtering is requested in any product list page, the chosen price range will be displayed, as well as all products from the previous list (discarding any previous price filtering) whose price falls within the range.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When invalid price provided, dismiss the price filter request.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When minimum and maximum price are swapped, recover exchanging them.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When no products found, show an informative message.</snowflake1:Criteria>
-        <snowflake1:ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to see only those products from the product list which prices fall within a specific price range, so that I can narrow down the list to best fit my economic requirements</snowflake1:ValueStatement>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When a price range filtering is requested in any product list page, the chosen price range will be displayed, as well as all products from the previous list (discarding any previous price filtering) whose price falls within the range.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When invalid price provided, dismiss the price filter request.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When minimum and maximum price are swapped, recover exchanging them.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When no products found, show an informative message.</Criteria>
+        <ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to see only those products from the product list which prices fall within a specific price range, so that I can narrow down the list to best fit my economic requirements</ValueStatement>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Filter products by price</rdfs:label>
     </owl:NamedIndividual>
     
@@ -5990,10 +5990,10 @@ A description of each chosen technology and the characteristics that influenced 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#finish_checkout">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UserStory"/>
         <explains rdf:resource="http://www.semanticweb.org/ontologies/snowflake#place_order"/>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When invalid data provided, show a bad request error message and pre-fill the forms.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the checkout process is requested to finish, display success message and all order details (i.e. cart content, price details, shipping and billing options).</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the shopping cart is empty, display the last visited page.</snowflake1:Criteria>
-        <snowflake1:ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to place an order, so that I can actually buy the items in my shopping cart</snowflake1:ValueStatement>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When invalid data provided, show a bad request error message and pre-fill the forms.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the checkout process is requested to finish, display success message and all order details (i.e. cart content, price details, shipping and billing options).</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the shopping cart is empty, display the last visited page.</Criteria>
+        <ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to place an order, so that I can actually buy the items in my shopping cart</ValueStatement>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Finish checkout</rdfs:label>
     </owl:NamedIndividual>
     
@@ -6137,9 +6137,9 @@ A description of each chosen technology and the characteristics that influenced 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#list_home_products">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UserStory"/>
         <explains rdf:resource="http://www.semanticweb.org/ontologies/snowflake#list_products"/>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When no products found, show an informative message.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the home page is requested, display all products of the shop.</snowflake1:Criteria>
-        <snowflake1:ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to list all products of the shop</snowflake1:ValueStatement>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When no products found, show an informative message.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the home page is requested, display all products of the shop.</Criteria>
+        <ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to list all products of the shop</ValueStatement>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">List home products</rdfs:label>
     </owl:NamedIndividual>
     
@@ -6177,10 +6177,10 @@ A description of each chosen technology and the characteristics that influenced 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#list_products_from_category">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UserStory"/>
         <explains rdf:resource="http://www.semanticweb.org/ontologies/snowflake#filter_by_category"/>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When a category is requested, the chosen category will be indicated and its immediate children categories will be displayed, as well as all products belonging to that category or any descendant category.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When no products found, show an informative message.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the selected category does not exist, show a not found error message.</snowflake1:Criteria>
-        <snowflake1:ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to see only those products that belong to a particular category and any category descendant, so that I can narrow down the list to what fits best my needs</snowflake1:ValueStatement>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When a category is requested, the chosen category will be indicated and its immediate children categories will be displayed, as well as all products belonging to that category or any descendant category.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When no products found, show an informative message.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the selected category does not exist, show a not found error message.</Criteria>
+        <ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to see only those products that belong to a particular category and any category descendant, so that I can narrow down the list to what fits best my needs</ValueStatement>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">List products from category</rdfs:label>
     </owl:NamedIndividual>
     
@@ -6376,9 +6376,9 @@ Play follows the MVC logical architectural pattern and is completely RESTful, wh
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#recover_password_user_story">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UserStory"/>
         <explains rdf:resource="http://www.semanticweb.org/ontologies/snowflake#recover_password"/>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the email provided does not exist, show a bad request error message and pre-fill form.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the user password is requested to be recovered, send email to the address provided with a temporary link to the recovery page, where the user can insert a new password.</snowflake1:Criteria>
-        <snowflake1:ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As an anonymous customer, I want to be able to recover my password, so that I can log in with my account when I forget my current password</snowflake1:ValueStatement>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the email provided does not exist, show a bad request error message and pre-fill form.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the user password is requested to be recovered, send email to the address provided with a temporary link to the recovery page, where the user can insert a new password.</Criteria>
+        <ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As an anonymous customer, I want to be able to recover my password, so that I can log in with my account when I forget my current password</ValueStatement>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Recover password</rdfs:label>
     </owl:NamedIndividual>
     
@@ -6401,10 +6401,10 @@ Play follows the MVC logical architectural pattern and is completely RESTful, wh
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#remove_address_from_address_book">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UserStory"/>
         <explains rdf:resource="http://www.semanticweb.org/ontologies/snowflake#remove_address"/>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When an address is requested to be removed in the user profile page, remove the address from the address book and display the updated user profile.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the address does not exist in the address book, show a bad request error message.</snowflake1:Criteria>
-        <snowflake1:ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a registered customer, I want to remove a particular postal address 
-from my address book, so that I cannot longer select it when placing an order.</snowflake1:ValueStatement>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When an address is requested to be removed in the user profile page, remove the address from the address book and display the updated user profile.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the address does not exist in the address book, show a bad request error message.</Criteria>
+        <ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a registered customer, I want to remove a particular postal address 
+from my address book, so that I cannot longer select it when placing an order.</ValueStatement>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Remove address from address book</rdfs:label>
     </owl:NamedIndividual>
     
@@ -6428,9 +6428,9 @@ from my address book, so that I cannot longer select it when placing an order.</
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#remove_item_from_cart_user_story">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UserStory"/>
         <explains rdf:resource="http://www.semanticweb.org/ontologies/snowflake#remove_item_from_cart"/>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When a product from the shopping cart is requested to be removed in the cart detail page, remove the item from the cart and display the updated cart content.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the item does not exist in the cart, show a bad request error message.</snowflake1:Criteria>
-        <snowflake1:ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a registered customer, I want to remove a particular postal address from my address book, so that I cannot longer select it when placing an order</snowflake1:ValueStatement>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When a product from the shopping cart is requested to be removed in the cart detail page, remove the item from the cart and display the updated cart content.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the item does not exist in the cart, show a bad request error message.</Criteria>
+        <ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a registered customer, I want to remove a particular postal address from my address book, so that I cannot longer select it when placing an order</ValueStatement>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Remove item from cart</rdfs:label>
     </owl:NamedIndividual>
     
@@ -6521,9 +6521,9 @@ from my address book, so that I cannot longer select it when placing an order.</
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#show_cart_detail">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UserStory"/>
         <explains rdf:resource="http://www.semanticweb.org/ontologies/snowflake#mini_cart"/>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the shopping cart is empty, show an informative message.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the shopping cart is requested, display the cart contents and the price details.</snowflake1:Criteria>
-        <snowflake1:ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to be able to see my current shopping cart from any page via a so-called mini-cart, so that I can always be aware of its contents and pricing details.</snowflake1:ValueStatement>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the shopping cart is empty, show an informative message.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the shopping cart is requested, display the cart contents and the price details.</Criteria>
+        <ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to be able to see my current shopping cart from any page via a so-called mini-cart, so that I can always be aware of its contents and pricing details.</ValueStatement>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Show cart detail</rdfs:label>
     </owl:NamedIndividual>
     
@@ -6534,9 +6534,9 @@ from my address book, so that I cannot longer select it when placing an order.</
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#show_product_detail">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UserStory"/>
         <explains rdf:resource="http://www.semanticweb.org/ontologies/snowflake#product_detail"/>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When a product is requested, the chosen product will be displayed with all its information and pictures, as well as all the possible variants of that product.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the selected product does not exist, show a not found error message.</snowflake1:Criteria>
-        <snowflake1:ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to see all information regarding a particular product and its variants, so that I can make a better decision about buying it.</snowflake1:ValueStatement>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When a product is requested, the chosen product will be displayed with all its information and pictures, as well as all the possible variants of that product.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the selected product does not exist, show a not found error message.</Criteria>
+        <ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to see all information regarding a particular product and its variants, so that I can make a better decision about buying it.</ValueStatement>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Show product detail</rdfs:label>
     </owl:NamedIndividual>
     
@@ -6547,10 +6547,10 @@ from my address book, so that I cannot longer select it when placing an order.</
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#show_product_variant_detail">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UserStory"/>
         <explains rdf:resource="http://www.semanticweb.org/ontologies/snowflake#product_detail"/>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When a product variant is requested, the chosen product variant will be displayed with all its information and pictures, as well as all other possible variants of that product.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the selected product does not exist, show a not found error message.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the selected product variant does not exist, display the default variant instead.</snowflake1:Criteria>
-        <snowflake1:ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to see all information regarding a particular product and its variants, so that I can make a better decision about buying it.</snowflake1:ValueStatement>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When a product variant is requested, the chosen product variant will be displayed with all its information and pictures, as well as all other possible variants of that product.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the selected product does not exist, show a not found error message.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the selected product variant does not exist, display the default variant instead.</Criteria>
+        <ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to see all information regarding a particular product and its variants, so that I can make a better decision about buying it.</ValueStatement>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Show product variant detail</rdfs:label>
     </owl:NamedIndividual>
     
@@ -6560,8 +6560,8 @@ from my address book, so that I cannot longer select it when placing an order.</
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#show_user_profile">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UserStory"/>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the user is not logged in, show an unauthorized error message and display login.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the user profile is requested, display the user data, change password and address book forms, as well as the list of orders from the user.</snowflake1:Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the user is not logged in, show an unauthorized error message and display login.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the user profile is requested, display the user data, change password and address book forms, as well as the list of orders from the user.</Criteria>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Show user profile</rdfs:label>
     </owl:NamedIndividual>
     
@@ -6652,9 +6652,9 @@ The primary entry point to the backend is provided by a RESTful API, that offers
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#start_checkout">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UserStory"/>
         <explains rdf:resource="http://www.semanticweb.org/ontologies/snowflake#place_order"/>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the checkout process is requested to start, display an order summary (i.e. cart content and price details) and the corresponding shipping and billing forms.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the shopping cart is empty, display the last visited page.</snowflake1:Criteria>
-        <snowflake1:ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to place an order, so that I can actually buy the items in my shopping cart</snowflake1:ValueStatement>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the checkout process is requested to start, display an order summary (i.e. cart content and price details) and the corresponding shipping and billing forms.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the shopping cart is empty, display the last visited page.</Criteria>
+        <ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to place an order, so that I can actually buy the items in my shopping cart</ValueStatement>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Start checkout</rdfs:label>
     </owl:NamedIndividual>
     
@@ -6714,10 +6714,10 @@ The specific MVC design of the current system is shown in Figure 4.2 below. One 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#update_address_in_address_book">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UserStory"/>
         <explains rdf:resource="http://www.semanticweb.org/ontologies/snowflake#update_address"/>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When an address is requested to be updated in the user profile page, replace the previous address with the new provided and display the updated user profile.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the address does not exist in the address book, add it to the address book.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the address is invalid, show a bad request error message and pre-fill the form.</snowflake1:Criteria>
-        <snowflake1:ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a registered customer, I want to update my personal data such as the email address used</snowflake1:ValueStatement>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When an address is requested to be updated in the user profile page, replace the previous address with the new provided and display the updated user profile.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the address does not exist in the address book, add it to the address book.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the address is invalid, show a bad request error message and pre-fill the form.</Criteria>
+        <ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a registered customer, I want to update my personal data such as the email address used</ValueStatement>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Update address in address book</rdfs:label>
     </owl:NamedIndividual>
     
@@ -6741,10 +6741,10 @@ The specific MVC design of the current system is shown in Figure 4.2 below. One 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#update_item_in_cart_user_story">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UserStory"/>
         <explains rdf:resource="http://www.semanticweb.org/ontologies/snowflake#update_item_in_cart"/>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the item does not exist in the cart, show a bad request error message.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the new quantity is invalid, show a bad request error message.</snowflake1:Criteria>
-        <snowflake1:Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the quantity of an item in the shopping cart is requested to be updated in the cart detail page, replace the previous quantity with the new one provided and display the updated cart content.</snowflake1:Criteria>
-        <snowflake1:ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to change the number of units of a particular item in the shopping cart, so that I can buy a different quantity of the product with the next order.</snowflake1:ValueStatement>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the item does not exist in the cart, show a bad request error message.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the new quantity is invalid, show a bad request error message.</Criteria>
+        <Criteria rdf:datatype="http://www.w3.org/2001/XMLSchema#string">When the quantity of an item in the shopping cart is requested to be updated in the cart detail page, replace the previous quantity with the new one provided and display the updated cart content.</Criteria>
+        <ValueStatement rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to change the number of units of a particular item in the shopping cart, so that I can buy a different quantity of the product with the next order.</ValueStatement>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Update item in cart</rdfs:label>
     </owl:NamedIndividual>
     

@@ -48,23 +48,30 @@
                   <div class='main-menu-item w3-dropdown-content w3-bar-block w3-border' style='padding-bottom:20px;'>
                     <div class='w3-container w3-margin' style='width:700px'>
                       <h4>Select question</h4>
-                      <select id='menu-search-question-select' style='height:50px;width:650px;'>
-                        <option value="q1">What is the role of this feature?</option>
-                        <option value="q2">How is this feature mapped to its implementation?</option>
-                        <option value="q3">What is the behavior of this feature?</option>
-                        <option value="q4">What is the rationale behind the choice of this architecture?</option>
-                        <option value="q5">What functionality exists in the system?</option>
-                        <option value="q6">To which features are these implementation classes mapped to?</option>
+                      <select onchange='changeInputType()' id='menu-search-question-select' style='height:50px;width:650px;'>
+                        <option disabled selected value> -- Select a question -- </option>
+                        <option data-listinput='true' data-type='Feature' value="q1">What is the role of this feature?</option>
+                        <option data-listinput='true' data-type='Feature' value="q2">How is this feature mapped to its implementation?</option>
+                        <option data-listinput='true' data-type='Feature' value="q3">What is the behavior of this feature?</option>
+                        <option data-listinput='true' data-type='ArchitecturalPattern' value="q4">What is the rationale behind the choice of this architecture?</option>
+                        <option data-listinput='false' value="q5">What functionality exists in the system?</option>
+                        <!-- <option data-listinput='true' data-type='' value="q6">To which features are these implementation classes mapped to?</option> -->
                       </select>
-                      <div class='w3-border' style='float:left;margin-top:16px;display:inline-block'>
-                        <input id='menu-search-input' class='w3-input' style='border:none;float:left;width:540px;height:50px;' type='text' placeholder='Name of entity...'>                            
-                        <button class='w3-button' onclick='performSearch("menu-search-question-select", "menu-search-input")' style='border:none;width:50px;height:50px;float:left;background-color:gray'>
-                          <i class="fa fa-search" style='color:white;font-size:25px;' aria-hidden="true"></i> 
-                        </button>
+                      <div id='menu-search-input-wrapper' class='w3-border' style='float:left;margin-top:16px;display:inline-block'>
+                          <div id='search-input-container' style='display:none'>
+                              <input id='search-input' list='entities-list' name='entity-input' style='border:none;float:left;width:540px;height:50px;'  placeholder='Name of entity...'>                            
+                              <datalist id='entities-list'>
+                                <option value="place-holder">place-holder</option>
+                              </datalist>
+                              <button class='w3-button' onclick='performSearch("menu-search-question-select", "search-input")' style='border:none;width:50px;height:50px;float:left;background-color:gray'>
+                                  <i class="fa fa-search" style='color:white;font-size:25px;' aria-hidden="true"></i> 
+                              </button>
+                          </div>
+                          <!-- <button class='w3-button w3-border' style='margin-left:8px; margin-top:16px; float:left;border:none;width:50px;height:50px;float:left;background-color:white;'>
+                              <i class="fa fa-plus" style='color:black;font-size:25px;' aria-hidden="true"></i> 
+                          </button> -->
                       </div>
-                      <button class='w3-button w3-border' style='margin-left:8px; margin-top:16px; float:left;border:none;width:50px;height:50px;float:left;background-color:white;'>
-                          <i class="fa fa-plus" style='color:black;font-size:25px;' aria-hidden="true"></i> 
-                      </button>
+                      
                     </div>
                   </div>
                 </div>
