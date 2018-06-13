@@ -58,15 +58,13 @@
                         <!-- <option data-listinput='true' data-type='' value="q6">To which features are these implementation classes mapped to?</option> -->
                       </select>
                       <div id='menu-search-input-wrapper' class='w3-border' style='float:left;margin-top:16px;display:inline-block'>
-                          <div id='search-input-container' style='display:none'>
-                              <input id='search-input' list='entities-list' name='entity-input' style='border:none;float:left;width:540px;height:50px;'  placeholder='Name of entity...'>                            
-                              <datalist id='entities-list'>
-                                <option value="place-holder">place-holder</option>
-                              </datalist>
-                              <button class='w3-button' onclick='performSearch("menu-search-question-select", "search-input")' style='border:none;width:50px;height:50px;float:left;background-color:gray'>
-                                  <i class="fa fa-search" style='color:white;font-size:25px;' aria-hidden="true"></i> 
-                              </button>
-                          </div>
+                          <input id='search-input' list='entities-list' name='entity-input' style='display:none;border:none;float:left;width:540px;height:50px;' placeholder='Name of entity...'>                            
+                          <datalist id='entities-list'>
+                            <option value="place-holder">place-holder</option>
+                          </datalist>
+                          <button class='w3-button' onclick='performSearch("menu-search-question-select", "search-input")' style='border:none;width:50px;height:50px;float:left;background-color:gray'>
+                              <i class="fa fa-search" style='color:white;font-size:25px;' aria-hidden="true"></i> 
+                          </button>
                           <!-- <button class='w3-button w3-border' style='margin-left:8px; margin-top:16px; float:left;border:none;width:50px;height:50px;float:left;background-color:white;'>
                               <i class="fa fa-plus" style='color:black;font-size:25px;' aria-hidden="true"></i> 
                           </button> -->

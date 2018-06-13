@@ -198,7 +198,7 @@ function changeInputType(){
     var selectionHasListInput = select.options[select.selectedIndex].dataset.listinput
     var selectionType = select.options[select.selectedIndex].dataset.type
     var baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
-    var input = document.getElementById('search-input-container')
+    var input = document.getElementById('search-input')
     if (selectionHasListInput == 'true') {
         input.style.display = 'block'
         var datalist = document.getElementById('entities-list')
