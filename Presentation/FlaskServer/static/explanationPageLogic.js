@@ -199,8 +199,12 @@ function changeInputType(){
     var selectionType = select.options[select.selectedIndex].dataset.type
     var baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
     var input = document.getElementById('search-input')
+    var inputwrapper = document.getElementById('menu-search-input-wrapper')
+
     if (selectionHasListInput == 'true') {
         input.style.display = 'block'
+        input.placeholder = 'Name of ' + selectionType + '...'
+        inputwrapper.style.display = 'inline-block'
         var datalist = document.getElementById('entities-list')
         
         $.post('http://localhost:5000/query/getentitiesbytype', {typeUri: baseUri + selectionType}, function(data){
@@ -209,7 +213,7 @@ function changeInputType(){
             data.forEach(function(entity){
                 var option = document.createElement('option')
                 option.value = getNameOfUri(entity)
-                option.innerHTML = selectionType + ': ' + getNameOfUri(entity)
+                option.innerHTML = selectionType
                 datalist.appendChild(option)
             })
 
