@@ -200,16 +200,15 @@ function changeInputType(){
     var baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
     var input = document.getElementById('search-input')
     var inputwrapper = document.getElementById('menu-search-input-wrapper')
-
+    
     if (selectionHasListInput == 'true') {
         input.style.display = 'block'
         input.placeholder = 'Name of ' + selectionType + '...'
-        inputwrapper.style.display = 'inline-block'
         var datalist = document.getElementById('entities-list')
-        
+        datalist.innerHTML = ''
+
         $.post('http://localhost:5000/query/getentitiesbytype', {typeUri: baseUri + selectionType}, function(data){
             data = JSON.parse(data)
-            datalist.innerHTML = ''
             data.forEach(function(entity){
                 var option = document.createElement('option')
                 option.value = getNameOfUri(entity)
@@ -220,6 +219,7 @@ function changeInputType(){
         })
     } else {
         input.style.display = 'none'
+        inputwrapper.style.display = 'inline-block'
     }
 }
 
