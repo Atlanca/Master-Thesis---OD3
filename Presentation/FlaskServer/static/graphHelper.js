@@ -167,18 +167,28 @@ class graphHelper {
     scaleDiagram(){
         var self = this
         var svgBCR = d3.select('.interactive_diagram.' + self.view).select('svg').node().getBoundingClientRect()
+
+        if(self.view.includes('popup'))
+            svgBCR.width = svgBCR.width
+        else
+            svgBCR.width = svgBCR.width * 0.63
+        
         var gBBox = d3.select('.interactive_diagram.' + self.view).select('.output').node().getBBox()
-        var abswidth = Math.abs(svgBCR.width - gBBox.width)
-        var absheight = Math.abs(svgBCR.height - gBBox.height)
+        
+        var widthScale = svgBCR.width / gBBox.width
+        var heightScale = svgBCR.height / gBBox.height
+        
+        var abswidth = gBBox.width * widthScale - svgBCR.width
+        var absheight = gBBox.height * widthScale - svgBCR.height
     
         if(absheight < abswidth){
-            var widthScale = svgBCR.width / gBBox.width
+            var heightDiff = svgBCR.height / widthScale - gBBox.height
             d3.select('.interactive_diagram.' + self.view).select('.output')
-            .style('transform','scale(' + widthScale + ')')
+            .style('transform','scale(' + widthScale + ') translate(' + 0 + 'px, '+ (heightDiff/2) +'px)')
         }else{
-            var heightScale = svgBCR.height / gBBox.height
+            var widthDiff = svgBCR.width / heightScale - gBBox.width
             d3.select('.interactive_diagram.' + self.view).select('.output')
-            .style('transform','scale(' + heightScale + ')')
+            .style('transform','scale(' + heightScale + ') translate(' + widthDiff/2 + 'px, '+ 0 +'px)')
         }
     }
     

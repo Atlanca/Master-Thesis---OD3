@@ -240,8 +240,8 @@ def getFeatureRoleStructure():
 def popup_featureBehavior():
     featureUri = request.form.get('feature', '')
 
-    logStructure = explanationGenerator.getDevelopmentBehaviorOfFeature(featureUri)
-    devStructure = explanationGenerator.getLogicalBehaviorOfFeature(featureUri)
+    logStructure = explanationGenerator.getLogicalBehaviorOfFeature(featureUri)
+    devStructure = explanationGenerator.getDevelopmentBehaviorOfFeature(featureUri)
     uiStructure = explanationGenerator.getUIBehaviorOfFeature(featureUri)
 
     explanation = {}

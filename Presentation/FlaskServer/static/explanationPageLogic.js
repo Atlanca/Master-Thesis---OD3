@@ -202,6 +202,7 @@ function changeInputType(){
     var inputwrapper = document.getElementById('menu-search-input-wrapper')
     
     if (selectionHasListInput == 'true') {
+        inputwrapper.style.display = 'inline-block'
         input.style.display = 'block'
         input.placeholder = 'Name of ' + selectionType + '...'
         var datalist = document.getElementById('entities-list')
