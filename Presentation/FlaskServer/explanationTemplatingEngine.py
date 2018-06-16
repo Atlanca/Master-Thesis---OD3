@@ -583,4 +583,7 @@ def writeToFile(inputData):
 # testGetDirectSuperClass()
 # testGetBehavior()
 # testGetLogicalBehavior()
-testSameAs()
+# testSameAs()
+eg = explanationStructureGenerator.ExplanationGenerator()
+eg.constructMetaModel()
+print('ding!')
