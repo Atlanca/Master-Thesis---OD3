@@ -14,18 +14,9 @@ explanationTemplates = explanationTemplatingEngine.ExplanationTemplates()
 queryManager = sparqlQueryManager.InformationRetriever()  
 
 
-@app.route('/index/<pattern>')
-def index(pattern):
-    functionalStructure = explanationGenerator.getDev(baseUri + pattern)
-    func_explanation = explanationTemplates.generateFunctionalFeatureImplementationSummary(baseUri + pattern, functionalStructure)
-
-    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in functionalStructure.entities for diagram in set(entity.diagrams)}
-
-
-    return render_template('childtemplate.html', 
-                            diagram_path='static/FeatureRoleGraph.js', 
-                            side_bar_diagram_file_paths=sideBardiagram_file_paths,
-                            entityData = {'functional': {'tab_id':'functional_view_tab', 'tab_name': 'Functional view', 'entity_structure': json.dumps(functionalStructure.toDict()), 'explanation': func_explanation, 'background': '#fff6f4'}})
+@app.route('/index')
+def index():
+    return render_template('front-page-template.html')
 
 @app.route('/query/getentitiesbytype', methods=['POST'])
 def getEntitiesByType():

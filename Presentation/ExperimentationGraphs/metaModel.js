@@ -7,6 +7,20 @@ var paper = new joint.dia.Paper({
   model: graph
 });
 
+function saveCanvasAsPNG(){
+    var canvas = document.getElementsByClassName('outer')[0]
+    var xml = new XMLSerializer().serializeToString(canvas)
+    var data = "data:image/svg+xml;base64," + btoa(xml)
+    var img  = new Image()
+
+    img.setAttribute('src', data)
+    
+    console.log(img)
+
+    // d3.select('.canvas').remove()
+    // document.body.appendChild(img)
+}
+
 var mode
 
 //MAIN Code
@@ -41,6 +55,8 @@ function buildGraph(){
         .classed('linkInteractionArea', true)
         d3.select(this.parentNode).node().appendChild(clonedNode)
     })
+
+    saveCanvasAsPNG()
 
     // this.mode = startPathMode()
 }
@@ -331,7 +347,6 @@ function pathMode(){
             setUnselectedElement(modelId)
         })
     }
-
     // jointViewport.selectAll('.linkInteractionArea').on('mouseover', function(){
     //     d3.select(this.parentNode)
     //     .select('.metaLink')

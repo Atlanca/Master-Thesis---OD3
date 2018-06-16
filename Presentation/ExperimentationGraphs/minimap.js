@@ -6,7 +6,7 @@
         "use strict";
 
         var width           = 7000,
-            height          = 3500,
+            height          = 4200,
             zoomEnabled     = true,
             dragEnabled     = true,
             scale           = 1,

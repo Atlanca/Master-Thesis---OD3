@@ -200,6 +200,7 @@ function changeInputType(){
     var baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
     var input = document.getElementById('search-input')
     var inputwrapper = document.getElementById('menu-search-input-wrapper')
+    input.value = ''
     
     if (selectionHasListInput == 'true') {
         inputwrapper.style.display = 'inline-block'

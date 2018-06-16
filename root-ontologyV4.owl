@@ -753,7 +753,7 @@
     <owl:Class rdf:about="http://www.semanticweb.org/ontologies/snowflake#DesignOption">
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#dependsOn"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#satisfies"/>
                 <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Requirement"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -972,6 +972,13 @@
 
     <owl:Class rdf:about="http://www.semanticweb.org/ontologies/snowflake#DevelopmentStructure">
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Development"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#deployedIn"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/ontologies/snowflake#PhysicalStructure"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#expressedBy"/>
@@ -1250,13 +1257,6 @@
                 <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalRequirement"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#satisfiedBy"/>
-                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
-                <owl:onClass rdf:resource="http://www.semanticweb.org/ontologies/snowflake#ArchitecturalPattern"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -1277,20 +1277,6 @@
                 <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#qual_is_related_to"/>
                 <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
                 <owl:onClass rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalRequirement"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#satisfiedBy"/>
-                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
-                <owl:onClass rdf:resource="http://www.semanticweb.org/ontologies/snowflake#ArchitecturalPattern"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#satisfiedBy"/>
-                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
-                <owl:onClass rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DesignOption"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <dc:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Non-functional requirements describe attributes or qualities that a system must satisfy.</dc:description>
@@ -1392,6 +1378,13 @@
 
     <owl:Class rdf:about="http://www.semanticweb.org/ontologies/snowflake#PhysicalStructure">
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Physical"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#deploys"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentStructure"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -1409,12 +1402,6 @@
     <owl:Class rdf:about="http://www.semanticweb.org/ontologies/snowflake#Requirement">
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#dependsOn"/>
-                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DesignOption"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#partOf"/>
                 <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Feature"/>
             </owl:Restriction>
@@ -1423,6 +1410,12 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#performedBy"/>
                 <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Stakeholder"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#satisfiedBy"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DesignOption"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -1804,9 +1797,7 @@
         <categorizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Maintainability"/>
         <satisfiedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#choice_mixed_client_MVC_1"/>
         <satisfiedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#coffeScript"/>
-        <satisfiedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#fat_client_MVC"/>
         <satisfiedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#handlebars"/>
-        <satisfiedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#thin_client_MVC"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a developer, I want to be able to perform simple changes on user 
 interface elements of the template in less than 10 minutes.</Description>
         <Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</Priority>
@@ -2590,7 +2581,6 @@ less than 5 minutes.</Description>
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalRequirement"/>
         <categorizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Compliance"/>
         <satisfiedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#optile"/>
-        <satisfiedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#three_tiered_client-server_1"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The system must avoid to store or process any payment data.</Description>
         <Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</Priority>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Payment data compliance</rdfs:label>
@@ -4774,8 +4764,6 @@ These form classes also host the methods generating the different content that m
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Usability">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalReqCategory"/>
-        <satisfiedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#fat_client_MVC"/>
-        <satisfiedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#thin_client_MVC"/>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Usability</rdfs:label>
     </owl:NamedIndividual>
     

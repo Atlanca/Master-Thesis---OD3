@@ -349,10 +349,20 @@ function loadGraph(){
 function loadLayout(){
     $.get('http://localhost:5000/loadgraph', function(data, status){
         loadedGraph = JSON.parse(data)
+        loadedGraph.cells = loadedGraph.cells.filter(cell => cell.type == 'standard.Rectangle')
         graph.getElements().forEach(function(element, index){
-            loadedElement = loadedGraph.cells[index]
-            element.position(loadedElement.position.x, loadedElement.position.y)
+            loadedGraph.cells.forEach(function(cell){
+                if(cell.attrs.body['data-uri'] == element.attributes.attrs.body['data-uri']){
+                    element.position(cell.position.x, cell.position.y)
+                }
+            })
         })
-
     })
+}
+
+function saveCanvasAsPNG(){
+    var canvas = document.getElementsByClassName('canvas')[0]
+    var img = canvas.toDataURL('image/png')
+    console.log('hej')
+    console.log(img)
 }

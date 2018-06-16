@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link href="https://fonts.googleapis.com/css?family=Anton|Poiret+One" rel="stylesheet">
+    <script type='text/javascript' src='static/jquery.js'></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+<body class='w3-light-gray'>
+    <div class='w3-green' style='height:100%;width:100%;position:absolute;opacity:0.5'></div>    
+    <div class='front-content' style='width:100%;padding-top:50px'>
+    <div class='menu-bar w3-white w3-border' style='height:120px; width:800px;text-align:center;padding-top:10px;margin:auto;'>
+        <h1 style='font-weight:800;font-size:50px;font-family: "Poiret One", cursive;'>System knowledge assembler</h1>
+    </div>
+    <div class='front-content' style='width:100%;padding-top:50px'>
+        <div class='w3-border w3-white' style='width:800px;margin:auto;padding-top:50px;padding-bottom:50px;'>
+            <div style='margin-left:100px;'>
+                <h3>Select question</h3>
+                <select id='front-search-question' onchange='changeInputType()' style='height:40px;width:600px;margin-bottom:20px;'>
+                    <option disabled selected value> -- Select a question -- </option>
+                    <option data-listinput='true' data-type='Feature' value="q1">What is the role of this feature?</option>
+                    <option data-listinput='true' data-type='Feature' value="q2">How is this feature mapped to its implementation?</option>
+                    <option data-listinput='true' data-type='Feature' value="q3">What is the behavior of this feature?</option>
+                    <option data-listinput='true' data-type='ArchitecturalPattern' value="q4">What is the rationale behind the choice of this architecture?</option>
+                    <option data-listinput='false' value="q5">What functionality exists in the system?</option>
+                </select>
+                <div id='front-search-input-wrapper'>
+                    <input id='front-search-input' list='entities-list' style='width:600px;height:50px;' placeholder='Select or enter entity URI here...'>
+                    <datalist id='entities-list'>
+                        <option></option>
+                    </datalist>
+                </div>
+                <button class='w3-button w3-light-green w3-dark-gray' onclick='performSearch("front-search-question", "front-search-input")' style='width:100px;margin-top:20px;'>Go</button>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        function getNameOfUri(string){
+            string = string.replace(/.+#/, '')
+            string = string.replace(/\./g, '_')
+            return string
+        }
+
+        function changeInputType(){
+            var select = document.getElementById('front-search-question')
+            var currentSelection = select.options[select.selectedIndex].value
+            var selectionHasListInput = select.options[select.selectedIndex].dataset.listinput
+            var selectionType = select.options[select.selectedIndex].dataset.type
+            var baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
+            var input = document.getElementById('front-search-input')
+            var inputwrapper = document.getElementById('front-search-input-wrapper')
+            
+            if (selectionHasListInput == 'true') {
+                inputwrapper.style.display = 'block'
+                input.style.display = 'block'
+                input.placeholder = 'Name of ' + selectionType + '...'
+                var datalist = document.getElementById('entities-list')
+                datalist.innerHTML = ''
+        
+                $.post('http://localhost:5000/query/getentitiesbytype', {typeUri: baseUri + selectionType}, function(data){
+                    data = JSON.parse(data)
+                    data.forEach(function(entity){
+                        var option = document.createElement('option')
+                        option.value = getNameOfUri(entity)
+                        option.innerHTML = selectionType
+                        datalist.appendChild(option)
+                    })
+        
+                })
+            } else {
+                input.style.display = 'none'
+                inputwrapper.style.display = 'inline-block'
+            }
+        }
+
+        function performSearch(question_select, query_input){
+            
+            selectElem = document.getElementById(question_select)
+            selectValue = selectElem.options[selectElem.selectedIndex].value;
+            
+            d3.select('body')
+            .append('div')
+            .classed('query-loader-background', true)
+            .append('div')
+            .classed('query-loader', true)
+            .style('transform', 'translate(50px, 50px)')
+            
+            console.log(query)
+            console.log(selectValue)
+            setTimeout(function(){
+                document.location.href = 'http://localhost:5000/' + selectValue + '/' + query
+            },500);
+        
+            return false;
+        }
+    </script>
+</body>
+</html>
