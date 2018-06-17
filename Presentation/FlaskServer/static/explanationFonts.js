@@ -42,8 +42,8 @@ var developmentbehaviorDescription = '<p><font class="development-behavior-font"
 var implementationDescription = '<p><font class="implementation-class-font">Implementation classes</font> are classes that can be found directly in the source code.</p>'
 
 // Rationale
-var designoptionDescription = '<p><font class="design-option-font">Design options</font> are considered options for the system design. The options that are implemented in the system is tagged as chosen.</p>'
-var technologyDescription = '<p><font class="technology-font">Technologies</font> are considered technologies for implementing the system. The technologies that are implemented in the system is tagged as chosen.</p>'
+var designoptionDescription = '<p><font class="design-option-font">Design options</font> are options considered for the system design. The options that are implemented in the system is tagged as chosen.</p>'
+var technologyDescription = '<p><font class="technology-font">Technologies</font> are technologies considered for implementing the system. The technologies that are implemented in the system is tagged as chosen.</p>'
 var argumentDescription = '<p><font class="argument-font">Arguments</font> are used to motivate the choice of a design option.</p>'
 var assumptionDescription = '<p><font class="assumption-font">Assumptions</font> describe the assumptions made for a chosen design option.</p>'
 var constraintDescription = '<p><font class="constraint-font">Constraints</font> describe limitations that design options are based on.</p>'
