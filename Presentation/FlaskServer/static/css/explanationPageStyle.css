@@ -108,6 +108,10 @@
 }
 
 .side-bar-toggle {
+    border-color:#636363;
+    border-width: 0px 0px 0px 1px;
+    border-style: solid;
+
     position:absolute;
     height:100%;
     width:5px;

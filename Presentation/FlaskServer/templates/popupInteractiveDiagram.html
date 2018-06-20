@@ -5,3 +5,7 @@
     <svg class='popup_svg {{name}} interactive_diagram_svg' height='100%' width='100%' style='user-select:none'></svg>
 </div>
 {% endblock svg %}
+
+{% block newWindow %}
+<a href='{{newWindowPath}}' class='w3-button roundedTopCorners w3-border-right right-side' target='_blank'>Open in new window</a>
+{% endblock newWindow %}

@@ -211,7 +211,7 @@ function buildDiagram(structure, view){
         var input = gh.entityToNodeIdMap[view][id].uri
 
         $.post('http://localhost:5000/structure/patternRationale', {'pattern': input}, function(structure){
-            $.post('http://localhost:5000/popup/patternRationale', {'pattern': input}, function(content){
+            $.post('http://localhost:5000/popup/patternRationale', {'pattern': input, 'newWindowPath': '/q4/' + getNameOfUri(input)}, function(content){
                 gh.addPopupContent(content, structure)
             })
         })
@@ -223,7 +223,7 @@ function buildDiagram(structure, view){
         var input = gh.entityToNodeIdMap[view][id].uri
 
         $.post('http://localhost:5000/structure/featureRole', {'feature': input}, function(structure){
-            $.post('http://localhost:5000/popup/featureRole', {'feature': input}, function(content){
+            $.post('http://localhost:5000/popup/featureRole', {'feature': input, 'newWindowPath': '/q1/' + getNameOfUri(input)}, function(content){
                 gh.addPopupContent(content, structure)
             })
         })
@@ -235,7 +235,7 @@ function buildDiagram(structure, view){
         var input = gh.entityToNodeIdMap[view][id].uri
 
         $.post('http://localhost:5000/structure/featureBehavior', {'feature': input}, function(structure){
-            $.post('http://localhost:5000/popup/featureBehavior', {'feature': input}, function(content){
+            $.post('http://localhost:5000/popup/featureBehavior', {'feature': input, 'newWindowPath': '/q3/' + getNameOfUri(input)}, function(content){
                 gh.addPopupContent(content, structure)
             })
         })
@@ -247,7 +247,7 @@ function buildDiagram(structure, view){
         var input = gh.entityToNodeIdMap[view][id].uri
 
         $.post('http://localhost:5000/structure/featureImplementation', {'feature': input}, function(structure){
-            $.post('http://localhost:5000/popup/featureImplementation', {'feature': input}, function(content){
+            $.post('http://localhost:5000/popup/featureImplementation', {'feature': input, 'newWindowPath': '/q2/' + getNameOfUri(input)}, function(content){
                 gh.addPopupContent(content, structure)
             })
         })

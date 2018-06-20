@@ -214,12 +214,14 @@ def popup_diagram():
 @app.route('/popup/featureRole', methods=['POST'])
 def popup_featureRole():
     featureUri = request.form.get('feature', '')
+    newWindowPath = request.form.get('newWindowPath', '')
+
     structure = explanationGenerator.getFeatureRole(featureUri)
     explanation = {}
     explanation['popup_feature_role'] = {'description': explanationTemplates.generateFeatureRoleSummary(featureUri, structure),
-                                   'newWindowPath': '/static/something.html'}
+                                   'newWindowPath': newWindowPath}
 
-    return render_template('popupInteractiveDiagram.html', explanations=explanation)
+    return render_template('popupInteractiveDiagram.html', explanations=explanation, newWindowPath=newWindowPath)
 
 @app.route('/structure/featureRole', methods=['POST'])
 def getFeatureRoleStructure():
@@ -230,6 +232,7 @@ def getFeatureRoleStructure():
 @app.route('/popup/featureBehavior', methods=['POST'])
 def popup_featureBehavior():
     featureUri = request.form.get('feature', '')
+    newWindowPath = request.form.get('newWindowPath', '')
 
     funcStructure = explanationGenerator.getFunctionalBehaviorOfFeature(featureUri)
     logStructure = explanationGenerator.getLogicalBehaviorOfFeature(featureUri)
@@ -239,15 +242,15 @@ def popup_featureBehavior():
     explanation = {}
 
     explanation['popup_func_feature_behavior'] = {'description': explanationTemplates.generateBehaviorSummary(featureUri, funcStructure, 'functional'),
-                                                'newWindowPath': '/static/something.html'}
+                                                'newWindowPath': newWindowPath}
     explanation['popup_log_feature_behavior'] = {'description': explanationTemplates.generateBehaviorSummary(featureUri, logStructure, 'logical'),
-                                                'newWindowPath': '/static/something.html'}
+                                                'newWindowPath': newWindowPath}
     explanation['popup_dev_feature_behavior'] = {'description': explanationTemplates.generateBehaviorSummary(featureUri, devStructure, 'development'),
-                                                'newWindowPath': '/static/something.html'}
+                                                'newWindowPath': newWindowPath}
     explanation['popup_ui_feature_behavior'] = {'description': explanationTemplates.generateBehaviorSummary(featureUri, uiStructure, 'ui'),
-                                                'newWindowPath': '/static/something.html'}
+                                                'newWindowPath': newWindowPath}
 
-    return render_template('popupInteractiveDiagram.html', explanations=explanation)
+    return render_template('popupInteractiveDiagram.html', explanations=explanation, newWindowPath=newWindowPath)
 
 @app.route('/structure/featureBehavior', methods=['POST'])
 def getFeatureBehavior():
@@ -267,6 +270,7 @@ def getFeatureBehavior():
 @app.route('/popup/featureImplementation', methods=['POST'])
 def popup_featureImplementation():
     featureUri = request.form.get('feature', '')
+    newWindowPath = request.form.get('newWindowPath', '')
 
     overviewStructure = explanationGenerator.getFunctionalFeatureToImplementationMap(featureUri)
     overviewExplanation = explanationTemplates.generateFunctionalFeatureImplementationSummary(featureUri, overviewStructure)
@@ -282,13 +286,13 @@ def popup_featureImplementation():
     explanation = {}
 
     explanation['popup_overview_feature_implementation'] = {'description': overviewExplanation,
-                                                'newWindowPath': '/static/something.html'}
+                                                'newWindowPath': newWindowPath}
     explanation['popup_detailed_feature_implementation'] = {'description': detailedExplanation,
-                                                'newWindowPath': '/static/something.html'}
+                                                'newWindowPath': newWindowPath}
     explanation['popup_pattern_implementation'] = {'description': patternExplanation,
-                                                'newWindowPath': '/static/something.html'}
+                                                'newWindowPath': newWindowPath}
 
-    return render_template('popupInteractiveDiagram.html', explanations=explanation)
+    return render_template('popupInteractiveDiagram.html', explanations=explanation, newWindowPath=newWindowPath)
 
 @app.route('/structure/featureImplementation', methods=['POST'])
 def getFeatureImplementation():
@@ -314,12 +318,14 @@ def saveOntology():
 @app.route('/popup/patternRationale', methods=['POST'])
 def popup_patternRationale():
     patternUri = request.form.get('pattern', '')
+    newWindowPath = request.form.get('newWindowPath', '')
+
     structure = explanationGenerator.getRationaleOfArchitecture(patternUri)
     explanation = {}
     explanation['popup_pattern_rationale'] = {'description': explanationTemplates.generateRationaleSummary(patternUri, structure),
-                                   'newWindowPath': '/static/something.html'}
+                                   'newWindowPath': newWindowPath}
 
-    return render_template('popupInteractiveDiagram.html', explanations=explanation)
+    return render_template('popupInteractiveDiagram.html', explanations=explanation, newWindowPath=newWindowPath)
 
 @app.route('/structure/patternRationale', methods=['POST'])
 def getPatternRationale():

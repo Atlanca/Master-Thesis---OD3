@@ -2776,6 +2776,7 @@ less than 5 minutes.</Description>
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Server_Controller_CartNotEmpty.java">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#ImplementationClass"/>
         <implements rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Server_Controller_CartNoEmpty"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The CartNotEmpty filter checks the shopping cart has at least one line item, a requirement to access certain areas such as the cart detail page or the checkout, otherwise it redirects to the last visited browsing page. This last visited page is actually saved using the SaveContext filter, so that only actions intercepted by this filter are saved as a return page. It was considered a good navigation behavior to save only pages related to products (i.e. product list and detail screens), leaving out checkout and customer management pages.</Description>
         <Path rdf:datatype="http://www.w3.org/2001/XMLSchema#string">controllers.actions.CartNotEmpty</Path>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">CartNotEmpty.java</rdfs:label>
     </owl:NamedIndividual>
@@ -2954,6 +2955,7 @@ less than 5 minutes.</Description>
         <modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.39_web_application_server_contoller_component"/>
         <partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_applicaton_server_controller_package_1"/>
         <taggedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_page_stereotype"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The CartNotEmpty filter checks the shopping cart has at least one line item, a requirement to access certain areas such as the cart detail page or the checkout, otherwise it redirects to the last visited browsing page. This last visited page is actually saved using the SaveContext filter, so that only actions intercepted by this filter are saved as a return page. It was considered a good navigation behavior to save only pages related to products (i.e. product list and detail screens), leaving out checkout and customer management pages.</Description>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SaveContext.java</rdfs:label>
     </owl:NamedIndividual>
     
@@ -5014,11 +5016,9 @@ The specific hosting solution used for this project is irrelevant in terms of re
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#arg_sphere.io">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Argument"/>
-        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The SPHERE.IO team chose Java as the first programming language to have a client library due to its versatility. This library is open source, as it is intended to be improved or used as a reference to build other libraries by the developer community. In order to provide a better environment to build websites, a SDK was built on top of the client library: the SPHERE.IO Play SDK. It allowed to adapt the Java client library to the processes and structure of the Play Framework.
-
-A command-line interface (CLI) is also available, especially aimed for managing SPHERE.IO user accounts and projects from a command-line shell. It is also necessary to use the CLI in order to manipulate and query data in batches or for automated jobs, such as importingproducts into SPHERE.IO. As opposed to the API, the CLI is not using OAuth2 since all operations are done under a user account.
-
-So far all the tools for accessing and managing the backend data were focused on developers, but merchants have also the possibility to view and update the data using a web application called Merchant Center. Besides that, merchants can also export and import data between SPHERE.IO and other external systems using elastic.io as an integration platform.</Description>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The project has two main objectives that are strongly connected. One objective is to analyze, design and develop the first web-shop using the SPHERE.IO platform. This implementation will provide a first open source template, which then can be reused by developers to build their own web-shops. Additionally the source code will serve as a live documentation about how to use the platform.
+ 
+The second objective is to evaluate the capability of SPHERE.IO to compete with current e-commerce solutions. Better alternatives will be proposed to the platform development team when needed, aiming to improve its initial design. This evaluation can be achieved by the development of the previously mentioned web-shop, which will assist as a practical example to test the suitability of the platform to build these kind of popular applications.</Description>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SPHERE.IO</rdfs:label>
     </owl:NamedIndividual>
     
@@ -5089,6 +5089,7 @@ So far all the tools for accessing and managing the backend data were focused on
         <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#list_orders"/>
         <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#log_in"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_3.9_check_order"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The last sequence diagram displays the interactions that the customer has to perform in order to check the state of an order (Figure 3.9). This scenario requires the customer to previously sign up to the system and purchase some items as a registered customer. Then at any moment the user can go to the login page and enter the login information to access his customer profile. There he can select to list all his orders and select the one he wants to view in detail.</Description>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Check order</rdfs:label>
     </owl:NamedIndividual>
     
@@ -5105,6 +5106,7 @@ So far all the tools for accessing and managing the backend data were focused on
         <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#remove_item_from_cart"/>
         <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#update_item_in_cart"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_3.8_checkout"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The checkout top-level use case is shown in Figure 3.8. Once the customer has some line items in his shopping cart, the next step is to navigate to the cart page. Here the user can remove or modify his line items until he is ready to start the checkout process. There, after entering all shipping and billing information, the customer will confirm the purchase and the system will request the payment platform to process the payment, displaying the order details in response to the customer.</Description>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Checkout</rdfs:label>
     </owl:NamedIndividual>
     
@@ -5292,6 +5294,7 @@ So far all the tools for accessing and managing the backend data were focused on
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#constraint_SPHERE">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Constraint"/>
         <basisFor rdf:resource="http://www.semanticweb.org/ontologies/snowflake#choice_use_SPHERE"/>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">One of the main purposes of this project was to design and develop the first web-shop using the SPHERE.IO platform. Therefore, the choice to use SPHERE.IO is locked.</Description>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Use SPHERE.IO constraint</rdfs:label>
     </owl:NamedIndividual>
     
@@ -5332,6 +5335,7 @@ So far all the tools for accessing and managing the backend data were focused on
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#display_products">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Feature"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_3.3_display_products"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The use cases for displaying products are shown below in Figure 3.3. The customer can either list a set of products or display a particular product. Further additional functionalities can be applied to the product listing, individually or combined together, in order to alter the list itself (i.e. filtering) or the way the products are listed (i.e. sorting and pagination).</Description>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Display products</rdfs:label>
     </owl:NamedIndividual>
@@ -5442,6 +5446,7 @@ So far all the tools for accessing and managing the backend data were focused on
         <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_view_1"/>
         <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_controller_1"/>
         <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_model_1"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.3_logical_architecture_within_a_context"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A fat client allows the user to interact with the system while never reloading the web page, only updating those specific components of the page that changed during the interaction. This behavior enhances the user experience, because the user can continue interacting with the system while operations are taking place. Information can also be presented in an incremental way, so that the user can start interacting with some elements of the page while further information is being retrieved. Another important fact is that traffic between the client and the system is reduced to simple data with no presentation information, which speeds up the communication with the system and decreases network use.</Description>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fat-client MVC</rdfs:label>
     </owl:NamedIndividual>
@@ -5563,11 +5568,7 @@ Products, addresses and shipping methods can change or disappear over time, but 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#figure_4.14_browse_catalog_sequence">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Diagram"/>
         <Caption rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.14: Storyboard sequence of the browse catalog top-level use case.</Caption>
-        <Description>Below,  Figure  4.14  and  Figure  4.15  presents  the  storyboard  sequence  and  the  navigational 
-paths, respectively, of the screens just described. In the storyboard sequence it is shown how 
-the  same  interactions  defined  in  the  sequence  diagrams  of  the  specification  are  performed 
-through the different screens. This connections are also captured in the following navigational 
-paths diagram.</Description>
+        <Description>Below,  Figure  4.14  and  Figure  4.15  presents  the  storyboard  sequence  and the  navigational paths, respectively, of the screens just described. In the storyboard sequence it is shown how the  same  interactions  defined  in  the  sequence  diagrams  of  the  specification  are  performed through the different screens. This connections are also captured in the following navigational paths diagram.</Description>
         <DiagramTypes>Sequence Diagram</DiagramTypes>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.14: Storyboard sequence of the browse catalog top-level use case.</rdfs:label>
     </owl:NamedIndividual>
@@ -5596,23 +5597,16 @@ tree so that the customer can list all products from a particular category at an
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#figure_4.18_checkout_sequence">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Diagram"/>
         <Caption rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.18: Storyboard sequence of the checkout top-level use case.</Caption>
-        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">For this design it was considered a good idea to display all the steps throughout the page as 
-sections that can be expanded, so that the user modifies them (see Figure 4.17). Once edited, 
-the  section  closes  again  and  displays  a  summary  with  the  selected  options.  Every  change 
-automatically updates the pricing details that are always shown at the bottom of the page. As a 
-way  of  guiding  the  customer  through  the  checkout  process,  the  user  can  only  open  new 
-sections sequentially. Also when a form is still not available due to missing requirements (e.g. 
-shipping method cannot be displayed until shipping address is set) a message will be shown 
-instead until the requirements are met. 
-The checkout is divided into three steps: first a cart summary, to verify the items are correct; 
-second the shipping information, to determine where and how the goods are being delivered; 
-and third the billing information, to select the way the products are being paid. Both shipping and billing sections have on the left side a form to set the postal address and on the right side 
-the shipping and payment options, respectively. When the customer is logged in, his address 
-book will appear on the right side, allowing him to select one of his addresses, which data will 
-then be copied to the corresponding address form.
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">For this design it was considered a good idea to display all the steps throughout the page as sections that can be expanded, so that the user modifies them (see Figure 4.17). Once edited, the  section  closes  again  and  displays  a  summary  with  the  selected  options.  Every  change 
+automatically updates the pricing details that are always shown at the bottom of the page. 
 
-The storyboard sequence from Figure 4.18 is showing how this checkout process is distributed 
-with the presented screens.</Description>
+As a way  of  guiding  the  customer  through  the  checkout  process,  the  user can  only  open  new sections sequentially. Also when a form is still not available due to missing requirements (e.g. shipping method cannot be displayed until shipping address is set) a message will be shown 
+instead until the requirements are met. 
+
+The checkout is divided into three steps: first a cart summary, to verify the items are correct; second the shipping information, to determine where and how the goods are being delivered; and third the billing information, to select the way the products are being paid. Both shipping and billing sections have on the left side a form to set the postal address and on the right side 
+the shipping and payment options, respectively. When the customer is logged in, his address book will appear on the right side, allowing him to select one of his addresses, which data will then be copied to the corresponding address form.
+
+The storyboard sequence from Figure 4.18 is showing how this checkout process is distributed with the presented screens.</Description>
         <DiagramTypes>Sequence Diagram</DiagramTypes>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.18: Storyboard sequence of the checkout top-level use case.</rdfs:label>
     </owl:NamedIndividual>
@@ -5653,7 +5647,7 @@ The communication between the web application and the SPHERE.IO backend is alway
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#figure_4.23_check_order_sequence">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Diagram"/>
         <Caption rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.23: Storyboard sequence of the check order top-level use case.</Caption>
-        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Again,  the  specification  sequence  diagram  is  adapted  to  the  given  design,  illustrating  the different screens that participate in every interaction in the check order top-level use case (see Figure 4.23).</Description>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Again,  the  specification  sequence  diagram  is  adapted  to  the  given design,  illustrating  the different screens that participate in every interaction in the check order top-level use case (see Figure 4.23).</Description>
         <DiagramTypes>Sequence Diagram</DiagramTypes>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.23: Storyboard sequence of the check order top-level use case.</rdfs:label>
     </owl:NamedIndividual>
@@ -5796,7 +5790,7 @@ In every asynchronous call, the updated information regarding the current checko
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#figure_4.33_web_application_server_model_component">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Diagram"/>
         <Caption rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.33: Overview of the server-side Model component.</Caption>
-        <Description>Overview of the server-side Model component</Description>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The logic of the model component is largely located in the SPHERE.IO Play SDK, which contains all the commerce logic and allows to access all data stored in the e-commerce backend. The Sphere class shown in the diagram below (Figure 4.33) is precisely the entry point for SPHERE.IO.</Description>
         <DiagramTypes>Class Diagram</DiagramTypes>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.33: Overview of the server-side Model component.</rdfs:label>
     </owl:NamedIndividual>
@@ -5808,7 +5802,10 @@ In every asynchronous call, the updated information regarding the current checko
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#figure_4.34_web_application_server_form_model_component">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Diagram"/>
         <Caption rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.34: Overview of the Form package of the server-side Model component.</Caption>
-        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Overview of the Form package of the server-side Model component.</Description>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">These are a group of classes related to the web forms and the payment information received by the system (see Figure 4.34). They handle all the server-side validation for every parameter and may also provide helpful getters and setters to easily convert model data into form data, and vice versa (e.g. an Address class instance would be converted into the
+appropriate form fields street, city, country, etc.).
+
+These form classes also host the methods generating the different content that must be sent back to the client in relation to the result of the form submission. For example, when updating a line item from the cart, a success response contains a message for the user and all the shopping cart related information. This related information is generated with some other methods located in the forms as well, that convert a model class instance into JSON data.</Description>
         <DiagramTypes>Class Diagram</DiagramTypes>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.34: Overview of the Form package of the server-side Model component.</rdfs:label>
     </owl:NamedIndividual>
@@ -5820,7 +5817,8 @@ In every asynchronous call, the updated information regarding the current checko
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#figure_4.36_web_application_server_view_component">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Diagram"/>
         <Caption rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.36: Overview of the composite views and main template of the server-side View component.</Caption>
-        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Overview of the composite views and main template of the server-side View component.</Description>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The View component is formed of several templates that are directly called by the Controller component, as seen in the internal design diagrams of the system. All these templates are making use of a main template file that provides a common HTML structure to all the pages, such as the basic contents and imports of scripts and stylesheets. They achieve this by importing the main template, following the design pattern called View Composition (Figure
+4.36).</Description>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.36: Overview of the composite views and main template of the server-side View component.</rdfs:label>
     </owl:NamedIndividual>
     
@@ -5831,7 +5829,8 @@ In every asynchronous call, the updated information regarding the current checko
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#figure_4.37_web_application_server_simple_views">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Diagram"/>
         <Caption rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.37: Overview of the simple views of the server-side View component.</Caption>
-        <Description>Overview of the simple views of the server-side View component.</Description>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Just as in the previous example, the composite views are importing the contents of many other simple views, like the helpers and forms displayed in Figure 4.37. Both types of templates are usually offering components that are repeated throughout all client pages, although sometimes the separation is only intended to extract large pieces of meaningful HTML content from the
+composite views, as it is usually the case of the form templates. Unlike forms and helpers, mail templates are not meant for view composition, but are directly used to generate the HTML body of the emails sent by the system.</Description>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.37: Overview of the simple views of the server-side View component.</rdfs:label>
     </owl:NamedIndividual>
     
@@ -5858,6 +5857,9 @@ and address management.</Description>
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Diagram"/>
         <Caption rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.39: Overview of the controllers and filters of the server-side Controller component.</Caption>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Overview of the controllers and filters of the server-side Controller component.</Description>
+        <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Play Framework is applying the Front Controller and Application Controller design patterns to split the Controller logic between the common logic, located in the Front Controller, and the one specific for each request, called Application Controller. The Front Controller is mainly formed by the RoutingSystem, which is in charge of receiving, analyzing and dispatching every request to the appropriate application controller.
+
+All application controllers of the system are shown in Figure 4.39, along with some classes that are used as filters. These filters intercept the application controller invocation and allows to execute code before and after the action is invoked. Filters are applied as a chain of filters to any desired controller action, although for simplicity the diagram is not specifying which particular actions are using the filter. A typical filter example is the Authorization class, that verifies the customer is correctly identified to the system before accessing a restricted functionality, otherwise it redirects the user to the login screen.</Description>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Figure 4.39: Overview of the controllers and filters of the server-side Controller component.</rdfs:label>
     </owl:NamedIndividual>
     
@@ -6202,6 +6204,7 @@ A description of each chosen technology and the characteristics that influenced 
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#manage_account">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Feature"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_3.5_manage_account"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Finally, for the use cases related to account management (Figure 3.5), a registered customer can manage his address book (i.e. add, update or remove postal addresses) or update his account (i.e. change his personal data or password). He can as well decide to log out from the system and become an anonymous customer. As an anonymous customer, he can sign up a new account or log in with an existing one. In case he cannot remember his credentials, he will be given the option to recover his password.</Description>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Manage acccount</rdfs:label>
     </owl:NamedIndividual>
@@ -6655,6 +6658,7 @@ The primary entry point to the backend is provided by a RESTful API, that offers
         <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_controller_1"/>
         <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_model_1"/>
         <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_view_1"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.2_logical_architecture"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As the name suggests, the system logic is divided into three components: Model, View and Controller. As a rough definition, the Model manages business logic and domain data, the View is responsible of displaying the information, and the Controller is in charge of changing Model and View accordingly to the user input.
 
 The specific MVC design of the current system is shown in Figure 4.2 below. One of the particularities of this design is that SPHERE.IO Play SDK is the main component of the Model, since it controls all the domain data of the application, as well as most of the business logic. Only some business rules are added to the Model in order to validate form input coming from the user, before sending this data to SPHERE.IO Play SDK, as well as some external functionalities such as email sending and online payment.</Description>
@@ -6667,6 +6671,7 @@ The specific MVC design of the current system is shown in Figure 4.2 below. One 
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#three_tiered_client-server_1">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#ArchitecturalPattern"/>
+        <modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.1_deployment"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The designed system follows a client-server architecture with three tiers: the client, the web application server and the data server tier. The data tier corresponds to the SPHERE.IO backend, which offers a scalable cloud-based platform for the e-commerce data, having the capability of scaling up as the demand increases. The application tier needs an enterprise hosting solution, suitable for a company web-shop. In order to take advantage of the scalability of the data tier, a good matching web hosting solution would be a cloud service with easy and fast scalability, letting the shop grow as the number of customers grow, without any bottleneck.</Description>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Three tiered client server</rdfs:label>
     </owl:NamedIndividual>
