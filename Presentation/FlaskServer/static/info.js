@@ -4,8 +4,7 @@ d_info =
 "<p>Scrolling zooms the diagram</p>" +
 "<p><b>Entity actions:</b></p>" + 
 "<p>Clicking the entity highlights the entity relations</p>" +
-"<p>Clicking the entity arrow opens options that provides more information of the entity </p>" + 
-"<p>Clicking the cluster name highlights the cluster</p>"
+"<p>Clicking the entity arrow opens options that provides more information of the entity </p>"
 
 setupInfo(d_info)
 

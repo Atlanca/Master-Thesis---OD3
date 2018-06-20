@@ -18,8 +18,11 @@ class Entity:
         self.dataTypeProperties = ir.getDataProperties(entityUri)
         self.diagrams = []
 
-        for diagram in ir.getRelations(entityUri, baseUri + 'modeledIn', baseUri + 'Diagram'):
-            self.diagrams.append(diagram[1])
+        if '#Diagram' in self.type:
+            self.diagrams.append(self.uri)
+        else:
+            for diagram in ir.getRelations(entityUri, baseUri + 'modeledIn', baseUri + 'Diagram'):
+                self.diagrams.append(diagram[1])
 
     def __repr__(self):
         return "{PythonClass: Entity, Name: " + self.label + ", Type: " + self.type + "}"
