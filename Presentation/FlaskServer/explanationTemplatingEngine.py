@@ -177,7 +177,45 @@ class ExplanationTemplates:
 
         return expTemplate.toDict()
 
-    def generateBehaviorSummary(self, featureUri, structure, viewType):
+    def generateFunctionalBehaviorSummary(self, featureUri, structure):
+        feature_entity = [entity for entity in structure.entities if entity.uri == featureUri][0]
+        requirements =  list(filter(lambda e: e.type == self.baseUri + 'FunctionalRequirement', structure.entities))
+        userstories =  list(filter(lambda e: self.baseUri + 'UserStory' == e.type, structure.entities))
+        usecases =  list(filter(lambda e: self.baseUri + 'UseCase' == e.type, structure.entities))
+        diagrams = list(filter(lambda e: e.type == self.baseUri + 'Diagram', structure.entities))
+
+        template = explanationHelper.openText('static/explanationTemplates/BehaviorOfFeature.txt')
+
+        summary = template.format(feature_name=self.styledName(explanationHelper.getNameOfEntity(feature_entity), 'entity-font', entityType=feature_entity.type),
+                                    no_style_feature_name=explanationHelper.getNameOfEntity(feature_entity),
+                                    point_of_view='Functional point of view', 
+                                    path=self.classesToText(structure.entities))
+
+        question = self.getQuestion(summary)
+        expTemplate = sectionModel.Template(question, summary)
+
+        #Feature section
+        expTemplate.addSection(self.createSection([feature_entity], 'feature_section', 'Features', 
+                               summary='', priority=5).toDict())
+        #Requirements section
+        expTemplate.addSection(self.createSection(requirements, 'requirements_section', 'Requirements', 
+                               summary='', priority=4).toDict())
+        #UserStory section
+        expTemplate.addSection(self.createSection(usecases, 'use_case_section', 'Use cases', 
+                               summary='', priority=3).toDict())
+
+        #Usecase section
+        expTemplate.addSection(self.createSection(userstories, 'user_story_section', 'User stories', 
+                               summary='', priority=2).toDict())
+        #Diagram section
+        expTemplate.addSection(self.createSection(diagrams, 'diagram_section', 'Diagram entities', 
+                               summary='', priority=1).toDict())
+
+        return expTemplate.toDict()
+
+    def generateBehaviorSummary(self, featureUri, structure, viewType):   
+        if viewType == 'functional':
+            return self.generateFunctionalBehaviorSummary(featureUri, structure)
         if viewType == 'logical':
             structureTypeUri = 'LogicalStructure'
             behaviorTypeUri = 'LogicalBehavior'
@@ -193,6 +231,10 @@ class ExplanationTemplates:
         else:
             return {}
 
+        if(not structure.entities):
+            question = self.getQuestion(explanationHelper.openText('static/explanationTemplates/BehaviorOfFeature.txt'))
+            return sectionModel.Template(question, '<font style="color:red;font-weight:bold;font-size:20">No documented data of the ' + viewType + ' behavior of this feature was found.</font>')
+
         feature_entity = [entity for entity in structure.entities if entity.uri == featureUri][0]
         requirements =  list(filter(lambda e: e.type == self.baseUri + 'FunctionalRequirement', structure.entities))
         structures =  list(filter(lambda e: self.baseUri + structureTypeUri in e.supertypes, structure.entities))
@@ -207,24 +249,28 @@ class ExplanationTemplates:
                                     path=self.classesToText(structure.entities))
 
         question = self.getQuestion(summary)
-
         expTemplate = sectionModel.Template(question, summary)
+         
 
-        #Requirements section
+        #Feature section
         sectionReqOverview = ''
-        expTemplate.addSection(self.createSection(requirements, 'requirements_section', 'Requirement entities', 
+        expTemplate.addSection(self.createSection([feature_entity], 'features_section', 'Features', 
                                summary=sectionReqOverview, priority=4).toDict())
         #Requirements section
+        sectionReqOverview = ''
+        expTemplate.addSection(self.createSection(requirements, 'requirements_section', 'Requirement', 
+                               summary=sectionReqOverview, priority=4).toDict())
+        #Structures section
         sectionStructOverview = ''
         expTemplate.addSection(self.createSection(structures, 'structures_section', 'Structure entities', 
                                summary=sectionStructOverview, priority=3).toDict())
-        #Requirements section
+        #Behavior section
         sectionBehOverview = ''
         expTemplate.addSection(self.createSection(behavior, 'behavior_section', 'Behavior entities', 
                                summary=sectionBehOverview, priority=2).toDict())
-        #Requirements section
+        #Diagrams section
         sectionDiaOverview = ''
-        expTemplate.addSection(self.createSection(diagrams, 'diagram_section', 'Diagram entities', 
+        expTemplate.addSection(self.createSection(diagrams, 'diagram_section', 'Diagrams', 
                                summary=sectionDiaOverview, priority=1).toDict())
 
         return expTemplate.toDict()
@@ -232,6 +278,8 @@ class ExplanationTemplates:
 
     def generateRationaleSummary(self, pattern, structure):
         pattern_entity = [entity for entity in structure.entities if entity.uri == pattern][0]
+       
+        patterns = list(filter(lambda e: self.baseUri + 'ArchitecturalPattern' in e.supertypes, structure.entities))
         designOptions = list(filter(lambda e: self.baseUri + 'DesignOption' in e.supertypes, structure.entities))
         arguments = list(filter(lambda e: e.type == self.baseUri + 'Argument', structure.entities))
         assumptions = list(filter(lambda e: e.type == self.baseUri + 'Assumption', structure.entities))
@@ -247,23 +295,28 @@ class ExplanationTemplates:
 
         expTemplate = sectionModel.Template(question, summary)
 
+        #Pattern section
+        sectionDOOverview = ''
+        expTemplate.addSection(self.createSection(patterns, 'pattern_section', 'Architectural patterns', 
+                               summary=sectionDOOverview, priority=5).toDict())
+
         #Choice section
         sectionDOOverview = ''
-        expTemplate.addSection(self.createSection(designOptions, 'design_option_section', 'Design option entities', 
+        expTemplate.addSection(self.createSection(designOptions, 'design_option_section', 'Design options', 
                                summary=sectionDOOverview, priority=4).toDict())
        
         #Arguments section
         sectionArgOverview = ''
-        expTemplate.addSection(self.createSection(arguments, 'arguments_section', 'Argument entities', 
+        expTemplate.addSection(self.createSection(arguments, 'arguments_section', 'Arguments', 
                                summary=sectionArgOverview, priority=3).toDict())
         
         #Constraint section
         sectionConOverview = ''
-        expTemplate.addSection(self.createSection(constraints, 'constraint_section', 'Constraint entities', 
+        expTemplate.addSection(self.createSection(constraints, 'constraint_section', 'Constraints', 
                                summary=sectionConOverview, priority=2).toDict())
         #Assumption section
         sectionAssOverview = ''
-        expTemplate.addSection(self.createSection(assumptions, 'assumption_section', 'Assumption entities', 
+        expTemplate.addSection(self.createSection(assumptions, 'assumption_section', 'Assumptions', 
                                summary=sectionAssOverview, priority=1).toDict())
 
         return expTemplate.toDict()

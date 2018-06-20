@@ -14,6 +14,10 @@ function initializeTabs(tablist){
     tabList = tablist
 }
 
+function toggleFirstTab(){
+    toggleTab(tabList[0])
+}
+
 function toggleTab(view){    
     currentView = view
 

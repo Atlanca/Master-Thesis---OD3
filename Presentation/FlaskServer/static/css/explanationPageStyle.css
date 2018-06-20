@@ -82,6 +82,26 @@
     color:#ffeff5
 }
 
+.ui .side-bar-question-base h2{
+    color:#f7e1f7 !important;
+}
+
+.development .side-bar-question-base h2{
+    color:#e1f7ee !important;
+}
+
+.overview .side-bar-question-base h2{
+    color:#f7f6ef !important;
+}
+
+.detailed .side-bar-question-base h2{
+    color:#f7f6ef !important;
+}
+
+.rationale .side-bar-question-base h2{
+    color:#ffe8f4 !important;
+}
+
 .side-bar-text-base {
     padding-left: 30px; 
     padding-right: 30px;
@@ -115,17 +135,24 @@
     color:#ffeff5 !important;
 }
 
-
-.side-bar-tab.selected.logical {
-    color:#e1f6f7 !important;
+.side-bar-tab.selected.ui {
+    color:#f7e1f7 !important;
 }
 
-.side-bar-tab.selected.pattern {
-    color:#e5f7e1 !important;
+.side-bar-tab.selected.development {
+    color:#e1f7ee !important;
 }
 
-.side-bar-tab.selected.functional {
-    color:#ffeff5 !important;
+.side-bar-tab.selected.overview {
+    color:#f7f6ef !important;
+}
+
+.side-bar-tab.selected.detailed {
+    color:#f7f6ef !important;
+}
+
+.side-bar-tab.selected.rationale {
+    color:#fff2f9 !important;
 }
 
 .side-bar-tab.selected {
@@ -173,17 +200,39 @@
     width:99.5%;
     height:7%;
     float:left;
+    background-color: #838383;
 }
 
-div.functional {
+div.interactive-diagram-tab-container.overview {
+    background-color: #a8a59a;
+}
+
+div.interactive-diagram-tab-container.detailed {
+    background-color: #a59786;
+}
+
+div.interactive-diagram-tab-container.functional {
     background-color: #a3949d;
 }
 
-div.logical {
+div.interactive-diagram-tab-container.development {
+    background-color: #95bfb7;
+}
+
+div.interactive-diagram-tab-container.ui {
+    background-color: #aa8fb5;
+}
+
+div.interactive-diagram-tab-container.logical {
     background-color: #8fa2b5;
 }
-div.pattern {
+
+div.interactive-diagram-tab-container.pattern {
     background-color: #acb598;
+}
+
+div.interactive-diagram-tab-container.rationale {
+    background-color: #db99bf;
 }
 
 .interactive_diagram {
@@ -203,8 +252,28 @@ div.pattern {
 .interactive_diagram_svg.functional {
     background-color:#fff4f4; 
 }
-.interactive_diagram_svg {
+.interactive_diagram_svg.pattern {
     background-color:#f0fced; 
+}
+
+.interactive_diagram_svg.ui {
+    background-color:#fef7ff !important;
+}
+
+.interactive_diagram_svg.development {
+    background-color:#f2fffc !important;
+}
+
+.interactive_diagram_svg.overview {
+    background-color:#f7f6ef !important;
+}
+
+.interactive_diagram_svg.detailed {
+    background-color:#f7f6ef !important;
+}
+
+.interactive_diagram_svg.rationale {
+    background-color:#fff2f8 !important;
 }
 
 /* Popup */

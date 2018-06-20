@@ -118,8 +118,12 @@ class ExplanationGenerator:
             self.addRecursiveEntitiesAndRelations(es, designOption, self.baseUri + 'resultsIn', self.baseUri + 'Technology', callback=callbackArgConAss)
             self.addRecursiveEntitiesAndRelations(es, designOption, self.baseUri + 'causes', self.baseUri + 'DesignOption', callback=callbackArgConAss)
         return es
-
     def getLogBehaviorOfFeature(self, featureUri, behaviorUri, structureUri):
+        es = self.getLogBehaviorOfFeatureHelper(featureUri, behaviorUri, structureUri)
+        es = self.filterIncompletePaths(es, self.baseUri + 'Diagram')
+        return es
+
+    def getLogBehaviorOfFeatureHelper(self, featureUri, behaviorUri, structureUri):
         def callbackDiagram(es, s):
             self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'modeledIn', self.baseUri + 'Diagram')
 
@@ -149,7 +153,26 @@ class ExplanationGenerator:
             self.addRecursiveEntitiesAndRelations(es, feature, self.baseUri + 'compriseOf', self.baseUri + 'Requirement', callback=callbackRequirement)
         return es
 
+    def getFunctionalBehaviorOfFeatureHelper(self, featureUri):
+        def callbackDiagram(es, s):
+            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'modeledIn', self.baseUri + 'Diagram')
+
+        def callbackFunctionalBehavior(es, s):
+            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'partOf', self.baseUri + 'UseCase', callback=callbackDiagram)
+            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'explainedBy', self.baseUri + 'UserStory')
+
+        es = ontologyStructureModel.EntityStructure()
+        es.addEntity(featureUri)
+        self.addRecursiveEntitiesAndRelations(es, featureUri, self.baseUri + 'compriseOf', self.baseUri + 'Requirement', callback=callbackFunctionalBehavior)
+
+        return es
+
     def getBehaviorOfFeature(self, featureUri, behaviorUri, structureUri):
+        es = self.getBehaviorOfFeatureHelper(featureUri, behaviorUri, structureUri)
+        es = self.filterIncompletePaths(es, self.baseUri + 'Diagram')
+        return es
+
+    def getBehaviorOfFeatureHelper(self, featureUri, behaviorUri, structureUri):
         def callbackDiagram(es, s):
             self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'modeledIn', self.baseUri + 'Diagram')
 
@@ -171,6 +194,10 @@ class ExplanationGenerator:
 
         return es
 
+    def getFunctionalBehaviorOfFeature(self, featureUri):
+        es = self.getFunctionalBehaviorOfFeatureHelper(featureUri)
+        # es = self.filterIncompletePaths(es, self.baseUri + 'Diagram')
+        return es
 
     def getLogicalBehaviorOfFeature(self, featureUri):
         return self.getLogBehaviorOfFeature(featureUri, self.baseUri + 'LogicalBehavior', self.baseUri + 'LogicalStructure')
@@ -183,6 +210,27 @@ class ExplanationGenerator:
 
     #HOW IS THIS FEATURE MAPPED TO THE IMPLEMENTATION?
     def getLogicalFeatureToImplementationMap(self, featureUri):
+        es = self.getLogicalFeatureToImplementationMapInner(featureUri)
+        es = self.filterIncompletePaths(es, self.baseUri + 'ImplementationClass')        
+
+        return es
+
+    def getSubTree(self, es, startEntityUri, inputlist, forward):
+        
+        for rel in es.relations:
+            if(forward) :
+                if rel.source == startEntityUri:
+                    self.getSubTree(es, rel.target, inputlist, True)
+                    inputlist.append(rel)
+            else:
+                if rel.target == startEntityUri:
+                    self.getSubTree(es, rel.source, inputlist, False)
+                    inputlist.append(rel)
+
+        return inputlist
+    
+
+    def getLogicalFeatureToImplementationMapInner(self, featureUri):
         #Callbacks: 
         def callbackImplementedBy(es, s): 
             self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'implementedBy')
@@ -199,7 +247,6 @@ class ExplanationGenerator:
                 es.addEntity(logStruct[1])
                 es.addRelation('satisfiedBy', req[1], logStruct[1])
                 self.addRecursiveEntitiesAndRelations(es, logStruct[1], self.baseUri + 'designedBy', callback=callbackCompriseOf)
-        
         return es
     
     def getFunctionalFeatureToImplementationMap(self, featureUri):
@@ -262,6 +309,29 @@ class ExplanationGenerator:
                 es.addRelation('implements' , i, devStruct[1])
                 self.addRecursiveEntitiesAndRelations(es, devStruct[1], self.baseUri + 'partOf', callback=callbackPlaysRole)
                 self.addRecursiveEntitiesAndRelations(es, devStruct[1], self.baseUri + 'playsRole', self.baseUri + 'Role', callback=callBackArchitecturalPattern)
+        return es
+
+    # Filters away paths that do not reach the targetType
+    def filterIncompletePaths(self, es, targetTypeUri):
+        implEntities = [e for e in es.entities if targetTypeUri == e.type]
+        filteredRelations = []
+        filteredEntities = []
+        
+        for entity in implEntities:
+            treeb = self.getSubTree(es, entity.uri, [], False)
+            filteredRelations += treeb
+        
+        relSources = [rel.source for rel in filteredRelations]
+        relTargets = [rel.target for rel in filteredRelations]
+
+        for entity in es.entities:
+            if entity.uri in relSources or entity.uri in relTargets:
+                filteredEntities.append(entity)
+        
+        filteredRelations = list(set(filteredRelations))
+        es.relations = filteredRelations    
+        es.entities = filteredEntities
+
         return es
 
     #RecursiveAdd
@@ -353,7 +423,6 @@ class ExplanationGenerator:
         startType = self.ir.getTypeOfIndividual(startEntityUri)
         typeRelations = list(filter(lambda rel: rel['source'] == startType, pathRelations))
         difference = [rel for rel in pathRelations if rel not in typeRelations]
-        print(difference)
         finalRelationsList = []
         for typeRelation in typeRelations:
             entityRel = self.ir.getRelations(startEntityUri, pred=typeRelation['property'], objType=typeRelation['target'])

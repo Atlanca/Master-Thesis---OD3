@@ -62,7 +62,9 @@
           {% if diagram %}
           <h5 class='{{view + section.id}} w3-bar-item' style='padding-left:0'>Diagrams</h5>
           <div class='w3-padding w3-border w3-white' style='width:100%; text-align:center;'>
+            {% if side_bar_diagram_file_paths[diagram.uri] %}
             <img class='w3-margin-bottom' src='/{{side_bar_diagram_file_paths[diagram.uri]}}' style='width:100%'></p>
+            {% endif %}
             <p>{{diagram.caption}}</p>
           </div>  
     
@@ -87,7 +89,7 @@
   </div>
 {% endfor %} 
 <script>
-    toggleTab("functional")
+    toggleFirstTab()
     setFontColors()
 </script>
 
