@@ -314,7 +314,7 @@ class graphHelper {
         // Make ontology category clusters larger in height in comparison to all other clusters
         Object.keys(ontologyCategories).forEach(function(oc){
             var cluster = d3.select('.interactive_diagram.' + self.view).select('#' + oc)
-            var heightDelta = 150
+            var heightDelta = 300
             if(!cluster.empty()){
                 var clusterHeight = parseFloat(cluster.select('rect').attr('height'))
                 var clusterY = parseFloat(cluster.select('rect').attr('y'))
@@ -323,6 +323,18 @@ class graphHelper {
                 .attr('y', clusterY - heightDelta/2) 
             }
         })
+
+        views.forEach(function(v){
+            var cluster = d3.select('.interactive_diagram.' + self.view).select('#' + v)
+            var heightDelta = 150
+            if (!cluster.empty()) {
+                var clusterHeight = parseFloat(cluster.select('rect').attr('height'))
+                var clusterY = parseFloat(cluster.select('rect').attr('y'))
+                cluster.select('rect')
+                .attr('height', clusterHeight + heightDelta)
+                .attr('y', clusterY - heightDelta/2)
+            }
+        }) 
     
         // Style labels
         d3.select('.interactive_diagram.' + self.view)

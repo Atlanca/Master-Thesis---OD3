@@ -14,22 +14,30 @@ function getViewColor(v){
 function buildDiagram(structure, view){
     // Initialize the input graph
     var g = new dagreD3.graphlib.Graph({compound:true})
-    .setGraph({edgesep: 20, ranksep: 200, nodesep: 50, rankdir: 'LR'})
+    .setGraph({edgesep: 20, ranksep: 200, nodesep: 160, rankdir: 'LR'})
     .setDefaultEdgeLabel(function() { return {}; });
 
     var originalStructure = structure
     entityToNodeIdMap[view] = {}
 
+    var invisCount = 0
+    var addedNodes = []
     // Adding clusters
     structure.entities.forEach(function(e){
         // Create invisible entity type clusters
-        g.setNode(getNameOfUri(e.type), {label: getNameOfUri(e.type), style:'fill:' + getEntityColor(e) + ';opacity:1;', clusterLabelPos: 'top'})
+        if(!addedNodes.includes(e.type) && !e.type.includes('dummy')){
+            g.setNode(getNameOfUri(e.type), {label: getNameOfUri(e.type), style:'fill:' + getEntityColor(e) + ';opacity:1;', clusterLabelPos: 'top'})
+            g.setNode('invisible_node_' + invisCount, {id: 'invisible_node_' + invisCount,label: getNameOfUri(e.type)})
+            g.setParent('invisible_node_' + invisCount)
+            addedNodes.push(e.type)
+        }
         // Create clusters for architectural views, sets them as parent to entity type clusters
         views.forEach(function(v){
             e.supertypes.forEach(function(s){
                 if(s.includes(v)){
-                    if(!g.nodes().includes(v))
-                        g.setNode(v, {id: v, label: v + ' view', style: 'fill:' + ONTOLOGY_COLORS[v] + ';stroke:' + ONTOLOGY_COLORS[v] , clusterLabelPos: 'top'})
+                    if(!g.nodes().includes(v)){
+                        g.setNode(v, {id: v, label: v + ' view', style: 'fill:' + ONTOLOGY_COLORS[v] + ';stroke:' + ONTOLOGY_COLORS[v], clusterLabelPos: 'top'})
+                    }
                     g.setParent(getNameOfUri(e.type), v)
                 }
             }) 
@@ -84,12 +92,12 @@ function buildDiagram(structure, view){
     })
 
     gh = new graphHelper(originalStructure, structure, view, entityToNodeIdMap)
-
+    
     // Create edges for all entities
     structure.relations.forEach(function(r){
         g.setEdge(getNameOfUri(r.source), getNameOfUri(r.target), {class:'in-' + getNameOfUri(r.target) + ' out-' + getNameOfUri(r.source), label: r.name, 
         curve: d3.curveBasis})
-        })
+    })
     
     // Rounding edges of all entity nodes
     g.nodes().forEach(function(v) {
@@ -97,26 +105,28 @@ function buildDiagram(structure, view){
         node.rx = 5
         node.ry = 5
     });
-
+    
+    
     // Create the renderer
     var render = new dagreD3.render();
-
+    
     // Set up an SVG group so that we can translate the final graph.
     var svg = d3.select('.' + view + '.interactive_diagram_svg'),
     svgGroup = svg.append("g");
-
+    
     // Set up zoom support
     var zoom = d3.zoom()
     .on("zoom", function() {
-    svgGroup.attr("transform", d3.event.transform);
+        svgGroup.attr("transform", d3.event.transform);
     });
-
+    
     //Disable double click zoom
     svg.call(zoom).on("dblclick.zoom", null);
-
+    
+    
     // Run the renderer. This is what draws the final graph.
     render(d3.select('.' + view + ".interactive_diagram_svg").select('g'), g);
-
+    
     // -----------------------------------------------------------------------------------------
     // Beneath this point, we are adding actions to the rendered graph and making it prettier
     // -----------------------------------------------------------------------------------------
@@ -145,7 +155,6 @@ function buildDiagram(structure, view){
             .style('fill-opacity', '0')
         }
     }
-
     // Make ontology views be positioned second to last
     views.forEach(function(v){
         var clusters = d3.select('.interactive_diagram.' + view).select('.clusters')
@@ -173,6 +182,12 @@ function buildDiagram(structure, view){
             .classed('node', false)
             .select('rect')
             .classed('nodeRect', false)
+        } else if (d3.select(this).attr('id').includes('invisible_node')) {
+            d3.select(this)
+            .classed('invisible_node', true)
+            .classed('node', false)
+            .select('rect')
+            .classed('nodeRect', false)
         }
     })
 
@@ -192,6 +207,11 @@ function buildDiagram(structure, view){
     // Give nodes tooltips on hover
     gh.setTitleToNodes()
     tippy('.nodeRect')
+
+    // Make invisible nodes invisible
+    d3.selectAll('.invisible_node').each(function(node){
+            d3.select(this).style('opacity', '0')
+    })
 
     // Sets dropdown logic
     // Create dropdown logic for the arrow button beside the node
