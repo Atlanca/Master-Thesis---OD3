@@ -26,7 +26,7 @@
 }
 
 .node.not-selected text{
-  opacity: 0;
+  opacity: 0.4;
   transition: opacity 0.5s !important;
 }
 
@@ -44,7 +44,7 @@
 
 
 .edgePath.not-selected path{
-  opacity: 0;
+  opacity: 0.2;
   pointer-events: none;
 }
 

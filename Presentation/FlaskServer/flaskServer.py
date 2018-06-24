@@ -185,6 +185,47 @@ def q5():
                             side_bar_diagram_file_paths=sideBardiagram_file_paths,
                             entityData = {'functional': {'tab_id':'functional_view_tab', 'tab_name': 'System functionality', 'entity_structure': json.dumps(structure.toDict()), 'explanation': explanation, 'background': '#fff6f4'},
                                         })  
+@app.route('/q6/')
+def q6():
+    overviewStructure = explanationGenerator.getOverviewPatternArchitecture()
+    physicalStructure = explanationGenerator.getFullPhyPatternArchitecture()
+    developmentStructure = explanationGenerator.getFullDevPatternArchitecture()
+
+    overviewExplanation = explanationTemplates.generateSystemPatternsOverviewSummary(overviewStructure)
+    physicalExplanation = explanationTemplates.generateSystemPhyPatternsDetailedSummary(physicalStructure)
+    developmentExplanation = explanationTemplates.generateSystemDevPatternsDetailedSummary(developmentStructure)
+
+    allEntities = list(set(physicalStructure.entities + developmentStructure.entities + overviewStructure.entities))
+
+    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
+    
+    return render_template('childtemplate.html', 
+                            diagram_path='static/ClusteringGraph.js', 
+                            side_bar_diagram_file_paths=sideBardiagram_file_paths,
+                            entityData = {'overview': {'tab_id':'overview_view_tab', 'tab_name': 'Overview', 'entity_structure': json.dumps(overviewStructure.toDict()), 'explanation': overviewExplanation},
+                                          'physical': {'tab_id':'physical_view_tab', 'tab_name': 'Physical view', 'entity_structure': json.dumps(physicalStructure.toDict()), 'explanation': physicalExplanation},
+                                          'development': {'tab_id':'development_view_tab', 'tab_name': 'Development view', 'entity_structure': json.dumps(developmentStructure.toDict()), 'explanation': developmentExplanation},
+                                        })  
+@app.route('/q7/<architecturalPattern>')
+def q7(architecturalPattern):
+    overviewStructure = explanationGenerator.getOverviewPatternArchitecture(baseUri + architecturalPattern)
+    devStructure = explanationGenerator.getFullDevPatternArchitecture(baseUri + architecturalPattern)
+    phyStructure = explanationGenerator.getFullPhyPatternArchitecture(baseUri + architecturalPattern)
+
+    overviewExplanation = explanationTemplates.generateSystemPatternsOverviewSummary(overviewStructure)
+    devExplanation = explanationTemplates.generateSystemDevPatternsDetailedSummary(devStructure)
+    phyExplanation = explanationTemplates.generateSystemPhyPatternsDetailedSummary(phyStructure)
+
+    allEntities = list(set(phyStructure.entities + devStructure.entities + overviewStructure.entities))
+
+    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
+    return render_template('childtemplate.html', 
+                            diagram_path='static/ClusteringGraph.js', 
+                            side_bar_diagram_file_paths=sideBardiagram_file_paths,
+                            entityData = {'overview': {'tab_id':'overview_view_tab', 'tab_name': 'Overview', 'entity_structure': json.dumps(overviewStructure.toDict()), 'explanation': overviewExplanation},
+                                          'physical': {'tab_id':'physical_view_tab', 'tab_name': 'Physical view', 'entity_structure': json.dumps(phyStructure.toDict()), 'explanation': phyExplanation},
+                                          'development': {'tab_id':'development_view_tab', 'tab_name': 'Development view', 'entity_structure': json.dumps(devStructure.toDict()), 'explanation': devExplanation},
+                                        })  
 
 @app.route('/q4/<architecturalPattern>')
 def q4(architecturalPattern):

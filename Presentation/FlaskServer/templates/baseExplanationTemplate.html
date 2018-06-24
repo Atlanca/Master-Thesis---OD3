@@ -50,11 +50,15 @@
                       <h4>Select question</h4>
                       <select onchange='changeInputType()' id='menu-search-question-select' style='height:50px;width:650px;'>
                         <option disabled selected value> -- Select a question -- </option>
+                        <option disabled value> ---- General questions ---- </option>
+                        <option data-listinput='false' value="q5">Which functionalities exists in the system?</option>
+                        <option data-listinput='false' value="q6">Which architectural patterns exists in the system?</option>
+                        <option disabled value> ---- Entity-specific questions ---- </option>
                         <option data-listinput='true' data-type='Feature' value="q1">What is the role of this feature?</option>
                         <option data-listinput='true' data-type='Feature' value="q2">How is this feature mapped to its implementation?</option>
                         <option data-listinput='true' data-type='Feature' value="q3">What is the behavior of this feature?</option>
                         <option data-listinput='true' data-type='ArchitecturalPattern' value="q4">What is the rationale behind the choice of this architecture?</option>
-                        <option data-listinput='false' value="q5">What functionality exists in the system?</option>
+                        <option data-listinput='true' data-type='ArchitecturalPattern' value="q7">How is this architectural pattern implemented?</option>
                         <!-- <option data-listinput='true' data-type='' value="q6">To which features are these implementation classes mapped to?</option> -->
                       </select>
                       <div id='menu-search-input-wrapper' class='w3-border' style='display:none;float:left;margin-top:16px;'>

@@ -1,0 +1,11 @@
+<!-- {{question: What architectural patterns exist in the system?}} -->
+
+<p>
+This page shows in detail the {architectural_pattern}, the {role} that exist for each of them and the structural entities that inherit these roles. The left-hand side diagram shows {path}. 
+Each entity is described in the sections below.
+</p>
+
+<p>
+To see what actions are available in the interactive graph (left-hand side), 
+press the round "i" button in the top left corner 
+of the graph.</p>

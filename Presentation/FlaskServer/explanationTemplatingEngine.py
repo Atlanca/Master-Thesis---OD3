@@ -284,6 +284,7 @@ class ExplanationTemplates:
         arguments = list(filter(lambda e: e.type == self.baseUri + 'Argument', structure.entities))
         assumptions = list(filter(lambda e: e.type == self.baseUri + 'Assumption', structure.entities))
         constraints = list(filter(lambda e: e.type == self.baseUri + 'Constraint', structure.entities))
+        nonFuncReqs = list(filter(lambda e: e.type == self.baseUri + 'NonFunctionalRequirement', structure.entities))
 
         template = explanationHelper.openText('static/explanationTemplates/RationaleOfArchitecture.txt')
 
@@ -318,6 +319,10 @@ class ExplanationTemplates:
         sectionAssOverview = ''
         expTemplate.addSection(self.createSection(assumptions, 'assumption_section', 'Assumptions', 
                                summary=sectionAssOverview, priority=1).toDict())
+        #Non functional section
+        sectionNonFuncOverview = ''
+        expTemplate.addSection(self.createSection(nonFuncReqs, 'non_functional_section', 'Non-functional requirements', 
+                               summary=sectionNonFuncOverview, priority=0).toDict())
 
         return expTemplate.toDict()
         
@@ -419,6 +424,40 @@ class ExplanationTemplates:
 
 
         return expTemplate
+
+    def generateSystemPatternsOverviewSummary(self, structure):      
+        template = explanationHelper.openText('static/explanationTemplates/PatternsInSystemOverview.txt')
+        summary = template.format(path=self.classesToText(structure.entities))
+        return self.generateGeneralSummary(structure, summary)
+
+    def generateGeneralSummary(self, structure, summaryText):
+        question = self.getQuestion(summaryText)
+        expTemplate = sectionModel.Template(question, summaryText)
+
+        if(not structure.entities):
+            return sectionModel.Template(question, '<font style="color:red;font-weight:bold;font-size:20">No documented data on the architectural patterns in this view was found.</font>')
+
+        types = {}
+        for entity in structure.entities:
+            eUri = explanationHelper.getNameFromUri(entity.type)
+            if (not eUri in types.keys()):
+                types[eUri] = []
+            types[eUri].append(entity)
+        
+        for entityType, entities in types.items():
+            expTemplate.addSection(self.createSection(entities, entityType + '_section', self.pluralEngine.plural(explanationHelper.formatName(entityType), 3)).toDict())
+
+        return expTemplate
+
+    def generateSystemPhyPatternsDetailedSummary(self, structure):      
+        template = explanationHelper.openText('static/explanationTemplates/PatternsInSystemDetailed.txt')
+        summary = template.format(view_type='physical', architectural_pattern='architectural patterns', role='roles', path=self.classesToText(structure.entities))
+        return self.generateGeneralSummary(structure, summary)
+
+    def generateSystemDevPatternsDetailedSummary(self, structure):      
+        template = explanationHelper.openText('static/explanationTemplates/PatternsInSystemDetailed.txt')
+        summary = template.format(view_type='development', architectural_pattern='architectural patterns', role='roles', path=self.classesToText(structure.entities))
+        return self.generateGeneralSummary(structure, summary)
 
     # Overview - Feature to implementation mapping
     def generateFunctionalFeatureImplementationSummary(self, mainEntityUri, structure):      
@@ -584,7 +623,7 @@ def testGetTypeRelations():
     eg = explanationStructureGenerator.ExplanationGenerator()
     et = ExplanationTemplates()
     baseUri = 'http://www.semanticweb.org/ontologies/snowflake#' 
-    print(ir.getTypeRelation(baseUri + 'ArchitectureFragment'))
+    print(ir.getTypeRelations(baseUri + 'ArchitectureFragment'))
 
 def testGetAllTypeRelations():
     ir = sparqlQueryManager.InformationRetriever()

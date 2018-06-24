@@ -14,7 +14,7 @@ function getViewColor(v){
 function buildDiagram(structure, view){
     // Initialize the input graph
     var g = new dagreD3.graphlib.Graph({compound:true})
-    .setGraph({edgesep: 20, ranksep: 200, nodesep: 160, rankdir: 'LR'})
+    .setGraph({edgesep: 20, ranksep: 200, nodesep: 50, rankdir: 'LR'})
     .setDefaultEdgeLabel(function() { return {}; });
 
     var originalStructure = structure
@@ -27,8 +27,8 @@ function buildDiagram(structure, view){
         // Create invisible entity type clusters
         if(!addedNodes.includes(e.type) && !e.type.includes('dummy')){
             g.setNode(getNameOfUri(e.type), {label: getNameOfUri(e.type), style:'fill:' + getEntityColor(e) + ';opacity:1;', clusterLabelPos: 'top'})
-            g.setNode('invisible_node_' + invisCount, {id: 'invisible_node_' + invisCount,label: getNameOfUri(e.type)})
-            g.setParent('invisible_node_' + invisCount)
+            g.setNode('invisible_node_' + invisCount, {id: 'invisible_node_' + invisCount, label: getNameOfUri(e.type)})
+            g.setParent('invisible_node_' + invisCount++, getNameOfUri(e.type))
             addedNodes.push(e.type)
         }
         // Create clusters for architectural views, sets them as parent to entity type clusters

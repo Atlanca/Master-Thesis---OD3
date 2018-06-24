@@ -1,0 +1,11 @@
+<!-- {{question: How is this architectural pattern implemented in the system?}} -->
+
+<p>
+This page shows in detail how {architectural_pattern} is implemented in the system. The left-hand side diagram shows {path}. 
+Each entity is described in the sections below.
+</p>
+
+<p>
+To see what actions are available in the interactive graph (left-hand side), 
+press the round "i" button in the top left corner 
+of the graph.</p>
