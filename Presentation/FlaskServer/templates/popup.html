@@ -50,17 +50,19 @@
                                     <h5>{{content[0]}}</h5>
                                     {{content[1] | safe}}
                                 {% endfor %}
-                                {% for diagram in subsection.diagrams %}
-                                    {% if diagram %}
-                                    <h5 class='title popup_{{subsection.id}} w3-bar-item' style='padding-left:0'>Diagrams</h5>
-                                    <div class='w3-padding w3-border w3-white' style='width:100%; text-align:center;'>
-                                        {% if side_bar_diagram_file_paths[diagram.uri] %}
-                                        <img class='w3-margin-bottom' src='/{{side_bar_diagram_file_paths[diagram.uri]}}' style='width:100%'></p>
+                                {% if side_bar_diagram_file_paths %}
+                                    {% for diagram in subsection.diagrams %}
+                                        {% if diagram %}
+                                        <h5 class='title popup_{{subsection.id}} w3-bar-item' style='padding-left:0'>Diagrams</h5>
+                                        <div class='w3-padding w3-border w3-white' style='width:100%; text-align:center;'>
+                                            {% if side_bar_diagram_file_paths[diagram.uri] %}
+                                            <img class='w3-margin-bottom' src='/{{side_bar_diagram_file_paths[diagram.uri]}}' style='width:100%'></p>
+                                            {% endif %}
+                                            <p>{{diagram.caption}}</p>
+                                        </div>
                                         {% endif %}
-                                        <p>{{diagram.caption}}</p>
-                                    </div>
-                                    {% endif %}
-                                {% endfor %}
+                                    {% endfor %}
+                                {% endif %}
                             </div>
                             <hr>
                         {% endfor %}
