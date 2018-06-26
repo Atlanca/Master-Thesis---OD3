@@ -273,13 +273,13 @@ function buildDiagram(structure, view){
         })
     }
 
-    var showFeatureImplementation = function(object){                        
+    var showPatternImplementation = function(object){                        
         gh.createEmptyPopup()
         var id = d3.select(object.parentNode).attr('id')
         var input = gh.entityToNodeIdMap[view][id].uri
 
-        $.post('http://localhost:5000/structure/patternImplementation', {'feature': input}, function(structure){
-            $.post('http://localhost:5000/popup/patternImplementation', {'feature': input, 'newWindowPath': '/q2/' + getNameOfUri(input)}, function(content){
+        $.post('http://localhost:5000/structure/patternImplementation', {'pattern': input}, function(structure){
+            $.post('http://localhost:5000/popup/patternImplementation', {'pattern': input, 'newWindowPath': '/q7/' + getNameOfUri(input)}, function(content){
                 gh.addPopupContent(content, structure)
             })
         })
@@ -316,6 +316,7 @@ function buildDiagram(structure, view){
 
         if (currentEntity.type.includes('ArchitecturalPattern')){
             gh.addNodeDropdownLogic(current, 'Show rationale', showPatternRationale)
+            gh.addNodeDropdownLogic(current, 'Show implementation', showPatternImplementation)
         }
         
     })

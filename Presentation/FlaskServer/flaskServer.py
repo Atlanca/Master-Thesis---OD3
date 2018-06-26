@@ -14,9 +14,352 @@ explanationTemplates = explanationTemplatingEngine.ExplanationTemplates()
 queryManager = sparqlQueryManager.InformationRetriever()  
 
 
+# ----------------------------------------------------------------------------
+# Front page
+# ----------------------------------------------------------------------------
+
 @app.route('/index')
 def index():
     return render_template('front-page-template.html')
+
+# ----------------------------------------------------------------------------
+# Explanation URLs
+# ----------------------------------------------------------------------------
+
+@app.route('/q1/<feature>')
+def q1(feature):
+    structure = explanationGenerator.getFeatureRole(baseUri + feature)
+    explanation = explanationTemplates.generateFeatureRoleSummary(baseUri + feature, structure)
+
+    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in structure.entities for diagram in set(entity.diagrams)}
+    return render_template('childtemplate.html', 
+                            diagram_path='static/ClusteringGraph.js', 
+                            side_bar_diagram_file_paths=sideBardiagram_file_paths,
+                            entityData = {'functional': {'tab_id':'feature_role_tab', 'tab_name': 'Feature role', 'entity_structure': json.dumps(structure.toDict()), 'explanation': explanation, 'background': '#fff6f4'}})
+
+@app.route('/q2/<feature>')
+def q2(feature):
+
+    overviewStructure = explanationGenerator.getFunctionalFeatureToImplementationMap(baseUri + feature)
+    overview_explanation = explanationTemplates.generateFunctionalFeatureImplementationSummary(baseUri + feature, overviewStructure)
+
+    detailedStructure = explanationGenerator.getLogicalFeatureToImplementationMap(baseUri + feature)
+    implementationEntityUris = [implementation.uri for implementation in list(filter(lambda x: baseUri + 'ImplementationClass' in x.supertypes, detailedStructure.entities))]
+    detailed_explanation = explanationTemplates.generateLogicalFeatureImplementationSummary(baseUri + feature, detailedStructure)
+
+    patternStructure = explanationGenerator.getImplementationToArchitecturalPatternMap(implementationEntityUris)
+    pattern_explanation = explanationTemplates.generatePatternFeatureImplementationSummary(baseUri + feature, patternStructure)
+
+    allEntities = []
+    allEntities += detailedStructure.entities
+    allEntities += overviewStructure.entities
+    allEntities += patternStructure.entities
+
+    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
+
+    return render_template('childtemplate.html', 
+                            diagram_path='static/ClusteringGraph.js', 
+                            side_bar_diagram_file_paths=sideBardiagram_file_paths,
+                            entityData = {'overview': {'tab_id':'overview_view_tab', 'tab_name': 'Overview', 'entity_structure': json.dumps(overviewStructure.toDict()), 'explanation': overview_explanation}, 
+                                        'logical': {'tab_id':'logical_view_tab', 'tab_name': 'Detailed view', 'entity_structure': json.dumps(detailedStructure.toDict()), 'explanation': detailed_explanation}, 
+                                        'pattern': {'tab_id':'pattern_view_tab', 'tab_name': 'Pattern view', 'entity_structure': json.dumps(patternStructure.toDict()), 'explanation': pattern_explanation}
+                                        })
+
+@app.route('/q3/<feature>')
+def q3(feature):
+    funcBehaviorStructure = explanationGenerator.getFunctionalBehaviorOfFeature(baseUri + feature)
+    devBehaviorStructure = explanationGenerator.getDevelopmentBehaviorOfFeature(baseUri + feature)
+    logBehaviorStructure = explanationGenerator.getLogicalBehaviorOfFeature(baseUri + feature)
+    UIBehaviorStructure = explanationGenerator.getUIBehaviorOfFeature(baseUri + feature)
+
+    func_explanation = explanationTemplates.generateFunctionalBehaviorSummary(baseUri + feature, funcBehaviorStructure)
+    ui_explanation = explanationTemplates.generateBehaviorSummary(baseUri + feature, UIBehaviorStructure, 'ui')
+    development_explanation = explanationTemplates.generateBehaviorSummary(baseUri + feature, devBehaviorStructure, 'development')
+    logical_explanation = explanationTemplates.generateBehaviorSummary(baseUri + feature, logBehaviorStructure, 'logical')
+
+    allEntities = funcBehaviorStructure.entities + devBehaviorStructure.entities + logBehaviorStructure.entities + UIBehaviorStructure.entities
+    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
+
+
+    return render_template('childtemplate.html', 
+                            diagram_path='static/ClusteringGraph.js', 
+                            side_bar_diagram_file_paths=sideBardiagram_file_paths,
+                            entityData = {'functional': {'tab_id':'functional_view_tab', 'tab_name': 'Functional viewpoint', 'entity_structure': json.dumps(funcBehaviorStructure.toDict()), 'explanation': func_explanation},
+                                        'logical': {'tab_id':'logical_view_tab', 'tab_name': 'Logical viewpoint', 'entity_structure': json.dumps(logBehaviorStructure.toDict()), 'explanation': logical_explanation},
+                                        'development': {'tab_id':'development_view_tab', 'tab_name': 'Development viewpoint', 'entity_structure': json.dumps(devBehaviorStructure.toDict()), 'explanation': development_explanation},
+                                        'ui': {'tab_id':'ui_view_tab', 'tab_name': 'UI viewpoint', 'entity_structure': json.dumps(UIBehaviorStructure.toDict()), 'explanation': ui_explanation}
+                                        })
+
+@app.route('/q4/<architecturalPattern>')
+def q4(architecturalPattern):
+    architecturalStructure = explanationGenerator.getRationaleOfArchitecture(baseUri + architecturalPattern)
+    pattern_explanation = explanationTemplates.generateRationaleSummary(baseUri + architecturalPattern, architecturalStructure)
+
+    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in architecturalStructure.entities for diagram in set(entity.diagrams)}
+
+
+    return render_template('childtemplate.html', 
+                            diagram_path='static/ClusteringGraph.js', 
+                            side_bar_diagram_file_paths=sideBardiagram_file_paths,
+                            entityData = {'rationale': {'tab_id':'rationale_view_tab', 'tab_name': 'Rationale of architectural pattern', 'entity_structure': json.dumps(architecturalStructure.toDict()), 'explanation': pattern_explanation, 'background': '#fff6f4'}})
+
+@app.route('/q5/')
+def q5():
+    structure = explanationGenerator.getFunctionalityOfSystem()
+    explanation = explanationTemplates.generateSystemFunctionalitySummary(structure)
+    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in structure.entities for diagram in set(entity.diagrams)}
+    return render_template('childtemplate.html', 
+                            diagram_path='static/ClusteringGraph.js', 
+                            side_bar_diagram_file_paths=sideBardiagram_file_paths,
+                            entityData = {'functional': {'tab_id':'functional_view_tab', 'tab_name': 'System functionality', 'entity_structure': json.dumps(structure.toDict()), 'explanation': explanation, 'background': '#fff6f4'},
+                                        })  
+@app.route('/q6/')
+def q6():
+    overviewStructure = explanationGenerator.getOverviewPatternArchitecture()
+    physicalStructure = explanationGenerator.getFullPhyPatternArchitecture()
+    developmentStructure = explanationGenerator.getFullDevPatternArchitecture()
+
+    overviewExplanation = explanationTemplates.generateSystemPatternsOverviewSummary(overviewStructure)
+    physicalExplanation = explanationTemplates.generateSystemPatternsDetailedSummary(physicalStructure, 'physical')
+    developmentExplanation = explanationTemplates.generateSystemPatternsDetailedSummary(developmentStructure, 'development')
+
+    allEntities = list(set(physicalStructure.entities + developmentStructure.entities + overviewStructure.entities))
+
+    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
+    
+    return render_template('childtemplate.html', 
+                            diagram_path='static/ClusteringGraph.js', 
+                            side_bar_diagram_file_paths=sideBardiagram_file_paths,
+                            entityData = {'overview': {'tab_id':'overview_view_tab', 'tab_name': 'Overview', 'entity_structure': json.dumps(overviewStructure.toDict()), 'explanation': overviewExplanation},
+                                          'physical': {'tab_id':'physical_view_tab', 'tab_name': 'Physical view', 'entity_structure': json.dumps(physicalStructure.toDict()), 'explanation': physicalExplanation},
+                                          'development': {'tab_id':'development_view_tab', 'tab_name': 'Development view', 'entity_structure': json.dumps(developmentStructure.toDict()), 'explanation': developmentExplanation},
+                                        })  
+@app.route('/q7/<architecturalPattern>')
+def q7(architecturalPattern):
+    patternEntity = ontologyStructureModel.Entity(baseUri + architecturalPattern)
+    overviewStructure = explanationGenerator.getOverviewPatternArchitecture(baseUri + architecturalPattern)
+    devStructure = explanationGenerator.getFullDevPatternArchitecture(baseUri + architecturalPattern)
+    phyStructure = explanationGenerator.getFullPhyPatternArchitecture(baseUri + architecturalPattern)
+
+    overviewExplanation = explanationTemplates.generateSystemPatternsOverviewSummary(overviewStructure)
+    devExplanation = explanationTemplates.generateSpecificSystemPatternsDetailedSummary(patternEntity, devStructure)
+    phyExplanation = explanationTemplates.generateSpecificSystemPatternsDetailedSummary(patternEntity, phyStructure)
+
+    allEntities = list(set(phyStructure.entities + devStructure.entities + overviewStructure.entities))
+
+    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
+    return render_template('childtemplate.html', 
+                            diagram_path='static/ClusteringGraph.js', 
+                            side_bar_diagram_file_paths=sideBardiagram_file_paths,
+                            entityData = {'overview': {'tab_id':'overview_view_tab', 'tab_name': 'Overview', 'entity_structure': json.dumps(overviewStructure.toDict()), 'explanation': overviewExplanation},
+                                          'physical': {'tab_id':'physical_view_tab', 'tab_name': 'Physical view', 'entity_structure': json.dumps(phyStructure.toDict()), 'explanation': phyExplanation},
+                                          'development': {'tab_id':'development_view_tab', 'tab_name': 'Development view', 'entity_structure': json.dumps(devStructure.toDict()), 'explanation': devExplanation},
+                                        })  
+# ----------------------------------------------------------------------------
+# Popup URLs
+# ----------------------------------------------------------------------------
+
+# Shows diagram and entities found in diagram                    
+@app.route('/popup/diagram', methods=['POST'])
+def popup_diagram():
+    figureUriList = request.form.getlist('figure[]')
+    explanation = {}
+ 
+    for figureUri in figureUriList:
+        explanation[explanationHelper.diagramUriToFileName(figureUri)] = {'diagramFilePath': '/static/images/' + explanationHelper.diagramUriToFileName(figureUri) + '.png',
+                                  'description': explanationTemplates.generatePopupFigureDescription(figureUri).toDict(),
+                                  'newWindowPath': '/static/something.html'}
+
+    return render_template('popupImageDiagram.html', explanations=explanation)
+
+# What is the role of this feature?
+@app.route('/popup/featureRole', methods=['POST'])
+def popup_featureRole():
+    featureUri = request.form.get('feature', '')
+    newWindowPath = request.form.get('newWindowPath', '')
+
+    structure = explanationGenerator.getFeatureRole(featureUri)
+    allEntities = structure.entities
+
+    side_bar_diagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
+
+    explanation = {}
+    explanation['popup_feature_role'] = {'description': explanationTemplates.generateFeatureRoleSummary(featureUri, structure),
+                                   'newWindowPath': newWindowPath}
+
+    return render_template('popupInteractiveDiagram.html', side_bar_diagram_file_paths=side_bar_diagram_file_paths, explanations=explanation, newWindowPath=newWindowPath)
+
+@app.route('/structure/featureRole', methods=['POST'])
+def getFeatureRoleStructure():
+    featureUri = request.form.get('feature', '')
+    structure = {'popup_feature_role': explanationGenerator.getFeatureRole(featureUri).toDict()}
+    return json.dumps(structure)
+
+# What is the behavior of this feature?
+@app.route('/popup/featureBehavior', methods=['POST'])
+def popup_featureBehavior():
+    featureUri = request.form.get('feature', '')
+    newWindowPath = request.form.get('newWindowPath', '')
+
+    funcStructure = explanationGenerator.getFunctionalBehaviorOfFeature(featureUri)
+    logStructure = explanationGenerator.getLogicalBehaviorOfFeature(featureUri)
+    devStructure = explanationGenerator.getDevelopmentBehaviorOfFeature(featureUri)
+    uiStructure = explanationGenerator.getUIBehaviorOfFeature(featureUri)
+
+    allEntities = funcStructure.entities + logStructure.entities + devStructure.entities + uiStructure.entities
+    side_bar_diagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
+
+    explanation = {}
+
+    explanation['popup_func_feature_behavior'] = {'description': explanationTemplates.generateBehaviorSummary(featureUri, funcStructure, 'functional'),
+                                                'newWindowPath': newWindowPath}
+    explanation['popup_log_feature_behavior'] = {'description': explanationTemplates.generateBehaviorSummary(featureUri, logStructure, 'logical'),
+                                                'newWindowPath': newWindowPath}
+    explanation['popup_dev_feature_behavior'] = {'description': explanationTemplates.generateBehaviorSummary(featureUri, devStructure, 'development'),
+                                                'newWindowPath': newWindowPath}
+    explanation['popup_ui_feature_behavior'] = {'description': explanationTemplates.generateBehaviorSummary(featureUri, uiStructure, 'ui'),
+                                                'newWindowPath': newWindowPath}
+
+    return render_template('popupInteractiveDiagram.html', side_bar_diagram_file_paths=side_bar_diagram_file_paths, explanations=explanation, newWindowPath=newWindowPath)
+
+@app.route('/structure/featureBehavior', methods=['POST'])
+def getFeatureBehavior():
+    featureUri = request.form.get('feature', '')
+
+    funcStructure = explanationGenerator.getFunctionalBehaviorOfFeature(featureUri)
+    devStructure = explanationGenerator.getDevelopmentBehaviorOfFeature(featureUri)
+    logStructure = explanationGenerator.getLogicalBehaviorOfFeature(featureUri)
+    uiStructure = explanationGenerator.getUIBehaviorOfFeature(featureUri)
+
+    structures = {'popup_func_feature_behavior': funcStructure.toDict(),
+                  'popup_log_feature_behavior': logStructure.toDict(),
+                  'popup_dev_feature_behavior': devStructure.toDict(),
+                  'popup_ui_feature_behavior': uiStructure.toDict()}
+    return json.dumps(structures)
+
+# How is this feature implemented?
+@app.route('/popup/featureImplementation', methods=['POST'])
+def popup_featureImplementation():
+    featureUri = request.form.get('feature', '')
+    newWindowPath = request.form.get('newWindowPath', '')
+
+    overviewStructure = explanationGenerator.getFunctionalFeatureToImplementationMap(featureUri)
+    overviewExplanation = explanationTemplates.generateFunctionalFeatureImplementationSummary(featureUri, overviewStructure)
+
+    detailedStructure = explanationGenerator.getLogicalFeatureToImplementationMap(featureUri)
+    detailedExplanation = explanationTemplates.generateLogicalFeatureImplementationSummary(featureUri, detailedStructure)
+    
+    implementationEntityUris = [implementation.uri for implementation in list(filter(lambda x: baseUri + 'ImplementationClass' in x.supertypes, detailedStructure.entities))]
+
+    patternStructure = explanationGenerator.getImplementationToArchitecturalPatternMap(implementationEntityUris)
+    patternExplanation = explanationTemplates.generatePatternFeatureImplementationSummary(featureUri, patternStructure)
+
+    allEntities = overviewStructure.entities + detailedStructure.entities + patternStructure.entities
+    side_bar_diagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
+
+    explanation = {}
+
+    explanation['popup_overview_feature_implementation'] = {'description': overviewExplanation,
+                                                'newWindowPath': newWindowPath}
+    explanation['popup_detailed_feature_implementation'] = {'description': detailedExplanation,
+                                                'newWindowPath': newWindowPath}
+    explanation['popup_pattern_implementation'] = {'description': patternExplanation,
+                                                'newWindowPath': newWindowPath}
+
+    return render_template('popupInteractiveDiagram.html', side_bar_diagram_file_paths=side_bar_diagram_file_paths, explanations=explanation, newWindowPath=newWindowPath)
+
+@app.route('/structure/featureImplementation', methods=['POST'])
+def getFeatureImplementation():
+    featureUri = request.form.get('feature', '')
+
+    overviewStructure = explanationGenerator.getFunctionalFeatureToImplementationMap(featureUri)
+    detailedStructure = explanationGenerator.getLogicalFeatureToImplementationMap(featureUri)
+    implementationEntityUris = [implementation.uri for implementation in list(filter(lambda x: baseUri + 'ImplementationClass' in x.supertypes, detailedStructure.entities))]
+    patternStructure = explanationGenerator.getImplementationToArchitecturalPatternMap(implementationEntityUris)
+
+    structures = {'popup_overview_feature_implementation': overviewStructure.toDict(),
+                  'popup_detailed_feature_implementation': detailedStructure.toDict(),
+                  'popup_pattern_implementation': patternStructure.toDict()}
+    return json.dumps(structures)
+
+# What is the rationale of this architectural pattern?
+@app.route('/popup/patternRationale', methods=['POST'])
+def popup_patternRationale():
+    patternUri = request.form.get('pattern', '')
+    newWindowPath = request.form.get('newWindowPath', '')
+
+    structure = explanationGenerator.getRationaleOfArchitecture(patternUri)
+
+    allEntities = structure.entities
+    side_bar_diagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
+
+    explanation = {}
+    explanation['popup_pattern_rationale'] = {'description': explanationTemplates.generateRationaleSummary(patternUri, structure),
+                                   'newWindowPath': newWindowPath}
+
+    return render_template('popupInteractiveDiagram.html', side_bar_diagram_file_paths=side_bar_diagram_file_paths, explanations=explanation, newWindowPath=newWindowPath)
+
+@app.route('/structure/patternRationale', methods=['POST'])
+def getPatternRationale():
+    patternUri = request.form.get('pattern', '')
+    structure = {'popup_pattern_rationale': explanationGenerator.getRationaleOfArchitecture(patternUri).toDict()}
+    return json.dumps(structure)
+
+# What is the rationale of this architectural pattern?
+@app.route('/popup/patternImplementation', methods=['POST'])
+def popup_patternImplementation():
+    patternUri = request.form.get('pattern', '')
+    newWindowPath = request.form.get('newWindowPath', '')
+    pattern = ontologyStructureModel.Entity(patternUri)
+
+    overviewStructure = explanationGenerator.getOverviewPatternArchitecture(patternUri)
+    physicalStructure = explanationGenerator.getFullPhyPatternArchitecture(patternUri)
+    developmentStructure = explanationGenerator.getFullDevPatternArchitecture(patternUri)
+
+    allEntities = overviewStructure.entities + physicalStructure.entities + developmentStructure.entities
+    side_bar_diagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
+
+    explanation = {}
+    explanation['popup_overview_pattern'] = {'description': explanationTemplates.generateSystemPatternsOverviewSummary(overviewStructure, pattern),
+                                   'newWindowPath': newWindowPath}
+    explanation['popup_physical_pattern'] = {'description': explanationTemplates.generateSpecificSystemPatternsDetailedSummary(physicalStructure, pattern),
+                                   'newWindowPath': newWindowPath}
+    explanation['popup_development_pattern'] = {'description': explanationTemplates.generateSpecificSystemPatternsDetailedSummary(developmentStructure, pattern),
+                                   'newWindowPath': newWindowPath}
+
+    return render_template('popupInteractiveDiagram.html', side_bar_diagram_file_paths=side_bar_diagram_file_paths, explanations=explanation, newWindowPath=newWindowPath)
+
+@app.route('/structure/patternImplementation', methods=['POST'])
+def getPatternImplementation():
+    patternUri = request.form.get('pattern', '')
+    structure = {'popup_overview_pattern': explanationGenerator.getOverviewPatternArchitecture(patternUri).toDict(),
+                 'popup_physical_pattern': explanationGenerator.getFullPhyPatternArchitecture(patternUri).toDict(),
+                 'popup_development_pattern': explanationGenerator.getFullDevPatternArchitecture(patternUri).toDict()
+                 }
+    return json.dumps(structure)
+
+# ----------------------------------------------------------------------------
+# Loading and saving metamodel graph
+# ----------------------------------------------------------------------------
+
+@app.route('/loadgraph')
+def loadOntology():
+    graphData = ''
+    with open('static/ontologyGraph.txt', 'r') as f:
+        graphData = f.read()
+
+    return graphData
+
+@app.route('/savegraph', methods=['POST'])
+def saveOntology():
+    graphData = request.form.get('graphData')
+    with open('static/ontologyGraph.txt', 'w') as f:
+        f.write(graphData)
+    return 'success!'
+
+# ----------------------------------------------------------------------------
+# Helper URLs
+# ----------------------------------------------------------------------------
 
 @app.route('/query/getentitiesbytype', methods=['POST'])
 def getEntitiesByType():
@@ -110,290 +453,3 @@ def getDirectSuperClassParentMap():
             parentMap[explanationHelper.getNameFromUri(c)] = {'child': c, 'parent': parent}
         return json.dumps(parentMap)
     return ''
-
-
-@app.route('/q1/<feature>')
-def q1(feature):
-    structure = explanationGenerator.getFeatureRole(baseUri + feature)
-    explanation = explanationTemplates.generateFeatureRoleSummary(baseUri + feature, structure)
-
-    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in structure.entities for diagram in set(entity.diagrams)}
-    return render_template('childtemplate.html', 
-                            diagram_path='static/ClusteringGraph.js', 
-                            side_bar_diagram_file_paths=sideBardiagram_file_paths,
-                            entityData = {'functional': {'tab_id':'feature_role_tab', 'tab_name': 'Feature role', 'entity_structure': json.dumps(structure.toDict()), 'explanation': explanation, 'background': '#fff6f4'}})
-
-@app.route('/q2/<feature>')
-def q2(feature):
-
-    overviewStructure = explanationGenerator.getFunctionalFeatureToImplementationMap(baseUri + feature)
-    overview_explanation = explanationTemplates.generateFunctionalFeatureImplementationSummary(baseUri + feature, overviewStructure)
-
-    detailedStructure = explanationGenerator.getLogicalFeatureToImplementationMap(baseUri + feature)
-    implementationEntityUris = [implementation.uri for implementation in list(filter(lambda x: baseUri + 'ImplementationClass' in x.supertypes, detailedStructure.entities))]
-    detailed_explanation = explanationTemplates.generateLogicalFeatureImplementationSummary(baseUri + feature, detailedStructure)
-
-    patternStructure = explanationGenerator.getImplementationToArchitecturalPatternMap(implementationEntityUris)
-    pattern_explanation = explanationTemplates.generatePatternFeatureImplementationSummary(baseUri + feature, patternStructure)
-
-    allEntities = []
-    allEntities += detailedStructure.entities
-    allEntities += overviewStructure.entities
-    allEntities += patternStructure.entities
-
-    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
-
-    return render_template('childtemplate.html', 
-                            diagram_path='static/ClusteringGraph.js', 
-                            side_bar_diagram_file_paths=sideBardiagram_file_paths,
-                            entityData = {'overview': {'tab_id':'overview_view_tab', 'tab_name': 'Overview', 'entity_structure': json.dumps(overviewStructure.toDict()), 'explanation': overview_explanation}, 
-                                        'logical': {'tab_id':'logical_view_tab', 'tab_name': 'Detailed view', 'entity_structure': json.dumps(detailedStructure.toDict()), 'explanation': detailed_explanation}, 
-                                        'pattern': {'tab_id':'pattern_view_tab', 'tab_name': 'Pattern view', 'entity_structure': json.dumps(patternStructure.toDict()), 'explanation': pattern_explanation}
-                                        })
-
-@app.route('/q3/<feature>')
-def q3(feature):
-    funcBehaviorStructure = explanationGenerator.getFunctionalBehaviorOfFeature(baseUri + feature)
-    devBehaviorStructure = explanationGenerator.getDevelopmentBehaviorOfFeature(baseUri + feature)
-    logBehaviorStructure = explanationGenerator.getLogicalBehaviorOfFeature(baseUri + feature)
-    UIBehaviorStructure = explanationGenerator.getUIBehaviorOfFeature(baseUri + feature)
-
-    func_explanation = explanationTemplates.generateFunctionalBehaviorSummary(baseUri + feature, funcBehaviorStructure)
-    ui_explanation = explanationTemplates.generateBehaviorSummary(baseUri + feature, UIBehaviorStructure, 'ui')
-    development_explanation = explanationTemplates.generateBehaviorSummary(baseUri + feature, devBehaviorStructure, 'development')
-    logical_explanation = explanationTemplates.generateBehaviorSummary(baseUri + feature, logBehaviorStructure, 'logical')
-
-    allEntities = funcBehaviorStructure.entities + devBehaviorStructure.entities + logBehaviorStructure.entities + UIBehaviorStructure.entities
-    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
-
-
-    return render_template('childtemplate.html', 
-                            diagram_path='static/ClusteringGraph.js', 
-                            side_bar_diagram_file_paths=sideBardiagram_file_paths,
-                            entityData = {'functional': {'tab_id':'functional_view_tab', 'tab_name': 'Functional viewpoint', 'entity_structure': json.dumps(funcBehaviorStructure.toDict()), 'explanation': func_explanation},
-                                        'logical': {'tab_id':'logical_view_tab', 'tab_name': 'Logical viewpoint', 'entity_structure': json.dumps(logBehaviorStructure.toDict()), 'explanation': logical_explanation},
-                                        'development': {'tab_id':'development_view_tab', 'tab_name': 'Development viewpoint', 'entity_structure': json.dumps(devBehaviorStructure.toDict()), 'explanation': development_explanation},
-                                        'ui': {'tab_id':'ui_view_tab', 'tab_name': 'UI viewpoint', 'entity_structure': json.dumps(UIBehaviorStructure.toDict()), 'explanation': ui_explanation}
-                                        })
-@app.route('/q5/')
-def q5():
-    structure = explanationGenerator.getFunctionalityOfSystem()
-    explanation = explanationTemplates.generateSystemFunctionalitySummary(structure)
-    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in structure.entities for diagram in set(entity.diagrams)}
-    return render_template('childtemplate.html', 
-                            diagram_path='static/ClusteringGraph.js', 
-                            side_bar_diagram_file_paths=sideBardiagram_file_paths,
-                            entityData = {'functional': {'tab_id':'functional_view_tab', 'tab_name': 'System functionality', 'entity_structure': json.dumps(structure.toDict()), 'explanation': explanation, 'background': '#fff6f4'},
-                                        })  
-@app.route('/q6/')
-def q6():
-    overviewStructure = explanationGenerator.getOverviewPatternArchitecture()
-    physicalStructure = explanationGenerator.getFullPhyPatternArchitecture()
-    developmentStructure = explanationGenerator.getFullDevPatternArchitecture()
-
-    overviewExplanation = explanationTemplates.generateSystemPatternsOverviewSummary(overviewStructure)
-    physicalExplanation = explanationTemplates.generateSystemPatternsDetailedSummary(physicalStructure, 'physical')
-    developmentExplanation = explanationTemplates.generateSystemPatternsDetailedSummary(developmentStructure, 'development')
-
-    allEntities = list(set(physicalStructure.entities + developmentStructure.entities + overviewStructure.entities))
-
-    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
-    
-    return render_template('childtemplate.html', 
-                            diagram_path='static/ClusteringGraph.js', 
-                            side_bar_diagram_file_paths=sideBardiagram_file_paths,
-                            entityData = {'overview': {'tab_id':'overview_view_tab', 'tab_name': 'Overview', 'entity_structure': json.dumps(overviewStructure.toDict()), 'explanation': overviewExplanation},
-                                          'physical': {'tab_id':'physical_view_tab', 'tab_name': 'Physical view', 'entity_structure': json.dumps(physicalStructure.toDict()), 'explanation': physicalExplanation},
-                                          'development': {'tab_id':'development_view_tab', 'tab_name': 'Development view', 'entity_structure': json.dumps(developmentStructure.toDict()), 'explanation': developmentExplanation},
-                                        })  
-@app.route('/q7/<architecturalPattern>')
-def q7(architecturalPattern):
-    patternEntity = ontologyStructureModel.Entity(baseUri + architecturalPattern)
-    overviewStructure = explanationGenerator.getOverviewPatternArchitecture(baseUri + architecturalPattern)
-    devStructure = explanationGenerator.getFullDevPatternArchitecture(baseUri + architecturalPattern)
-    phyStructure = explanationGenerator.getFullPhyPatternArchitecture(baseUri + architecturalPattern)
-
-    overviewExplanation = explanationTemplates.generateSystemPatternsOverviewSummary(overviewStructure)
-    devExplanation = explanationTemplates.generateSpecificSystemPatternsDetailedSummary(patternEntity, devStructure)
-    phyExplanation = explanationTemplates.generateSpecificSystemPatternsDetailedSummary(patternEntity, phyStructure)
-
-    allEntities = list(set(phyStructure.entities + devStructure.entities + overviewStructure.entities))
-
-    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
-    return render_template('childtemplate.html', 
-                            diagram_path='static/ClusteringGraph.js', 
-                            side_bar_diagram_file_paths=sideBardiagram_file_paths,
-                            entityData = {'overview': {'tab_id':'overview_view_tab', 'tab_name': 'Overview', 'entity_structure': json.dumps(overviewStructure.toDict()), 'explanation': overviewExplanation},
-                                          'physical': {'tab_id':'physical_view_tab', 'tab_name': 'Physical view', 'entity_structure': json.dumps(phyStructure.toDict()), 'explanation': phyExplanation},
-                                          'development': {'tab_id':'development_view_tab', 'tab_name': 'Development view', 'entity_structure': json.dumps(devStructure.toDict()), 'explanation': devExplanation},
-                                        })  
-
-@app.route('/q4/<architecturalPattern>')
-def q4(architecturalPattern):
-    architecturalStructure = explanationGenerator.getRationaleOfArchitecture(baseUri + architecturalPattern)
-    pattern_explanation = explanationTemplates.generateRationaleSummary(baseUri + architecturalPattern, architecturalStructure)
-
-    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in architecturalStructure.entities for diagram in set(entity.diagrams)}
-
-
-    return render_template('childtemplate.html', 
-                            diagram_path='static/ClusteringGraph.js', 
-                            side_bar_diagram_file_paths=sideBardiagram_file_paths,
-                            entityData = {'rationale': {'tab_id':'rationale_view_tab', 'tab_name': 'Rationale of architectural pattern', 'entity_structure': json.dumps(architecturalStructure.toDict()), 'explanation': pattern_explanation, 'background': '#fff6f4'}})
-
-                            
-@app.route('/popup/diagram', methods=['POST'])
-def popup_diagram():
-    figureUriList = request.form.getlist('figure[]')
-    explanation = {}
- 
-    for figureUri in figureUriList:
-        explanation[explanationHelper.diagramUriToFileName(figureUri)] = {'diagramFilePath': '/static/images/' + explanationHelper.diagramUriToFileName(figureUri) + '.png',
-                                  'description': explanationTemplates.generatePopupFigureDescription(figureUri).toDict(),
-                                  'newWindowPath': '/static/something.html'}
-
-    return render_template('popupImageDiagram.html', explanations=explanation)
-
-@app.route('/popup/featureRole', methods=['POST'])
-def popup_featureRole():
-    featureUri = request.form.get('feature', '')
-    newWindowPath = request.form.get('newWindowPath', '')
-
-    structure = explanationGenerator.getFeatureRole(featureUri)
-    allEntities = structure.entities
-
-    side_bar_diagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
-
-    explanation = {}
-    explanation['popup_feature_role'] = {'description': explanationTemplates.generateFeatureRoleSummary(featureUri, structure),
-                                   'newWindowPath': newWindowPath}
-
-    return render_template('popupInteractiveDiagram.html', side_bar_diagram_file_paths=side_bar_diagram_file_paths, explanations=explanation, newWindowPath=newWindowPath)
-
-@app.route('/structure/featureRole', methods=['POST'])
-def getFeatureRoleStructure():
-    featureUri = request.form.get('feature', '')
-    structure = {'popup_feature_role': explanationGenerator.getFeatureRole(featureUri).toDict()}
-    return json.dumps(structure)
-
-@app.route('/popup/featureBehavior', methods=['POST'])
-def popup_featureBehavior():
-    featureUri = request.form.get('feature', '')
-    newWindowPath = request.form.get('newWindowPath', '')
-
-    funcStructure = explanationGenerator.getFunctionalBehaviorOfFeature(featureUri)
-    logStructure = explanationGenerator.getLogicalBehaviorOfFeature(featureUri)
-    devStructure = explanationGenerator.getDevelopmentBehaviorOfFeature(featureUri)
-    uiStructure = explanationGenerator.getUIBehaviorOfFeature(featureUri)
-
-    allEntities = funcStructure.entities + logStructure.entities + devStructure.entities + uiStructure.entities
-    side_bar_diagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
-
-    explanation = {}
-
-    explanation['popup_func_feature_behavior'] = {'description': explanationTemplates.generateBehaviorSummary(featureUri, funcStructure, 'functional'),
-                                                'newWindowPath': newWindowPath}
-    explanation['popup_log_feature_behavior'] = {'description': explanationTemplates.generateBehaviorSummary(featureUri, logStructure, 'logical'),
-                                                'newWindowPath': newWindowPath}
-    explanation['popup_dev_feature_behavior'] = {'description': explanationTemplates.generateBehaviorSummary(featureUri, devStructure, 'development'),
-                                                'newWindowPath': newWindowPath}
-    explanation['popup_ui_feature_behavior'] = {'description': explanationTemplates.generateBehaviorSummary(featureUri, uiStructure, 'ui'),
-                                                'newWindowPath': newWindowPath}
-
-    return render_template('popupInteractiveDiagram.html', side_bar_diagram_file_paths=side_bar_diagram_file_paths, explanations=explanation, newWindowPath=newWindowPath)
-
-@app.route('/structure/featureBehavior', methods=['POST'])
-def getFeatureBehavior():
-    featureUri = request.form.get('feature', '')
-
-    funcStructure = explanationGenerator.getFunctionalBehaviorOfFeature(featureUri)
-    devStructure = explanationGenerator.getDevelopmentBehaviorOfFeature(featureUri)
-    logStructure = explanationGenerator.getLogicalBehaviorOfFeature(featureUri)
-    uiStructure = explanationGenerator.getUIBehaviorOfFeature(featureUri)
-
-    structures = {'popup_func_feature_behavior': funcStructure.toDict(),
-                  'popup_log_feature_behavior': logStructure.toDict(),
-                  'popup_dev_feature_behavior': devStructure.toDict(),
-                  'popup_ui_feature_behavior': uiStructure.toDict()}
-    return json.dumps(structures)
-
-@app.route('/popup/featureImplementation', methods=['POST'])
-def popup_featureImplementation():
-    featureUri = request.form.get('feature', '')
-    newWindowPath = request.form.get('newWindowPath', '')
-
-    overviewStructure = explanationGenerator.getFunctionalFeatureToImplementationMap(featureUri)
-    overviewExplanation = explanationTemplates.generateFunctionalFeatureImplementationSummary(featureUri, overviewStructure)
-
-    detailedStructure = explanationGenerator.getLogicalFeatureToImplementationMap(featureUri)
-    detailedExplanation = explanationTemplates.generateLogicalFeatureImplementationSummary(featureUri, detailedStructure)
-    
-    implementationEntityUris = [implementation.uri for implementation in list(filter(lambda x: baseUri + 'ImplementationClass' in x.supertypes, detailedStructure.entities))]
-
-    patternStructure = explanationGenerator.getImplementationToArchitecturalPatternMap(implementationEntityUris)
-    patternExplanation = explanationTemplates.generatePatternFeatureImplementationSummary(featureUri, patternStructure)
-
-    allEntities = overviewStructure.entities + detailedStructure.entities + patternStructure.entities
-    side_bar_diagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
-
-    explanation = {}
-
-    explanation['popup_overview_feature_implementation'] = {'description': overviewExplanation,
-                                                'newWindowPath': newWindowPath}
-    explanation['popup_detailed_feature_implementation'] = {'description': detailedExplanation,
-                                                'newWindowPath': newWindowPath}
-    explanation['popup_pattern_implementation'] = {'description': patternExplanation,
-                                                'newWindowPath': newWindowPath}
-
-    return render_template('popupInteractiveDiagram.html', side_bar_diagram_file_paths=side_bar_diagram_file_paths, explanations=explanation, newWindowPath=newWindowPath)
-
-@app.route('/structure/featureImplementation', methods=['POST'])
-def getFeatureImplementation():
-    featureUri = request.form.get('feature', '')
-
-    overviewStructure = explanationGenerator.getFunctionalFeatureToImplementationMap(featureUri)
-    detailedStructure = explanationGenerator.getLogicalFeatureToImplementationMap(featureUri)
-    implementationEntityUris = [implementation.uri for implementation in list(filter(lambda x: baseUri + 'ImplementationClass' in x.supertypes, detailedStructure.entities))]
-    patternStructure = explanationGenerator.getImplementationToArchitecturalPatternMap(implementationEntityUris)
-
-    structures = {'popup_overview_feature_implementation': overviewStructure.toDict(),
-                  'popup_detailed_feature_implementation': detailedStructure.toDict(),
-                  'popup_pattern_implementation': patternStructure.toDict()}
-    return json.dumps(structures)
-
-@app.route('/savegraph', methods=['POST'])
-def saveOntology():
-    graphData = request.form.get('graphData')
-    with open('static/ontologyGraph.txt', 'w') as f:
-        f.write(graphData)
-    return 'success!'
-
-@app.route('/popup/patternRationale', methods=['POST'])
-def popup_patternRationale():
-    patternUri = request.form.get('pattern', '')
-    newWindowPath = request.form.get('newWindowPath', '')
-
-    structure = explanationGenerator.getRationaleOfArchitecture(patternUri)
-
-    allEntities = structure.entities
-    side_bar_diagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
-
-    explanation = {}
-    explanation['popup_pattern_rationale'] = {'description': explanationTemplates.generateRationaleSummary(patternUri, structure),
-                                   'newWindowPath': newWindowPath}
-
-    return render_template('popupInteractiveDiagram.html', side_bar_diagram_file_paths=side_bar_diagram_file_paths, explanations=explanation, newWindowPath=newWindowPath)
-
-@app.route('/structure/patternRationale', methods=['POST'])
-def getPatternRationale():
-    patternUri = request.form.get('pattern', '')
-    structure = {'popup_pattern_rationale': explanationGenerator.getRationaleOfArchitecture(patternUri).toDict()}
-    return json.dumps(structure)
-
-@app.route('/loadgraph')
-def loadOntology():
-    graphData = ''
-    with open('static/ontologyGraph.txt', 'r') as f:
-        graphData = f.read()
-
-    return graphData

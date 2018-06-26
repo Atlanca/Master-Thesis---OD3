@@ -425,7 +425,7 @@ class ExplanationTemplates:
 
         return expTemplate
 
-    def generateSystemPatternsOverviewSummary(self, structure):      
+    def generateSystemPatternsOverviewSummary(self, structure, mainEntity=''):      
         template = explanationHelper.openText('static/explanationTemplates/PatternsInSystemOverview.txt')
         summary = template.format(path=self.classesToText(structure.entities))
         return self.generateGeneralSummary(structure, summary)
@@ -456,7 +456,7 @@ class ExplanationTemplates:
         summary = template.format(view_type=viewType, architectural_pattern=patternName, structural_entities='structural entities', role=roleName, path=self.classesToText(structure.entities))
         return self.generateGeneralSummary(structure, summary)
 
-    def generateSpecificSystemPatternsDetailedSummary(self, mainEntity, structure):      
+    def generateSpecificSystemPatternsDetailedSummary(self, structure, mainEntity):      
         noStylePatternName = explanationHelper.getNameOfEntity(mainEntity)
         patternName = self.styledName(noStylePatternName, 'class-font', self.baseUri + 'ArchitecturalPattern')
         roleName = self.styledName('roles', 'class-font', self.baseUri + 'Role')
