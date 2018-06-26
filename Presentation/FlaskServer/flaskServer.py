@@ -142,8 +142,8 @@ def q7(architecturalPattern):
     phyStructure = explanationGenerator.getFullPhyPatternArchitecture(baseUri + architecturalPattern)
 
     overviewExplanation = explanationTemplates.generateSystemPatternsOverviewSummary(overviewStructure)
-    devExplanation = explanationTemplates.generateSpecificSystemPatternsDetailedSummary(patternEntity, devStructure)
-    phyExplanation = explanationTemplates.generateSpecificSystemPatternsDetailedSummary(patternEntity, phyStructure)
+    devExplanation = explanationTemplates.generateSpecificSystemPatternsDetailedSummary(devStructure, patternEntity)
+    phyExplanation = explanationTemplates.generateSpecificSystemPatternsDetailedSummary(phyStructure, patternEntity)
 
     allEntities = list(set(phyStructure.entities + devStructure.entities + overviewStructure.entities))
 
