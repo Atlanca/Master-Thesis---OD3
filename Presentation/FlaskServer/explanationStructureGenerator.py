@@ -19,9 +19,9 @@ class ExplanationGenerator:
     def getFeatureRole(self, featureUri):
         es = ontologyStructureModel.EntityStructure()
         es.addEntity(featureUri)
-        requirements = [r[1] for r in self.ir.getRelations(featureUri, self.baseUri + 'compriseOf', self.baseUri+ 'Requirement')]
+        requirements = [r[1] for r in self.ir.getRelations(featureUri, self.baseUri + 'comprisesOf', self.baseUri+ 'Requirement')]
         es.addAllEntities(requirements)
-        es.addOneToManyRelation('compriseOf', featureUri, requirements)
+        es.addOneToManyRelation('comprisesOf', featureUri, requirements)
 
         for r in requirements:
             usecases = [uc[1] for uc in self.ir.getRelations(r, self.baseUri + 'partOf', self.baseUri + 'UseCase')]
@@ -65,13 +65,13 @@ class ExplanationGenerator:
             self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'implementedBy', self.baseUri + 'ImplementationClass')
 
         def callbackDevStructure(es, s):
-            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'compriseOf', self.baseUri + 'DevelopmentStructure', callback=callBackArchitecturalPattern)
+            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'comprisesOf', self.baseUri + 'DevelopmentStructure', callback=callBackArchitecturalPattern)
         
         es = ontologyStructureModel.EntityStructure()
         es.addEntity(architecturalPatternUri)
-        for role in self.ir.getRelations(architecturalPatternUri, self.baseUri + 'compriseOf', self.baseUri + 'Role'):
+        for role in self.ir.getRelations(architecturalPatternUri, self.baseUri + 'comprisesOf', self.baseUri + 'Role'):
             es.addEntity(role[1])
-            es.addRelation('compriseOf' , architecturalPatternUri, role[1])
+            es.addRelation('comprisesOf' , architecturalPatternUri, role[1])
             self.addRecursiveEntitiesAndRelations(es, role[1], self.baseUri + 'roleImplementedBy', callback=callbackDevStructure)
         return es
     
@@ -81,17 +81,17 @@ class ExplanationGenerator:
         
         if patternUri:
             es.addEntity(patternUri)
-            self.addRecursiveEntitiesAndRelations(es, patternUri, self.baseUri + 'compriseOf', self.baseUri + 'Role')
+            self.addRecursiveEntitiesAndRelations(es, patternUri, self.baseUri + 'comprisesOf', self.baseUri + 'Role')
         else:
             for pattern in patterns:
                 es.addEntity(pattern)
-                self.addRecursiveEntitiesAndRelations(es, pattern, self.baseUri + 'compriseOf', self.baseUri + 'Role')
+                self.addRecursiveEntitiesAndRelations(es, pattern, self.baseUri + 'comprisesOf', self.baseUri + 'Role')
 
         return es
 
     def getFullDevPatternArchitecture(self, patternUri=''):
         def callbackArchitectureFragment(es, s):
-            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'compriseOf', self.baseUri + 'DevelopmentStructure',  callback=callbackArchitectureFragment)
+            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'comprisesOf', self.baseUri + 'DevelopmentStructure',  callback=callbackArchitectureFragment)
             self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'implementedBy', self.baseUri + 'ImplementationClass')
 
         def callbackRole(es, s):
@@ -102,17 +102,17 @@ class ExplanationGenerator:
         
         if patternUri:
             es.addEntity(patternUri)
-            self.addRecursiveEntitiesAndRelations(es, patternUri, self.baseUri + 'compriseOf', self.baseUri + 'Role', callback=callbackRole)
+            self.addRecursiveEntitiesAndRelations(es, patternUri, self.baseUri + 'comprisesOf', self.baseUri + 'Role', callback=callbackRole)
         else:
             for pattern in patterns:
                 es.addEntity(pattern)
-                self.addRecursiveEntitiesAndRelations(es, pattern, self.baseUri + 'compriseOf', self.baseUri + 'Role', callback=callbackRole)
+                self.addRecursiveEntitiesAndRelations(es, pattern, self.baseUri + 'comprisesOf', self.baseUri + 'Role', callback=callbackRole)
 
         return es
 
     def getFullPhyPatternArchitecture(self, patternUri=''):
         def callbackDevelopmentStructure(es, s):
-            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'compriseOf', self.baseUri + 'DevelopmentStructure', callback=callbackDevelopmentStructure)
+            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'comprisesOf', self.baseUri + 'DevelopmentStructure', callback=callbackDevelopmentStructure)
             self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'implementedBy', self.baseUri + 'ImplementationClass')
 
         def callbackPhysicalStructure(es, s):
@@ -126,11 +126,11 @@ class ExplanationGenerator:
 
         if patternUri:
             es.addEntity(patternUri)
-            self.addRecursiveEntitiesAndRelations(es, patternUri, self.baseUri + 'compriseOf', self.baseUri + 'Role', callback=callbackRole)
+            self.addRecursiveEntitiesAndRelations(es, patternUri, self.baseUri + 'comprisesOf', self.baseUri + 'Role', callback=callbackRole)
         else:
             for pattern in patterns:
                 es.addEntity(pattern)
-                self.addRecursiveEntitiesAndRelations(es, pattern, self.baseUri + 'compriseOf', self.baseUri + 'Role', callback=callbackRole)
+                self.addRecursiveEntitiesAndRelations(es, pattern, self.baseUri + 'comprisesOf', self.baseUri + 'Role', callback=callbackRole)
 
         entityUris = [e.type for e in es.entities]
         if not self.baseUri + 'Device' in entityUris:
@@ -142,15 +142,15 @@ class ExplanationGenerator:
     def getPatternArchitecture(self, patternUri):
         patternUri = self.baseUri + patternUri
         def callbackArchitectureFragment(es, s):
-            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'compriseOf', self.baseUri + 'ArchitectureFragment')
+            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'comprisesOf', self.baseUri + 'ArchitectureFragment')
             self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'deploys', self.baseUri + 'ArchitectureFragment')
 
         es = ontologyStructureModel.EntityStructure()        
         es.addEntity(patternUri)
-        roles = self.ir.getRelations(patternUri, self.baseUri + 'compriseOf', self.baseUri + 'Role')
+        roles = self.ir.getRelations(patternUri, self.baseUri + 'comprisesOf', self.baseUri + 'Role')
         for role in roles:
             es.addEntity(role[1])
-            es.addRelation('compriseOf', patternUri, role[1])
+            es.addRelation('comprisesOf', patternUri, role[1])
             self.addRecursiveEntitiesAndRelations(es, role[1], self.baseUri + 'roleImplementedBy', self.baseUri + 'ArchitectureFragment', callback=callbackArchitectureFragment)
 
         print(es)
@@ -167,7 +167,7 @@ class ExplanationGenerator:
 
         for feature in features:
             es.addEntity(feature)
-            self.addRecursiveEntitiesAndRelations(es, feature, self.baseUri + 'compriseOf', self.baseUri + 'Requirement', callback=callbackUseCase)
+            self.addRecursiveEntitiesAndRelations(es, feature, self.baseUri + 'comprisesOf', self.baseUri + 'Requirement', callback=callbackUseCase)
         
         return es
 
@@ -206,7 +206,7 @@ class ExplanationGenerator:
 
         es = ontologyStructureModel.EntityStructure()
         es.addEntity(featureUri)
-        self.addRecursiveEntitiesAndRelations(es, featureUri, self.baseUri + 'compriseOf', self.baseUri + 'Requirement', callback=callbackStructure)
+        self.addRecursiveEntitiesAndRelations(es, featureUri, self.baseUri + 'comprisesOf', self.baseUri + 'Requirement', callback=callbackStructure)
 
         return es
 
@@ -220,7 +220,7 @@ class ExplanationGenerator:
 
         for feature in features:
             es.addEntity(feature)
-            self.addRecursiveEntitiesAndRelations(es, feature, self.baseUri + 'compriseOf', self.baseUri + 'Requirement', callback=callbackRequirement)
+            self.addRecursiveEntitiesAndRelations(es, feature, self.baseUri + 'comprisesOf', self.baseUri + 'Requirement', callback=callbackRequirement)
         return es
 
     def getFunctionalBehaviorOfFeatureHelper(self, featureUri):
@@ -233,7 +233,7 @@ class ExplanationGenerator:
 
         es = ontologyStructureModel.EntityStructure()
         es.addEntity(featureUri)
-        self.addRecursiveEntitiesAndRelations(es, featureUri, self.baseUri + 'compriseOf', self.baseUri + 'Requirement', callback=callbackFunctionalBehavior)
+        self.addRecursiveEntitiesAndRelations(es, featureUri, self.baseUri + 'comprisesOf', self.baseUri + 'Requirement', callback=callbackFunctionalBehavior)
 
         return es
 
@@ -259,7 +259,7 @@ class ExplanationGenerator:
 
         es = ontologyStructureModel.EntityStructure()
         es.addEntity(featureUri)
-        self.addRecursiveEntitiesAndRelations(es, featureUri, self.baseUri + 'compriseOf', self.baseUri + 'Requirement', callback=callbackLogicalStructure)
+        self.addRecursiveEntitiesAndRelations(es, featureUri, self.baseUri + 'comprisesOf', self.baseUri + 'Requirement', callback=callbackLogicalStructure)
         self.addRecursiveEntitiesAndRelations(es, featureUri, self.baseUri + 'realizedBy', structureUri, callback=callbackStructure)
 
         return es
@@ -304,19 +304,19 @@ class ExplanationGenerator:
         #Callbacks: 
         def callbackImplementedBy(es, s): 
             self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'implementedBy')
-        def callbackCompriseOf(es, s): 
-            self.addRecursiveEntitiesAndRelations(es,s, self.baseUri + 'compriseOf', callback=callbackImplementedBy)
+        def callbackcomprisesOf(es, s): 
+            self.addRecursiveEntitiesAndRelations(es,s, self.baseUri + 'comprisesOf', callback=callbackImplementedBy)
             callbackImplementedBy(es, s)
 
         es = ontologyStructureModel.EntityStructure()
         es.addEntity(featureUri)
-        for req in self.ir.getRelations(featureUri, self.baseUri + 'compriseOf', self.baseUri + 'Requirement'):
+        for req in self.ir.getRelations(featureUri, self.baseUri + 'comprisesOf', self.baseUri + 'Requirement'):
             es.addEntity(req[1])
-            es.addRelation('compriseOf', featureUri, req[1])
+            es.addRelation('comprisesOf', featureUri, req[1])
             for logStruct in self.ir.getRelations(req[1], self.baseUri + 'satisfiedBy', self.baseUri + 'LogicalStructure'):
                 es.addEntity(logStruct[1])
                 es.addRelation('satisfiedBy', req[1], logStruct[1])
-                self.addRecursiveEntitiesAndRelations(es, logStruct[1], self.baseUri + 'designedBy', callback=callbackCompriseOf)
+                self.addRecursiveEntitiesAndRelations(es, logStruct[1], self.baseUri + 'designedBy', callback=callbackcomprisesOf)
         return es
     
     def getFunctionalFeatureToImplementationMap(self, featureUri):

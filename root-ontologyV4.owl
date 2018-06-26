@@ -42,6 +42,14 @@
     
 
 
+    <!-- http://www.semanticweb.org/ontologies/snowflake#alternativeOf -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/snowflake#alternativeOf">
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#hasAlternative"/>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://www.semanticweb.org/ontologies/snowflake#basedOn -->
 
     <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/snowflake#basedOn">
@@ -84,15 +92,9 @@
     
 
 
-    <!-- http://www.semanticweb.org/ontologies/snowflake#changedBy -->
+    <!-- http://www.semanticweb.org/ontologies/snowflake#comprisesOf -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/snowflake#changedBy"/>
-    
-
-
-    <!-- http://www.semanticweb.org/ontologies/snowflake#compriseOf -->
-
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/snowflake#compriseOf">
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/snowflake#comprisesOf">
         <owl:inverseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#partOf"/>
     </owl:ObjectProperty>
     
@@ -176,9 +178,7 @@
 
     <!-- http://www.semanticweb.org/ontologies/snowflake#hasAlternative -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/snowflake#hasAlternative">
-        <owl:inverseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#isAlternativeOf"/>
-    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/snowflake#hasAlternative"/>
     
 
 
@@ -202,12 +202,6 @@
     
 
 
-    <!-- http://www.semanticweb.org/ontologies/snowflake#isAlternativeOf -->
-
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/snowflake#isAlternativeOf"/>
-    
-
-
     <!-- http://www.semanticweb.org/ontologies/snowflake#modeledIn -->
 
     <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/snowflake#modeledIn">
@@ -225,14 +219,14 @@
     <!-- http://www.semanticweb.org/ontologies/snowflake#offeredInterfaceBy -->
 
     <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/snowflake#offeredInterfaceBy">
-        <owl:inverseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#offeresInterface"/>
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#offersInterface"/>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/ontologies/snowflake#offeresInterface -->
+    <!-- http://www.semanticweb.org/ontologies/snowflake#offersInterface -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/snowflake#offeresInterface"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/snowflake#offersInterface"/>
     
 
 
@@ -325,12 +319,6 @@
     
 
 
-    <!-- http://www.semanticweb.org/ontologies/snowflake#storedBy -->
-
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/snowflake#storedBy"/>
-    
-
-
     <!-- http://www.semanticweb.org/ontologies/snowflake#taggedBy -->
 
     <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/snowflake#taggedBy">
@@ -343,12 +331,6 @@
     <!-- http://www.semanticweb.org/ontologies/snowflake#tags -->
 
     <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/snowflake#tags"/>
-    
-
-
-    <!-- http://www.semanticweb.org/ontologies/snowflake#usercase_is_related_to -->
-
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/snowflake#usercase_is_related_to"/>
     
 
 
@@ -595,7 +577,7 @@
     <owl:Class rdf:about="http://www.semanticweb.org/ontologies/snowflake#ArchitecturalPattern">
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#compriseOf"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#comprisesOf"/>
                 <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Role"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -759,6 +741,13 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#alternativeOf"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DesignOption"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#basedOn"/>
                 <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
                 <owl:onClass rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Argument"/>
@@ -795,13 +784,6 @@
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#hasAlternative"/>
-                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
-                <owl:onClass rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DesignOption"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#isAlternativeOf"/>
                 <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
                 <owl:onClass rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DesignOption"/>
             </owl:Restriction>
@@ -868,14 +850,14 @@
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClassFragment"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#compriseOf"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#comprisesOf"/>
                 <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
                 <owl:onClass rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Attribute"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#compriseOf"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#comprisesOf"/>
                 <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
                 <owl:onClass rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Operation"/>
             </owl:Restriction>
@@ -919,7 +901,7 @@
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClassFragment"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#compriseOf"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#comprisesOf"/>
                 <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
                 <owl:onClass rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClass"/>
             </owl:Restriction>
@@ -1048,7 +1030,7 @@
     <owl:Class rdf:about="http://www.semanticweb.org/ontologies/snowflake#Feature">
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#compriseOf"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#comprisesOf"/>
                 <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Requirement"/>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -1177,7 +1159,7 @@
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClassFragment"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#compriseOf"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#comprisesOf"/>
                 <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
                 <owl:onClass rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
             </owl:Restriction>
@@ -1305,14 +1287,14 @@
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#PackageFragment"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#compriseOf"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#comprisesOf"/>
                 <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
                 <owl:onClass rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Package"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#compriseOf"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#comprisesOf"/>
                 <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
                 <owl:onClass rdf:resource="http://www.semanticweb.org/ontologies/snowflake#PackageableElement"/>
             </owl:Restriction>
@@ -1334,7 +1316,7 @@
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentStructure"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#compriseOf"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#comprisesOf"/>
                 <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
                 <owl:onClass rdf:resource="http://www.semanticweb.org/ontologies/snowflake#DevelopmentClassFragment"/>
             </owl:Restriction>
@@ -1633,8 +1615,15 @@
     <owl:Class rdf:about="http://www.semanticweb.org/ontologies/snowflake#UseCase">
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#compriseOf"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#comprisesOf"/>
                 <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Requirement"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#comprisesOf"/>
+                <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UseCase"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
@@ -1646,7 +1635,7 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#usercase_is_related_to"/>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/snowflake#partOf"/>
                 <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:minQualifiedCardinality>
                 <owl:onClass rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UseCase"/>
             </owl:Restriction>
@@ -1748,7 +1737,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Cart">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#ShippingItem"/>
+        <comprisesOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#ShippingItem"/>
         <designedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Client_Controller_Cart"/>
         <designedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Server_Controller_CartNoEmpty"/>
         <designedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Server_Controller_Carts"/>
@@ -1781,7 +1770,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Category">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Product"/>
+        <comprisesOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Product"/>
         <designedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Server_Controller_Categories"/>
         <designedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Server_View_categories.scala"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_3.10_class_diagram_of_the_system"/>
@@ -4338,7 +4327,7 @@ These form classes also host the methods generating the different content that m
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#ShippingItem">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Shipping"/>
+        <comprisesOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Shipping"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_3.10_class_diagram_of_the_system"/>
         <partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Cart"/>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ShippingItem</rdfs:label>
@@ -4375,7 +4364,7 @@ These form classes also host the methods generating the different content that m
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#TaxCategory">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#LogicalClass"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Product"/>
+        <comprisesOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Product"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_3.10_class_diagram_of_the_system"/>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TaxCategory</rdfs:label>
     </owl:NamedIndividual>
@@ -5086,8 +5075,8 @@ The second objective is to evaluate the capability of SPHERE.IO to compete with 
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#check_order">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UseCase"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#list_orders"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#log_in"/>
+        <comprisesOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#list_orders"/>
+        <comprisesOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#log_in"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_3.9_check_order"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The last sequence diagram displays the interactions that the customer has to perform in order to check the state of an order (Figure 3.9). This scenario requires the customer to previously sign up to the system and purchase some items as a registered customer. Then at any moment the user can go to the login page and enter the login information to access his customer profile. There he can select to list all his orders and select the one he wants to view in detail.</Description>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Check order</rdfs:label>
@@ -5099,12 +5088,12 @@ The second objective is to evaluate the capability of SPHERE.IO to compete with 
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#checkout">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#UseCase"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#add_item_to_cart"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#mini_cart"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#payment"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#place_order"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#remove_item_from_cart"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#update_item_in_cart"/>
+        <comprisesOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#add_item_to_cart"/>
+        <comprisesOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#mini_cart"/>
+        <comprisesOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#payment"/>
+        <comprisesOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#place_order"/>
+        <comprisesOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#remove_item_from_cart"/>
+        <comprisesOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#update_item_in_cart"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_3.8_checkout"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The checkout top-level use case is shown in Figure 3.8. Once the customer has some line items in his shopping cart, the next step is to navigate to the cart page. Here the user can remove or modify his line items until he is ready to start the checkout process. There, after entering all shipping and billing information, the customer will confirm the purchase and the system will request the payment platform to process the payment, displaying the order details in response to the customer.</Description>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Checkout</rdfs:label>
@@ -5193,7 +5182,7 @@ The second objective is to evaluate the capability of SPHERE.IO to compete with 
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#client_model_package_1">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Package"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Client_Model_MiniCart"/>
+        <comprisesOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Client_Model_MiniCart"/>
         <playsRole rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_model_1"/>
         <provides rdf:resource="http://www.semanticweb.org/ontologies/snowflake#purchase_products"/>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Model</rdfs:label>
@@ -5205,9 +5194,9 @@ The second objective is to evaluate the capability of SPHERE.IO to compete with 
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#client_package_1">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Package"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_controller_package_1"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_model_package_1"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_view_package_1"/>
+        <comprisesOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_controller_package_1"/>
+        <comprisesOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_model_package_1"/>
+        <comprisesOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_view_package_1"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.2_logical_architecture"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.3_logical_architecture_within_a_context"/>
         <playsRole rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_tier_1"/>
@@ -5268,7 +5257,7 @@ The second objective is to evaluate the capability of SPHERE.IO to compete with 
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#cloudbees">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Technology"/>
-        <isAlternativeOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#heroku"/>
+        <alternativeOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#heroku"/>
         <IsChosen rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</IsChosen>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Cloudbees</rdfs:label>
     </owl:NamedIndividual>
@@ -5387,8 +5376,8 @@ The second objective is to evaluate the capability of SPHERE.IO to compete with 
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#dust.js">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Technology"/>
+        <alternativeOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#handlebars"/>
         <basedOn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#arg_dust.js"/>
-        <isAlternativeOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#handlebars"/>
         <IsChosen rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</IsChosen>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Dust.js</rdfs:label>
     </owl:NamedIndividual>
@@ -5441,11 +5430,11 @@ The second objective is to evaluate the capability of SPHERE.IO to compete with 
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#fat_client_MVC">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#ArchitecturalPattern"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_controller_1"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_model_1"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_view_1"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_controller_1"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_model_1"/>
+        <comprisesOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_controller_1"/>
+        <comprisesOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_model_1"/>
+        <comprisesOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#client_view_1"/>
+        <comprisesOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_controller_1"/>
+        <comprisesOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_model_1"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.3_logical_architecture_within_a_context"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A fat client allows the user to interact with the system while never reloading the web page, only updating those specific components of the page that changed during the interaction. This behavior enhances the user experience, because the user can continue interacting with the system while operations are taking place. Information can also be presented in an incremental way, so that the user can start interacting with some elements of the page while further information is being retrieved. Another important fact is that traffic between the client and the system is reduced to simple data with no presentation information, which speeds up the communication with the system and decreases network use.</Description>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fat-client MVC</rdfs:label>
@@ -6287,8 +6276,8 @@ The first level is the universal redirect, where the customer is completely redi
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#paymill">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Technology"/>
+        <alternativeOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#optile"/>
         <basedOn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#arg_paymill"/>
-        <isAlternativeOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#optile"/>
         <IsChosen rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</IsChosen>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Paymill</rdfs:label>
     </owl:NamedIndividual>
@@ -6342,7 +6331,7 @@ Play follows the MVC logical architectural pattern and is completely RESTful, wh
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#purchase_products">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Feature"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#add_item_to_cart"/>
+        <comprisesOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#add_item_to_cart"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_3.4_purchase_products"/>
         <Description>Figure 3.4 shows the use cases related to purchasing products. They can be clearly divided into two different topics: on the one hand all those use cases for managing the shopping cart (i.e. adding, updating and removing items), on the other hand those related to placing and listing orders. When placing an order the customer may be requested to pay online, in which case the payment platform will provide the necessary means. Anonymous as much as registered customers can place orders, but only customers that have been identified are able to list their own orders, otherwise they are requested to identify themselves.</Description>
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Purchase products</rdfs:label>
@@ -6655,9 +6644,9 @@ The primary entry point to the backend is provided by a RESTful API, that offers
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#thin_client_MVC">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#ArchitecturalPattern"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_controller_1"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_model_1"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_view_1"/>
+        <comprisesOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_controller_1"/>
+        <comprisesOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_model_1"/>
+        <comprisesOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_view_1"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.2_logical_architecture"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As the name suggests, the system logic is divided into three components: Model, View and Controller. As a rough definition, the Model manages business logic and domain data, the View is responsible of displaying the information, and the Controller is in charge of changing Model and View accordingly to the user input.
 
@@ -6772,7 +6761,7 @@ The specific MVC design of the current system is shown in Figure 4.2 below. One 
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#web_application_server_model_package_1">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Package"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Server_Model_ViewHelper"/>
+        <comprisesOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Server_Model_ViewHelper"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.33_web_application_server_model_component"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.4_technology_logical_components"/>
         <partOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_application_server_package_1"/>
@@ -6786,8 +6775,8 @@ The specific MVC design of the current system is shown in Figure 4.2 below. One 
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#web_application_server_package_1">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Package"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_application_server_view_package_1"/>
-        <compriseOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_applicaton_server_controller_package_1"/>
+        <comprisesOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_application_server_view_package_1"/>
+        <comprisesOf rdf:resource="http://www.semanticweb.org/ontologies/snowflake#web_applicaton_server_controller_package_1"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.2_logical_architecture"/>
         <modeledIn rdf:resource="http://www.semanticweb.org/ontologies/snowflake#figure_4.3_logical_architecture_within_a_context"/>
         <playsRole rdf:resource="http://www.semanticweb.org/ontologies/snowflake#server_tier_1"/>
