@@ -1,7 +1,7 @@
 <!-- {{question: What architectural patterns exist in the system?}} -->
 
 <p>
-This is an overview of the {architectural_patterns} and {plural} {roles} in the system. The left-hand side diagram shows {path}. 
+This is an overview of the {architectural patterns} and its {roles} in the system. The left-hand side diagram shows {path}. 
 Each entity is described in the sections below.
 </p>
 

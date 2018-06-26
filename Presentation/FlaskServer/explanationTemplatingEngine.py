@@ -425,9 +425,20 @@ class ExplanationTemplates:
 
         return expTemplate
 
-    def generateSystemPatternsOverviewSummary(self, structure, mainEntity=''):      
+    def generateSystemPatternsOverviewSummary(self, structure, mainEntity=None):      
         template = explanationHelper.openText('static/explanationTemplates/PatternsInSystemOverview.txt')
-        summary = template.format(path=self.classesToText(structure.entities))
+        if mainEntity:
+            pattern = explanationHelper.getNameOfEntity(mainEntity)
+            pluralNumber = 1
+        else:
+            pattern = 'architectural patterns'
+            pluralNumber = 2
+
+        summary = template.format(path=self.classesToText(structure.entities),
+                                    architectural_patterns=self.styledName(pattern, 'class-font', self.baseUri + 'ArchitecturalPattern'),
+                                    roles=self.styledName('roles', 'class-font', self.baseUri + 'Role'),
+                                    plural=self.pluralEngine.plural('its', pluralNumber)
+                                    )
         return self.generateGeneralSummary(structure, summary)
 
     def generateGeneralSummary(self, structure, summaryText):
@@ -453,7 +464,11 @@ class ExplanationTemplates:
         template = explanationHelper.openText('static/explanationTemplates/PatternsInSystemDetailed.txt')
         patternName = self.styledName('architectural patterns', 'class-font', self.baseUri + 'ArchitecturalPattern')
         roleName = self.styledName('roles', 'class-font', self.baseUri + 'Role')
-        summary = template.format(view_type=viewType, architectural_pattern=patternName, structural_entities='structural entities', role=roleName, path=self.classesToText(structure.entities))
+        summary = template.format(view_type=viewType, 
+                                    architectural_pattern=patternName, 
+                                    structural_entities='structural entities', 
+                                    role=roleName, 
+                                    path=self.classesToText(structure.entities))
         return self.generateGeneralSummary(structure, summary)
 
     def generateSpecificSystemPatternsDetailedSummary(self, structure, mainEntity):      
@@ -461,7 +476,11 @@ class ExplanationTemplates:
         patternName = self.styledName(noStylePatternName, 'class-font', self.baseUri + 'ArchitecturalPattern')
         roleName = self.styledName('roles', 'class-font', self.baseUri + 'Role')
         template = explanationHelper.openText('static/explanationTemplates/SpecificPatternInSystemDetailed.txt')
-        summary = template.format(pattern=patternName, no_style_pattern=noStylePatternName, role=roleName, structural_entities='structural entities', path=self.classesToText(structure.entities))
+        summary = template.format(pattern=patternName, 
+                                    no_style_pattern=noStylePatternName, 
+                                    role=roleName, 
+                                    structural_entities='structural entities',
+                                    path=self.classesToText(structure.entities))
         return self.generateGeneralSummary(structure, summary)
 
     # Overview - Feature to implementation mapping

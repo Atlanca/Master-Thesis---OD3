@@ -20,13 +20,14 @@
                 <select id='front-search-question' onchange='changeInputType()' style='height:40px;width:600px;margin-bottom:20px;'>
                     <option disabled selected value> -- Select a question -- </option>
                     <option disabled value> -- General questions -- </option>
-                    <option data-listinput='false' value="q5">Which functionalities exists in the system?</option>
-                    <option data-listinput='false' value="q6">Which architectural patterns exists in the system?</option>
+                    <option data-listinput='false' value="q5">Which functionalities exist in the system?</option>
+                    <option data-listinput='false' value="q6">Which architectural patterns exist in the system?</option>
                     <option disabled value> -- Entity-specific questions -- </option>
                     <option data-listinput='true' data-type='Feature' value="q1">What is the role of this feature?</option>
                     <option data-listinput='true' data-type='Feature' value="q2">How is this feature mapped to its implementation?</option>
                     <option data-listinput='true' data-type='Feature' value="q3">What is the behavior of this feature?</option>
                     <option data-listinput='true' data-type='ArchitecturalPattern' value="q4">What is the rationale behind the choice of this architecture?</option>
+                    <option data-listinput='true' data-type='ArchitecturalPattern' value="q7">How is this architectural pattern implemented?</option>
                 </select>
                 <div id='front-search-input-wrapper' style='display:none'>
                     <input id='front-search-input' list='entities-list' style='width:600px;height:50px;' placeholder='Select or enter entity URI here...'>

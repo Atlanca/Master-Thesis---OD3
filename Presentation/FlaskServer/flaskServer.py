@@ -141,7 +141,7 @@ def q7(architecturalPattern):
     devStructure = explanationGenerator.getFullDevPatternArchitecture(baseUri + architecturalPattern)
     phyStructure = explanationGenerator.getFullPhyPatternArchitecture(baseUri + architecturalPattern)
 
-    overviewExplanation = explanationTemplates.generateSystemPatternsOverviewSummary(overviewStructure)
+    overviewExplanation = explanationTemplates.generateSystemPatternsOverviewSummary(overviewStructure, patternEntity)
     devExplanation = explanationTemplates.generateSpecificSystemPatternsDetailedSummary(devStructure, patternEntity)
     phyExplanation = explanationTemplates.generateSpecificSystemPatternsDetailedSummary(phyStructure, patternEntity)
 
