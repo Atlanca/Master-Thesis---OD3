@@ -91,7 +91,8 @@ class ExplanationGenerator:
 
     def getFullDevPatternArchitecture(self, patternUri=''):
         def callbackArchitectureFragment(es, s):
-            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'compriseOf', self.baseUri + 'DevelopmentStructure')
+            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'compriseOf', self.baseUri + 'DevelopmentStructure',  callback=callbackArchitectureFragment)
+            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'implementedBy', self.baseUri + 'ImplementationClass')
 
         def callbackRole(es, s):
             self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'roleImplementedBy', self.baseUri + 'DevelopmentStructure', callback=callbackArchitectureFragment)
@@ -111,7 +112,8 @@ class ExplanationGenerator:
 
     def getFullPhyPatternArchitecture(self, patternUri=''):
         def callbackDevelopmentStructure(es, s):
-            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'compriseOf', self.baseUri + 'DevelopmentStructure')
+            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'compriseOf', self.baseUri + 'DevelopmentStructure', callback=callbackDevelopmentStructure)
+            self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'implementedBy', self.baseUri + 'ImplementationClass')
 
         def callbackPhysicalStructure(es, s):
             self.addRecursiveEntitiesAndRelations(es, s, self.baseUri + 'deploys', self.baseUri + 'DevelopmentStructure', callback=callbackDevelopmentStructure)
@@ -131,7 +133,7 @@ class ExplanationGenerator:
                 self.addRecursiveEntitiesAndRelations(es, pattern, self.baseUri + 'compriseOf', self.baseUri + 'Role', callback=callbackRole)
 
         entityUris = [e.type for e in es.entities]
-        if not 'Device' in entityUris:
+        if not self.baseUri + 'Device' in entityUris:
             es.entities = []
             es.relations = []
 

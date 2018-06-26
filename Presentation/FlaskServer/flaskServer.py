@@ -192,8 +192,8 @@ def q6():
     developmentStructure = explanationGenerator.getFullDevPatternArchitecture()
 
     overviewExplanation = explanationTemplates.generateSystemPatternsOverviewSummary(overviewStructure)
-    physicalExplanation = explanationTemplates.generateSystemPhyPatternsDetailedSummary(physicalStructure)
-    developmentExplanation = explanationTemplates.generateSystemDevPatternsDetailedSummary(developmentStructure)
+    physicalExplanation = explanationTemplates.generateSystemPatternsDetailedSummary(physicalStructure, 'physical')
+    developmentExplanation = explanationTemplates.generateSystemPatternsDetailedSummary(developmentStructure, 'development')
 
     allEntities = list(set(physicalStructure.entities + developmentStructure.entities + overviewStructure.entities))
 
@@ -208,13 +208,14 @@ def q6():
                                         })  
 @app.route('/q7/<architecturalPattern>')
 def q7(architecturalPattern):
+    patternEntity = ontologyStructureModel.Entity(baseUri + architecturalPattern)
     overviewStructure = explanationGenerator.getOverviewPatternArchitecture(baseUri + architecturalPattern)
     devStructure = explanationGenerator.getFullDevPatternArchitecture(baseUri + architecturalPattern)
     phyStructure = explanationGenerator.getFullPhyPatternArchitecture(baseUri + architecturalPattern)
 
     overviewExplanation = explanationTemplates.generateSystemPatternsOverviewSummary(overviewStructure)
-    devExplanation = explanationTemplates.generateSystemDevPatternsDetailedSummary(devStructure)
-    phyExplanation = explanationTemplates.generateSystemPhyPatternsDetailedSummary(phyStructure)
+    devExplanation = explanationTemplates.generateSpecificSystemPatternsDetailedSummary(patternEntity, devStructure)
+    phyExplanation = explanationTemplates.generateSpecificSystemPatternsDetailedSummary(patternEntity, phyStructure)
 
     allEntities = list(set(phyStructure.entities + devStructure.entities + overviewStructure.entities))
 
@@ -245,6 +246,7 @@ def q4(architecturalPattern):
 def popup_diagram():
     figureUriList = request.form.getlist('figure[]')
     explanation = {}
+ 
     for figureUri in figureUriList:
         explanation[explanationHelper.diagramUriToFileName(figureUri)] = {'diagramFilePath': '/static/images/' + explanationHelper.diagramUriToFileName(figureUri) + '.png',
                                   'description': explanationTemplates.generatePopupFigureDescription(figureUri).toDict(),
@@ -258,11 +260,15 @@ def popup_featureRole():
     newWindowPath = request.form.get('newWindowPath', '')
 
     structure = explanationGenerator.getFeatureRole(featureUri)
+    allEntities = structure.entities
+
+    side_bar_diagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
+
     explanation = {}
     explanation['popup_feature_role'] = {'description': explanationTemplates.generateFeatureRoleSummary(featureUri, structure),
                                    'newWindowPath': newWindowPath}
 
-    return render_template('popupInteractiveDiagram.html', explanations=explanation, newWindowPath=newWindowPath)
+    return render_template('popupInteractiveDiagram.html', side_bar_diagram_file_paths=side_bar_diagram_file_paths, explanations=explanation, newWindowPath=newWindowPath)
 
 @app.route('/structure/featureRole', methods=['POST'])
 def getFeatureRoleStructure():
@@ -280,6 +286,9 @@ def popup_featureBehavior():
     devStructure = explanationGenerator.getDevelopmentBehaviorOfFeature(featureUri)
     uiStructure = explanationGenerator.getUIBehaviorOfFeature(featureUri)
 
+    allEntities = funcStructure.entities + logStructure.entities + devStructure.entities + uiStructure.entities
+    side_bar_diagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
+
     explanation = {}
 
     explanation['popup_func_feature_behavior'] = {'description': explanationTemplates.generateBehaviorSummary(featureUri, funcStructure, 'functional'),
@@ -291,7 +300,7 @@ def popup_featureBehavior():
     explanation['popup_ui_feature_behavior'] = {'description': explanationTemplates.generateBehaviorSummary(featureUri, uiStructure, 'ui'),
                                                 'newWindowPath': newWindowPath}
 
-    return render_template('popupInteractiveDiagram.html', explanations=explanation, newWindowPath=newWindowPath)
+    return render_template('popupInteractiveDiagram.html', side_bar_diagram_file_paths=side_bar_diagram_file_paths, explanations=explanation, newWindowPath=newWindowPath)
 
 @app.route('/structure/featureBehavior', methods=['POST'])
 def getFeatureBehavior():
@@ -324,6 +333,9 @@ def popup_featureImplementation():
     patternStructure = explanationGenerator.getImplementationToArchitecturalPatternMap(implementationEntityUris)
     patternExplanation = explanationTemplates.generatePatternFeatureImplementationSummary(featureUri, patternStructure)
 
+    allEntities = overviewStructure.entities + detailedStructure.entities + patternStructure.entities
+    side_bar_diagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
+
     explanation = {}
 
     explanation['popup_overview_feature_implementation'] = {'description': overviewExplanation,
@@ -333,7 +345,7 @@ def popup_featureImplementation():
     explanation['popup_pattern_implementation'] = {'description': patternExplanation,
                                                 'newWindowPath': newWindowPath}
 
-    return render_template('popupInteractiveDiagram.html', explanations=explanation, newWindowPath=newWindowPath)
+    return render_template('popupInteractiveDiagram.html', side_bar_diagram_file_paths=side_bar_diagram_file_paths, explanations=explanation, newWindowPath=newWindowPath)
 
 @app.route('/structure/featureImplementation', methods=['POST'])
 def getFeatureImplementation():
@@ -362,11 +374,15 @@ def popup_patternRationale():
     newWindowPath = request.form.get('newWindowPath', '')
 
     structure = explanationGenerator.getRationaleOfArchitecture(patternUri)
+
+    allEntities = structure.entities
+    side_bar_diagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
+
     explanation = {}
     explanation['popup_pattern_rationale'] = {'description': explanationTemplates.generateRationaleSummary(patternUri, structure),
                                    'newWindowPath': newWindowPath}
 
-    return render_template('popupInteractiveDiagram.html', explanations=explanation, newWindowPath=newWindowPath)
+    return render_template('popupInteractiveDiagram.html', side_bar_diagram_file_paths=side_bar_diagram_file_paths, explanations=explanation, newWindowPath=newWindowPath)
 
 @app.route('/structure/patternRationale', methods=['POST'])
 def getPatternRationale():

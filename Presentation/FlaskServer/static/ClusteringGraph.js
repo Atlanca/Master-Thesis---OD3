@@ -273,6 +273,18 @@ function buildDiagram(structure, view){
         })
     }
 
+    var showFeatureImplementation = function(object){                        
+        gh.createEmptyPopup()
+        var id = d3.select(object.parentNode).attr('id')
+        var input = gh.entityToNodeIdMap[view][id].uri
+
+        $.post('http://localhost:5000/structure/patternImplementation', {'feature': input}, function(structure){
+            $.post('http://localhost:5000/popup/patternImplementation', {'feature': input, 'newWindowPath': '/q2/' + getNameOfUri(input)}, function(content){
+                gh.addPopupContent(content, structure)
+            })
+        })
+    }
+
     var showDiagramFunction = function(object){                        
         gh.createEmptyPopup()
         var id = d3.select(object.parentNode).attr('id')

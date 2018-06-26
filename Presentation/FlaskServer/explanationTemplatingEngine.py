@@ -449,14 +449,19 @@ class ExplanationTemplates:
 
         return expTemplate
 
-    def generateSystemPhyPatternsDetailedSummary(self, structure):      
+    def generateSystemPatternsDetailedSummary(self, structure, viewType):      
         template = explanationHelper.openText('static/explanationTemplates/PatternsInSystemDetailed.txt')
-        summary = template.format(view_type='physical', architectural_pattern='architectural patterns', role='roles', path=self.classesToText(structure.entities))
+        patternName = self.styledName('architectural patterns', 'class-font', self.baseUri + 'ArchitecturalPattern')
+        roleName = self.styledName('roles', 'class-font', self.baseUri + 'Role')
+        summary = template.format(view_type=viewType, architectural_pattern=patternName, structural_entities='structural entities', role=roleName, path=self.classesToText(structure.entities))
         return self.generateGeneralSummary(structure, summary)
 
-    def generateSystemDevPatternsDetailedSummary(self, structure):      
-        template = explanationHelper.openText('static/explanationTemplates/PatternsInSystemDetailed.txt')
-        summary = template.format(view_type='development', architectural_pattern='architectural patterns', role='roles', path=self.classesToText(structure.entities))
+    def generateSpecificSystemPatternsDetailedSummary(self, mainEntity, structure):      
+        noStylePatternName = explanationHelper.getNameOfEntity(mainEntity)
+        patternName = self.styledName(noStylePatternName, 'class-font', self.baseUri + 'ArchitecturalPattern')
+        roleName = self.styledName('roles', 'class-font', self.baseUri + 'Role')
+        template = explanationHelper.openText('static/explanationTemplates/SpecificPatternInSystemDetailed.txt')
+        summary = template.format(pattern=patternName, no_style_pattern=noStylePatternName, role=roleName, structural_entities='structural entities', path=self.classesToText(structure.entities))
         return self.generateGeneralSummary(structure, summary)
 
     # Overview - Feature to implementation mapping

@@ -1,0 +1,11 @@
+<!-- {{question: How is the architectural pattern {no_style_pattern} implemented in the system?}} -->
+
+<p>
+This page describes in detail the {pattern}, the {role} that exist for it and the {structural_entities} that inherit these roles. To be more specific, the left-hand side diagram shows {path}. 
+Each entity is described in the sections below.
+</p>
+
+<p>
+To see what actions are available in the interactive graph (left-hand side), 
+press the round "i" button in the top left corner 
+of the graph.</p>

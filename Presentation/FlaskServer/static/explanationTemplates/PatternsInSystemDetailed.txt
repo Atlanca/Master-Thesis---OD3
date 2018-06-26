@@ -1,7 +1,7 @@
-<!-- {{question: What architectural patterns exist in the system?}} -->
+<!-- {{question: Which architectural patterns exist in the system?}} -->
 
 <p>
-This page shows in detail the {architectural_pattern}, the {role} that exist for each of them and the structural entities that inherit these roles. The left-hand side diagram shows {path}. 
+This page shows in detail the {architectural_pattern}, the {role} that exist for each of them and the {structural_entities} that inherit these roles. To be more specific, the left-hand side diagram shows {path}. 
 Each entity is described in the sections below.
 </p>
 

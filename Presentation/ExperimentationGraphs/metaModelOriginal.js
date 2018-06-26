@@ -55,14 +55,13 @@ joint.dia.Element.define('standard.Rectangle', {
             refHeight: '100%',
             strokeWidth: 2,
             stroke: '#000000',
-            fill: '#FFFFFF'
+            fill: '#FFFFFF',
         },
         label: {
             textVerticalAnchor: 'middle',
             textAnchor: 'middle',
             refX: '50%',
             refY: '50%',
-            fontSize: 14,
             fill: '#333333'
         }
     }
@@ -130,7 +129,7 @@ $.get('http://localhost:5000/getOntology', function(data, status){
             rect.position(90, 30);
             rect.attr({
                 label: {
-                    fontSize: 20,
+                    fontSize: 30,
                     text: getNameOfUri(type),
                 },
                 body:{
@@ -140,7 +139,7 @@ $.get('http://localhost:5000/getOntology', function(data, status){
                 } 
             });
             minwidth = 90
-            width = parseInt(getNameOfUri(type).length) * 15
+            width = parseInt(getNameOfUri(type).length) * 22
             
             if(minwidth > width){
                 width = minwidth
@@ -225,6 +224,7 @@ function createLink(rel){
         oppositeLink.appendLabel({
             attrs: {
                 text: {
+                    fontSize: 25,
                     text: getNameOfUri(rel.property)
                 }
             },
@@ -252,6 +252,7 @@ function createLink(rel){
         link.appendLabel({
             attrs: {
                 text: {
+                    fontSize: 25,
                     text: getNameOfUri(rel.property)
                 }
             },
