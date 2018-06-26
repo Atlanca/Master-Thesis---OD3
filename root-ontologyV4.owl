@@ -1779,9 +1779,9 @@
     
 
 
-    <!-- http://www.semanticweb.org/ontologies/snowflake#Changeability -->
+    <!-- http://www.semanticweb.org/ontologies/snowflake#ChangeabilityOfUserInterfaceElements -->
 
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#Changeability">
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/snowflake#ChangeabilityOfUserInterfaceElements">
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalRequirement"/>
         <categorizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Maintainability"/>
         <satisfiedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#choice_mixed_client_MVC_1"/>
@@ -1790,7 +1790,7 @@
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a developer, I want to be able to perform simple changes on user 
 interface elements of the template in less than 10 minutes.</Description>
         <Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</Priority>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Changeability</rdfs:label>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Changeability of user interface</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -2298,7 +2298,7 @@ On the one hand there are some classes in charge of different elements that are 
         <satisfiedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#choice_three_tier_client_server_1"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a developer, I want to learn how the application is structured and how I can modify and extend it to build my own web-shop in less than 8 person-hour .</Description>
         <Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</Priority>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Learnability</rdfs:label>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Learnability of application structure</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -2313,7 +2313,7 @@ On the one hand there are some classes in charge of different elements that are 
         <satisfiedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#less_css"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The template should achieve an average of 7 out of 10 points from users when asked of how much do they like it.</Description>
         <Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">10</Priority>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Likeability</rdfs:label>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Likeability of system</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -2398,7 +2398,7 @@ On the one hand there are some classes in charge of different elements that are 
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want to learn how to purchase an item for the first time in 
 less than 5 minutes.</Description>
         <Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">7</Priority>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Operability</rdfs:label>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Operability of purchase function</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -2674,7 +2674,7 @@ less than 5 minutes.</Description>
         <satisfiedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#optile"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The system must block any external attacker from reading or modifying sensitive information.</Description>
         <Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">6</Priority>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">SecurityReq</rdfs:label>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Security of sensitive information</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -4344,7 +4344,7 @@ These form classes also host the methods generating the different content that m
         <satisfiedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#choice_three_tier_client_server_1"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a developer, I want to be able to safely change the set of data fetched from the platform without affecting the proper functioning of the template, at least in 95% of the cases.</Description>
         <Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">6</Priority>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Stability</rdfs:label>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Stability between data changes</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -4378,7 +4378,7 @@ These form classes also host the methods generating the different content that m
         <categorizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Maintainability"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a developer, I want to be able to test any new feature of my web application with unit, integration and acceptance tests, in less than 2 person-hour.</Description>
         <Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</Priority>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Testability</rdfs:label>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Support testing of features</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -4672,7 +4672,7 @@ These form classes also host the methods generating the different content that m
         <satisfiedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#choice_three_tier_client_server_1"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a developer, I want to identify and understand a particular business logic code of the template in less than 1 person-hour.</Description>
         <Priority rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</Priority>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Understandability</rdfs:label>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Understandability of business logic</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -4766,7 +4766,7 @@ These form classes also host the methods generating the different content that m
         <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/snowflake#NonFunctionalRequirement"/>
         <categorizedBy rdf:resource="http://www.semanticweb.org/ontologies/snowflake#Usability"/>
         <Description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">As a customer, I want the web-shop with a human-readable URL structure, so that I can identify the type of content before visiting the web page.</Description>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">User-Friendly</rdfs:label>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">User-friendliness of URL</rdfs:label>
     </owl:NamedIndividual>
     
 
