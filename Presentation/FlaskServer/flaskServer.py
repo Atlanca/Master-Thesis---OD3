@@ -40,12 +40,12 @@ def q1(feature):
 @app.route('/q2/<feature>')
 def q2(feature):
 
-    overviewStructure = explanationGenerator.getFunctionalFeatureToImplementationMap(baseUri + feature)
-    overview_explanation = explanationTemplates.generateFunctionalFeatureImplementationSummary(baseUri + feature, overviewStructure)
+    overviewStructure = explanationGenerator.getOverviewFeatureToImplementationMap(baseUri + feature)
+    overview_explanation = explanationTemplates.generateOverviewFeatureImplementationSummary(baseUri + feature, overviewStructure)
 
-    detailedStructure = explanationGenerator.getLogicalFeatureToImplementationMap(baseUri + feature)
+    detailedStructure = explanationGenerator.getDetailedFeatureToImplementationMap(baseUri + feature)
     implementationEntityUris = [implementation.uri for implementation in list(filter(lambda x: baseUri + 'ImplementationClass' in x.supertypes, detailedStructure.entities))]
-    detailed_explanation = explanationTemplates.generateLogicalFeatureImplementationSummary(baseUri + feature, detailedStructure)
+    detailed_explanation = explanationTemplates.generateDetailedFeatureImplementationSummary(baseUri + feature, detailedStructure)
 
     patternStructure = explanationGenerator.getImplementationToArchitecturalPatternMap(implementationEntityUris)
     pattern_explanation = explanationTemplates.generatePatternFeatureImplementationSummary(baseUri + feature, patternStructure)
@@ -243,11 +243,11 @@ def popup_featureImplementation():
     featureUri = request.form.get('feature', '')
     newWindowPath = request.form.get('newWindowPath', '')
 
-    overviewStructure = explanationGenerator.getFunctionalFeatureToImplementationMap(featureUri)
-    overviewExplanation = explanationTemplates.generateFunctionalFeatureImplementationSummary(featureUri, overviewStructure)
+    overviewStructure = explanationGenerator.getOverviewFeatureToImplementationMap(featureUri)
+    overviewExplanation = explanationTemplates.generateOverviewFeatureImplementationSummary(featureUri, overviewStructure)
 
-    detailedStructure = explanationGenerator.getLogicalFeatureToImplementationMap(featureUri)
-    detailedExplanation = explanationTemplates.generateLogicalFeatureImplementationSummary(featureUri, detailedStructure)
+    detailedStructure = explanationGenerator.getDetailedFeatureToImplementationMap(featureUri)
+    detailedExplanation = explanationTemplates.generateDetailedFeatureImplementationSummary(featureUri, detailedStructure)
     
     implementationEntityUris = [implementation.uri for implementation in list(filter(lambda x: baseUri + 'ImplementationClass' in x.supertypes, detailedStructure.entities))]
 
@@ -272,8 +272,8 @@ def popup_featureImplementation():
 def getFeatureImplementation():
     featureUri = request.form.get('feature', '')
 
-    overviewStructure = explanationGenerator.getFunctionalFeatureToImplementationMap(featureUri)
-    detailedStructure = explanationGenerator.getLogicalFeatureToImplementationMap(featureUri)
+    overviewStructure = explanationGenerator.getOverviewFeatureToImplementationMap(featureUri)
+    detailedStructure = explanationGenerator.getDetailedFeatureToImplementationMap(featureUri)
     implementationEntityUris = [implementation.uri for implementation in list(filter(lambda x: baseUri + 'ImplementationClass' in x.supertypes, detailedStructure.entities))]
     patternStructure = explanationGenerator.getImplementationToArchitecturalPatternMap(implementationEntityUris)
 

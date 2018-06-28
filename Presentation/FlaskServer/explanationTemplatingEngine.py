@@ -8,6 +8,10 @@ class ExplanationTemplates:
         self.informationRetriever = sparqlQueryManager.InformationRetriever()
         self.pluralEngine = inflect.engine()
 
+    #--------------------------------------------------------------------------------
+    #Helpers
+    #--------------------------------------------------------------------------------
+
     def getQuestion(self, summary):
         firstMatch = re.search('<!--[ ]*{[ ]*question:.*?}[ ]*-->', summary)
         question = ''
@@ -73,6 +77,25 @@ class ExplanationTemplates:
         summary = 'This section lists the {name} and their descriptions'
         summary = summary.format(name=name)
         return summary
+
+    def generateGeneralSummary(self, structure, summaryText):
+        question = self.getQuestion(summaryText)
+        expTemplate = sectionModel.Template(question, summaryText)
+
+        if(not structure.entities):
+            return sectionModel.Template(question, '<font style="color:red;font-weight:bold;font-size:20">No documented data on the architectural patterns in this view was found.</font>')
+
+        types = {}
+        for entity in structure.entities:
+            eUri = explanationHelper.getNameFromUri(entity.type)
+            if (not eUri in types.keys()):
+                types[eUri] = []
+            types[eUri].append(entity)
+        
+        for entityType, entities in types.items():
+            expTemplate.addSection(self.createSection(entities, entityType + '_section', self.pluralEngine.plural(explanationHelper.formatName(entityType), 3)).toDict())
+
+        return expTemplate
 
     def classesToText(self, entities):
 
@@ -143,6 +166,7 @@ class ExplanationTemplates:
     # EXPLANATIONS
     # ----------------------------------------------------------------------------------------
    
+    # What is the feature role?
     def generateFeatureRoleSummary(self, featureUri, structure):
         feature_entity = [entity for entity in structure.entities if entity.uri == featureUri][0]
         requirements = list(filter(lambda e: e.type == self.baseUri + 'FunctionalRequirement', structure.entities))
@@ -177,41 +201,9 @@ class ExplanationTemplates:
 
         return expTemplate.toDict()
 
-    def generateFunctionalBehaviorSummary(self, featureUri, structure):
-        feature_entity = [entity for entity in structure.entities if entity.uri == featureUri][0]
-        requirements =  list(filter(lambda e: e.type == self.baseUri + 'FunctionalRequirement', structure.entities))
-        userstories =  list(filter(lambda e: self.baseUri + 'UserStory' == e.type, structure.entities))
-        usecases =  list(filter(lambda e: self.baseUri + 'UseCase' == e.type, structure.entities))
-        diagrams = list(filter(lambda e: e.type == self.baseUri + 'Diagram', structure.entities))
-
-        template = explanationHelper.openText('static/explanationTemplates/BehaviorOfFeature.txt')
-
-        summary = template.format(feature_name=self.styledName(explanationHelper.getNameOfEntity(feature_entity), 'entity-font', entityType=feature_entity.type),
-                                    no_style_feature_name=explanationHelper.getNameOfEntity(feature_entity),
-                                    point_of_view='Functional point of view', 
-                                    path=self.classesToText(structure.entities))
-
-        question = self.getQuestion(summary)
-        expTemplate = sectionModel.Template(question, summary)
-
-        #Feature section
-        expTemplate.addSection(self.createSection([feature_entity], 'feature_section', 'Features', 
-                               summary='', priority=5).toDict())
-        #Requirements section
-        expTemplate.addSection(self.createSection(requirements, 'requirements_section', 'Requirements', 
-                               summary='', priority=4).toDict())
-        #UserStory section
-        expTemplate.addSection(self.createSection(usecases, 'use_case_section', 'Use cases', 
-                               summary='', priority=3).toDict())
-
-        #Usecase section
-        expTemplate.addSection(self.createSection(userstories, 'user_story_section', 'User stories', 
-                               summary='', priority=2).toDict())
-        #Diagram section
-        expTemplate.addSection(self.createSection(diagrams, 'diagram_section', 'Diagram entities', 
-                               summary='', priority=1).toDict())
-
-        return expTemplate.toDict()
+    # -----------------------------
+    # What is the feature behavior?
+    # -----------------------------
 
     def generateBehaviorSummary(self, featureUri, structure, viewType):   
         if viewType == 'functional':
@@ -274,8 +266,49 @@ class ExplanationTemplates:
                                summary=sectionDiaOverview, priority=1).toDict())
 
         return expTemplate.toDict()
-       
 
+    #-------------------
+    #Functional behavior
+    #-------------------
+    def generateFunctionalBehaviorSummary(self, featureUri, structure):
+        feature_entity = [entity for entity in structure.entities if entity.uri == featureUri][0]
+        requirements =  list(filter(lambda e: e.type == self.baseUri + 'FunctionalRequirement', structure.entities))
+        userstories =  list(filter(lambda e: self.baseUri + 'UserStory' == e.type, structure.entities))
+        usecases =  list(filter(lambda e: self.baseUri + 'UseCase' == e.type, structure.entities))
+        diagrams = list(filter(lambda e: e.type == self.baseUri + 'Diagram', structure.entities))
+
+        template = explanationHelper.openText('static/explanationTemplates/BehaviorOfFeature.txt')
+
+        summary = template.format(feature_name=self.styledName(explanationHelper.getNameOfEntity(feature_entity), 'entity-font', entityType=feature_entity.type),
+                                    no_style_feature_name=explanationHelper.getNameOfEntity(feature_entity),
+                                    point_of_view='Functional point of view', 
+                                    path=self.classesToText(structure.entities))
+
+        question = self.getQuestion(summary)
+        expTemplate = sectionModel.Template(question, summary)
+
+        #Feature section
+        expTemplate.addSection(self.createSection([feature_entity], 'feature_section', 'Features', 
+                               summary='', priority=5).toDict())
+        #Requirements section
+        expTemplate.addSection(self.createSection(requirements, 'requirements_section', 'Requirements', 
+                               summary='', priority=4).toDict())
+        #UserStory section
+        expTemplate.addSection(self.createSection(usecases, 'use_case_section', 'Use cases', 
+                               summary='', priority=3).toDict())
+
+        #Usecase section
+        expTemplate.addSection(self.createSection(userstories, 'user_story_section', 'User stories', 
+                               summary='', priority=2).toDict())
+        #Diagram section
+        expTemplate.addSection(self.createSection(diagrams, 'diagram_section', 'Diagram entities', 
+                               summary='', priority=1).toDict())
+
+        return expTemplate.toDict()
+
+    # ----------------------
+    # What is the rationale?
+    # ----------------------
     def generateRationaleSummary(self, pattern, structure):
         pattern_entity = [entity for entity in structure.entities if entity.uri == pattern][0]
        
@@ -325,10 +358,13 @@ class ExplanationTemplates:
                                summary=sectionNonFuncOverview, priority=0).toDict())
 
         return expTemplate.toDict()
-        
-    # HOW IS THIS FEAURE MAPPED TO THE IMPLEMENTATION?
+
+    # -------------------------------------------------
+    # How is this feature mapped to its implementation?
+    # -------------------------------------------------
+
     # Detailed - Feature to implementation mapping
-    def generateLogicalFeatureImplementationSummary(self, mainEntityUri, structure):
+    def generateDetailedFeatureImplementationSummary(self, mainEntityUri, structure):
         # Setup the summary
         main_entity = [entity for entity in structure.entities if entity.uri == mainEntityUri][0]
         requirements = list(filter(lambda e: e.type == self.baseUri + 'FunctionalRequirement', structure.entities))
@@ -338,7 +374,7 @@ class ExplanationTemplates:
         developmentPackages = list(filter(lambda e: self.baseUri + 'Package' in e.supertypes, structure.entities))
         implementation = list(filter(lambda e: self.baseUri + 'ImplementationClass' in e.supertypes, structure.entities))
 
-        template = explanationHelper.openText('static/explanationTemplates/LogicalViewImplementation.txt')
+        template = explanationHelper.openText('static/explanationTemplates/DetailedViewImplementation.txt')
         entityName = explanationHelper.getNameOfEntity(main_entity)
         summary = template.format(no_style_feature_name=entityName,
                                   feature_name=self.styledName(explanationHelper.getNameOfEntity(main_entity), 'entity-font', entityType=main_entity.type), 
@@ -370,16 +406,19 @@ class ExplanationTemplates:
         #Implementation section
         expTemplate.addSection(self.createSection(implementation, 'implementation_section', 'Implementation classes', 
                                summary=self.sectionSummary(implementation[0].type), priority=1).toDict())
+
+        #Development structure section
         if developmentClasses:
-            #Development structure section
             expTemplate.addSection(self.createSection(developmentClasses, 'developmentClass_section', 'Development classes', 
                                 summary=self.sectionSummary(developmentClasses[0].type), priority=2).toDict())
+
+        #Development structure section
         if developmentClassPackages:
-            #Development structure section
             expTemplate.addSection(self.createSection(developmentClassPackages, 'developmentClassPackage_section', 'Development class packages', 
                                 summary=self.sectionSummary(developmentClassPackages[0].type), priority=2).toDict())
+
+        #Development structure section
         if developmentPackages:
-            #Development structure section
             expTemplate.addSection(self.createSection(developmentPackages, 'developmentPackage_section', 'Development packages', 
                                 summary=self.sectionSummary(developmentPackages[0].type), priority=2).toDict())
 
@@ -392,103 +431,13 @@ class ExplanationTemplates:
                                summary=self.sectionSummary(main_entity.type), priority=5).toDict())
        
         return expTemplate.toDict()
-        
-    def generateSystemFunctionalitySummary(self, structure):      
-
-        features = list(filter(lambda e: self.baseUri + 'Feature' in e.supertypes, structure.entities))
-        funcreqs = list(filter(lambda e: self.baseUri + 'FunctionalRequirement' in e.supertypes, structure.entities))
-        userstories = list(filter(lambda e: self.baseUri + 'UserStory' in e.supertypes, structure.entities))
-        usecases = list(filter(lambda e: self.baseUri + 'UseCase' in e.supertypes, structure.entities))
-
-        template = explanationHelper.openText('static/explanationTemplates/SystemFunctionality.txt')
-        summary = template.format(path=self.classesToText(structure.entities))
-        question = self.getQuestion(summary)
-  
-        expTemplate = sectionModel.Template(question, summary)
-
-        #Feature section
-        expTemplate.addSection(self.createSection(features, 'feature_section', 'Feature',
-                               summary='', priority=5).toDict())
-
-        #Fuctional requirements section
-        expTemplate.addSection(self.createSection(funcreqs, 'func_req_section', 'Functional Requirements',
-                               summary='', priority=3).toDict())
-
-        #User story section
-        expTemplate.addSection(self.createSection(userstories, 'user_story_section', 'User stories',
-                               summary='', priority=3).toDict())
-
-        #Use case section
-        expTemplate.addSection(self.createSection(usecases, 'use_case_section', 'Use cases',
-                               summary='', priority=3).toDict())
-
-
-        return expTemplate
-
-    def generateSystemPatternsOverviewSummary(self, structure, mainEntity=None):      
-        template = explanationHelper.openText('static/explanationTemplates/PatternsInSystemOverview.txt')
-        if mainEntity:
-            pattern = explanationHelper.getNameOfEntity(mainEntity)
-            pluralNumber = 1
-        else:
-            pattern = 'architectural patterns'
-            pluralNumber = 2
-
-        summary = template.format(path=self.classesToText(structure.entities),
-                                    architectural_patterns=self.styledName(pattern, 'class-font', self.baseUri + 'ArchitecturalPattern'),
-                                    roles=self.styledName('roles', 'class-font', self.baseUri + 'Role'),
-                                    plural=self.pluralEngine.plural('its', pluralNumber)
-                                    )
-        return self.generateGeneralSummary(structure, summary)
-
-    def generateGeneralSummary(self, structure, summaryText):
-        question = self.getQuestion(summaryText)
-        expTemplate = sectionModel.Template(question, summaryText)
-
-        if(not structure.entities):
-            return sectionModel.Template(question, '<font style="color:red;font-weight:bold;font-size:20">No documented data on the architectural patterns in this view was found.</font>')
-
-        types = {}
-        for entity in structure.entities:
-            eUri = explanationHelper.getNameFromUri(entity.type)
-            if (not eUri in types.keys()):
-                types[eUri] = []
-            types[eUri].append(entity)
-        
-        for entityType, entities in types.items():
-            expTemplate.addSection(self.createSection(entities, entityType + '_section', self.pluralEngine.plural(explanationHelper.formatName(entityType), 3)).toDict())
-
-        return expTemplate
-
-    def generateSystemPatternsDetailedSummary(self, structure, viewType):      
-        template = explanationHelper.openText('static/explanationTemplates/PatternsInSystemDetailed.txt')
-        patternName = self.styledName('architectural patterns', 'class-font', self.baseUri + 'ArchitecturalPattern')
-        roleName = self.styledName('roles', 'class-font', self.baseUri + 'Role')
-        summary = template.format(view_type=viewType, 
-                                    architectural_pattern=patternName, 
-                                    structural_entities='structural entities', 
-                                    role=roleName, 
-                                    path=self.classesToText(structure.entities))
-        return self.generateGeneralSummary(structure, summary)
-
-    def generateSpecificSystemPatternsDetailedSummary(self, structure, mainEntity):      
-        noStylePatternName = explanationHelper.getNameOfEntity(mainEntity)
-        patternName = self.styledName(noStylePatternName, 'class-font', self.baseUri + 'ArchitecturalPattern')
-        roleName = self.styledName('roles', 'class-font', self.baseUri + 'Role')
-        template = explanationHelper.openText('static/explanationTemplates/SpecificPatternInSystemDetailed.txt')
-        summary = template.format(pattern=patternName, 
-                                    no_style_pattern=noStylePatternName, 
-                                    role=roleName, 
-                                    structural_entities='structural entities',
-                                    path=self.classesToText(structure.entities))
-        return self.generateGeneralSummary(structure, summary)
 
     # Overview - Feature to implementation mapping
-    def generateFunctionalFeatureImplementationSummary(self, mainEntityUri, structure):      
+    def generateOverviewFeatureImplementationSummary(self, mainEntityUri, structure):      
         mainEntity = [entity for entity in structure.entities if entity.uri == mainEntityUri][0]
         impl = list(filter(lambda e: self.baseUri + 'ImplementationClass' in e.supertypes, structure.entities))
 
-        template = explanationHelper.openText('static/explanationTemplates/FunctionalViewImplementation.txt')
+        template = explanationHelper.openText('static/explanationTemplates/OverviewViewImplementation.txt')
         summary = template.format(feature_name=self.styledName(explanationHelper.getNameOfEntity(mainEntity), 'class-font', mainEntity.type),
                                   no_style_feature_name=explanationHelper.getNameOfEntity(mainEntity),
                                   path=self.classesToText(structure.entities)
@@ -562,6 +511,95 @@ class ExplanationTemplates:
 
         return expTemplate
 
+    # ----------------------------------------
+    # What is the functionality of the system? 
+    # ----------------------------------------
+    def generateSystemFunctionalitySummary(self, structure):      
+
+        features = list(filter(lambda e: self.baseUri + 'Feature' in e.supertypes, structure.entities))
+        funcreqs = list(filter(lambda e: self.baseUri + 'FunctionalRequirement' in e.supertypes, structure.entities))
+        userstories = list(filter(lambda e: self.baseUri + 'UserStory' in e.supertypes, structure.entities))
+        usecases = list(filter(lambda e: self.baseUri + 'UseCase' in e.supertypes, structure.entities))
+
+        template = explanationHelper.openText('static/explanationTemplates/SystemFunctionality.txt')
+        summary = template.format(path=self.classesToText(structure.entities))
+        question = self.getQuestion(summary)
+  
+        expTemplate = sectionModel.Template(question, summary)
+
+        #Feature section
+        expTemplate.addSection(self.createSection(features, 'feature_section', 'Feature',
+                               summary='', priority=5).toDict())
+
+        #Fuctional requirements section
+        expTemplate.addSection(self.createSection(funcreqs, 'func_req_section', 'Functional Requirements',
+                               summary='', priority=3).toDict())
+
+        #User story section
+        expTemplate.addSection(self.createSection(userstories, 'user_story_section', 'User stories',
+                               summary='', priority=3).toDict())
+
+        #Use case section
+        expTemplate.addSection(self.createSection(usecases, 'use_case_section', 'Use cases',
+                               summary='', priority=3).toDict())
+
+
+        return expTemplate
+
+    # --------------------------------------------------
+    # Which architectural patterns exists in the system?
+    # --------------------------------------------------
+
+    #Overview
+    def generateSystemPatternsOverviewSummary(self, structure, mainEntity=None):      
+        template = explanationHelper.openText('static/explanationTemplates/PatternsInSystemOverview.txt')
+        if mainEntity:
+            pattern = explanationHelper.getNameOfEntity(mainEntity)
+            pluralNumber = 1
+        else:
+            pattern = 'architectural patterns'
+            pluralNumber = 2
+
+        summary = template.format(path=self.classesToText(structure.entities),
+                                    architectural_patterns=self.styledName(pattern, 'class-font', self.baseUri + 'ArchitecturalPattern'),
+                                    roles=self.styledName('roles', 'class-font', self.baseUri + 'Role'),
+                                    plural=self.pluralEngine.plural('its', pluralNumber)
+                                    )
+        return self.generateGeneralSummary(structure, summary)
+
+    #Detailed
+    def generateSystemPatternsDetailedSummary(self, structure, viewType):      
+        template = explanationHelper.openText('static/explanationTemplates/PatternsInSystemDetailed.txt')
+        patternName = self.styledName('architectural patterns', 'class-font', self.baseUri + 'ArchitecturalPattern')
+        roleName = self.styledName('roles', 'class-font', self.baseUri + 'Role')
+        summary = template.format(view_type=viewType, 
+                                    architectural_pattern=patternName, 
+                                    structural_entities='structural entities', 
+                                    role=roleName, 
+                                    path=self.classesToText(structure.entities))
+        return self.generateGeneralSummary(structure, summary)
+
+    # ----------------------------------------------
+    # How is this architectural pattern implemented?
+    # ----------------------------------------------
+    
+    #Detailed
+    def generateSpecificSystemPatternsDetailedSummary(self, structure, mainEntity):      
+        noStylePatternName = explanationHelper.getNameOfEntity(mainEntity)
+        patternName = self.styledName(noStylePatternName, 'class-font', self.baseUri + 'ArchitecturalPattern')
+        roleName = self.styledName('roles', 'class-font', self.baseUri + 'Role')
+        template = explanationHelper.openText('static/explanationTemplates/SpecificPatternInSystemDetailed.txt')
+        summary = template.format(pattern=patternName, 
+                                    no_style_pattern=noStylePatternName, 
+                                    role=roleName, 
+                                    structural_entities='structural entities',
+                                    path=self.classesToText(structure.entities))
+        return self.generateGeneralSummary(structure, summary)
+
+    # ------------------------------
+    # Popup - Description of figure 
+    # ------------------------------
+    
     def generatePopupFigureDescription(self, figureUri):
         figureEntity = ontologyStructureModel.Entity(figureUri)
         
@@ -579,7 +617,6 @@ class ExplanationTemplates:
         entityid = 'popup_entity_overview_' + explanationHelper.diagramUriToFileName(explanationHelper.getNameFromUri(figureUri)) 
         entitySummary = ''
 
-        # relatedEntities = [ontologyStructureModel.Entity(e) for e in relatedEntityUris]
         relatedEntities = relatedEntityUris
         figureSection = sectionModel.Section(figureid, figuretitle, figureSummary, priority=5,
                         sectionTextContent=[(explanationHelper.getNameFromUri(content[0]), content[1]) for content in figureEntity.dataTypeProperties])
@@ -590,116 +627,3 @@ class ExplanationTemplates:
         template.addSection(entitySection.toDict())
 
         return template
-
-def testing():
-    ir = sparqlQueryManager.InformationRetriever()
-    eg = explanationStructureGenerator.ExplanationGenerator()
-    et = ExplanationTemplates()
-    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
-    es = eg.getLogicalFeatureToImplementationMap(baseUri + 'purchase_products')
-    # es = [explanationHelper.formatName(explanationHelper.getNameFromUri(uri)) for uri in ir.getIndividualsByType(baseUri + 'Logical')]
-    
-    # f = open('LogicalClassDiagramText.txt', 'r')
-    # text = f.read()
-    # f.close()
-    
-    # es = ['product', 'order', 'cart']
-    # for entity in es:
-    #     text = re.sub(r'('+ entity +'(s*)(es)*)', r'<font color="#68aeff">\1</font>', text, flags=re.IGNORECASE)
-    # print(text)
-    return es
-
-def testAutomaticFindPath():
-    ir = sparqlQueryManager.InformationRetriever()
-    eg = explanationStructureGenerator.ExplanationGenerator()
-    et = ExplanationTemplates()
-    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
-    # es = eg.constructMetaModel()
-    es = eg.loadMetaModel()
-    paths = eg.getMetaModelPath(es, baseUri + 'Feature', baseUri + 'FunctionalRequirement')
-    for path in paths:
-        print('_______________START______________')
-        for rel in path:
-            print('source:' + explanationHelper.getNameFromUri(rel['source']))
-            print('name:' + explanationHelper.getNameFromUri(rel['name']))
-            print('target:' + explanationHelper.getNameFromUri(rel['target']))
-            print('_____')
-    
-
-
-def testGetAllObjectsAndRelations():
-    ir = sparqlQueryManager.InformationRetriever()
-    eg = explanationStructureGenerator.ExplanationGenerator()
-    et = ExplanationTemplates()
-    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
-    es = ir.getAllObjectsAndRelations()
-    return es
-
-def testGetAllTypes():
-    ir = sparqlQueryManager.InformationRetriever()
-    eg = explanationStructureGenerator.ExplanationGenerator()
-    et = ExplanationTemplates()
-    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#' 
-    print(ir.getAllOntologyTypes())
-
-def testGetTypeRelations():
-    ir = sparqlQueryManager.InformationRetriever()
-    eg = explanationStructureGenerator.ExplanationGenerator()
-    et = ExplanationTemplates()
-    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#' 
-    print(ir.getTypeRelations(baseUri + 'ArchitectureFragment'))
-
-def testGetAllTypeRelations():
-    ir = sparqlQueryManager.InformationRetriever()
-    eg = explanationStructureGenerator.ExplanationGenerator()
-    et = ExplanationTemplates()
-    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#' 
-    print(ir.getAllTypeRelations())
-
-def testGetDirectSuperClass():
-    ir = sparqlQueryManager.InformationRetriever()
-    eg = explanationStructureGenerator.ExplanationGenerator()
-    et = ExplanationTemplates()
-    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
-    print(ir.getDirectSuperClass(baseUri + 'Technology'))
-
-def testGetBehavior():
-    ir = sparqlQueryManager.InformationRetriever()
-    eg = explanationStructureGenerator.ExplanationGenerator()
-    et = ExplanationTemplates()
-    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
-    print(ir.getBehavior(baseUri + 'UIStructure', baseUri + 'UIBehavior'))
-
-def testGetLogicalBehavior():
-    ir = sparqlQueryManager.InformationRetriever()
-    eg = explanationStructureGenerator.ExplanationGenerator()
-    et = ExplanationTemplates()
-    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
-    print(eg.getDevelopmentBehaviorOfFeature(baseUri + 'purchase_products'))
-
-def testSameAs():
-    ir = sparqlQueryManager.InformationRetriever()
-    eg = explanationStructureGenerator.ExplanationGenerator()
-    et = ExplanationTemplates()
-    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
-    print(ir.getRelations(baseUri + 'UI_ProductsDetail', 'owl:sameAs', baseUri + 'UIBehavior'))
-
-# def writeToFile(inputData):
-#     f = open('../ExperimentationGraphs/static/explanationData.js', 'w') 
-#     f.truncate(0)
-#     f.write("ontologyData = " + json.dumps(inputData))
-#     f.close()
-
-def writeToFile(inputData):
-    f = open('../ExperimentationGraphs/static/Test.txt', 'w') 
-    f.truncate(0)
-    f.write(inputData)
-    f.close()
-
-# testGetDirectSuperClass()
-# testGetBehavior()
-# testGetLogicalBehavior()
-# testSameAs()
-# eg = explanationStructureGenerator.ExplanationGenerator()
-# eg.constructMetaModel()
-# print('ding!')
