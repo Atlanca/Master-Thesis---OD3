@@ -157,6 +157,7 @@ $.get('http://localhost:5000/getOntology', function(data, status){
         types.forEach(function(type){
             if(getNameOfUri(parentMap[getNameOfUri(type)].parent)){
                 var link = new joint.shapes.standard.Link()
+                link.prop('linkType', 'inheritance')
                 link.source(rectMap[getNameOfUri(type)])
                 link.target(rectMap[getNameOfUri(parentMap[getNameOfUri(type)].parent)])
                 link.attr({
@@ -201,6 +202,37 @@ $.get('http://localhost:5000/getOntology', function(data, status){
     })  
 })
 
+var svgZoom = svgPanZoom(' svg', {
+    center: true,
+    zoomEnabled: true,
+    panEnabled: true,
+    controlIconsEnabled: true,
+    enableDblClickZoom: false,
+    fit: false,
+    minZoom: 0.2,
+    maxZoom:10,
+    zoomScaleSensitivity: 0.3
+  });
+
+paper.on('blank:pointerdown', function (evt, x, y) {
+    svgZoom.enablePan();
+});
+paper.on('cell:pointerup blank:pointerup', function(cellView, event) {
+    svgZoom.disablePan();
+});
+
+
+graph.on('change:source change:target', function(link) {
+    if (link.get('source').id === link.get('target').id) {
+        // self-looping link detected.
+        link.set('vertices', findLoopLinkVertices(link));
+    }
+})
+
+// -----------------------------
+// Helpers
+// -----------------------------
+
 function getSuperTypes(parentMap, type) {
     var allParents = []
     getSuperTypesInner(parentMap, type, allParents)
@@ -217,10 +249,12 @@ function getSuperTypesInner(parentMap, type, allParents){
 
 function createLink(rel){
     var link = new joint.shapes.standard.Link()
+    link.prop('linkType', 'association')
     var oppositeLink = getOppositeLink(rectMap[getNameOfUri(rel.source)], rectMap[getNameOfUri(rel.target)])
     if(rel.source == rel.target){
         
     } else if(oppositeLink){
+        oppositeLink.prop('linkType', 'association')
         oppositeLink.appendLabel({
             attrs: {
                 text: {
@@ -272,7 +306,6 @@ function createLink(rel){
     }
 }
 
-
 function relationIncludes(list, item, STDirection){
     var included = false
     list.forEach(function(i){
@@ -308,35 +341,10 @@ function restructureRelations(types, relations, relationType, parentMap){
     })
     return relationsBySource
 }
-var svgZoom = svgPanZoom(' svg', {
-    center: true,
-    zoomEnabled: true,
-    panEnabled: true,
-    controlIconsEnabled: true,
-    enableDblClickZoom: false,
-    fit: false,
-    minZoom: 0.2,
-    maxZoom:10,
-    zoomScaleSensitivity: 0.3
-  });
-
-paper.on('blank:pointerdown', function (evt, x, y) {
-    svgZoom.enablePan();
-});
-paper.on('cell:pointerup blank:pointerup', function(cellView, event) {
-    svgZoom.disablePan();
-});
-
-
-graph.on('change:source change:target', function(link) {
-    if (link.get('source').id === link.get('target').id) {
-        // self-looping link detected.
-        link.set('vertices', findLoopLinkVertices(link));
-    }
- })
 
 function saveGraph(){
     graphData = JSON.stringify(graph)
+    graphData = JSON.stringify(graph.toJSON())
     $.post('http://localhost:5000/savegraph', {graphData: graphData}, function(data, status){ 
     })
 }
@@ -357,6 +365,9 @@ function loadLayout(){
                     element.position(cell.position.x, cell.position.y)
                 }
             })
+        })
+        graph.getLinks().forEach(function(link){
+            console.log(link.prop('type'))
         })
     })
 }

@@ -363,12 +363,22 @@ hr{
 } 
 
 hr.thick{
-    border-color:black;
+    border-color:#555;
     opacity: 0.7;
-    border-width: 1px;
+    border-width: 1.4px;
     margin-top: 15px; 
     margin-bottom: 15px; 
 }
+
+hr.half{
+    border-color:#ccc;
+    opacity: 0.7;
+    border-width: 1.4px;
+    margin-top: 15px; 
+    margin-bottom: 15px;
+    width: 75%; 
+}
+
 
 button {
     font-family: 'Verdana';
@@ -384,13 +394,14 @@ h1, h2, h3, h4, h5, .sidebar p, .popup p{
 
 
 h2 {
-    font-size: 22px;
+    font-size: 26px;
 }
 
 
 h3{
     color: #4c4c4c;
-    font-size: 21px;
+    font-size: 24px;
+    letter-spacing: 1px;
 }
 
 h4 {

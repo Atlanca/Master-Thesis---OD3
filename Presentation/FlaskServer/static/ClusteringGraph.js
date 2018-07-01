@@ -197,7 +197,34 @@ function buildDiagram(structure, view){
     // Add logic for highlighting relations and entities
     var toggleOn = ''
     selectedNodeColor = {id:'', color:''}
-    gh.highlightNodepathsOnclick()
+    var showRelatedText = function(node, view) {
+        var node_id = d3.select(node.parentNode).attr('id')
+        var textTitleNode = d3.select('.w3-bar-item.' + view + '_' + node_id).node()
+        var parentDivs = getParentDivs(textTitleNode)
+        parentDivs.forEach(function(div){
+            var divClassName = d3.select(div).attr('class')
+            divClassName = divClassName.replace(/title|w3-bar-item| /g, '')
+            toggleVisiblityOfDescriptionFromNode(divClassName)
+        })
+        
+        textTitleNode.scrollIntoView({'block':'start', 'behavior': 'smooth'})
+        
+        // Highlight title for 300 ms
+        d3.select(textTitleNode)
+        .style('background-color', '#ffb766')
+        .transition()
+        .duration(1700)
+        .style('background-color', 'transparent')
+    }
+
+    getParentDivs = function(node) {
+        if(d3.select(node).classed('side-bar-text-base')){
+            return []
+        }
+        return [node].concat(getParentDivs(node.parentNode)) 
+    }
+
+    gh.highlightNodepathsOnclick(showRelatedText)
 
     // Resizing clusters to make them more consistent in size
     gh.resizeClusters()

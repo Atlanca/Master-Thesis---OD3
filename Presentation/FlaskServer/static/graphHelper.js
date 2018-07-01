@@ -570,19 +570,22 @@ class graphHelper {
     // Creating the logic for node actions
     //--------------------------------------------------------------------
     
-    highlightNodepathsOnclick(){
+    highlightNodepathsOnclick(callback=null){
         //ADD ACTIONS THE NODE RECTANGLES
         var self = this
         d3.select('.interactive_diagram.' + self.view).selectAll('.node')
         .select('rect')
         .classed('nodeRect', true)
-        .on('click', function(){
+        .on('click', function(node){
             var thisClass = d3.select(this.parentNode).attr('id')
             var parent = d3.select(this.parentNode)
             if(!parent.classed('selected')){
                 self.unlightRelationsAndEntities()
                 self.highlightRelationsAndEntities(thisClass) 
-
+                
+                if (callback != null) {
+                    callback(this, self.view)
+                }
             }else{
                 self.unlightRelationsAndEntities()
                 d3.select(this.parentNode)

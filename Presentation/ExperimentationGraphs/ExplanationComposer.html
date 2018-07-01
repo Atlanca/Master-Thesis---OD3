@@ -1,0 +1,34 @@
+<html>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!-- <link rel="stylesheet" href="ClusteringGraphStyle.css"> -->
+    <link rel="stylesheet" href="explanationPageStyle.css">
+    <link rel="stylesheet" href="static/joint.css">
+    <link rel="stylesheet" href="interactiveGraph.css">
+    <link rel="stylesheet" href="ExplanationComposer.css">
+</html>
+<head>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://dagrejs.github.io/project/dagre-d3/latest/dagre-d3.js"></script>
+    <script src="https://unpkg.com/tippy.js@2.5.0/dist/tippy.all.min.js"></script>
+    <script src="static/explanationData.js"></script>
+    <script type='text/javascript' src='static/tinycolor.js'></script>
+    <script type='text/javascript' src='static/jquery.js'></script>
+    <script type='text/javascript' src='static/lodash.js'></script>
+    <script type='text/javascript' src='static/backbone.js'></script>
+    <script type='text/javascript' src='static/joint.js'></script>
+    <script type='text/javascript' src='static/graphlib.js'></script>
+    <script type='text/javascript' src='static/dagre.js'></script>
+    <script type='text/javascript' src='static/joint.layout.DirectedGraph.js'></script>
+    <script type='text/javascript' src='static/svg-pan-zoom.js'></script>
+    <script type='text/javascript' src='explanationPageLogic.js'></script>
+    <script type='text/javascript' src='ontologyRelations.js'></script>
+</head>
+
+<body> 
+    <div id='interactive_diagram' class='w3-white w3-border' style='height:100%;width:100%;float:left'>
+            <!-- <svg id='interactive_diagram_svg' style='height:100%;width:100%'></svg> -->
+            <div id='myholder' style='width:100%;height:100%;float:right;'></div>
+            <script src="ExplanationComposer.js"></script>  
+    </div>
+</body>

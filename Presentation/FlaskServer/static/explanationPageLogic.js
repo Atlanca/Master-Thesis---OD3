@@ -121,7 +121,7 @@ function toggleVisiblityOfDescription(className, wrapperClassName=''){
     if (wrapperClassName) {
         wrapperClassName = '.' + wrapperClassName
     } else {
-        wrapperClasName = 'body'
+        wrapperClassName = 'body'
     }  
     console.log(wrapperClassName)
     console.log(className)
@@ -155,6 +155,33 @@ function toggleVisiblityOfDescription(className, wrapperClassName=''){
         .style("max-height", "20000px")
 
     }
+}
+
+function toggleVisiblityOfDescriptionFromNode(className, wrapperClassName=''){
+    if (wrapperClassName) {
+        wrapperClassName = '.' + wrapperClassName
+    } else {
+        wrapperClassName = 'body'
+    }  
+    console.log(wrapperClassName)
+    console.log(className)
+
+    console.log(d3.select(wrapperClassName + ' .title.' + className))
+
+    inner = d3.select(wrapperClassName + ' .title.' + className).html()
+    tab_display = d3.select(wrapperClassName + ' div.' + className).style('display')
+
+    d3.select(wrapperClassName + ' .title.' + className)
+    .html(inner.substring(0, inner.length-1) + '-')
+
+    d3.select(wrapperClassName + ' div.' + className)
+    .style("display", "block")
+    .transition()
+    .duration(300)
+    .style("opacity", "1")
+    .style("max-height", "20000px")
+
+
 }
 
 function screen_height(){

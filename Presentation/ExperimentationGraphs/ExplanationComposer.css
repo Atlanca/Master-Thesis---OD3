@@ -1,0 +1,16 @@
+.joint-highlight-stroke {
+  stroke: red !important;
+  stroke-width: 3px 
+}
+
+.highlighted path.metaLink {
+    stroke: red !important;
+}
+
+.highlighted rect.metaType {
+    fill: red !important;
+}
+.selected rect.metaType {
+    stroke: red;
+    fill: orange !important;
+}
