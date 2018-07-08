@@ -11,12 +11,13 @@
 <body class='w3-light-gray'>
     <div class='front-content' style='width:100%;padding-top:50px'>
     <div class='menu-bar w3-white w3-border' style='height:120px; width:800px;text-align:center;padding-top:10px;margin:auto;'>
-        <h1 style='font-weight:800;font-size:50px;font-family: "Poiret One", cursive;'>System Knowledge Composer</h1>
+        <h1 style='font-weight:800;font-size:50px;font-family: "Poiret One", cursive;'>System Explanation Composer</h1>
     </div>
     <div class='front-content' style='width:100%;padding-top:50px'>
         <div class='w3-border w3-white' style='width:800px;margin:auto;padding-top:50px;padding-bottom:50px;'>
-            <div style='margin-left:100px;'>
+            <div style='margin-left:100px;margin-right:100px;'>
                 <h3>Select question</h3>
+                <p>Generate explanations of the system by selecting one of the questions.</p>
                 <select id='front-search-question' onchange='changeInputType()' style='height:40px;width:600px;margin-bottom:20px;'>
                     <option disabled selected value> -- Select a question -- </option>
                     <option disabled value> -- General questions -- </option>
@@ -39,6 +40,17 @@
             </div>
         </div>
     </div>
+
+    <div class='front-content' style='width:100%;padding-top:50px'>
+        <div class='w3-border w3-white' style='width:800px;margin:auto;padding-top:50px;padding-bottom:50px;'>
+            <div style='margin-left:100px;margin-right:100px;'>
+                <h3>Explanation composer</h3>
+                <p>This feature allows you to compose your own explanation by selecting types and relations from the ontology meta-model.</p>
+                <a class='w3-button w3-light-green w3-dark-gray' href="http://localhost:5000/manualExplanationComposer" style='width:150px;margin-top:20px;'>Open</a>
+            </div>
+        </div>
+    </div>
+
     <script>
 
         function getNameOfUri(string){

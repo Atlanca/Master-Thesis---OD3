@@ -484,3 +484,7 @@ def getManualExplanation():
                             side_bar_diagram_file_paths=sideBardiagram_file_paths,
                             entityData = {'overview': {'tab_id': 'overview_view_tab', 'tab_name': 'Overview', 'entity_structure': json.dumps(structure.toDict()), 'explanation': explanation } } )  
     return ''
+
+@app.route('/manualExplanationComposer')
+def manualExplanationComposer():
+    return render_template('ExplanationComposer.html')

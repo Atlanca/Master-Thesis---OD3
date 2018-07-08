@@ -1,0 +1,64 @@
+<html>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/css/w3.css">
+    <link rel="stylesheet" href="/static/css/ExplanationFonts.css">
+    <link rel="stylesheet" href="/static/css/ClusteringGraphStyle.css">
+    <link rel="stylesheet" href="/static/css/explanationPageStyle.css">
+    <link rel="stylesheet" href="/static/css/popup.css">
+    <link rel="stylesheet" href="/static/css/ExplanationComposer.css">
+    <link rel="stylesheet" href="/static/css/joint.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Play|Poiret+One|Rajdhani" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Arapey|Domine|Nanum+Myeongjo|Philosopher" rel="stylesheet">
+    
+</html>
+<head>
+    <script src="/static/libraries/d3.min.js"></script>
+    <script src="/static/libraries/jquery-3.3.1.min.js"></script>
+    <script src="/static/libraries/dagre-d3.js"></script>
+    <script src="/static/libraries/tippy-all.js"></script>
+    <script src='/static/libraries/tinycolor.js'></script>
+    <script src='/static/explanationPageLogic.js'></script>
+    <script src='/static/graphHelper.js'></script>
+    <script src='/static/explanationFonts.js'></script>
+    <script type='text/javascript' src='static/lodash.js'></script>
+    <script type='text/javascript' src='static/backbone.js'></script>
+    <script type='text/javascript' src='static/joint.js'></script>
+    <script type='text/javascript' src='static/graphlib.js'></script>
+    <script type='text/javascript' src='static/dagre.js'></script>
+    <script type='text/javascript' src='static/joint.layout.DirectedGraph.js'></script>
+    <script type='text/javascript' src='static/svg-pan-zoom.js'></script>
+</head>
+
+<body> 
+
+    {% include 'menuTemplate.html' %}
+
+    <div id='interactive_diagram' class='w3-white w3-border' style='height:100%;width:100%;float:left'>
+        <div id='myholder' style='width:100%;height:100%;float:right;'></div>
+        <script src="/static/ExplanationComposer.js">
+        </script>  
+    </div>
+
+    <div id='explanationSidebar'class="w3-sidebar w3-bar-block w3-light-gray" style="width:37%;right:0;"> 
+        <div class='side-bar-toggle'>
+            <div class='side-bar-toggle-button-wrapper'>
+                <button class="w3-large side-bar-toggle-button" onclick="sidebarToggle('explanationSidebar')"/>
+            </div>
+        </div>
+        <div class='w3-white type-container' style="height:90%;width:100%;margin-right:0px;padding-right:0px;overflow-y:scroll;overflow-x:hidden;">
+            <div class='w3-dark-gray' style='height:10%'>
+                <h2 style='margin-left:20px;margin-top:0px;padding-bottom:20px;padding-top:20px;color:lightgray'>Manage Selections</h2>
+            </div>
+        </div>
+        <div class='confirm-block w3-white w3-border-top w3-border-bottom' style='height:10%;padding:30px'>
+            <button class='w3-border w3-button' style='width:200px;' onclick='confirmSelection()'>OK</button>
+            <button class='w3-border w3-button' style='width:200px;' onclick='clearSelection()'>Clear</button>
+        </div>
+    </div>
+    
+    <script>
+            sidebarToggle("explanationSidebar")
+    </script>
+</body>
