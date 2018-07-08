@@ -117,12 +117,21 @@
               <button class="w3-large side-bar-toggle-button" onclick="sidebarToggle('explanationSidebar')"/>
             </div>
           </div>
+          <!-- Tabs -->
+          <div style='height:5%'>
+            {% for view in entityData %}
+              {% if loop.index == 1 %}
+                <button class='{{view}} roundedRightCorner side-bar-tab' style='padding-left:30px;' onclick='toggleTab("{{view}}")'>{{ entityData[view].tab_name }}</button>    
+              {% else %}
+                <button class='{{view}} roundedTopCorners side-bar-tab' onclick='toggleTab("{{view}}")'>{{ entityData[view].tab_name }}</button>    
+              {% endif %}
+            {% endfor %} 
+          </div>
           <div class='side-bar-base'>
  
               <!-- Descriptions of significant entities -->
-              {% block entity_description %}
-              {% endblock entity_description %}
-
+                {% block entity_description %}
+                {% endblock entity_description %}
           </div>
         </div>
       </div>

@@ -147,6 +147,7 @@ $.get('http://localhost:5000/getOntology', function(data, status){
 
             rect.resize(width, 40);
             rect.addTo(graph);
+            rect.prop('isSelected', 0)
             rectMap[getNameOfUri(type)] = rect
         })
 
@@ -157,7 +158,10 @@ $.get('http://localhost:5000/getOntology', function(data, status){
         types.forEach(function(type){
             if(getNameOfUri(parentMap[getNameOfUri(type)].parent)){
                 var link = new joint.shapes.standard.Link()
+
                 link.prop('linkType', 'inheritance')
+                link.prop('isSelected', 0)
+
                 link.source(rectMap[getNameOfUri(type)])
                 link.target(rectMap[getNameOfUri(parentMap[getNameOfUri(type)].parent)])
                 link.attr({
@@ -171,7 +175,7 @@ $.get('http://localhost:5000/getOntology', function(data, status){
                             fill: 'white',
                             'stroke-width': 2
                         }
-                    }
+                    },
                 })
                 link.addTo(graph)
             }
@@ -198,7 +202,9 @@ $.get('http://localhost:5000/getOntology', function(data, status){
         );
 
         loadLayout()
-
+        graph.getElements().forEach(function(e){
+            console.log(e)
+        })
     })  
 })
 
@@ -249,12 +255,13 @@ function getSuperTypesInner(parentMap, type, allParents){
 
 function createLink(rel){
     var link = new joint.shapes.standard.Link()
-    link.prop('linkType', 'association')
     var oppositeLink = getOppositeLink(rectMap[getNameOfUri(rel.source)], rectMap[getNameOfUri(rel.target)])
     if(rel.source == rel.target){
         
     } else if(oppositeLink){
         oppositeLink.prop('linkType', 'association')
+        oppositeLink.prop('isSelected', 0)
+        
         oppositeLink.appendLabel({
             attrs: {
                 text: {
@@ -280,7 +287,11 @@ function createLink(rel){
                 }
             }
         })
+
     } else {
+        link.prop('linkType', 'association')
+        link.prop('isSelected', 0)
+
         link.source(rectMap[getNameOfUri(rel.source)])
         link.target(rectMap[getNameOfUri(rel.target)])
         link.appendLabel({
@@ -343,16 +354,21 @@ function restructureRelations(types, relations, relationType, parentMap){
 }
 
 function saveGraph(){
-    graphData = JSON.stringify(graph)
     graphData = JSON.stringify(graph.toJSON())
     $.post('http://localhost:5000/savegraph', {graphData: graphData}, function(data, status){ 
+        console.log('saved!')
     })
 }
 
 function loadGraph(){
     $.get('http://localhost:5000/loadgraph', function(data, status){
+        graph = new joint.dia.Graph
         graph.fromJSON(JSON.parse(data))
+        graph.getElements().forEach(function(e) {
+            console.log(e)
+        })
     })
+    
 }
 
 function loadLayout(){

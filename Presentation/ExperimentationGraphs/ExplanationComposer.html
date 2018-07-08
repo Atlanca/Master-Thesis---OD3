@@ -1,7 +1,6 @@
 <html>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <!-- <link rel="stylesheet" href="ClusteringGraphStyle.css"> -->
     <link rel="stylesheet" href="explanationPageStyle.css">
     <link rel="stylesheet" href="static/joint.css">
     <link rel="stylesheet" href="interactiveGraph.css">
@@ -27,8 +26,29 @@
 
 <body> 
     <div id='interactive_diagram' class='w3-white w3-border' style='height:100%;width:100%;float:left'>
-            <!-- <svg id='interactive_diagram_svg' style='height:100%;width:100%'></svg> -->
-            <div id='myholder' style='width:100%;height:100%;float:right;'></div>
-            <script src="ExplanationComposer.js"></script>  
+        <div id='myholder' style='width:100%;height:100%;float:right;'></div>
+        <script src="ExplanationComposer.js">
+        </script>  
     </div>
+
+    <div id='explanationSidebar'class="w3-sidebar w3-bar-block w3-light-gray" style="width:37%;right:0;"> 
+        <div class='w3-light-blue w3-border-left w3-border-indigo' style='position:absolute;height:100%;width:5px;float:left;'>
+            <div style='position:absolute;height:50%;width:10px;top:0;bottom:0;margin:auto;'>
+                <button onclick="sidebarToggle('explanationSidebar')" class="w3-large button1"/>
+            </div>
+        </div>
+        <div class='w3-white type-container' style="height:90%;width:100%;margin-right:0px;padding-right:0px;overflow-y:scroll;overflow-x:hidden;">
+            <div class='w3-dark-gray' style='height:10%'>
+                <h2 style='margin-left:20px;margin-top:0px;padding-bottom:20px;padding-top:20px;color:lightgray'>Manage Selections</h2>
+            </div>
+        </div>
+        <div class='confirm-block w3-white w3-border-top w3-border-bottom' style='height:10%;padding:30px'>
+            <button class='w3-border w3-button' style='width:200px;' onclick='confirmSelection()'>OK</button>
+            <button class='w3-border w3-button' style='width:200px;' onclick='clearSelection()'>Clear</button>
+        </div>
+    </div>
+    
+    <script>
+            sidebarToggle("explanationSidebar")
+    </script>
 </body>

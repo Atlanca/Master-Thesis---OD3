@@ -508,3 +508,34 @@ class InformationRetriever:
         except:
             pass
         return properties
+
+    def getRelationsByType(self, sub, pred, obj):
+        originalPred = pred
+        sub = self.toQueryUri(sub)
+        pred = self.toQueryUri(pred)
+        obj = self.toQueryUri(obj)
+        
+        query = "SELECT ?subject ?predicate ?object "\
+                "WHERE {{"\
+                "?subject a {sub} ."\
+                "?object a {obj} ."\
+                "?subject {pred} ?object"\
+                "}}"
+
+        query = query.format(sub=sub, pred=pred, obj=obj)
+        
+        relations = []
+        try:
+            queryResult = self.query(query)
+            results = queryResult['results']['bindings']
+            for item in results:
+                val = {'name': originalPred, 'source': item['subject']['value'], 'target': item['object']['value']}
+                relations.append(val)   
+        except:
+            pass
+        return relations
+
+def testRelationsByType():
+    ir = InformationRetriever()
+    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
+    print(ir.getRelationsByType(baseUri + 'Feature', baseUri + 'comprisesOf', baseUri + 'Requirement'))

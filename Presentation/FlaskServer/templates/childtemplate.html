@@ -1,16 +1,6 @@
 {% extends "baseExplanationTemplate.html" %}
 
 {%block entity_description %}
-<!-- Tabs -->
-<div>
-  {% for view in entityData %}
-    {% if loop.index == 1 %}
-      <button class='{{view}} roundedRightCorner side-bar-tab' style='padding-left:30px' onclick='toggleTab("{{view}}")'>{{ entityData[view].tab_name }}</button>    
-    {% else %}
-      <button class='{{view}} roundedTopCorners side-bar-tab' onclick='toggleTab("{{view}}")'>{{ entityData[view].tab_name }}</button>    
-    {% endif %}
-  {% endfor %} 
-</div>
 
 {% for view in entityData %}
   <div class='{{view}} w3-light-gray side-bar-content-base' style='display:none'>
@@ -23,7 +13,7 @@
         {% endif %}
       </div>
     </div>
-    <div class='side-bar-text-base'>
+    <div class='side-bar-text-base w3-light-gray'>
       <!-- Summary -->
       <h3 class="w3-bar-item title {{view}}_summary" onclick='toggleVisiblityOfDescription("{{view}}_summary")' style='padding-left:0px;'>Overview&emsp;-</h3>
       <div class='{{view}}_summary' style='max-height:10000px;'>

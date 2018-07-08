@@ -351,7 +351,37 @@ class ExplanationGenerator:
                 self.addRecursiveEntitiesAndRelations(es, logStruct[1], self.baseUri + 'designedBy', callback=callbackcomprisesOf)
         return es
 
+    # Manual explanation composer
+    def getManualExplanation(self, types, relations):
+        es = ontologyStructureModel.EntityStructure()
+        entitiesToBeFiltered = []
 
+        for entityType in types:
+            if entityType['option'] == 'all':
+                entities = self.ir.getIndividualsByType(entityType['uri'])
+                for entityUri in entities:
+                    es.addEntity(entityUri)
+
+            elif entityType['option'] == 'only_related':
+                entities = self.ir.getIndividualsByType(entityType['uri'])
+                for entityUri in entities:
+                    entitiesToBeFiltered.append(entityUri) 
+                    es.addEntity(entityUri)
+            elif entityType['option'] == 'specific':
+                es.addEntity(entityType['entityUri'])
+
+        for relation in relations:
+            entityRelations = self.ir.getRelationsByType(relation['source'], relation['name'], relation['target'])
+            for entityRelation in entityRelations:
+                es.addRelation(explanationHelper.getNameFromUri(entityRelation['name']), entityRelation['source'], entityRelation['target'])
+
+        entitiesWithRelations = list(set([rel.source for rel in es.relations] + [rel.target for rel in es.relations]))
+        
+        for e in entitiesToBeFiltered:
+            if e not in entitiesWithRelations:
+                es.removeEntity(e)
+
+        return es
     # ---------------------------------------------------------------------------
     # Helper funtions
     # ---------------------------------------------------------------------------
@@ -544,3 +574,8 @@ class ExplanationGenerator:
         with open('C:/Users/SAMSUNG/Documents/ThesisProject/MasterThesisCode/Master-Thesis---OD3/Presentation/FlaskServer/static/ontologyRelations.js', 'w') as f:
             f.write(json.dumps(typesAndRelations))
     
+def test():
+    eg = ExplanationGenerator()
+    baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
+    structure = eg.getManualExplanation([baseUri + 'Feature', baseUri + 'Requirement'], [{'name': baseUri + 'comprisesOf', 'source': baseUri + 'Feature', 'target': baseUri + 'Requirement'}])
+    print(structure)

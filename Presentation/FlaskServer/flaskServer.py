@@ -353,7 +353,7 @@ def loadOntology():
 @app.route('/savegraph', methods=['POST'])
 def saveOntology():
     graphData = request.form.get('graphData')
-    with open('static/ontologyGraph.txt', 'w') as f:
+    with open('static/ontologyGraph.txt', 'w+') as f:
         f.write(graphData)
     return 'success!'
 
@@ -452,4 +452,35 @@ def getDirectSuperClassParentMap():
             parent = queryManager.getDirectSuperClass(c)
             parentMap[explanationHelper.getNameFromUri(c)] = {'child': c, 'parent': parent}
         return json.dumps(parentMap)
+    return ''
+
+@app.route('/getTypeOptionDiv', methods=['POST'])
+def getTypeOptionDiv():
+    entityType = request.form.get('entityType', '')
+
+    if (entityType):
+        entityType = json.loads(entityType)
+        for eo in entityType['entityOptions'] :
+            eo['uri'] = explanationHelper.getNameFromUri(eo['uri'])
+            eo['type'] = explanationHelper.getNameFromUri(queryManager.getTypeOfIndividual(baseUri + eo['uri']))
+        
+        return render_template('typeOptionDiv.html', type=entityType)
+    return ''
+
+@app.route('/getManualExplanation', methods=['POST'])
+def getManualExplanation():
+    types = request.form.getlist('types[]')
+    relations = request.form.getlist('relations[]')
+
+    parsedTypes = [json.loads(entityType) for entityType in types]
+    parsedRelations = [json.loads(relation) for relation in relations]
+
+    if(parsedTypes):
+        structure = explanationGenerator.getManualExplanation(parsedTypes, parsedRelations)
+        explanation = explanationTemplates.generateGeneralManualExplanation(structure)
+        sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in structure.entities for diagram in set(entity.diagrams)}
+
+        return render_template('childtemplate.html', diagram_path='static/ClusteringGraph.js', 
+                            side_bar_diagram_file_paths=sideBardiagram_file_paths,
+                            entityData = {'overview': {'tab_id': 'overview_view_tab', 'tab_name': 'Overview', 'entity_structure': json.dumps(structure.toDict()), 'explanation': explanation } } )  
     return ''

@@ -49,25 +49,38 @@ h4 {
     color:#6cd800
 }
 
-h2{
-    font-size:22px;
-    color: #2d3b7f;
+
+h1, h2, h3, h4, h5, .sidebar p, .popup p{
+    font-family: 'Verdana';
+    font-weight: 400;
+    letter-spacing: -1px;
 }
 
-h3 {
-    font-size:20px;
-    color:#3d73cc;
+
+h2 {
+    font-size: 26px;
+}
+
+
+h3{
+    color: #4c4c4c;
+    font-size: 24px;
+    letter-spacing: 1px;
+}
+
+h4 {
+    color: #4c4c4c;
+    font-size: 20px;
 }
 
 h5 {
-    font-size:18px;
-    color:#a0c3d6;
+    color:#808080;
+    font-size: 18px;
 }
 
+
 hr{
-    border-color:#a0c3d6;
-    opacity:0;
-    margin: 0px;
+    border-color: #
 }
 hr.thick{
     border-color: #3d73cc;

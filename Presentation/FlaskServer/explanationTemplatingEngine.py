@@ -627,3 +627,12 @@ class ExplanationTemplates:
         template.addSection(entitySection.toDict())
 
         return template
+
+    # Manual explanation summary
+
+    # General summary
+    def generateGeneralManualExplanation(self, structure):      
+        template = explanationHelper.openText('static/explanationTemplates/GeneralManualExplanation.txt')
+        
+        summary = template.format(path=self.classesToText(structure.entities))
+        return self.generateGeneralSummary(structure, summary)

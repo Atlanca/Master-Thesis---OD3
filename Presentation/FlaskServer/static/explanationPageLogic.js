@@ -273,5 +273,5 @@ function performSearch(question_select, query_input){
     },500);
 
     return false;
-
 }
+

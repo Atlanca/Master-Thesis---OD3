@@ -80,6 +80,11 @@ class EntityStructure:
         self.structure['relations'] = self.relations
         self.structure['entities'] = self.entities
 
+    def removeEntity(self, entityUri):
+         for index, entity in enumerate(self.entities):
+            if entity.uri == entityUri:
+                del self.entities[index]
+                
     def addEntity(self, entity):
         if isinstance(entity, str) and not self.hasEntity(entity):
             self.entities.append(Entity(entity))

@@ -1,0 +1,21 @@
+<div class='type-block {{type.selectId}} w3-white w3-border-bottom' data-type-uri='{{type.uri}}' height='auto' style='padding-left:30px;padding-right:30px;padding-bottom:0px;padding-top:20px;width:100%;'>
+    <h4>{{type.name}}</h4>
+    <br>
+    <div class='type-options w3-border w3-white' style='padding:10px;padding-bottom:30px;margin-bottom:40px;display:block'>
+        Options<br>
+        <div style='margin-left:10px;'>
+            <p>Entity selection: </p>
+            <input class='radio-input' type="radio" name="{{type.selectId}}" value="all" onclick='hideEntityInput("{{type.selectId}}-selection-input")' checked> Select all entities of this type<br>
+            <input class='radio-input' type="radio" name="{{type.selectId}}" value="only_related" onclick='hideEntityInput("{{type.selectId}}-selection-input")'> Select only entities with relations<br>
+            <input class='radio-input' type="radio" name="{{type.selectId}}" value="specific" onclick='showEntityInput("{{type.selectId}}-selection-input")'> Select specific entity<br>
+            <input class='datalist-input' id='{{type.selectId}}-selection-input' list='{{type.selectId}}-type-list' name='{{type.selectId}}-type-input' placeholder="Select entity" style='width:80%;margin-top:1em;display:none'>
+            <datalist id='{{type.selectId}}-type-list'>
+                <option value='all'> All</option>
+                {% for eo in type.entityOptions %}
+                    <option value="{{eo.uri}}">{{eo.type}}</option>
+                {% endfor %}
+            </datalist>
+            </select>
+        </div>
+    </div>
+</div>
