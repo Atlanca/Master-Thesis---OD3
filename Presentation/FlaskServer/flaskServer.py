@@ -6,6 +6,8 @@ import explanationHelper
 import sparqlQueryManager
 import ontologyStructureModel
 import re
+import os.path
+import pickle
 
 app = Flask(__name__, static_url_path="/static")
 baseUri = 'http://www.semanticweb.org/ontologies/snowflake#'
@@ -26,12 +28,39 @@ def index():
 # Explanation URLs
 # ----------------------------------------------------------------------------
 
+def saveExplanation(fileName, structure, explanation, sideBardiagram_file_paths):
+    with open('static/saved_data/'+ fileName + '.pkl', 'wb') as savedFile:
+        pickle.dump(structure, savedFile, pickle.HIGHEST_PROTOCOL)
+        print('Structure saved successfully')
+        
+        pickle.dump(explanation, savedFile, pickle.HIGHEST_PROTOCOL)
+        print('Explanation saved successfully')
+
+        pickle.dump(sideBardiagram_file_paths, savedFile, pickle.HIGHEST_PROTOCOL)
+        print('Diagram file paths saved successfully')
+
+def loadExplanation(fileName):
+    print('fileFound')
+    with open('static/saved_data/' + fileName + '.pkl', 'rb') as savedFile:
+        structure = pickle.load(savedFile)
+        explanation = pickle.load(savedFile)
+        sideBardiagram_file_paths = pickle.load(savedFile)    
+    return {'structure': structure, 'explanation': explanation, 'diagram_paths': sideBardiagram_file_paths}
+
 @app.route('/q1/<feature>')
 def q1(feature):
-    structure = explanationGenerator.getFeatureRole(baseUri + feature)
-    explanation = explanationTemplates.generateFeatureRoleSummary(baseUri + feature, structure)
-
-    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in structure.entities for diagram in set(entity.diagrams)}
+    fileName = 'q1_' + feature
+    if os.path.isfile('static\\saved_data\\' + fileName + '.pkl'):
+        data = loadExplanation(fileName)
+        structure = data['structure']
+        explanation = data['explanation']
+        sideBardiagram_file_paths = data['diagram_paths']
+    else:
+        structure = explanationGenerator.getFeatureRole(baseUri + feature)
+        explanation = explanationTemplates.generateFeatureRoleSummary(baseUri + feature, structure)
+        sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in structure.entities for diagram in set(entity.diagrams)}
+        saveExplanation(fileName, structure, explanation, sideBardiagram_file_paths)   
+    
     return render_template('childtemplate.html', 
                             diagram_path='static/ClusteringGraph.js', 
                             side_bar_diagram_file_paths=sideBardiagram_file_paths,
@@ -39,47 +68,87 @@ def q1(feature):
 
 @app.route('/q2/<feature>')
 def q2(feature):
+    fileName = 'q2_' + feature
+    if os.path.isfile('static\\saved_data\\' + fileName + '.pkl'):
+        data = loadExplanation(fileName)
+        
+        structure = data['structure']
+        overviewStructure = structure['overview']
+        detailedStructure = structure['detailed']
+        patternStructure = structure['pattern']
 
-    overviewStructure = explanationGenerator.getOverviewFeatureToImplementationMap(baseUri + feature)
-    overview_explanation = explanationTemplates.generateOverviewFeatureImplementationSummary(baseUri + feature, overviewStructure)
+        explanation = data['explanation']
+        overviewExplanation = explanation['overview']
+        detailedExplanation = explanation['detailed']
+        patternExplanation = explanation['pattern']
 
-    detailedStructure = explanationGenerator.getDetailedFeatureToImplementationMap(baseUri + feature)
-    implementationEntityUris = [implementation.uri for implementation in list(filter(lambda x: baseUri + 'ImplementationClass' in x.supertypes, detailedStructure.entities))]
-    detailed_explanation = explanationTemplates.generateDetailedFeatureImplementationSummary(baseUri + feature, detailedStructure)
+        sideBardiagram_file_paths = data['diagram_paths']
+    else:
+        structure = {}
+        explanation = {}
+    
+        overviewStructure = structure['overview'] = explanationGenerator.getOverviewFeatureToImplementationMap(baseUri + feature)
+        overviewExplanation = explanation['overview'] = explanationTemplates.generateOverviewFeatureImplementationSummary(baseUri + feature, overviewStructure)
 
-    patternStructure = explanationGenerator.getImplementationToArchitecturalPatternMap(implementationEntityUris)
-    pattern_explanation = explanationTemplates.generatePatternFeatureImplementationSummary(baseUri + feature, patternStructure)
+        detailedStructure = structure['detailed'] = explanationGenerator.getDetailedFeatureToImplementationMap(baseUri + feature)
+        detailedExplanation = explanation['detailed'] = explanationTemplates.generateDetailedFeatureImplementationSummary(baseUri + feature, detailedStructure)
+        implementationEntityUris = [implementation.uri for implementation in list(filter(lambda x: baseUri + 'ImplementationClass' in x.supertypes, detailedStructure.entities))]
 
-    allEntities = []
-    allEntities += detailedStructure.entities
-    allEntities += overviewStructure.entities
-    allEntities += patternStructure.entities
+        patternStructure = structure['pattern'] = explanationGenerator.getImplementationToArchitecturalPatternMap(implementationEntityUris)
+        patternExplanation = explanation['pattern'] = explanationTemplates.generatePatternFeatureImplementationSummary(baseUri + feature, patternStructure)
 
-    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
+        allEntities = []
+        allEntities += detailedStructure.entities
+        allEntities += overviewStructure.entities
+        allEntities += patternStructure.entities
+
+        sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
+
+        saveExplanation(fileName, structure, explanation, sideBardiagram_file_paths)
 
     return render_template('childtemplate.html', 
                             diagram_path='static/ClusteringGraph.js', 
                             side_bar_diagram_file_paths=sideBardiagram_file_paths,
-                            entityData = {'overview': {'tab_id':'overview_view_tab', 'tab_name': 'Overview', 'entity_structure': json.dumps(overviewStructure.toDict()), 'explanation': overview_explanation}, 
-                                        'logical': {'tab_id':'logical_view_tab', 'tab_name': 'Detailed view', 'entity_structure': json.dumps(detailedStructure.toDict()), 'explanation': detailed_explanation}, 
-                                        'pattern': {'tab_id':'pattern_view_tab', 'tab_name': 'Pattern view', 'entity_structure': json.dumps(patternStructure.toDict()), 'explanation': pattern_explanation}
+                            entityData = {'overview': {'tab_id':'overview_view_tab', 'tab_name': 'Overview', 'entity_structure': json.dumps(overviewStructure.toDict()), 'explanation': overviewExplanation}, 
+                                        'logical': {'tab_id':'logical_view_tab', 'tab_name': 'Detailed view', 'entity_structure': json.dumps(detailedStructure.toDict()), 'explanation': detailedExplanation}, 
+                                        'pattern': {'tab_id':'pattern_view_tab', 'tab_name': 'Pattern view', 'entity_structure': json.dumps(patternStructure.toDict()), 'explanation': patternExplanation}
                                         })
 
 @app.route('/q3/<feature>')
 def q3(feature):
-    funcBehaviorStructure = explanationGenerator.getFunctionalBehaviorOfFeature(baseUri + feature)
-    devBehaviorStructure = explanationGenerator.getDevelopmentBehaviorOfFeature(baseUri + feature)
-    logBehaviorStructure = explanationGenerator.getLogicalBehaviorOfFeature(baseUri + feature)
-    UIBehaviorStructure = explanationGenerator.getUIBehaviorOfFeature(baseUri + feature)
 
-    func_explanation = explanationTemplates.generateFunctionalBehaviorSummary(baseUri + feature, funcBehaviorStructure)
-    ui_explanation = explanationTemplates.generateBehaviorSummary(baseUri + feature, UIBehaviorStructure, 'ui')
-    development_explanation = explanationTemplates.generateBehaviorSummary(baseUri + feature, devBehaviorStructure, 'development')
-    logical_explanation = explanationTemplates.generateBehaviorSummary(baseUri + feature, logBehaviorStructure, 'logical')
+    fileName = 'q3_' + feature
+    if os.path.isfile('static\\saved_data\\' + fileName + '.pkl'):
+        data = loadExplanation(fileName)
+        structure = data['structure']
+        funcBehaviorStructure = structure['functional']
+        devBehaviorStructure = structure['development']
+        logBehaviorStructure = structure['logical']
+        UIBehaviorStructure = structure['ui']
 
-    allEntities = funcBehaviorStructure.entities + devBehaviorStructure.entities + logBehaviorStructure.entities + UIBehaviorStructure.entities
-    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
+        explanation = data['explanation']
+        func_explanation = explanation['functional']
+        development_explanation = explanation['development']
+        logical_explanation = explanation['logical']
+        ui_explanation = explanation['ui']
 
+        sideBardiagram_file_paths = data['diagram_paths']
+    else:
+        structure = {}
+        funcBehaviorStructure = structure['functional'] = explanationGenerator.getFunctionalBehaviorOfFeature(baseUri + feature)
+        devBehaviorStructure = structure['development'] = explanationGenerator.getDevelopmentBehaviorOfFeature(baseUri + feature)
+        logBehaviorStructure = structure['logical'] = explanationGenerator.getLogicalBehaviorOfFeature(baseUri + feature)
+        UIBehaviorStructure = structure['ui'] = explanationGenerator.getUIBehaviorOfFeature(baseUri + feature)
+
+        explanation = {}
+        func_explanation = explanation['functional'] = explanationTemplates.generateFunctionalBehaviorSummary(baseUri + feature, funcBehaviorStructure)
+        ui_explanation = explanation['ui'] = explanationTemplates.generateBehaviorSummary(baseUri + feature, UIBehaviorStructure, 'ui')
+        development_explanation = explanation['development'] = explanationTemplates.generateBehaviorSummary(baseUri + feature, devBehaviorStructure, 'development')
+        logical_explanation = explanation['logical'] = explanationTemplates.generateBehaviorSummary(baseUri + feature, logBehaviorStructure, 'logical')
+
+        allEntities = funcBehaviorStructure.entities + devBehaviorStructure.entities + logBehaviorStructure.entities + UIBehaviorStructure.entities
+        sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
+        saveExplanation(fileName, structure, explanation, sideBardiagram_file_paths)
 
     return render_template('childtemplate.html', 
                             diagram_path='static/ClusteringGraph.js', 
@@ -92,11 +161,18 @@ def q3(feature):
 
 @app.route('/q4/<architecturalPattern>')
 def q4(architecturalPattern):
-    architecturalStructure = explanationGenerator.getRationaleOfArchitecture(baseUri + architecturalPattern)
-    pattern_explanation = explanationTemplates.generateRationaleSummary(baseUri + architecturalPattern, architecturalStructure)
+    fileName = 'q4_' + architecturalPattern
+    if os.path.isfile('static\\saved_data\\' + fileName + '.pkl'):
+        data = loadExplanation(fileName)
+        architecturalStructure = data['structure']
+        pattern_explanation = data['explanation']
+        sideBardiagram_file_paths = data['diagram_paths']
+    else:
+        architecturalStructure = explanationGenerator.getRationaleOfArchitecture(baseUri + architecturalPattern)
+        pattern_explanation = explanationTemplates.generateRationaleSummary(baseUri + architecturalPattern, architecturalStructure)
+        sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in architecturalStructure.entities for diagram in set(entity.diagrams)}
 
-    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in architecturalStructure.entities for diagram in set(entity.diagrams)}
-
+        saveExplanation(fileName, architecturalStructure, pattern_explanation, sideBardiagram_file_paths)
 
     return render_template('childtemplate.html', 
                             diagram_path='static/ClusteringGraph.js', 
@@ -105,9 +181,18 @@ def q4(architecturalPattern):
 
 @app.route('/q5/')
 def q5():
-    structure = explanationGenerator.getFunctionalityOfSystem()
-    explanation = explanationTemplates.generateSystemFunctionalitySummary(structure)
-    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in structure.entities for diagram in set(entity.diagrams)}
+    fileName = 'q5'
+    if os.path.isfile('static\\saved_data\\' + fileName + '.pkl'):
+        data = loadExplanation(fileName)
+        structure = data['structure']
+        explanation = data['explanation']
+        sideBardiagram_file_paths = data['diagram_paths']
+    else:
+        structure = explanationGenerator.getFunctionalityOfSystem()
+        explanation = explanationTemplates.generateSystemFunctionalitySummary(structure)
+        sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in structure.entities for diagram in set(entity.diagrams)}
+        saveExplanation(fileName, structure, explanation, sideBardiagram_file_paths)
+
     return render_template('childtemplate.html', 
                             diagram_path='static/ClusteringGraph.js', 
                             side_bar_diagram_file_paths=sideBardiagram_file_paths,
@@ -115,18 +200,37 @@ def q5():
                                         })  
 @app.route('/q6/')
 def q6():
-    overviewStructure = explanationGenerator.getOverviewPatternArchitecture()
-    physicalStructure = explanationGenerator.getFullPhyPatternArchitecture()
-    developmentStructure = explanationGenerator.getFullDevPatternArchitecture()
+    fileName = 'q6'
+    if os.path.isfile('static\\saved_data\\' + fileName + '.pkl'):
+        data = loadExplanation(fileName)
+        structure = data['structure']
+        overviewStructure = structure['overview']
+        physicalStructure = structure['physical']
+        developmentStructure = structure['development']
+        
+        explanation = data['explanation']
+        overviewExplanation = explanation['overview']
+        physicalExplanation = explanation['physical']
+        developmentExplanation = explanation['development']
 
-    overviewExplanation = explanationTemplates.generateSystemPatternsOverviewSummary(overviewStructure)
-    physicalExplanation = explanationTemplates.generateSystemPatternsDetailedSummary(physicalStructure, 'physical')
-    developmentExplanation = explanationTemplates.generateSystemPatternsDetailedSummary(developmentStructure, 'development')
+        sideBardiagram_file_paths = data['diagram_paths']
+    else:
+        structure = {}
+        overviewStructure = structure['overview'] = explanationGenerator.getOverviewPatternArchitecture()
+        physicalStructure = structure['physical'] = explanationGenerator.getFullPhyPatternArchitecture()
+        developmentStructure = structure['development'] = explanationGenerator.getFullDevPatternArchitecture()
 
-    allEntities = list(set(physicalStructure.entities + developmentStructure.entities + overviewStructure.entities))
+        explanation = {}
+        overviewExplanation = explanation['overview'] = explanationTemplates.generateSystemPatternsOverviewSummary(overviewStructure)
+        physicalExplanation = explanation['physical'] = explanationTemplates.generateSystemPatternsDetailedSummary(physicalStructure, 'physical')
+        developmentExplanation = explanation['development'] = explanationTemplates.generateSystemPatternsDetailedSummary(developmentStructure, 'development')
 
-    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
-    
+        allEntities = list(set(physicalStructure.entities + developmentStructure.entities + overviewStructure.entities))
+
+        sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
+        
+        saveExplanation(fileName, structure, explanation, sideBardiagram_file_paths)
+
     return render_template('childtemplate.html', 
                             diagram_path='static/ClusteringGraph.js', 
                             side_bar_diagram_file_paths=sideBardiagram_file_paths,
@@ -136,18 +240,37 @@ def q6():
                                         })  
 @app.route('/q7/<architecturalPattern>')
 def q7(architecturalPattern):
-    patternEntity = ontologyStructureModel.Entity(baseUri + architecturalPattern)
-    overviewStructure = explanationGenerator.getOverviewPatternArchitecture(baseUri + architecturalPattern)
-    devStructure = explanationGenerator.getFullDevPatternArchitecture(baseUri + architecturalPattern)
-    phyStructure = explanationGenerator.getFullPhyPatternArchitecture(baseUri + architecturalPattern)
+    fileName = 'q7_' + architecturalPattern
+    if os.path.isfile('static\\saved_data\\' + fileName + '.pkl'):
+        data = loadExplanation(fileName)
+        structure = data['structure']
+        overviewStructure = structure['overview']
+        devStructure = structure['development']
+        phyStructure = structure['physical']
+        
+        explanation = data['explanation']
+        overviewExplanation = explanation['overview']
+        devExplanation = explanation['development']
+        phyExplanation = explanation['physical']
 
-    overviewExplanation = explanationTemplates.generateSystemPatternsOverviewSummary(overviewStructure, patternEntity)
-    devExplanation = explanationTemplates.generateSpecificSystemPatternsDetailedSummary(devStructure, patternEntity)
-    phyExplanation = explanationTemplates.generateSpecificSystemPatternsDetailedSummary(phyStructure, patternEntity)
+        sideBardiagram_file_paths = data['diagram_paths']
+    else:
+        structure = {}
+        patternEntity = ontologyStructureModel.Entity(baseUri + architecturalPattern)
+        overviewStructure = structure['overview'] = explanationGenerator.getOverviewPatternArchitecture(baseUri + architecturalPattern)
+        devStructure = structure['development'] = explanationGenerator.getFullDevPatternArchitecture(baseUri + architecturalPattern)
+        phyStructure = structure['physical'] = explanationGenerator.getFullPhyPatternArchitecture(baseUri + architecturalPattern)
 
-    allEntities = list(set(phyStructure.entities + devStructure.entities + overviewStructure.entities))
+        explanation = {}
+        overviewExplanation = explanation['overview'] = explanationTemplates.generateSystemPatternsOverviewSummary(overviewStructure, patternEntity)
+        devExplanation = explanation['development'] = explanationTemplates.generateSpecificSystemPatternsDetailedSummary(devStructure, patternEntity)
+        phyExplanation = explanation['physical'] = explanationTemplates.generateSpecificSystemPatternsDetailedSummary(phyStructure, patternEntity)
 
-    sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
+        allEntities = list(set(phyStructure.entities + devStructure.entities + overviewStructure.entities))
+        sideBardiagram_file_paths = {diagram: 'static/images/' + explanationHelper.diagramUriToFileName(diagram) + '.png' for entity in allEntities for diagram in set(entity.diagrams)}
+    
+        saveExplanation(fileName, structure, explanation, sideBardiagram_file_paths)
+    
     return render_template('childtemplate.html', 
                             diagram_path='static/ClusteringGraph.js', 
                             side_bar_diagram_file_paths=sideBardiagram_file_paths,
