@@ -7,7 +7,9 @@ https://software-explanation-composer.000webhostapp.com/
 
 SEC consists of three major components. The first component is the ontology. The ontology serves as a database to model and store architectural knowledge. The ontology is hosted in an Apache Jena Fuseki Server to allow outside applications to fetch information from the ontology via SparQL queries (Apache Jena is not included in this repository). The second component is a set of common questions which developers frequently ask during development tasks which SEC is designed to answer. The third and last component is the explanation generator which makes use of all the previous components. The explanation generator queries the ontology to fetch links, entities, textual descriptions, etc. to present both textual and visual explanations for the developer questions.
 
-![](OverallSystemDesign.png)
+<p align="center" >
+  <img src="OverallSystemDesign.png" alt="High level system design" width="600"/>
+</p>
 
 # Folder structure
 This section describes the responsibilities of classes and where they are located. All code for SEC resides in: __Presentation\FlaskServer__.
