@@ -5,7 +5,7 @@ __by Alex Tao and Mahsa Roodbari__
 For demonstration of the tool and more information about the developer questions and ontology, follow the link below.
 https://software-explanation-composer.000webhostapp.com/
 
-SEC consists of three major components. The first component is the ontology. The ontology serves as a database to model and store architectural knowledge. The ontology is hosted in an Apache Jena Fuseki Server to allow outside applications to fetch information from the ontology via SparQL queries (Not included in this repository). The second component is a set of common questions which developers frequently ask during development tasks which SEC is designed to answer. The third and last component is the explanation generator which makes use of all the previous components. The explanation generator queries the ontology to fetch links, entities, textual descriptions, etc. to present both textual and visual explanations for the developer questions.
+SEC consists of three major components. The first component is the ontology. The ontology serves as a database to model and store architectural knowledge. The ontology is hosted in an Apache Jena Fuseki Server to allow outside applications to fetch information from the ontology via SparQL queries (Apache Jena is not included in this repository). The second component is a set of common questions which developers frequently ask during development tasks which SEC is designed to answer. The third and last component is the explanation generator which makes use of all the previous components. The explanation generator queries the ontology to fetch links, entities, textual descriptions, etc. to present both textual and visual explanations for the developer questions.
 
 
 # Folder structure
